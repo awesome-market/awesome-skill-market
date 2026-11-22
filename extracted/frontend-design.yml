@@ -1,0 +1,367 @@
+source:
+  repo: anthropics/skills
+  sha: e4bb5d960d87126ff3b3a8af1a104b7db67560ba
+  includePaths:
+    - skills/frontend-design
+model: Ornith-1.5-35B-A3B-BigBang-MTP-mlx-4bit
+extractedAt: 2026-11-22T09:10:35.007Z
+rules:
+  - id: fronte-001
+    rule: Identify the product, audience, and primary job from the brief or memory before designing, and confirm them with the client if the brief omits them.
+    severity: floor
+    scope:
+      - process
+      - copy
+    evidence: none
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: 199fe3e0ab8e
+    localId: ground-in-subject
+  - id: fronte-002
+    rule: Open the page with the single most characteristic element of the subject in the most appropriate form, rather than the default big-number-and-gradient treatment.
+    severity: reflex
+    scope:
+      - layout
+      - motion
+      - imagery
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: ca0cc88f7cea
+    localId: hero-first
+  - id: fronte-003
+    rule: Use one typeface family, or at most two that are clearly distinct, and never a separate display face from the body face.
+    severity: reflex
+    scope:
+      - type
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: 2da155f51e20
+    localId: limit-typefaces
+  - id: fronte-004
+    rule: Choose non-default typefaces and set a clear type scale with intentional weights, widths, and spacing.
+    severity: reflex
+    scope:
+      - type
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: 356d1823d34c
+    localId: deliberate-typefaces
+  - id: fronte-005
+    rule: When type functions as a headline or visual element, treat the type treatment itself as an active design element rather than a neutral carrier.
+    severity: reflex
+    scope:
+      - type
+      - layout
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: ac81c6abdb1d
+    localId: type-as-visual
+  - id: fronte-006
+    rule: Keep body line lengths under 80 characters, allowing slightly longer lines for serif body text.
+    severity: reflex
+    scope:
+      - type
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: 61c46d1ece3e
+    localId: line-length
+  - id: fronte-007
+    rule: Give serif body text slightly more line-height than sans-serif body text.
+    severity: reflex
+    scope:
+      - type
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: 641f7a35392d
+    localId: serif-line-height
+  - id: fronte-008
+    rule: Do not accent a single word or phrase within a headline using italic, bold, or a different color.
+    severity: floor
+    scope:
+      - type
+      - color
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: f76ad83c7c75
+    localId: no-single-word-accent
+  - id: fronte-009
+    rule: Do not render labels in all caps.
+    severity: floor
+    scope:
+      - type
+      - copy
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: 966bc5b9d313
+    localId: no-all-caps-labels
+  - id: fronte-010
+    rule: Do not add typographic labels above content unless they carry meaning.
+    severity: reflex
+    scope:
+      - type
+      - layout
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: 4575d87d52a2
+    localId: no-unnecessary-labels
+  - id: fronte-011
+    rule: Use structural devices such as outlines, borders, numbering, dividers, and labels only when they encode real information about the content.
+    severity: reflex
+    scope:
+      - layout
+      - type
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: 6fb305dbf97d
+    localId: structure-is-information
+  - id: fronte-012
+    rule: Only add numbered markers such as 01/02/03 when the content is genuinely a sequence like a process or timeline.
+    severity: reflex
+    scope:
+      - layout
+      - type
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: fa977fade0c3
+    localId: no-unnecessary-numbering
+  - id: fronte-013
+    rule: Use non-user-triggered motion sparingly and only to draw attention, favoring a single orchestrated moment over scattered effects.
+    severity: reflex
+    scope:
+      - motion
+    evidence: recording
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: d775b1db8bf9
+    localId: restrained-motion
+  - id: fronte-014
+    rule: Animate transitions that answer a user action, showing what changed, rather than generic fade-and-slide-up section entrances and per-card hover effects.
+    severity: reflex
+    scope:
+      - motion
+    evidence: recording
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: 7749d1d6ba10
+    localId: motion-answers-action
+  - id: fronte-015
+    rule: Treat copy as design content and write it with the same intentionality and minimalism applied to spacing and color.
+    severity: reflex
+    scope:
+      - copy
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: 1745b2d1557a
+    localId: write-copy-intentionally
+  - id: fronte-016
+    rule: Name things by what users understand in plain language rather than by how the system is built.
+    severity: reflex
+    scope:
+      - copy
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: a448e06af857
+    localId: user-language
+  - id: fronte-017
+    rule: Use active voice by default in interface copy.
+    severity: reflex
+    scope:
+      - copy
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: d1fab0e7dfc7
+    localId: active-voice-default
+  - id: fronte-018
+    rule: Keep an action's name identical across the entire flow, so the button label matches the resulting status or toast.
+    severity: reflex
+    scope:
+      - copy
+      - process
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: a8488d6cd0a9
+    localId: consistent-action-names
+  - id: fronte-019
+    rule: Write errors that explain what went wrong and how to fix them in the interface's voice without apologizing or being vague.
+    severity: floor
+    scope:
+      - copy
+      - a11y
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: 66e3c81270c6
+    localId: no-apologetic-errors
+  - id: fronte-020
+    rule: Treat empty screens as invitations to act rather than as mood.
+    severity: reflex
+    scope:
+      - copy
+      - layout
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: ddcb3346ba31
+    localId: empty-screens-invoke-action
+  - id: fronte-021
+    rule: Keep copy conversational with plain verbs, sentence case, no filler, and a tone matched to the brand and audience.
+    severity: reflex
+    scope:
+      - copy
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: 59584d5a8360
+    localId: conversational-tone
+  - id: fronte-022
+    rule: Spend boldness in one place, keeping everything else quiet and disciplined, and cut decoration that does not serve the brief.
+    severity: reflex
+    scope:
+      - layout
+      - color
+      - type
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: 4221f1165891
+    localId: one-element-bold
+  - id: fronte-023
+    rule: Ship responsive down to mobile, visible keyboard focus, reduced-motion respect, visual accessibility, and harmonious color palettes.
+    severity: floor
+    scope:
+      - a11y
+      - layout
+      - color
+      - process
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: a426935a3507
+    localId: quality-floor
+  - id: fronte-024
+    rule: Critique your own work as you build and capture screenshots to review when the environment supports it.
+    severity: finish
+    scope:
+      - process
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: b5f077660cbe
+    localId: self-critique-screenshots
+  - id: fronte-025
+    rule: Do not default to a warm cream background with high-contrast serif display and terracotta or warm-clay accents unless the brief explicitly requests that direction.
+    severity: reflex
+    scope:
+      - color
+      - type
+      - layout
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: 33da6f2ba9d4
+    localId: avoid-cream-terracotta
+  - id: fronte-026
+    rule: Do not default to a near-black background with a single bright acid-green or vermilion accent unless the brief explicitly requests that direction.
+    severity: reflex
+    scope:
+      - color
+      - layout
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: db63ac473722
+    localId: avoid-dark-acid
+  - id: fronte-027
+    rule: Do not default to a broadsheet layout with hairline rules, zero border-radius, and dense newspaper columns unless the brief explicitly requests that direction.
+    severity: reflex
+    scope:
+      - layout
+      - type
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: d1f40e9d6b32
+    localId: avoid-broadsheet
+  - id: fronte-028
+    rule: Do not default to identical rounded cards sharing one border-radius, a uniform soft grey shadow, and gradient washes as decoration unless the brief explicitly requests that direction.
+    severity: reflex
+    scope:
+      - layout
+      - color
+      - type
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: eac89f2af1fe
+    localId: avoid-saaS-card-kit
+  - id: fronte-029
+    rule: Do not apply template chrome such as tracked-out ALL-CAPS eyebrows above every heading, middle-dot meta strings, spaced-em-dash labels, tinted near-black stand-in blacks, monospace data labels, or trailing arrows on links and buttons unless the brief explicitly requests them.
+    severity: reflex
+    scope:
+      - type
+      - color
+      - layout
+      - copy
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: 5f4758dfde6b
+    localId: no-template-chrome
+  - id: fronte-030
+    rule: When the brief pins a visual direction, follow it exactly, including when it requests one of the generic default looks.
+    severity: reflex
+    scope:
+      - color
+      - type
+      - layout
+      - process
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: 0f20db885a56
+    localId: brief-wins
+  - id: fronte-031
+    rule: "Work in two passes: first produce a compact design plan covering color, type, layout, and principles, then review it against the brief before writing code."
+    severity: reflex
+    scope:
+      - process
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: 2aca52e139a5
+    localId: two-pass-process
+  - id: fronte-032
+    rule: Revise any part of the plan that reads like the generic default for a similar brief, stating what changed and why, before writing code.
+    severity: reflex
+    scope:
+      - process
+    evidence: screenshot
+    mechanizable: false
+    origin: skills/frontend-design/SKILL.md
+    hash: 2becf3334fa2
+    localId: unique-plan-before-code
+  - id: fronte-033
+    rule: Structure CSS selectors to avoid canceling each other out, especially between type-based and element-based selectors and between section padding and margins.
+    severity: reflex
+    scope:
+      - code
+    evidence: audit
+    mechanizable: true
+    origin: skills/frontend-design/SKILL.md
+    hash: a49c2070b9ab
+    localId: css-specificity

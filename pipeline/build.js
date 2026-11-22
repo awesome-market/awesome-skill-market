@@ -6,7 +6,7 @@ import path from 'node:path';
 import os from 'node:os';
 import { execFileSync } from 'node:child_process';
 import { DIRS, FILES, ROOT } from './lib/env.js';
-import { log, readJSON, readYAML, writeYAML, listYAMLFiles, sha1 } from './lib/util.js';
+import { log, readJSON, readYAML, writeJSON, writeYAML, listYAMLFiles, sha1 } from './lib/util.js';
 
 const SCOPES = ['color', 'type', 'layout', 'motion', 'a11y', 'copy', 'imagery', 'code', 'process'];
 const STATE = path.join(DIRS.merged, 'build-state.json');

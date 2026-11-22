@@ -74,6 +74,19 @@ export function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
+/** Run fn over items with at most `n` in flight. Results in input order. */
+export async function mapPool(items, fn, n = 3) {
+  const out = new Array(items.length);
+  let i = 0;
+  await Promise.all(Array.from({ length: Math.min(n, items.length) }, async () => {
+    while (i < items.length) {
+      const idx = i++;
+      out[idx] = await fn(items[idx], idx);
+    }
+  }));
+  return out;
+}
+
 export function nextId(dir, prefix) {
   let max = 0;
   if (fs.existsSync(dir)) {

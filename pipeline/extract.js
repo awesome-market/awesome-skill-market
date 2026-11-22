@@ -3,7 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { DIRS, FILES } from './lib/env.js';
-import { log, readJSON, writeYAML, walk, sha1, ruleHash } from './lib/util.js';
+import { log, readJSON, writeYAML, walk, mapPool, ruleHash } from './lib/util.js';
 import { chatJSON } from './lib/llm.js';
 
 const CHUNK = 24000; // chars per extraction call
@@ -61,25 +61,34 @@ export async function extractOne(name, { force = false } = {}) {
     return false;
   }
 
-  const rules = [];
+  // flatten file -> chunk tasks; files are independent so run a small pool
+  const tasks = [];
   for (const f of files) {
     const rel = path.relative(root, f);
     const text = fs.readFileSync(f, 'utf8');
-    const chunks = [];
-    for (let i = 0; i < text.length; i += CHUNK) chunks.push(text.slice(i, i + CHUNK));
-    for (let i = 0; i < chunks.length; i++) {
-      const label = `extract:${name}:${rel}${chunks.length > 1 ? `#${i + 1}` : ''}`;
-      log(`${label} (${chunks[i].length} chars)`);
+    for (let i = 0, n = Math.max(1, Math.ceil(text.length / CHUNK)); i < n; i++) {
+      tasks.push({ rel, chunk: text.slice(i * CHUNK, (i + 1) * CHUNK), part: n > 1 ? i + 1 : undefined });
+    }
+  }
+  log(`extract: ${name} — ${files.length} files, ${tasks.length} calls, pool=3`);
+  const results = await mapPool(tasks, async (t) => {
+    const label = `extract:${name}:${t.rel}${t.part ? `#${t.part}` : ''}`;
+    try {
       const { rules: got } = await chatJSON({
         label,
         system: SYSTEM,
-        user: `File: ${up.repo}/${rel}\n\n${chunks[i]}`,
+        user: `File: ${up.repo}/${t.rel}\n\n${t.chunk}`,
         shapeDesc: SHAPE,
-        validate: (o) => validate(o, rel),
+        validate: (o) => validate(o, t.rel),
       });
-      for (const r of got) rules.push({ ...r, origin: rel, chunk: chunks.length > 1 ? i + 1 : undefined });
+      log(`${label} ok (${got.length} rules)`);
+      return got.map((r) => ({ ...r, origin: t.rel, chunk: t.part }));
+    } catch (e) {
+      log(`${label} FAILED (skipping file): ${e.message}`);
+      return [];
     }
-  }
+  }, 3);
+  const rules = results.flat();
 
   // dedupe within upstream by normalized text; keep first
   const seen = new Map();

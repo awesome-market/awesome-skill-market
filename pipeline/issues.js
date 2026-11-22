@@ -68,11 +68,17 @@ export async function issues() {
   ensureLabels(CFG.githubRepo, LABELS);
   const open = openIssuesWithLabel(CFG.githubRepo, 'conflict');
   const openIds = new Set(open.map((i) => (i.title.match(/conf-\d+/) || [])[0]).filter(Boolean));
+  const decidedIds = new Set(
+    listYAMLFiles(DIRS.decisions)
+      .map((f) => readYAML(f))
+      .filter((d) => d?.status === 'active')
+      .map((d) => d.id),
+  );
 
   const filed = [];
   for (const f of listYAMLFiles(DIRS.conflicts)) {
     const conf = readYAML(f);
-    if (conf.status !== 'pending') continue;
+    if (conf.status !== 'pending' || decidedIds.has(conf.id)) continue;
     if (openIds.has(conf.id) || conf.issue_url) continue;
     try {
       const url = createIssue(CFG.githubRepo, {
