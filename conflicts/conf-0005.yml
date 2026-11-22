@@ -20,7 +20,7 @@ ai_explanation: Rule A requires inserting hairline rules between sections, while
 suggestion:
   kind: keep-b
   note: Rule B is more specific (1px repeated sibling rules at 12-15% ink) and explicitly governs the between-sections case with 'never between sections', overriding Rule A's general instruction.
-issue_url: null
+issue_url: https://github.com/terry2010/skill-fusion/issues/5
 evidence_files:
   - option-a.png
   - option-b.png

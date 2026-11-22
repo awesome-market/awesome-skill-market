@@ -8,6 +8,33 @@ import { chatJSON } from './lib/llm.js';
 
 const CHUNK = 24000; // chars per extraction call
 
+// — schema hygiene: small models invent enum values; normalize before write —
+const SEV_ALIAS = { floor: 'floor', reflex: 'reflex', finish: 'finish', guidance: 'guidance', process: 'guidance', ledger: 'finish', direction: 'guidance', principle: 'guidance', hard: 'floor', soft: 'finish', required: 'floor', a11y: 'reflex' };
+const SCOPE_ALIAS = {
+  responsive: 'layout', navigation: 'layout', structure: 'layout', composition: 'layout', grid: 'layout', mobile: 'layout', desktop: 'layout', hero: 'layout', sections: 'layout', print: 'layout', spacing: 'layout', alignment: 'layout', components: 'layout', cards: 'layout', tables: 'layout', lists: 'layout',
+  performance: 'code', hydration: 'code', html: 'code', css: 'code', js: 'code', react: 'code', perf: 'code', loading: 'code',
+  touch: 'a11y', locale: 'a11y', i18n: 'a11y', rtl: 'a11y', a1y: 'a11y', accessibility: 'a11y', focus: 'a11y', keyboard: 'a11y', aria: 'a11y', semantics: 'a11y', seo: 'a11y', forms: 'a11y', buttons: 'a11y', links: 'a11y', input: 'a11y', validation: 'a11y',
+  data: 'imagery', texture: 'imagery', photos: 'imagery', images: 'imagery', icons: 'imagery', illustrations: 'imagery', charts: 'imagery', dataviz: 'imagery', graphs: 'imagery', media: 'imagery', video: 'imagery', brand: 'imagery',
+  interaction: 'motion', animation: 'motion', gestures: 'motion', scroll: 'motion', transitions: 'motion', states: 'motion', feedback: 'motion',
+  typography: 'type', font: 'type', fonts: 'type',
+  palette: 'color', themes: 'color', theme: 'color', contrast: 'color', gradients: 'color', shadows: 'color', borders: 'color', background: 'color', 'dark-mode': 'color', colours: 'color',
+  errors: 'copy', tone: 'copy', voice: 'copy', content: 'copy', text: 'copy', writing: 'copy', marketing: 'copy',
+  ux: 'process', ui: 'process', testing: 'process', review: 'process', dev: 'process', workflow: 'process', onboarding: 'process', product: 'process',
+};
+const VALID_SCOPES = new Set(['color', 'type', 'layout', 'motion', 'a11y', 'copy', 'imagery', 'code', 'process']);
+const VALID_EVIDENCE = new Set(['screenshot', 'recording', 'audit', 'none']);
+
+export function normalizeRule(r) {
+  const sev = SEV_ALIAS[String(r.severity || '').toLowerCase()] ?? 'reflex';
+  let scope = (Array.isArray(r.scope) ? r.scope : [])
+    .map((s) => SCOPE_ALIAS[String(s).toLowerCase()] ?? (VALID_SCOPES.has(String(s).toLowerCase()) ? String(s).toLowerCase() : null))
+    .filter(Boolean);
+  scope = [...new Set(scope)];
+  if (!scope.length) scope = ['process'];
+  const ev = VALID_EVIDENCE.has(r.evidence) ? r.evidence : 'none';
+  return { ...r, severity: sev, scope, evidence: ev, mechanizable: r.mechanizable === true };
+}
+
 const SYSTEM = `You normalize design-skill documentation into a flat rule list for an automated merge pipeline.
 
 From the provided markdown extract every ACTIONABLE rule an agent should follow when building or reviewing UI. Include prohibitions, requirements, and default choices. Exclude: philosophy/motivation prose, install/usage instructions, tool-specific mechanics, and duplicates.
@@ -89,7 +116,7 @@ export async function extractOne(name, { force = false } = {}) {
       return [];
     }
   }, 3);
-  const rules = results.flat();
+  const rules = results.flat().map(normalizeRule);
 
   // dedupe within upstream by normalized text; keep first
   const seen = new Map();

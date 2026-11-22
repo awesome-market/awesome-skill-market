@@ -20,7 +20,7 @@ ai_explanation: Rule A requires FAQ answers to remain hidden/collapsed on page l
 suggestion:
   kind: keep-a
   note: FAQ answers should not be revealed on page load; collapse by default and expand on interaction.
-issue_url: null
+issue_url: https://github.com/terry2010/skill-fusion/issues/2
 evidence_files:
   - option-a.png
   - option-b.png

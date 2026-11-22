@@ -46,7 +46,7 @@ ${conf.evidence_inconclusive ? '两次生成对比图渲染结果一致——此
 ${evSection}
 ### 裁决方式
 
-编辑 \`decisions/${conf.id}.yml\`（或 \`npm run decide -- ${conf.id} --resolution A --reason "..."`）：
+编辑 \`decisions/${conf.id}.yml\`（或 \`npm run decide -- ${conf.id} --resolution A --reason "..."\`）：
 
 \`\`\`yaml
 id: ${conf.id}

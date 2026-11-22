@@ -748,7 +748,7 @@ rules:
     rule: Use exactly one texture artifact family per page, allowing grain and its matching misregistration only when they originate from the same print lineage.
     severity: floor
     scope:
-      - texture
+      - imagery
       - process
     evidence: screenshot
     mechanizable: true
@@ -1649,7 +1649,7 @@ rules:
     rule: Provide visible focus indicators for all interactive elements using :focus-visible, ensuring an instantly visible focus state.
     severity: floor
     scope:
-      - interactive elements
+      - process
     evidence: none
     mechanizable: true
     hash: 98590b01dde3
@@ -2901,8 +2901,7 @@ rules:
     rule: Do not use italic type for body copy.
     severity: floor
     scope:
-      - body copy
-      - body type
+      - process
     evidence: none
     mechanizable: true
     hash: 11d86612c4e7
@@ -3251,9 +3250,6 @@ rules:
     rule: Interactive elements must show a visible focus ring via :focus-visible, rendered as a 2px solid focus-colour ring with a 2px offset (inset on inputs via negative offset).
     severity: floor
     scope:
-      - focus-rings
-      - inputs
-      - interactive-elements
       - a11y
     evidence: none
     mechanizable: true
@@ -3644,7 +3640,6 @@ rules:
     severity: floor
     scope:
       - layout
-      - responsive
       - motion
     evidence: screenshot
     mechanizable: true
@@ -3813,7 +3808,7 @@ rules:
     severity: floor
     scope:
       - copy
-      - data
+      - imagery
     evidence: audit
     mechanizable: true
     hash: da85c1391291
@@ -3839,7 +3834,7 @@ rules:
     severity: floor
     scope:
       - copy
-      - data
+      - imagery
     evidence: audit
     mechanizable: false
     hash: bc32bab20630
@@ -3876,8 +3871,7 @@ rules:
     rule: FAQ section headings must be short direct questions ending in a question mark; all non-FAQ headings must not be questions.
     severity: floor
     scope:
-      - headings
-      - FAQ
+      - process
     evidence: none
     mechanizable: true
     hash: 361d41115699
@@ -4906,7 +4900,6 @@ rules:
     scope:
       - a11y
       - layout
-      - headings
     evidence: none
     mechanizable: true
     hash: 4f65d7195770
@@ -8489,7 +8482,6 @@ rules:
     severity: floor
     scope:
       - code
-      - performance
     evidence: screenshot
     mechanizable: true
     hash: 73642bd7440c
@@ -9371,7 +9363,7 @@ rules:
     severity: floor
     scope:
       - code
-      - data
+      - imagery
       - color
     evidence: screenshot
     mechanizable: true
@@ -12734,7 +12726,6 @@ rules:
     scope:
       - code
       - process
-      - performance
     evidence: audit
     mechanizable: true
     hash: a5fd7d856b98
@@ -12749,7 +12740,7 @@ rules:
       - a11y
       - code
       - process
-      - navigation
+      - layout
     evidence: audit
     mechanizable: true
     hash: 9b83e67606b8
@@ -12778,7 +12769,6 @@ rules:
       - a11y
       - code
       - process
-      - touch
     evidence: screenshot
     mechanizable: true
     hash: 110ad69b48fa
@@ -12792,7 +12782,7 @@ rules:
     scope:
       - code
       - process
-      - locale
+      - a11y
     evidence: audit
     mechanizable: true
     hash: 727d28f02f49
@@ -12806,7 +12796,7 @@ rules:
     scope:
       - code
       - process
-      - locale
+      - a11y
     evidence: audit
     mechanizable: true
     hash: 0ad791965a26
@@ -12820,7 +12810,6 @@ rules:
     scope:
       - code
       - process
-      - hydration
     evidence: audit
     mechanizable: true
     hash: 939c3d07d625
@@ -18541,8 +18530,7 @@ rules:
     rule: Placeholders must show a format example pattern (never an instruction) and end with an ellipsis.
     severity: reflex
     scope:
-      - hallmark
-      - web-design-guidelines
+      - process
     evidence: none
     mechanizable: true
     hash: 74720d9b5f81
@@ -19133,7 +19121,6 @@ rules:
     severity: reflex
     scope:
       - layout
-      - responsive
     evidence: screenshot
     mechanizable: true
     hash: c2d6a6816d12
@@ -19172,7 +19159,6 @@ rules:
     severity: reflex
     scope:
       - layout
-      - responsive
     evidence: screenshot
     mechanizable: true
     hash: d93eb80079d7
@@ -19492,8 +19478,7 @@ rules:
     rule: Set body line-height to at least 1.65 (which also satisfies the ≥1.5 requirement) within a single-column body with a 60–65 character measure.
     severity: reflex
     scope:
-      - body text
-      - body layout
+      - process
     evidence: none
     mechanizable: true
     hash: 25d934e19df5
@@ -19669,9 +19654,7 @@ rules:
     rule: Apply tabular-nums to all numeric text on the page, with particular emphasis on number columns and numeric comparisons.
     severity: reflex
     scope:
-      - numeric text
-      - number columns
-      - numeric comparisons
+      - process
     evidence: none
     mechanizable: true
     hash: 44ebd6364d45
@@ -22054,7 +22037,6 @@ rules:
     rule: Cap device pixel ratio to 1.75 unless an effect requires crisp pixels.
     severity: reflex
     scope:
-      - code
       - code
     evidence: audit
     mechanizable: true
@@ -25390,7 +25372,6 @@ rules:
     severity: reflex
     scope:
       - code
-      - performance
     evidence: screenshot
     mechanizable: true
     hash: 1515a47059ce
@@ -25403,7 +25384,6 @@ rules:
     severity: reflex
     scope:
       - code
-      - performance
     evidence: screenshot
     mechanizable: true
     hash: 51255bc0aeb4
@@ -25416,7 +25396,6 @@ rules:
     severity: reflex
     scope:
       - code
-      - performance
       - imagery
     evidence: screenshot
     mechanizable: true
@@ -27638,7 +27617,7 @@ rules:
     severity: reflex
     scope:
       - code
-      - data
+      - imagery
     evidence: screenshot
     mechanizable: true
     hash: d8e1def971fe
@@ -27651,7 +27630,7 @@ rules:
     severity: reflex
     scope:
       - code
-      - data
+      - imagery
     evidence: screenshot
     mechanizable: true
     hash: 11546696d8c8
@@ -30980,7 +30959,6 @@ rules:
     scope:
       - code
       - process
-      - performance
     evidence: audit
     mechanizable: true
     hash: bd4773e2f852
@@ -30994,7 +30972,6 @@ rules:
     scope:
       - code
       - process
-      - performance
     evidence: audit
     mechanizable: true
     hash: abd8127ff696
@@ -31008,7 +30985,6 @@ rules:
     scope:
       - code
       - process
-      - performance
     evidence: audit
     mechanizable: true
     hash: a189249ad63b
@@ -31022,7 +30998,6 @@ rules:
     scope:
       - code
       - process
-      - performance
     evidence: audit
     mechanizable: true
     hash: 712069bc143e
@@ -31036,7 +31011,6 @@ rules:
     scope:
       - code
       - process
-      - performance
     evidence: audit
     mechanizable: true
     hash: f34100fe8c39
@@ -31051,7 +31025,6 @@ rules:
       - code
       - imagery
       - process
-      - performance
     evidence: screenshot
     mechanizable: true
     hash: 429daa56c5b8
@@ -31066,7 +31039,6 @@ rules:
       - code
       - imagery
       - process
-      - performance
     evidence: screenshot
     mechanizable: true
     hash: fc31a62da473
@@ -31080,7 +31052,7 @@ rules:
     scope:
       - code
       - process
-      - navigation
+      - layout
     evidence: audit
     mechanizable: true
     hash: 18986a9914d2
@@ -31094,7 +31066,7 @@ rules:
     scope:
       - code
       - process
-      - navigation
+      - layout
     evidence: audit
     mechanizable: true
     hash: ef7e91144dca
@@ -31108,7 +31080,7 @@ rules:
     scope:
       - code
       - process
-      - touch
+      - a11y
     evidence: screenshot
     mechanizable: true
     hash: e767026786cf
@@ -31122,7 +31094,7 @@ rules:
     scope:
       - code
       - process
-      - touch
+      - a11y
     evidence: screenshot
     mechanizable: true
     hash: a46061098b04
@@ -31150,7 +31122,7 @@ rules:
     scope:
       - code
       - process
-      - touch
+      - a11y
     evidence: screenshot
     mechanizable: true
     hash: 21684c854ae1
@@ -31164,7 +31136,7 @@ rules:
     scope:
       - code
       - process
-      - touch
+      - a11y
     evidence: screenshot
     mechanizable: true
     hash: a8433cab67df
@@ -31262,7 +31234,7 @@ rules:
     scope:
       - code
       - process
-      - locale
+      - a11y
     evidence: audit
     mechanizable: true
     hash: 3af58c2ab0cb
@@ -31276,7 +31248,7 @@ rules:
     scope:
       - code
       - process
-      - locale
+      - a11y
     evidence: audit
     mechanizable: true
     hash: c06d86cbfe8b
@@ -31290,7 +31262,6 @@ rules:
     scope:
       - code
       - process
-      - hydration
     evidence: audit
     mechanizable: true
     hash: 2de397f4466b
@@ -31304,7 +31275,6 @@ rules:
     scope:
       - code
       - process
-      - hydration
     evidence: audit
     mechanizable: true
     hash: 17f034a9ee8d
@@ -32594,7 +32564,7 @@ rules:
         id: web-de-089
   - id: hallma-406
     rule: Change a section composition or its order and record the delta in the stamp when a page repeats logged compositions.
-    severity: ledger
+    severity: finish
     scope:
       - layout
       - process
@@ -32607,9 +32577,9 @@ rules:
         id: hallma-406
   - id: taste--122
     rule: Keep aria-pressed on swatch buttons and press exactly one per group.
-    severity: a11y
+    severity: reflex
     scope:
-      - a1y
+      - a11y
       - code
     evidence: audit
     mechanizable: true
@@ -32620,7 +32590,7 @@ rules:
         id: taste--122
   - id: taste--386
     rule: Run copy-lint.mjs on the built page before the gate, fix every FAIL, and justify any kept WARN in the report.
-    severity: process
+    severity: guidance
     scope:
       - process
       - code
@@ -32633,7 +32603,7 @@ rules:
         id: taste--386
   - id: taste--387
     rule: Substitute a rival's name or another town's trade into every heading and sub-line, and rewrite any line that still reads true.
-    severity: process
+    severity: guidance
     scope:
       - copy
       - process
@@ -32646,7 +32616,7 @@ rules:
         id: taste--387
   - id: taste--388
     rule: Pass all pages built this session to the linter together and break any shared cadence, joke, or opening phrase between them.
-    severity: process
+    severity: guidance
     scope:
       - copy
       - process
@@ -32659,7 +32629,7 @@ rules:
         id: taste--388
   - id: taste--389
     rule: Read the copy aloud as the client and cut every sentence they would not say about themselves.
-    severity: process
+    severity: guidance
     scope:
       - copy
       - process
@@ -32672,7 +32642,7 @@ rules:
         id: taste--389
   - id: taste--390
     rule: After fixing one device, check that it was not replaced by another tic such as multiplying 'rather than' or fragmenting every sentence.
-    severity: process
+    severity: guidance
     scope:
       - copy
       - process
@@ -32685,7 +32655,7 @@ rules:
         id: taste--390
   - id: taste--391
     rule: When a subagent is available, give it only the page text and fix what it cannot use to identify the product, buyer, cost, and differentiator.
-    severity: process
+    severity: guidance
     scope:
       - copy
       - process
@@ -32698,7 +32668,7 @@ rules:
         id: taste--391
   - id: taste--392
     rule: Carry the one-line voice card, every assumed price or hour, and the list of what the client must still supply in the report.
-    severity: process
+    severity: guidance
     scope:
       - process
       - copy

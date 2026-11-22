@@ -20,7 +20,7 @@ ai_explanation: Rule A caps hero text at ≤7 words while Rule B permits the her
 suggestion:
   kind: scope-split
   note: A governs the overall hero text/head (≤7 words, one lead sentence, 1–2 actions); B governs the hero h1 specifically (2–9 words, single clause). When the h1 alone exceeds 7 words, A's reflex constraint wins and it should be trimmed.
-issue_url: null
+issue_url: https://github.com/terry2010/skill-fusion/issues/12
 evidence_files:
   - option-a.png
   - option-b.png

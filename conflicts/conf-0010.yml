@@ -20,7 +20,7 @@ ai_explanation: "Both rules agree the tab indicator must move by transform alone
 suggestion:
   kind: scope-split
   note: Rule A applies when panels have variable/dynamic heights (animate transitions via grid-template-rows); Rule B applies when panels use a single fixed height (no height animation needed).
-issue_url: null
+issue_url: https://github.com/terry2010/skill-fusion/issues/10
 evidence_files:
   - option-a.png
   - option-b.png

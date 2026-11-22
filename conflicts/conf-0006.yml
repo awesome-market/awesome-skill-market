@@ -20,7 +20,7 @@ ai_explanation: "Both rules target the document root, but :root (specificity 0,1
 suggestion:
   kind: scope-split
   note: "Use color-scheme: light dark on :root when theming should follow the user's light/dark preference (RULE A); use color-scheme: dark on html when the theme must always be dark (RULE B). These are mutually exclusive strategies — do not apply both simultaneously."
-issue_url: null
+issue_url: https://github.com/terry2010/skill-fusion/issues/6
 evidence_files:
   - option-a.png
   - option-b.png

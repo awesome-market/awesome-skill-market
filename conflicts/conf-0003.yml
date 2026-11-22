@@ -20,7 +20,7 @@ ai_explanation: Rule A requires each library photograph to receive its own print
 suggestion:
   kind: scope-split
   note: A applies to library photographs (each gets its own printed credit line); B applies to renders (single credit line, never credit renders).
-issue_url: null
+issue_url: https://github.com/terry2010/skill-fusion/issues/3
 evidence_files:
   - option-a.png
   - option-b.png

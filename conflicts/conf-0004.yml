@@ -20,7 +20,7 @@ ai_explanation: RULE A explicitly forbids 'a separate display face from the body
 suggestion:
   kind: scope-split
   note: RULE A (frontend-design · reflex) governs frontend design contexts and forbids separate display/body faces; RULE B (hallmark · floor) governs hallmark contexts and permits a separate display face plus body face.
-issue_url: null
+issue_url: https://github.com/terry2010/skill-fusion/issues/4
 evidence_files:
   - option-a.png
   - option-b.png

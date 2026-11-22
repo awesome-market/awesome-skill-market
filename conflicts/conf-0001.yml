@@ -20,7 +20,7 @@ ai_explanation: "Rule A explicitly permits animating colours, while Rule B restr
 suggestion:
   kind: merge
   note: Animate only transform, opacity, and colours; never height, padding, or layout.
-issue_url: null
+issue_url: https://github.com/terry2010/skill-fusion/issues/1
 evidence_files:
   - option-a.png
   - option-b.png

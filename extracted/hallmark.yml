@@ -4506,7 +4506,7 @@ rules:
     localId: prevent-footer-link-wrapping
   - id: hallma-406
     rule: Change a section composition or its order and record the delta in the stamp when a page repeats logged compositions.
-    severity: ledger
+    severity: finish
     scope:
       - layout
       - process
@@ -7179,7 +7179,6 @@ rules:
     severity: reflex
     scope:
       - layout
-      - responsive
     evidence: screenshot
     mechanizable: true
     origin: skills/hallmark/references/layout.md
@@ -7234,7 +7233,6 @@ rules:
     severity: reflex
     scope:
       - layout
-      - responsive
     evidence: screenshot
     mechanizable: true
     origin: skills/hallmark/references/layout.md
@@ -7245,7 +7243,6 @@ rules:
     severity: floor
     scope:
       - layout
-      - responsive
       - motion
     evidence: screenshot
     mechanizable: true
@@ -7859,7 +7856,7 @@ rules:
     severity: floor
     scope:
       - copy
-      - data
+      - imagery
     evidence: audit
     mechanizable: true
     origin: skills/hallmark/references/macrostructures/04-stat-led.md
@@ -7881,7 +7878,7 @@ rules:
     severity: floor
     scope:
       - copy
-      - data
+      - imagery
     evidence: audit
     mechanizable: false
     origin: skills/hallmark/references/macrostructures/04-stat-led.md
@@ -11820,7 +11817,7 @@ rules:
     rule: Use exactly one texture artifact family per page, allowing grain and its matching misregistration only when they originate from the same print lineage.
     severity: floor
     scope:
-      - texture
+      - imagery
       - process
     evidence: screenshot
     mechanizable: true

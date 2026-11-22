@@ -2,9 +2,300 @@
 
 - **(floor)** Do not accent a single word or phrase within a headline using italic, bold, or a different color.
 - **(floor)** Ship responsive down to mobile, visible keyboard focus, reduced-motion respect, visual accessibility, and harmonious color palettes.
+- **(floor)** Never derive brand colours or fonts from model memory; treat any recalled hex as a named failure.
+- **(floor)** When fetching is impossible, ask once for the primary hex and fonts or to build free, and never guess brand colours from memory.
+- **(floor)** Never ship a competitor-adjacent palette as close enough to a real brand.
+- **(floor)** Use a comp only for its composition, never as evidence that a design gate has been satisfied.
+- **(floor)** Never assign a CSS gradient or layered background to any region the comp rendered as material, grain, photography, or depth.
+- **(floor)** Define all colours in OKLCH.
+- **(floor)** Never use pure absolute colours as surfaces or improvised values; always tint greys toward the anchor hue.
+- **(floor)** Meet 4.5:1 contrast for body text and 3:1 for icons, focus rings and field edges, swapping text colour with every dark surface.
+- **(floor)** Avoid gradients past three stops, purple-blue, purple-pink or cyan-on-dark, glow shadows, chromatic halos, spotlights and alpha-defined colours.
+- **(floor)** Declare texture opacity via --texture-opacity and keep it at 0.08 page-wide, 0.15 scoped to a single card or plate, and 0.05 or none under running body text.
+- **(floor)** Restrict scanline overlays to arcade and arcade-adjacent custom themes only.
+- **(floor)** Grant texture only when a theme names it in Surfaces or a custom draw's lineage is print, then select the single artifact that lineage used.
+- **(floor)** Never apply a texture a theme does not name, grain on a modern-minimal page, two artifact families on one page, or texture as ambient fill over an entire page.
+- **(floor)** Measure text contrast against the textured result and never let texture drop below the gate-40/41 thresholds.
+- **(floor)** Derive every dark-mode token from its light value by recipe instead of using filter: invert() or flipping greys.
+- **(floor)** Set --color-paper to 12-18% lightness with anchor-tinted chroma and never use pure black.
+- **(floor)** Set --color-ink to 92-96% lightness with anchor-tinted chroma and never use pure white.
+- **(floor)** Re-verify accent-ink contrast is at least 4.5:1 for body text and 3:1 for large text on the new accent fill.
+- **(floor)** Keep the hue constant across modes on every token.
+- **(floor)** Disable drop shadows in dark mode and express elevation through lightness or an inset hairline ring.
+- **(floor)** Remove mark shadows, 3D effects, and gradients from marks except the sparkline fade-fill.
+- **(floor)** Reference tokens.css as the source of truth and list every role declared in its :root block.
+- **(floor)** On a custom run make every design decision for this client instead of dealing or prescribing a theme, shape, section list, component, palette recipe, or draw.
+- **(floor)** Never ship cream, off-white, or beige paper with a high-contrast serif and a clay accent.
+- **(floor)** Never ship a near-black page with a single neon accent.
+- **(floor)** Never ship a pale ground with a single timid accent.
+- **(floor)** Never ship purple transitioning into blue.
+- **(floor)** Never pick a hue for the category, such as blue for software or green for health.
+- **(floor)** Route every colour and font-family through a token declared at :root or a declared theme block; never emit literal colours or font-family values outside the token block.
+- **(floor)** Never use a purple-to-blue gradient, a card inside a card, an emoji as an icon or a hand-drawn browser or OS window.
+- **(floor)** Every interactive component must ship all eight states: default, hover, focus-visible, active, disabled, loading, error, and success.
+- **(floor)** A polish fixes only the material half: tokens, colour, type, motion, states, contrast, and single elements.
+- **(floor)** Place tokens in one location named by role, such as --color-ink, never --color-black.
+- **(floor)** Never ship outline-only filler cards; climb the surface ladder instead.
+- **(floor)** Never use grain or noise washes as ambience unless the theme earns a budgeted recipe.
+- **(floor)** Never use repeated stripe or grid backgrounds with nothing under them.
+- **(floor)** Never ship a tight grotesk at 600 on near-white with one blue accent and a 1px border under a soft shadow.
+- **(floor)** Never let gradient ramps stand in for material.
+- **(floor)** Never use purple-to-blue, purple-to-pink, or cyan-on-dark gradients, background-clip:text, or any gradient text unless it is a single-hue ramp with both stops as tokens.
+- **(floor)** Never emit #000, #fff, oklch(0%), or oklch(100%) as a colour outside the token block, and never resolve a surface token to a pure absolute unless the stamp declares surface:absolute.
+- **(floor)** Maintain 4.5:1 contrast for body text and APCA Lc 60, and 3:1 or Lc 45 for large text, icons, focus rings, and field edges.
+- **(floor)** Provide the paired ink token whenever button text sits within 5% lightness and 0.05 chroma of its fill, ensure --color-accent-ink exists where accent carries text, swap dark-panel text colour, and avoid grey text on coloured surfaces.
+- **(floor)** Move every colour and font-family literal into the token block instead of writing raw values.
+- **(floor)** Use exactly one accent hue applied only to the canvas treatment, focus rings, and small tags, never to display text unless the theme's type names an accented word.
+- **(floor)** Allow at most two fixed radial blooms on the body, each sized 20 to 30 percent of the canvas and never animated.
+- **(floor)** Prohibit coloured glow shadows.
+- **(floor)** Prohibit a radial spotlight behind the hero.
+- **(floor)** Prohibit mesh gradients, treating the bloom as the only licence.
+- **(floor)** Prohibit light sections within a dark build.
+- **(floor)** Prohibit introducing a third hue.
+- **(floor)** Prohibit glass panels or cards.
+- **(floor)** Prohibit gradient text.
+- **(floor)** Prohibit gradient-filled pills.
+- **(floor)** Prohibit glass effects because the medium is paper.
+- **(floor)** Prohibit pure black or pure white paper and ink.
+- **(floor)** Use ink or a single hue applied only to focus rings and one control, and never flood color without a declared visual posture.
+- **(floor)** Avoid applying hairlines across all elements.
+- **(floor)** Never use gradient text.
+- **(floor)** Exclude glass effects.
+- **(floor)** Never use saturated consumer pinks and violets without a declared posture.
+- **(floor)** Never use glass effects.
+- **(floor)** Never stamp decorative status dots or sticker-style pills on every element.
+- **(floor)** Never use a masthead or a blurred pill, as they fight the playful register.
+- **(floor)** Every stateful control must implement all eight states: default, hover, focus, active, disabled, loading, error, and success.
+- **(floor)** Never apply outline: none (or outline: 0/none) without replacing it with an equivalent visible focus indicator / focus-visible style.
+- **(floor)** The focus ring must maintain at least 3:1 contrast against both the element and the page background.
+- **(floor)** Disabled controls must combine opacity 0.55, cursor not-allowed, and the native disabled attribute or aria-disabled, keeping focusability via aria-disabled when needed.
+- **(floor)** Error state must apply the error colour to the border, message, and aria-invalid, never relying on colour alone.
+- **(floor)** Required fields must carry aria-required and a visible word, never colour alone.
+- **(floor)** State changes must never alter border width, padding, height, or animate the ring; reserve a transparent outline at rest so the ring appears without shifting.
+- **(floor)** Show a specimen thumbnail or colour swatch per card when images exist, otherwise a library photograph or a type-set card with the name, one fact, price, and colour swatch, never empty frames.
+- **(floor)** Separate the two halves with a clear gutter and never use rules.
+- **(floor)** Two pages built for two different prompts must look like different sites, not colour swaps of one template.
+- **(floor)** Implement every button with all eight states (default, hover, active, focus-visible, disabled, aria-disabled, busy, quiet) using the provided CSS variables and transitions.
+- **(floor)** Keep the project's chosen brand at every depth, reading its values from project files rather than memory.
+- **(floor)** Derive every colour an effect draws from the page palette variables rather than fixed hues.
+- **(floor)** Never default an effect colour to violet or lavender.
+- **(floor)** Render a CSS fallback in the same colours when WebGL is unavailable.
+- **(floor)** A close must not place a ground behind its main button.
+- **(floor)** Every offered colour must be shown at least once on the page, swapping the product picture per swatch.
+- **(floor)** On a place page never use effects, WebGL, canvas, CSS gradients, grain, glass, print, scenes, loops, counts, UI fragments, diagrams, feature or plan cards, tabs, accordions, switches, logo rows, timelines, fact strips, calendar cards, maps of streets not given by the brief, ratings, reviews, figures or quotes not given by the brief, words on photographs, rounded or filtered photographs, see-through or blurred navigation, outline/pale/blurred/rotated display type, SaaS furniture, or dark sections except the single brand band.
+- **(floor)** Use only flat colour grounds and at most one brand band.
+- **(floor)** Make readable text 16px or larger with 1.5 to 1.8 line height and --ink at 7:1 contrast.
+- **(floor)** Use --muted only for labels, dates, meta and heading grey runs and keep large text at 4.5:1 and brand-band words at 7:1.
+- **(floor)** Highlight by contrast only and never use marker highlights, coloured bars, violet or lavender anywhere.
+- **(floor)** Choose the light or evening grade once on load or by click and never by scrolling.
+- **(floor)** Put words on photographs only in the hero and one closing band on allowed pages over a calm dark crop or solid box without a scrim.
+- **(floor)** Mark exactly one main action with a filled primary button and never add slanted, gradient, ghost or shadowed buttons.
+- **(floor)** Reserve big award-site scenes, creative moments, shader effects, scenes, loops, counts, CSS grounds, dark pages, and dark heroes for tech pages only, while giving non-tech pages photographs, flat color, type, real icons, the hero entrance, and dealt moments.
+- **(floor)** Keep place pages effect-free with flat grounds, square photographs, one button style, a phone bar, list text at 16px, and no diagrams, grounds, loops, fragments, or tabs.
+- **(floor)** Use real photographs where they fit and never reuse an asset twice, use real icons in their own colours, and use flat grounds elsewhere.
+- **(floor)** Use one button pair, one card style, one radius scale, one link look, at most two boxes deep, one heading scale with its faces loaded, and sufficient text contrast.
+- **(floor)** Never use violet or lavender anywhere in the page's own design, including accents, grounds, gradients, effect colours, or tints, though real third-party logos keep their own colours.
+- **(floor)** Use only the three ground tokens --g-main, --g-alt and --g-dark for every section and panel ground, keeping them in the same order down the page.
+- **(floor)** Never place pure-white panels on a cream page.
+- **(floor)** Reserve dark pages and dark heroes for tech pages only.
+- **(floor)** Make every word on the brand band pass 7:1 contrast by darkening the brand colour until it does, and invert the primary button.
+- **(floor)** Change grounds only at section edges, never inside .wrap, wrappers, bands, or inset coloured boxes.
+- **(floor)** Keep product, service and place grounds as flat CSS colours with no gradients, textures, glass, filters or shadows on the interface.
+- **(floor)** Deal at most two grounds beyond the tokens, each once, never on a card, never as neighbours, and never two that list each other in avoids.
+- **(floor)** Use the lit ground only on tech pages, behind UI, in closing bands and footer-statement.
+- **(floor)** Render every ground and panel on product, service and place pages as a flat CSS colour.
+- **(floor)** Never use gradients, hard-stop two-tones, grain, paper, halo, texture, pattern, glass, contour, canvas, backdrop-filter, gradient masks or interface shadows on non-tech pages.
+- **(floor)** Set the card fill to --card one clear step off the page, apply a 1px border at 8-14% ink with a 1px inner top highlight, and never use a blurred shadow at rest.
+- **(floor)** Render ranges, keywords, numbers, today's dot, and status chips as ink tints and never ship a row of green dots.
+- **(floor)** Place a soft field such as painterly-landscape, grain-gradient, gradient-mesh, or silk-folds behind a fragment, and never a pattern that fights the UI.
+- **(floor)** Keep grounds to calm hues of their own and never use violet or lavender.
+- **(floor)** Never place a dark ground behind dark UI on a dark page.
+- **(floor)** Never put the accent on every chip, date, and keyword, mix brand colours with ink marks, or ship glossy 3D blobs.
+- **(floor)** On the single still diagram of a product or service page, set ground none and motion pulse none.
+- **(floor)** Show the client's photograph in its natural colour with no halftone, dither, dissolve, print, duotone, or blur applied.
+- **(floor)** Fill letters and digits with silk-folds or aurora-curtains on dark and colour pages, a plain ink fade on light pages, and never fluted-glass, caustics, halftone-screen, or line-engraving in type.
+- **(floor)** Use a plain accent fade under a line or still ruled-grounds inside data, never an effect that draws its own grid or moving traces, and never halftone-screen in a chart area.
+- **(floor)** Never use retired effects such as marble-warp, truchet-arcs, or pixel-mosaic, and keep grid-pulse out of charts.
+- **(floor)** On non-tech pages, ban canvas, WebGL, autoplay video, CSS gradients, SVG pattern or texture grounds, backdrop-filter, filter, mix-blend-mode, mask-image, glass, grain, halftone, dither, duotone, print, all data-fx/data-print/data-scene/data-big-scene/data-ui-loop/data-m-* attributes, SVG animation, GIFs, Lottie, custom cursors, and any scroll or animation library.
+- **(floor)** Allow dotted-globe only by name as the global-reach effect, and never apply duotone-grade to a client's photograph.
+- **(floor)** Never use retired or renamed effect ids, treating mesh-gradient as gradient-mesh and iridescent-foil as fluted-glass, and keep riso-print, paper-texture, and liquid-chrome out entirely.
+- **(floor)** Use blend modes only for an effect-internal job like a glint and never on text, and never apply glass or frosted effects on any kind, using a flat 40 percent dim for menu curtains instead.
+- **(floor)** Never apply a print, dither, grade, or filter over a photograph on any page kind.
+- **(floor)** Never add a caption explaining a visual, use blinking or random effects, or use violet or lavender, and keep credits to the single footer line.
+- **(floor)** Keep third-party logos in their owner's colours and never recolour them.
+- **(floor)** Separate sections only with full-width ground changes or space, never rules, shadows, inner hairlines, or inset coloured boxes.
+- **(floor)** Ensure all text and interactive elements meet WCAG AA color contrast ratios.
+- **(floor)** Do not rely on color alone to convey information or state.
 - **(reflex)** Spend boldness in one place, keeping everything else quiet and disciplined, and cut decoration that does not serve the brief.
 - **(reflex)** Do not default to a warm cream background with high-contrast serif display and terracotta or warm-clay accents unless the brief explicitly requests that direction.
 - **(reflex)** Do not default to a near-black background with a single bright acid-green or vermilion accent unless the brief explicitly requests that direction.
 - **(reflex)** Do not default to identical rounded cards sharing one border-radius, a uniform soft grey shadow, and gradient washes as decoration unless the brief explicitly requests that direction.
 - **(reflex)** Do not apply template chrome such as tracked-out ALL-CAPS eyebrows above every heading, middle-dot meta strings, spaced-em-dash labels, tinted near-black stand-in blacks, monospace data labels, or trailing arrows on links and buttons unless the brief explicitly requests them.
 - **(reflex)** When the brief pins a visual direction, follow it exactly, including when it requests one of the generic default looks.
+- **(reflex)** Extract every hex/rgb/hsl/oklch literal and theme-color meta from fetched CSS, cluster to 3-6 values, and identify the primary and surface family.
+- **(reflex)** Anchor the accent conversion and page colours on the recorded spec primary rather than memory.
+- **(reflex)** Treat design.md and explicit user palettes as authoritative over the fetched brand spec.
+- **(reflex)** Order the comp prompt as first-viewport layout, idea, ground and accent colour words, display class, macrostructure, then a negative clause describing the category default.
+- **(reflex)** Build paper, ink, five to nine neutrals and one accent with tinted values, plus a focus colour on the accent hue.
+- **(reflex)** Keep the accent under 5% of viewport area under the default Restrained posture, using it only as a signal.
+- **(reflex)** Declare colour posture in the stamp and honour its surface and accent footprint rules.
+- **(reflex)** Treat dark mode as opt-in and derived, never as an inversion of light mode.
+- **(reflex)** Climb the surface ladder from whitespace to hairlines to tinted wells to cards, never combining white cards on tinted pages, cards in cards or bordered boxes inside wells.
+- **(reflex)** Use at most one shadow, keep elevated surfaces no darker than their canvas and assign one of eight z levels.
+- **(reflex)** Use one radius per level with concentric offsets and cap image radii by viewport width.
+- **(reflex)** Ensure the type carries the theme at the current size.
+- **(reflex)** On a theme build, make the first screen a finished composition of its own.
+- **(reflex)** Treat the theme file's prescribed blooms and control pair as authoritative over its picture.
+- **(reflex)** Treat low-frequency fibre or paper-tone washes as tints rather than specks, capping them at 0.12 page-wide and measuring contrast on the textured result.
+- **(reflex)** On dark grounds, force grain specks to white via the colour matrix while preserving the declared opacity.
+- **(reflex)** Apply grain only at 0.08 or below when the theme names it, on one plate, one accent card, or the whole page.
+- **(reflex)** Render halftone dots in ink or a single spot colour, never the accent at full field strength.
+- **(reflex)** Set misregistration offsets between 1 and 3px and derive echo colours from the theme's declared spot inks.
+- **(reflex)** Define --scanline as a page-local decorative token at low alpha and apply it through a fixed full-page overlay.
+- **(reflex)** Make elevation tokens progressively lighter than paper in dark mode, stepping +3% lightness per level.
+- **(reflex)** Re-space the lightness steps between ink and ink-2/muted/neutral so typographic depth reads evenly while preserving every chroma tint.
+- **(reflex)** Set --color-rule to roughly 26-34% lightness and verify hairlines survive against paper-2, not only paper.
+- **(reflex)** Reduce accent chroma by 0.02-0.04 and raise lightness by 5-10% so saturated light-mode accents do not glare on dark.
+- **(reflex)** Derive --color-focus from the accent and ensure its ring contrast is at least 3:1 against both paper levels.
+- **(reflex)** Always place paper-2 cards on paper so cards are lighter than the canvas.
+- **(reflex)** Render all headings in --color-ink and avoid per-heading color variety in dark mode.
+- **(reflex)** Re-derive chart marks like accents and build gridlines from the dark --color-rule.
+- **(reflex)** Use a single accent series for emphasis and keep every other series neutral.
+- **(reflex)** Allow a sparkline to fade-fill to transparent as the only sanctioned gradient near a chart.
+- **(reflex)** Render sparklines inside components without axes, gridlines, or a second color.
+- **(reflex)** Color a single series with the accent color.
+- **(reflex)** Color multiple series with a fixed-order lightness ramp on the accent hue and render context or reference series in the muted color.
+- **(reflex)** Keep all labels, values, and axis text in the ink or muted color and identify series with a swatch beside the label rather than colored text.
+- **(reflex)** Re-derive marks for dark mode by lowering chroma and raising lightness, use dark rule-color gridlines, and halve the fade-fill opacity.
+- **(reflex)** Make every large decision specific to this client, including its subject, place, materials, numbers, and the way its people talk.
+- **(reflex)** Build a visible system with a few widely spaced type sizes, one spacing rhythm, aligned edges, and one strong element per screen, removing anything that is not doing a job.
+- **(reflex)** Keep every road open on a custom page, including dark or light postures, one or many colors, type as picture or edge-to-edge photographs, and non-template structures.
+- **(reflex)** Grow the entire page from one client-specific idea that decides type, color, structure, motion, product presentation, and interaction from top to bottom.
+- **(reflex)** Declare color in OKLCH in any posture, with the accent contrast and focus unchanged.
+- **(reflex)** Check the accent against the catalog with theme.mjs check --hue or --axes once the axes are known.
+- **(reflex)** For Tailwind v4, put every color, font, text, tracking, radius, shadow, and ease token into a @theme static block so each becomes a utility and a usable CSS variable.
+- **(reflex)** For DTCG tokens.json, use path-based keys, a $type on every token, and OKLCH strings, converting to hex only when the pipeline cannot read OKLCH and noting the conversion is lossy.
+- **(reflex)** Point shadcn's CSS variables at Hallmark tokens via @theme inline.
+- **(reflex)** In shadcn projects keep Hallmark's --color-accent and --color-muted out of @theme, reach them through var(), or rename them and state the rename in handoff.
+- **(reflex)** When a theme and a shape, genre or craft file disagree on material, controls or motion, let the theme win while keeping the Floor and the user's words.
+- **(reflex)** Use one primary button style, one container width, one column gap below the hero, one radius per nesting level and never more centred heading groups than left-aligned ones.
+- **(reflex)** Tailwind projects must extend the theme rather than inline arbitrary values.
+- **(reflex)** Do not use zero-chroma neutrals on a page that has an anchor hue unless the build is modern-minimal; keep chroma at 0.005 or more.
+- **(reflex)** Do not let accent colour exceed roughly 5% of any viewport without a declared posture, and never exceed 8% in the render tier.
+- **(reflex)** Never place aurora, mesh blobs, floating blurred orbs, chromatic radial halos, spotlights, or coloured zero-offset glow shadows behind text.
+- **(reflex)** Never use a framework default palette (Tailwind indigo-500, violet-600, slate-900, etc.) as a token or utility; mix a colour for the page in OKLCH.
+- **(reflex)** Style field edges with the --color-muted token.
+- **(reflex)** Keep declared Committed, Full-palette, or Drenched postures moving colour into surface tokens and reject undeclared colour sprawl measured against the 1280x800 fold.
+- **(reflex)** Allow two fixed atmospheric blooms only when the canvas is the design; elsewhere derive depth from lightness steps and offset-blurred shadows.
+- **(reflex)** Refuse the most recognised generated looks on custom and unthemed builds unless the prompt explicitly requests them.
+- **(reflex)** Render the nav pill on a backdrop-blur surface, treating that as the single glass licence.
+- **(reflex)** Style pill controls with an accent fill.
+- **(reflex)** Elevate cards by lightness steps using --color-paper-2 and -3 instead of hairlines.
+- **(reflex)** Apply exactly one accent color and keep it consistent with the overall posture.
+- **(reflex)** Allow a single mark band positioned behind the x-height.
+- **(reflex)** Use thin visible borders instead of hairlines.
+- **(reflex)** Render pill controls as filled and outlined variants with an ink-filled primary beside an outlined secondary.
+- **(reflex)** Use pure white paper and zero-chroma neutrals with subtle surface borders.
+- **(reflex)** Apply a very subtle border and an 8px corner radius to refined surfaces.
+- **(reflex)** Keep the default palette soft and low-chroma unless a Full-palette or Drenched posture is declared.
+- **(reflex)** When a Full-palette or Drenched posture is declared, lift chroma to 0.24 across three or four named roles and assign each role a distinct job.
+- **(reflex)** Apply soft offset shadows and tinted alternating bands to reinforce the playful register.
+- **(reflex)** Permit a hard-offset shadow only when the theme declares it as material.
+- **(reflex)** Place text over a photograph's calmest part with a scrim from the theme's ink, ensuring at least 4.5 to 1 contrast and never centered white type over busy frames.
+- **(reflex)** Apply the theme's photo treatment to every slotted image, including the user's own, via CSS on the slot.
+- **(reflex)** Avoid duotone or tint treatments on pale subjects with little tonal range, choosing frames with tonal range instead.
+- **(reflex)** Use the theme's frame with its radius and an inset ink outline at 6 to 10 percent, and never combine a border with a wide shadow.
+- **(reflex)** Hover state must communicate through exactly one visual signal such as a colour step, a 1px lift, or a border step.
+- **(reflex)** Active state must show a 1px drop or one colour step darker during press.
+- **(reflex)** Separate FAQ pairs with either a hairline divider or a change of background with no rule.
+- **(reflex)** Use exactly one solid button block in the accent colour, positioned beside or under the declaration above the fold and repeated at the page foot as the final element.
+- **(reflex)** Insert hairline rules between rows of catalogue cards.
+- **(reflex)** Insert a rule between stages using the theme's rule weight, keeping the number in the heading and never on the rule itself.
+- **(reflex)** Place an outlined chip button below the text half.
+- **(reflex)** Separate rails with a hairline or a change of paper rather than a label band.
+- **(reflex)** Separate examples with hairlines and change the paper background per category.
+- **(reflex)** Pick one divider language for the page and vary its weight and placement by seam; never use the same rule at the same gap at every seam.
+- **(reflex)** Keep the six fingerprint choices coherent, drawn from the same design world.
+- **(reflex)** Set form inputs to 48px minimum height with focus-visible outlines and error border colors.
+- **(reflex)** Treat framework defaults and gate-named looks as non-brand and restyle or fully replace them.
+- **(reflex)** At restyle and full, build from the scaffold using the depth in the stamp and tokens filled from the pre-flight palette and faces.
+- **(reflex)** When restyling or redesigning more than one page, lock the system once the scaffold has run so pages share theme, type, and accent and differ only in shape.
+- **(reflex)** Verify every effect in the gallery across light, dark, and colour palettes before shipping.
+- **(reflex)** Without an explicit palette, print the scene in the page tokens on the ground of the box it sits in.
+- **(reflex)** Put the scene in a plain panel, never over a dealt effect ground, so it paints its own ground.
+- **(reflex)** On dark pages choose a dark or mid-tone photograph so a pale image does not render as a large light plate.
+- **(reflex)** After any palette switch, reapply the page palette to the print via the palette setter.
+- **(reflex)** The footer must not draw or color social icons.
+- **(reflex)** A footer-dark must not have a second dark section directly above it.
+- **(reflex)** One section may stand on a contrasting ground holding the strongest view, while the rest share one flat ground.
+- **(reflex)** Deal palettes by trade and take the first unless it clashes with the client's own colours.
+- **(reflex)** Ensure the accent passes 4.5:1 on its label and 3:1 on both grounds.
+- **(reflex)** Keep the interface 90 to 95 percent neutral with one near-black ink that is never #000.
+- **(reflex)** Keep real logos in their own full colours and never redraw or tint them.
+- **(reflex)** Use at most one accent from the client for the primary button, focus ring, links and state and keep it under 3 percent of the screen.
+- **(reflex)** Use only --g-main, --g-alt and --g-dark for grounds and reserve dark pages and dark heroes for tech.
+- **(reflex)** Set html data-radius to sharp, soft or round and apply the matching radius family to cards, panels, controls and buttons.
+- **(reflex)**  Link the client logo or the dealt mark as favicon.svg and set theme-color to the page ground.
+- **(reflex)** For place pages, lead with photographs, size them 12 to 20 on the full page, 8 to 12 compact, or under 8 on a three-screen short page, and deal the palette by trade.
+- **(reflex)** Use the deal commands to choose heroes, palettes, pairings, and moments from history, taking the first printed result unless it clashes with the client's logo or photographs, and never use violet.
+- **(reflex)** Derive --g-main from the client palette rather than a fixed off-white, and cover 55% of the page height or more (60% on software and product).
+- **(reflex)** Keep --g-alt within 20 degrees of --g-main's hue, 0.06 to 0.15 darker, and never below lightness 0.70.
+- **(reflex)** Limit --g-dark to lightness 0.05 or less, use at most one dark body section at the page's middle or later, and never place it right under the hero.
+- **(reflex)** Allow the brand band to replace the dark band at most once, in the second half of the page, on product and place pages.
+- **(reflex)** Keep saturated colour in accents and pictures, and never use a mid-tone section as the main ground.
+- **(reflex)** Apply paper to body and topglow around the nav and hero set without setting any ground tokens.
+- **(reflex)** Ensure the thirteen section grounds set the page tokens so cards and buttons work unchanged.
+- **(reflex)** Allow at most one loud ground per page.
+- **(reflex)** Place words on photo grounds over their calm, dark part, only in the hero and one closing band.
+- **(reflex)** Tune tints toward the accent and never toward violet.
+- **(reflex)** Draw tech grounds from the sixteen CSS grounds in assets/backgrounds without WebGL.
+- **(reflex)** Build gradients light first with four to six stops in one hue, then grain, and never use two-stop linear gradients as decoration.
+- **(reflex)** Add a static dither to every dark gradient.
+- **(reflex)** Use linear gradients only as an edge fade inside a visual, never as decoration.
+- **(reflex)** Treat a two-tone seam as a hard stop.
+- **(reflex)** Limit grid marks to one dark technical band, data panel or footer, never over text.
+- **(reflex)** Keep ground chroma under 0.12 and mix colours in OKLCH.
+- **(reflex)** Apply radius --r-lg (20 on soft, 18 on phone) and padding of 32px from 1024px, 28 below, and 24 on a phone, never under 24px, with 48px padding for a filled split panel.
+- **(reflex)** Render the title one line at the card-title token with weight 500, keep running card text at 16/24 in --c-text ink, cap text at 46ch, and reserve muted small text for labels only.
+- **(reflex)** Draw a 1px inner edge via ::after over the ground and over any fragment it cuts.
+- **(reflex)** Apply the vignette via ::before with --vx, --vy, and --calm-k, setting --calm-k to 0% on a lit ground and using the effect's own calm params.
+- **(reflex)** Use surface white on light and #1c1d20 on dark with a 1px border at 12% and radius 12, keeping the layered shadow only inside the panel.
+- **(reflex)** Make the primary button, active switches, and the product mark ink, and show the accent once per fragment on the element being worked on.
+- **(reflex)** Keep small inline marks beside text in the ink and never mix brand colours with ink marks.
+- **(reflex)** Use shader grounds only on tech pages with one card group per page, still, from the page's one effect family.
+- **(reflex)** Use one ground id per card group with a new data-fx-seed per panel, never the hero's effect id.
+- **(reflex)** Give each panel holding UI its own light data-fx-palette, identical across light and dark, that reads clearly lighter than the card on dark and darker than the white UI on light.
+- **(reflex)** Render a number filled with an effect via .knock with mix-blend-mode darken on dark and lighten on light, keeping the card fill exactly --card.
+- **(reflex)** Mount orb-sphere as the voice orb on dark surfaces and draw a CSS pearl with accent and ink turning inside on light surfaces, with the accent as only the thin ring.
+- **(reflex)** Add data-glow edge-glow to the one featured object with its own quiet accent hairline, running a light round the edge on hover or focus for about 4.6s and then fading.
+- **(reflex)** Render small grey card text at 15px in a muted color.
+- **(reflex)** Let icons.mjs bake colour marks, text-colour violet marks, ink marks, and 2:1 wordmark pills into data-ic rather than computing them at runtime.
+- **(reflex)** Restrict accent colour to the light and what it reaches, use hairline lines, and make the core an ink tile.
+- **(reflex)** Set ground by layout default (rings around a hub, none under an orbit/timeline/sync, dots for flows) and add glow when the diagram leads a section.
+- **(reflex)** Render tool marks in their own colours and never as a letter inside a circle, and make a core without an icon a pill containing its name.
+- **(reflex)** Use at most one lit border per page, provided by fx-prompt or fx-pricing.
+- **(reflex)** Name each feature-card landscape scene via data-cx-scene and composition via data-cx-params so no two panels look identical, using day, dusk, meadow, or grain-gradient.
+- **(reflex)** Use painterly-landscape with a scene or grain-gradient for feature-card panels, and ruled-grounds only for technical panels that hold no UI.
+- **(reflex)** Use still low-contrast grain-gradient inside chips, pills, and bars, and never silk, glass, or metal sheen there.
+- **(reflex)** Give a button's fill an even, low-contrast grain that moves only while pointed at, with no blobs that settle at one end.
+- **(reflex)** Reserve natural colour for the meadow landscape, the gold horizon of dusk, and the map's water and parks, and never use violet or lavender.
+- **(reflex)** Pass palette tokens to objects and call setPalette(null) after every theme switch.
+- **(reflex)** Allow one card group to hold still grounds from the effect's family, but never a second live effect, and use the lit ground when a big scene is present.
+- **(reflex)** Use quiet grounds to hold UI and focal grounds to stand alone in the hero, and never place content over a noise or fog ground.
+- **(reflex)** Ban violet and lavender only for the page's own palette, never for a third-party logo.
+- **(reflex)** Use one-colour mono marks in rows of customer logos, footer social links, and where no colour version exists.
+- **(reflex)** Apply ic-ink to black marks so icon.css turns them white on a dark background.
+- **(reflex)** Keep each logo's own proportions and colours intact.
+- **(reflex)** Every moment must consume the page tokens (--bg, --ink, --muted, --accent, --line, and the display face).
+- **(reflex)** Use a --g-alt fill while images load.
+- **(reflex)** Set the theme-color meta tag to match the page background.
+- **(reflex)** Set explicit background-color and color on native select elements for Windows dark mode.
+- **(reflex)** Increase contrast for hover, active, and focus states relative to the rest state.
+- **(reflex)** Use semantic color tokens rather than hardcoded hex values in styles.
+- **(reflex)** Do not hardcode colors directly in markup or component files.
+- **(reflex)** Maintain consistent visual variants across reused components.
+- **(reflex)** Indicate disabled state through both color and another visual cue.
+- **(reflex)** Do not underline links by default; use color and spacing to distinguish them.
+- **(finish)** Apply ::selection, caret-color, and scrollbar-color on pages with a committed palette.
+- **(finish)** Permit a solid pill as chrome since it does not fight the register.
+- **(finish)** Separate list rows with hairline rules or paper bands instead of heavy dividers.

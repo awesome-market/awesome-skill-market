@@ -20,7 +20,7 @@ ai_explanation: Rule A requires each photograph's credit printed on its own line
 suggestion:
   kind: merge
   note: Omit captions. Show exactly one footer credit line that opens the credits list (instead of one link per photograph). Populate the list via data-credits / the credits helper, listing each photograph's credit on its own line and naming each once.
-issue_url: null
+issue_url: https://github.com/terry2010/skill-fusion/issues/9
 evidence_files:
   - option-a.png
   - option-b.png

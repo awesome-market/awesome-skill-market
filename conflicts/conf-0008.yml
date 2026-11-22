@@ -20,7 +20,7 @@ ai_explanation: Rule A prohibits all text on the product, while Rule B permits b
 suggestion:
   kind: scope-split
   note: A applies to physical product rendering (no text or logos on the product); B applies to web/digital body copy (allowed, just not all caps).
-issue_url: null
+issue_url: https://github.com/terry2010/skill-fusion/issues/8
 evidence_files:
   - option-a.png
   - option-b.png

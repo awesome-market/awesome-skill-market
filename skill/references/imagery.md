@@ -1,3 +1,478 @@
 # imagery
 
+- **(floor)** A sample section must never state a fact a visitor could take as true, such as a price, date, person's name, count, or review.
+- **(floor)** Reference the brand's own media page or Simple Icons for the logo; never hotlink unrelated sites or redraw a real mark.
+- **(floor)** Never assign a CSS gradient or layered background to any region the comp rendered as material, grain, photography, or depth.
+- **(floor)** Assign a raster medium only when the region has a real source asset, library photograph, or generated still.
+- **(floor)** Only fire image generation when the key is set and the user asked for generated images or the library cannot reach the subject.
+- **(floor)** Never auto-fire image generation.
+- **(floor)** Ship the hero visual as the real thing, keep its accent footprint small, stay under 2 MB and provide a reduced-motion fallback.
+- **(floor)** Use a real photograph when the product or photograph is appropriate; use an effect, drawing, or empty box when that is appropriate. Flag a placeholder where a real product/photograph should appear, and flag a real product/photograph where a placeholder/effect/drawing should appear.
+- **(floor)** Avoid template signatures such as centered stacks, pills or labels above the headline, gradient blobs, empty colored boxes, drawn illustrations, counting marks, two filled buttons side by side, grey bars, or outline cards inside slots.
+- **(floor)** Use exactly one texture artifact family per page, allowing grain and its matching misregistration only when they originate from the same print lineage.
+- **(floor)** Render the retro signal as atmosphere only and never draw a monitor bezel or literal screen frame.
+- **(floor)** Never apply CSS invert or brightness to raster images in dark mode; choose dark-friendly photographs or set light images in a paper-2 well.
+- **(floor)** Never paint the subject on with paper, grain, a stamp, a dial, a knob, bevels, an engraving, or a drawing of the thing.
+- **(floor)** Never invent metrics, testimonials, logo walls or case-study counts.
+- **(floor)** Never use a purple-to-blue gradient, a card inside a card, an emoji as an icon or a hand-drawn browser or OS window.
+- **(floor)** For app screens, skip all marketing rules: no shape, no hero, no fold, no screen word budget, no section rhythm, no stand-in photographs, and no reveal on load.
+- **(floor)** Use only the product's own figures; never add icon tiles, gradients, or trend arrows nobody measured.
+- **(floor)** Never use drawn SVG or CSS illustrations as filler.
+- **(floor)** Never use grain or noise washes as ambience unless the theme earns a budgeted recipe.
+- **(floor)** Never invent metrics, testimonials, logo walls, or case-study counts; use the user's number, a text slot, or nothing.
+- **(floor)** Never draw a hand-built browser bar or OS title bar; use a real screenshot in a figure or no chrome.
+- **(floor)** Autoplay videos must be muted, looped, and playsinline; mark LCP images with fetchpriority=high and preload LCP video posters.
+- **(floor)** Give every decorative SVG, canvas, or CSS-art element aria-hidden=true or an accessible label.
+- **(floor)** Ensure every img has a working source, credit library photos in the footer, and never hotlink free stock photos.
+- **(floor)** Never use fake-human avatar hotlinks or person-keyword stock URLs.
+- **(floor)** Exclude drop caps, fleurons, and ornament.
+- **(floor)** Allow emoji only inside a sentence, never as an ornament or as an icon.
+- **(floor)** Never use Comic-style faces.
+- **(floor)** Keep numbers, names and claims in type and never let a photograph stand in for a fact, customer, teammate or testimonial.
+- **(floor)** Use only photographs printed by the library script or supplied by the user, never memory-derived URLs or stock-site images.
+- **(floor)** Ensure every slot shows the user's image, a library photograph, or the fully built product, never only its wash.
+- **(floor)** Never show visible placeholder labels, ratio notes or sample chips; carry that information in data-alt and the handoff.
+- **(floor)** Never build a mock of a product the build could have captured.
+- **(floor)** Never draw illustrations of objects, plants, animals, people, products, buildings, landscapes or scenes past icon size with SVG or CSS.
+- **(floor)** Never leave an empty picture as only a wash or a gradient field where a picture belongs.
+- **(floor)** Never use rows or grids of identical marks to represent quantities; set the number in type instead.
+- **(floor)** Never use illustration packs, mascots, 3D blobs, isometric scenes, mesh orbs, auroras behind text, stock faces as proof, invented logo walls, hover zoom or rotation, baked text in images, or photos of other interfaces.
+- **(floor)** Give every body visual mass: a 360px-tall-or-greater visual, three-to-four across items, three-plus-row list or table, working control, or a statement at section size or larger.
+- **(floor)** Never leave empty grid frames, stock faces for people, or icon tiles over headings.
+- **(floor)** Crop images tightly inside their individual blocks and never let them full-bleed.
+- **(floor)** Every figure must be the user's own value, include its unit, and cite its source.
+- **(floor)** Do not invent or fabricate any numeric figure on the page.
+- **(floor)** Until the user supplies a real capture, render the product built via a data-slot as specified in imagery.md section 4.
+- **(floor)** Exclude all browser and device chrome from captures.
+- **(floor)** Use full-bleed edge-to-edge photographs as the dominant visual element on the page.
+- **(floor)** Keep all text small and subordinate to the photographs rather than using large display typography.
+- **(floor)** Never center display typography over photographs.
+- **(floor)** Never let two consecutive sections both lead with photographs.
+- **(floor)** Show a specimen thumbnail or colour swatch per card when images exist, otherwise a library photograph or a type-set card with the name, one fact, price, and colour swatch, never empty frames.
+- **(floor)** Omit hero images and narrative flow, treating the page as a pure list of links.
+- **(floor)** Include one real capture per stage inside a <figure> or slot, and never use a slot per stage when there is one screen or none.
+- **(floor)** Populate the scrolling column with real captures or product-built slots rather than empty frames.
+- **(floor)** Treat interactive previews as imagery and show at most one product render per page, with photographs restricted to at most one band per page.
+- **(floor)** Only include material cards (hero visual, logo row, three features, testimonials) when the user supplied the exact material named by the Picks block.
+- **(floor)** Never invent customer marks or a 'Trusted by' line when no logo row material was supplied.
+- **(floor)** Do not render styled-div UI outside a data-slot when no hero capture was supplied; use a product built in a data-slot or a typographic hero.
+- **(floor)** Provide srcset with multiple widths, sizes, explicit width/height attributes, high fetchpriority, and alt text on hero images.
+- **(floor)** Carry over every fact, claim, name, price, date, quote, figure, and logo from the existing page exactly as found, adding nothing the page did not already state.
+- **(floor)** Always let the client's own photographs and screenshots lead; an object never takes their place.
+- **(floor)** Ship only the client's own photographs in scenes, never the demo test pictures.
+- **(floor)** Draw a generic thing with product-turntable, never the client's own product.
+- **(floor)** The print must read the largest srcset size of the embedded image and preserve its alt text and object-position.
+- **(floor)** A close-photo must never place words over its photograph.
+- **(floor)** A close-photo must not reuse the hero's photograph.
+- **(floor)** Do not use the product render for any product that already has photographs.
+- **(floor)** A footer-visit must not embed a map.
+- **(floor)** A gaming page must never show UI fragments, dashboards, or widgets.
+- **(floor)** A product with no 3D brief must never default to a 3D render.
+- **(floor)** Every section must show a real visual such as a photograph, portrait, real icon, client UI, diagram card, or tech effect.
+- **(floor)** Allow a picture-less section only for a price list, FAQ, specs table, booking form, or a single dealt statement moment, and never place two picture-less sections as neighbours.
+- **(floor)** A quote must show a face or merge into the section above it.
+- **(floor)** A picture must occupy at least half a tile, a 50/50 split, or a whole screen layer.
+- **(floor)** The close must be its own picture, a photograph, the big button, or the name set wide.
+- **(floor)** A whole object may lead the hero and appear in at most two additional sections.
+- **(floor)** Write each plan line's visual kind and keep at most three object lines.
+- **(floor)** A use photograph counts as use only when its setting fills half the frame or more.
+- **(floor)** Give every client-supplied asset such as a trailer, key art, screenshots, CAD render, exploded model, or motion video a finished slot with a stand-in and a named comment, never an empty or broken frame.
+- **(floor)** Show proof only as small exact objects from the brief, such as a named quote with a face, footnoted figure, press lines, rating line, or real customer logos with permission.
+- **(floor)** Never ship a row of big stat numbers, filler stat strips, check-icon lists, or a customer-logo wall.
+- **(floor)** Only render physical products that exist as a model or are requested by a 3D/render brief.
+- **(floor)** Never render a product of another kind than the spec supports.
+- **(floor)** Never show stock people at screens, an object render in place of the product, or a page whose product shows only as small fragments centred on coloured panels.
+- **(floor)** The gaming hero must name the game and genre in the h1 or wordmark, with launch date or status from the brief.
+- **(floor)** Key art, key frames, and in-engine shots must appear full bleed in the hero and world sections under one grade.
+- **(floor)** The world and crew carry the page, with the hero object whole in the hero and two more sections at most.
+- **(floor)** With no art files, make the hero type-led over a photograph of the game's setting, never an effect or random object.
+- **(floor)** Every stand-in frame must be listed in the report with the art to replace it.
+- **(floor)** Use real Steam, PlayStation, and Epic marks, and name Xbox and Nintendo in type, never draw their marks.
+- **(floor)** Never ship an abstract effect, pattern, or statement hero in place of key art on a gaming page.
+- **(floor)** The product must be the hero, not every frame, filling its frame at large scale in the hero and at least one more section.
+- **(floor)** Show the whole product in at most three sections, with a different picture in every section.
+- **(floor)** Every headline promise must be shown in a picture, or the promise must be cut.
+- **(floor)** Every offered colour must be shown at least once on the page, swapping the product picture per swatch.
+- **(floor)** Stand-in photographs must show the same kind of thing whole or in use, with no readable maker name, logo, or passed-off face.
+- **(floor)** Use a render only when the brief asks for 3D or a render, composed from a short JSON spec of the product's own parts.
+- **(floor)** Never call a thing a render, model, or illustration in the heading or text.
+- **(floor)** Never ship a photograph of another maker's product, a drawn SVG, mood stock, or an object of another kind.
+- **(floor)** Never use stock handshake photographs.
+- **(floor)** Never use logos of invented clients.
+- **(floor)** On a place page never use effects, WebGL, canvas, CSS gradients, grain, glass, print, scenes, loops, counts, UI fragments, diagrams, feature or plan cards, tabs, accordions, switches, logo rows, timelines, fact strips, calendar cards, maps of streets not given by the brief, ratings, reviews, figures or quotes not given by the brief, words on photographs, rounded or filtered photographs, see-through or blurred navigation, outline/pale/blurred/rotated display type, SaaS furniture, or dark sections except the single brand band.
+- **(floor)** Put no words on any photograph.
+- **(floor)** Put no names under photographs.
+- **(floor)** Never use mood stock, code ground, drawing, empty box, or note imagery.
+- **(floor)** Show the product's own subject in the product UI section and never a stand-in fragment.
+- **(floor)** Keep every word as live text sized to fit and never bake text into images.
+- **(floor)** Put words on photographs only in the hero and one closing band on allowed pages over a calm dark crop or solid box without a scrim.
+- **(floor)** Every promise stated in a headline must be shown in a picture.
+- **(floor)** Remove every bracketed placeholder or sample tag from visible text and fix visuals that fail to draw.
+- **(floor)** Set alt on content photographs, alt empty on decorative ones and role img with aria-label on drawn mocks.
+- **(floor)** Never place a caption or description under any image, render, or visual, and put licence credits in a single footer line.
+- **(floor)** Ensure every visual renders fully, with no empty ground, across 1440, 1024, 768, and 390 pixel widths.
+- **(floor)** Reserve big award-site scenes, creative moments, shader effects, scenes, loops, counts, CSS grounds, dark pages, and dark heroes for tech pages only, while giving non-tech pages photographs, flat color, type, real icons, the hero entrance, and dealt moments.
+- **(floor)** Keep place pages effect-free with flat grounds, square photographs, one button style, a phone bar, list text at 16px, and no diagrams, grounds, loops, fragments, or tabs.
+- **(floor)** On every product page, show the product big where it stands whole, use a different picture in each section, picture every headline promise, change the swatch to change the picture, show every color once, never repeat a fact, and make buttons step and press.
+- **(floor)** The first screen must state what is sold, who it is for or where it applies, and include one hard fact, with the hero filling the screen alone at every width and its main button inside it.
+- **(floor)** No caption may explain, apologise for, or label a picture, and credits must live in a single footer line.
+- **(floor)** Effects must match the project kind: outside tech, use only dealt photo- or type-led moments, and reserve WebGL for a product render the brief explicitly asked for.
+- **(floor)** The product must be shown big and whole across at most three sections, with a new picture each, and every named asset must occupy its own slot.
+- **(floor)** Use real photographs where they fit and never reuse an asset twice, use real icons in their own colours, and use flat grounds elsewhere.
+- **(floor)** Never pass stock photographs off as the client's product, people, or place, and never show a stand-in with another maker's name or logo.
+- **(floor)** A product page must actually show the product.
+- **(floor)** Never draw a look-alike of a real logo.
+- **(floor)** Never invent reviews, quotes, customers, or figures.
+- **(floor)** Never copy a reference site's code, copy, pictures, or signature effect.
+- **(floor)** Do not render transparent glass.
+- **(floor)** Do not render cloth that drapes.
+- **(floor)** Do not render freeform organic shells such as shoes, faces, or car bodies.
+- **(floor)** Show the product's own subject as real UI at true size with real data and marks, never a generic dashboard, chat, or stat card standing in for it.
+- **(floor)** Use glyph marks only and never a wordmark at tile size.
+- **(floor)** Place a soft field such as painterly-landscape, grain-gradient, gradient-mesh, or silk-folds behind a fragment, and never a pattern that fights the UI.
+- **(floor)** Never put a pattern behind a window or a list.
+- **(floor)** Never put the accent on every chip, date, and keyword, mix brand colours with ink marks, or ship glossy 3D blobs.
+- **(floor)** Include only proof the brief gives: verbatim quotes with name and role or town, sourced figures and showable customer logos.
+- **(floor)** Never invent reviews, ratings, counts, quotes, statistics, names, portraits, awards, press lines, or products.
+- **(floor)** Put no caption, label, description, name, price, link line, or hashtag under or on any visual.
+- **(floor)** On gaming pages, show a system of the game rather than replacing the game's own pictures.
+- **(floor)** Run the icon resolver as the final step and never rely on CDNs, runtime tinting, or Simple Icons calls at runtime.
+- **(floor)** Ship only pages with no missing-icon console line, meaning every named icon exists in assets/icons.
+- **(floor)** Use fx-dither-object only for a product the page actually sells, on a tech page, with one per page and no caption under the stage.
+- **(floor)** Never dither, halftone, or print a photograph; dithering is reserved for code-drawn objects only.
+- **(floor)** Ship no map when there is no build-time network or no street the brief gives, showing the visit's photograph instead.
+- **(floor)** Show the client's photograph in its natural colour with no halftone, dither, dissolve, print, duotone, or blur applied.
+- **(floor)** Use a plain accent fade under a line or still ruled-grounds inside data, never an effect that draws its own grid or moving traces, and never halftone-screen in a chart area.
+- **(floor)** Replace every number, name, and stand-in photograph with the client's own, leaving out any figure the brief does not give and never inventing or tagging anything as sample.
+- **(floor)** Omit all objects, prints and scenes on place, service and site-kind-other pages, letting plain photographs lead.
+- **(floor)** Show photographs first for any physical product without a 3D or render request, using client, cut-out or CAD-supplied or stand-in photographs.
+- **(floor)** Only render a product when the brief explicitly asks for 3D or a render, and keep it as the product's own picture rather than an effect.
+- **(floor)** Never present a render as an object of another kind, a drawn SVG, loose primitives, mood stock or another maker's product.
+- **(floor)** Keep photo prints and photo scenes inside the kit gallery and never print, dither or grade a photograph on a page.
+- **(floor)** Never place an effect over the hero photograph or in place of the client's photographs.
+- **(floor)** Use client photographs or renders for text, logos, transparent glass, draping cloth, freeform organic shells and anything thinner than a texel.
+- **(floor)** Never place an effect where the product, device, or game world should appear, and always use real UI captures or real photographs for every other visual.
+- **(floor)** Never apply a print, dither, grade, or filter over a photograph on any page kind.
+- **(floor)** Take only the generic idea from a site's code, assets, or signature device, and rebuild it from the skill's own scenes and moments with the client's content.
+- **(floor)** Use the real, correctly coloured logo or file-type icon whenever one exists instead of drawing a look-alike or a generic glyph.
+- **(floor)** Never place a letter inside a circle or a generic page glyph where a real brand or file icon exists.
+- **(floor)** Design a fictional client's own mark rather than borrowing an existing one.
+- **(floor)** Do not use the dropped brands set; brands: ids must fail with an explanatory message.
+- **(floor)** Name only tools the product genuinely works with and never imply endorsement by a third-party mark.
+- **(floor)** Name Xbox and Nintendo consoles in type instead of drawing a mark, since no permitted set contains them.
+- **(floor)** Keep third-party logos in their owner's colours and never recolour them.
+- **(floor)** Make the hero exactly the first screen at 100svh with --h:1 and --hm:1, padded so content ends by y 836 at 1440x900, and ensure nothing of the next section shows at every width.
+- **(floor)** Place the h1 first, an optional notice line, a sub-line, at most two buttons, and the picture inside .wrap > .hero-text, with one plain claim, no caption, no second float card, and no three button styles.
+- **(floor)** Keep every hero picture inside the hero frame, ending by H - 24, and never let the fold slice a picture or leave half a picture under the text.
+- **(floor)** At 768 and 820, stack the hero split as words then picture, ending on a whole element or a deliberate large-picture bleed, and never let the fold slice a custom wrapper.
+- **(floor)** Use only full-bleed stills, whole products on stages, inset frames, or statements followed by work in heroes, and never sliders, crossfades, entry gates, loaders, or entrance animations that hide words.
+- **(floor)** Make hero pictures the client's actual product, place, or work, never colour fields or mood shots.
+- **(floor)** Deal every place page one full-bleed daylight photograph of the place under the header with nothing on it and the words on the ground below, entering once on load.
+- **(floor)** On place, product, and service pages, carry the moment with the client's own photographs (each used once) and the page's real copy, never stand-in images.
+- **(floor)** Wrap every leading photograph in an <a class="m-zoom"> around its <img>, or place img.frame__img inside a linked frame.
+- **(floor)** Keep shaders and WebGL effects off place, product and service pages; those pages get photographs only.
+- **(floor)** Keep each WebGL piece's still when its shader fails.
+- **(floor)** Set explicit width and height (or aspect-ratio) on every image to prevent layout shift.
+- **(floor)** Render below-fold photos as img elements, never as CSS backgrounds.
+- **(floor)** Give every picture slot a real src, width and height so no visual shows only its ground.
+- **(floor)** Lead every screen with two or three of the client's own photographs, the real software interface, or the game's own art, never a random object or effect in place of the subject.
+- **(floor)** A game must lead with its own key art, in-engine shots, or trailer poster, never library frames, and only set its name over a live-search stand-in photograph of its setting when no art files exist.
+- **(floor)** A physical product without its own photographs must be shown via the client's images, stand-ins, or a 3D render only when the brief explicitly requests it, never via mood stock.
+- **(floor)** Every img element must carry data-source and data-subject attributes describing the image origin and subject.
+- **(floor)** Library photographs must only fill detail slots such as hands, tools, materials, or processes, never the hero, a room, a shopfront, a product, or a person.
+- **(floor)** Library photographs must never exceed one third of the page's total pictures unless the draft path explicitly lifts the cap.
+- **(floor)** Only library frames rated 7 or higher, with no whole figures, animals, vehicles, landmarks, or mood-only content, may be dealt to the page.
+- **(floor)** Frames marked weak in photos.json, including whole rooms, lounges, or breakfast rooms, must never be dealt to the page.
+- **(floor)** Trades with few available frames must not exceed the number of frames their trade holds, with the remainder filled by client photographs, the object, UI, or type.
+- **(floor)** Every stand-in photograph must be listed in the report with the client photograph to replace it, while nothing on the page itself indicates the image is a stand-in.
+- **(floor)** A photograph must never occupy a slot where the real interface, type, or a product render would appropriately appear.
+- **(floor)** Place pages must use only 4:5, 4:3, and 1:1 ratios, with other page types adding 3:2, and maintain one ratio per row with equal-sized frames.
+- **(floor)** Maintain one light, one grade, and one register across all photographs on a page, never mixing studio black with daylight or different photographers' grades.
+- **(floor)** Never display the same photograph twice on a page, including smaller files, crops, or mirrors of an existing frame, nor three near-identical frames.
+- **(floor)** A place hero must be a full-bleed top photograph with nothing overlaid and words placed below it, while software and product heroes must end inside the screen.
+- **(floor)** Text must never appear on place photographs, and elsewhere only on the hero and one closing band over a calm, empty, dark or light area, a solid box, or off the photograph, with no scrim, gradient, fade, or blur.
+- **(floor)** Every full-bleed photograph carrying words must include a 390px mobile crop keeping the subject inside the middle 342px via a picture element.
+- **(floor)** Hero images must use sizes="100vw", fetchpriority="high", and eager loading, with a 4:5 phone crop in a picture element, never a vh term.
+- **(floor)** All non-hero images must be loading="lazy", decoding="async", with explicit width, height, and sizes attributes matching the shown width.
+- **(floor)** Every photograph must be visible from the first paint, never hidden behind opacity 0, scroll reveals, print styles, or load-time dissolves, masks, or clips.
+- **(floor)** Cut-outs must only depict the client's own subject on the page ground or one backdrop, with no drop shadows, never stock imagery, people, or buildings.
+- **(floor)** Never substitute a video for a photograph.
+- **(floor)** Capture photographs at 1440, 1024, 768 and 390 pixels and inspect every frame for empty, blank, grey or half-loaded areas.
+- **(floor)** Apply no print, grading, effect, halftone, dither, duotone, engraving, grain, glitch, filter or blend mode to any photograph, and never cover more than half of a photograph with a canvas.
+- **(floor)** Reserve the single allowed print effect for a non-photograph ground on a technology page.
+- **(floor)** Apply no tilt, rotation, Ken Burns effect at rest, or opacity change to a place photograph.
+- **(floor)** Place no caption, label or description under or on any picture.
+- **(floor)** Omit any credit, sample or example note from the interface.
+- **(floor)** Never show another business's identifiable room, counter, sign, cup, bag or product as the client's.
+- **(floor)** Never show a machine bearing its maker's name.
+- **(floor)** Never show a named bar's whole room.
+- **(floor)** Use only hands, backs and out-of-frame faces from the library, never faces as staff, guests or customers.
+- **(floor)** Never show another place's coast, street or landmark as the client's, nor a lone house on a hotel page.
+- **(floor)** Avoid trade stock shots such as top-down latte art, beans filling the frame, the croissant-and-cappuccino still life, a made bed, flour on black or a whole figure.
+- **(floor)** Exclude mood stock elements like curtains, plant shadows, skies, grass, forests, fog, auroras and waterfalls.
+- **(floor)** Keep animals and vehicles out of the frame.
+- **(floor)** Avoid recognisable viewpoints.
+- **(floor)** Prohibit AI images, composites and Street View.
+- **(floor)** Never use a gradient, grain, pattern or shader to stand in for a photograph.
+- **(floor)** Inspect live search results at full size before use, removing any readable business name or logo and adding stand-ins to the report.
+- **(floor)** Only build a scene when the brief supplies its own photographs, screen, and words, never as a stand-in for the client's pictures.
+- **(floor)** Draw WebGL renders of objects from the client's own trade in the two object scenes, never an object from another trade.
+- **(floor)** Ship only the client's own words, pictures, and objects in every scene and credit photographs in the footer line, marking adapted for crops beyond their frame.
+- **(floor)** Show product, service, and place frames on flat colour with photographs and never with a code ground.
+- **(floor)** Never put a caption, name, price, or link line under a bare picture, and keep a sold item's name and price inside its card's padding.
+- **(floor)** Keep window heroes to at most two pieces, never tilted or scaled, never the kit's sample text, and never a lone fragment floating in the middle of the frame.
+- **(floor)** Use drawings only as dimension figures beside a product's specs on a page that already shows photographs, never as the hero or the only picture, and never on hardware pages.
+- **(floor)** Show only real customer logos up to six at 28px tall in full colour, still and unmarqued, on software and product pages only.
+- **(floor)** Show a product or service frame with the photograph of the part or work named by the text, never with UI.
+- **(floor)** Always top-align text and its adjacent frame, and never use a four-line h2, an image that contradicts the text, a button pair where one link belongs, or a second split on the opposite side.
+- **(floor)** Bleed one photograph across the screen as the section layer with a headline on its calm dark part, never two bands, words over the subject, or the hero photo again.
+- **(floor)** Give every peek-list row its own photograph, keep it to six rows, and never put the list on the right.
+- **(floor)** Use real full-colour icons from icons.mjs fetch, support only tools the product integrates with, and cap cards at five tiles.
+- **(floor)** Open every client slot with a searchable comment naming the file, ratio, and stand-in, and never use mood stock, drawings, or empty frames.
+- **(floor)** Provide a real or absent play control, a stand-in poster that reads as the film's first frame, and no dead control bar or missing source.
+- **(floor)** Never leave a media slot empty, greyed, blacked, or captioned as pending.
+- **(floor)** Every <source> must point to an existing file.
+- **(floor)** Do not use a single stand-in photograph across every slot.
+- **(floor)** When the brief does not ask for 3D, never emit a data-product-fill over 1 or a 3D render.
+- **(floor)** Every img must have alt text or alt empty string for decorative images.
 - **(reflex)** Open the page with the single most characteristic element of the subject in the most appropriate form, rather than the default big-number-and-gradient treatment.
+- **(reflex)** When type functions as a headline or visual element, treat the chosen typeface and its treatment as the primary/active design element rather than a neutral carrier or afterthought.
+- **(reflex)** Show the actual product or offering in the hero (the room, cover, dates, or screen) rather than a generic element.
+- **(reflex)** When the prompt gives no content for a section, build it as a clearly marked sample the user replaces, showing the shape of the real thing.
+- **(reflex)** For a try job, show features as named moments captured from the product, not icon tiles.
+- **(reflex)** For a join job, show people only in the prompt's own pictures.
+- **(reflex)** Write generated-still prompts as photographer prompts with one subject, place, light, and lens and no on-camera people or text.
+- **(reflex)** Inspect every generated still and discard results with malformed anatomy, doubled furniture, or melted labels.
+- **(reflex)** Provide srcset with width descriptors, use picture for different crops, set width and height attributes on every image, and apply loading lazy below the fold while never lazy-loading the LCP element.
+- **(reflex)** Treat the theme's picture as the bar for finish, never as a model to copy.
+- **(reflex)** Where the theme file and its picture disagree, let the theme file win over its picture.
+- **(reflex)** Center the content in the screen and place a real visual beside the text that occupies at least 60 percent of the screen height.
+- **(reflex)** Place the page's strongest real element on the first screen.
+- **(reflex)** Ensure the visual is strong and large enough that the screen still communicates the same message without it.
+- **(reflex)** On a theme build, make the first screen a finished composition of its own.
+- **(reflex)** On custom theme runs, evaluate whether the screen matches what a model would produce for the prompt rather than checking centering, beside-the-text, or 60 percent rules.
+- **(reflex)** Show testimonials only when supplied, bottom-align attribution and use real avatars or none.
+- **(reflex)** Use empty alt when the subject is named beside the image and split footer logo rows evenly.
+- **(reflex)** Design a complete, client-specific page that a design lead would bring to a client who rejected every template, rather than a generic good page.
+- **(reflex)** Use photographs only when the subject has something to show, keeping them few, large, credited, and never as a wall.
+- **(reflex)** For software, show the product itself built and working rather than abstract imagery.
+- **(reflex)** Delete every picture that is not carrying a fact, since a picture for mood alone must go.
+- **(reflex)** When the product cannot run, state so in one line, capture only what renders, and build the rest of the product in HTML.
+- **(reflex)** Never use a stock-site URL, a drawn illustration, an empty wash, a row of counting marks or an invented figure.
+- **(reflex)** Limit pictures below the hero to at most a third of the page and never place two photograph-led sections in a row.
+- **(reflex)** Deliver the product's signature object, such as the ledger, timeline, or queue, rather than a greeting above stat cards.
+- **(reflex)** Never place aurora, mesh blobs, floating blurred orbs, chromatic radial halos, spotlights, or coloured zero-offset glow shadows behind text.
+- **(reflex)** Do not draw inline SVG or CSS objects past icon size; use a library photograph, the built product, or type at scale.
+- **(reflex)** Never leave a data-slot or gradient block larger than 300x200px showing only its wash; use the user's image, a library photograph, or the product at full fidelity.
+- **(reflex)** Do not render 24 or more identical marks standing for a quantity; set the number in type unless the marks form a chart differing in value or colour.
+- **(reflex)** Keep photographs below about a third of the page at 1440 (45% on Photographic or Portfolio Grid shapes); carry the rest in type, figures, the product, or a table.
+- **(reflex)** Do not show a built mock of a reachable product or a drawn interface where a screenshot belonged; capture the running product with capture.mjs or the OS and frame it in the theme.
+- **(reflex)** Do not use a bare figure as the hero's only headline unless it is user-supplied and labelled; pair it with the line that says what it means.
+- **(reflex)** Allow a phone, laptop, terminal, or editor frame only if it holds one frame of real content; otherwise use one frame or none.
+- **(reflex)** Do not fake product UI with styled divs outside a data-slot, many-vertex clip-paths, CSS bevels, embossing, or empty decorative grids; use the product in a slot, a real asset, or nothing.
+- **(reflex)** Delete rotated vertical text, scroll cues, version or BETA pills, weather/locale strips, mono-caps strips, credit captions under stand-ins, and 01/4 tile counts unless the prompt is a launch, venue, or distributed studio and the text is a fact.
+- **(reflex)** Add poster and priority hints to videos below the fold that are not the LCP.
+- **(reflex)** Allow geometry as a first-class medium but forbid styled dashboards with invented figures standing as proof.
+- **(reflex)** Set wireframe frames in type and reserve slots holding library photographs or built products.
+- **(reflex)** Replace drawings, coloured placeholder boxes, and counted mark rows with real photographs, built products, or large-set numbers.
+- **(reflex)** Keep only fact-carrying photographs set big and build interstitial sections from the theme material.
+- **(reflex)** Show captures of existing products and reserve built mocks only for unbuilt products, naming later screens in the handoff.
+- **(reflex)** Display photographs in the theme's treatment and caption them with factual details.
+- **(reflex)** Display wide product visuals rather than narrow or cropped imagery.
+- **(reflex)** Permit a single character moment as the only decorative animated element.
+- **(reflex)** Prefer the user's own media, then real product screenshots, then the built product, then library photographs, then generated stills, then full-scale type, in that order.
+- **(reflex)** Make the hero photograph the largest element on the first screen, either full-bleed behind the headline or beside it at 60 to 75 percent of screen height.
+- **(reflex)** Preserve the printed srcset, set sizes to the layout width, and crop with aspect-ratio, object-fit cover and the printed object-position.
+- **(reflex)** Mark the hero photograph as the LCP with fetchpriority high and never loading lazy, while lazy-loading every other image.
+- **(reflex)** Use a hero or full-bleed photograph at least 2400px on its long side, and treat smaller ones as soft past 1920px.
+- **(reflex)** Give every swappable image a data-slot, a data-alt describing the user's intended picture, and a real size.
+- **(reflex)** Keep persistent children like credits or plate numbers with data-keep, and place text over a slotted photograph in a sibling layer above the slot image.
+- **(reflex)** Never place more than four slots in a row, and never build frames for subjects the page has no pictures of; set those in type.
+- **(reflex)** Capture the real product first via capture.mjs whenever it is reachable, and build a mock only when it cannot be captured.
+- **(reflex)** Frame product captures in a data-slot with the theme radius and inset outline, never inside drawn browser bars, device frames or notches.
+- **(reflex)** Mark capture slots with data-kind product so they do not count toward the photo balance.
+- **(reflex)** When building a product mock, include real controls with at least eight elements and sample values that read as samples, never as claims.
+- **(reflex)** Make photographs span six of twelve columns and stand at least 440px tall, or run full-bleed; treat thumbnails as clip art.
+- **(reflex)** Crop each photograph tightly to one subject with its weight leaning toward the text, and vary ratio and size across the page.
+- **(reflex)** Limit photographs to at most a third of the page below the hero, up to 45 percent on photographic shapes, and never place two photograph-led sections in a row.
+- **(reflex)** Place text over a photograph's calmest part with a scrim from the theme's ink, ensuring at least 4.5 to 1 contrast and never centered white type over busy frames.
+- **(reflex)** Add captions as facts from the prompt beside or under each picture, never credit lines or claims that a stand-in is the user's own person, place or product.
+- **(reflex)** Apply the theme's photo treatment to every slotted image, including the user's own, via CSS on the slot.
+- **(reflex)** Avoid duotone or tint treatments on pale subjects with little tonal range, choosing frames with tonal range instead.
+- **(reflex)** Use the theme's frame with its radius and an inset ink outline at 6 to 10 percent, and never combine a border with a wide shadow.
+- **(reflex)** Use one icon library per page with one stroke width and style, sized on the set grid, colored with currentColor, aligned to the first line of text, and never inside colored tiles or as emojis.
+- **(reflex)** Display only the user's own logos, monochrome and one treatment per row, sized 32 to 48px tall, plus Simple Icons only for named platforms or brands.
+- **(reflex)** Use user recordings or footage with autoplay muted loop playsinline and a poster, prefer AV1 or VP9 WebM then H.264 MP4, keep clips under 2 MB for ten seconds, add pause controls on long loops and captions when speaking.
+- **(reflex)** Use 3D and WebGL only when the product is 3D and the visitor can interact with it, always with a still fallback.
+- **(reflex)** Stamp the imagery field with the photograph count and treatment, record the photo ids in the log so the next build rotates picks, and list every stand-in and built sample in the handoff.
+- **(reflex)** Use skeletons where content shape is known, and spinners only inside buttons replacing the label.
+- **(reflex)** Empty states must state what is empty, why it matters, and one action, never a bare No results.
+- **(reflex)** In a split layout make the visual 440px tall or more at a 4:3 to 4:5 ratio.
+- **(reflex)** In a showcase place one full-width visual at 16:9 to 21:9 and at most two smaller visuals beneath it.
+- **(reflex)** Make at least two bento tiles visual and one clearly the lead.
+- **(reflex)** Make hero visuals six or seven columns wide and 60 percent of the screen tall, or portrait objects 75 percent tall on four or five columns.
+- **(reflex)** Use photographs for a quarter to a third of the page below the hero and never lead two sections in a row.
+- **(reflex)** Use negative space as the only divider between sections, allowing at most one centered ornament for emphasis.
+- **(reflex)** Size inline images to the body measure and never render them full-bleed.
+- **(reflex)** Keep the fold free of images unless using a single full-bleed photograph as the background.
+- **(reflex)** Anchor each body section with a supporting figure or chart.
+- **(reflex)** Use charts and data visualizations for imagery and reserve product photographs only for slots the user explicitly requested.
+- **(reflex)** Show the real product capture unframed inside a figure.
+- **(reflex)** Use at most one diagram per long answer and keep images sparse.
+- **(reflex)** Omit images when the manifesto's cause is an idea, and when it is physical use photographs treated in the theme's style at one per screen maximum.
+- **(reflex)** Place the headline and its single sentence on a plate at the image base and put captions near a corner in body type.
+- **(reflex)** Limit full-bleed photograph bands to roughly 45% of the page area below the hero.
+- **(reflex)** Use the image edge as the section divider instead of explicit rules or lines.
+- **(reflex)** Place exactly one typographic verb-led link on the plate under the sentence as the visible action.
+- **(reflex)** Fill image slots with library photographs until user-provided images arrive.
+- **(reflex)** Write captions as dates, places, and plate numbers rather than marketing copy.
+- **(reflex)** Include only a real photograph of the quoted person or the company mark beside the attribution, or omit the image entirely.
+- **(reflex)** Include no image or at most one photograph of the face in print from the library or the user.
+- **(reflex)** Fill each card with its image, name, price, and one action.
+- **(reflex)** Include at most one signature scan or quiet inline photograph, or none.
+- **(reflex)** Vary the full-size object shown per stage rather than repeating the same object type across multiple stages.
+- **(reflex)** Use a product capture at least 360px tall per stage when the user provided screens, otherwise use a figure or rows from the prompt.
+- **(reflex)** Make the heading occupy half the screen width and place a capture or supplied quote in the other half.
+- **(reflex)** Keep every image on the proof side, using a real capture or a product built in a slot.
+- **(reflex)** Use no image in the specimen since the typography itself is the imagery.
+- **(reflex)** Show a thumbnail per card from the user's work and, until images load, set projects in type with at most one empty slot.
+- **(reflex)** Draw the map as SVG derived from real places or the real system, including hover states.
+- **(reflex)** Use thumbnails throughout the page so it reads as dense imagery of real platform content.
+- **(reflex)** Use only honest base cards (spec sheet, worked example, changelog, comparison anatomy, pricing table, FAQ, CTA strip, footer) that require no invented material.
+- **(reflex)** Choose exactly one image treatment from full-bleed, tightly cropped to the grid, inline with the text, margin-aligned, or none.
+- **(reflex)** Keep the six fingerprint choices coherent, drawn from the same design world.
+- **(reflex)** A None on Image or Reveal that the theme or material forces does not count as a shared choice for the anti-repetition rule.
+- **(reflex)** Render photographs as 4:5 aspect-ratio slots with a 440px minimum height and card-radius corners.
+- **(reflex)** Use the same slot for product samples without an img element, built at full size.
+- **(reflex)** Regenerate every object's posters after any change to a model and include palette-dependent plates.
+- **(reflex)** Define each new object with definePrint using the real thing's proportions, parts, and materials so the render reads as a product shot.
+- **(reflex)** Use split-reveal and exploded-layers with a real photograph the product works on, not stock of something else.
+- **(reflex)** Use dither-sequence with two to six photographs that belong together, never a random or mood set.
+- **(reflex)** Use dot-object only with an object on a seamless plain background or a cut-out PNG with a clear ground, otherwise fall back to split-reveal.
+- **(reflex)** Prefer the client's own photograph, otherwise select a vetted library image that prints well with one clear subject, plain ground, and clear light.
+- **(reflex)** The footer must not draw or color social icons.
+- **(reflex)** Xbox and Nintendo marks must never be drawn; name the console in type.
+- **(reflex)** A dealt effect must stand in a section of its own, never on a photograph.
+- **(reflex)** Every linked place photograph must zoom 1.03 under the pointer.
+- **(reflex)** Place the mark beside the name in the nav and footer, letting a client logo replace it.
+- **(reflex)** Make the hero a photograph whenever any picked frame fits.
+- **(reflex)** For remote places whose brief names a region, lead the hero with that region's landscape.
+- **(reflex)** Use a statement hero on `.ground-brand` only when the library holds no frame of the region and no lead.
+- **(reflex)** Keep all section photographs distinct and follow the per-section counts.
+- **(reflex)** Do not count nav panel photographs toward the section counts.
+- **(reflex)** Use straight-on whole-room photographs with window light for rooms.
+- **(reflex)** Use one ratio per goods grid and one backdrop, angle and light.
+- **(reflex)** Use `close-photo` with an unused 1:1 photograph and no words on it.
+- **(reflex)** List the required photographs in the report via photos.md.
+- **(reflex)** Replace every kit sample mark img with the client's tool icon using data-icon and assets/icons paths with empty alt.
+- **(reflex)** Use diagram cards only when showing how things connect, keeping tech pulses between 0 and 2, holding product and service states still, and omitting place states.
+- **(reflex)** Render every named tool, app, or file type as a real icon in its own colours and only show tools the client actually uses on other pages.
+- **(reflex)** Apply shader grounds only to tech pages, using the single effect and the card group's still grounds.
+- **(reflex)** Ensure every img carries data-source and data-subject attributes.
+- **(reflex)** Keep real logos in their own full colours and never redraw or tint them.
+- **(reflex)** Set og and twitter meta with a hero still as share.jpg copied from shoot.mjs.
+- **(reflex)** Use more and better real photographs where they fit, with nicer backgrounds, stronger heroes, layouts, and fonts.
+- **(reflex)** Use real full-color icons from known products rather than drawn ones, and include small diagram visuals such as hubs with branches, one input with a main processor and three parallel lanes, or pulses running along lines.
+- **(reflex)** Select asset families according to the page kind, using the dash table to determine which assets apply to software, gaming, hardware, product, service, and place pages.
+- **(reflex)** For place pages, lead with photographs, size them 12 to 20 on the full page, 8 to 12 compact, or under 8 on a three-screen short page, and deal the palette by trade.
+- **(reflex)** For product and service pages, lead with photographs of the product, people, rooms, or work, use real icons for tools, allow at most one still diagram, and avoid shaders, prints, grain, gradients, scenes, loops, and WebGL except for a 3D render the brief explicitly asks for.
+- **(reflex)** On tech pages, lead with the client's own subject at true size, show software UI as live HTML in one app-frame, use real icons and pulsing diagrams for cards, and keep hardware to its photographs or stand-ins with renders only on a 3D ask.
+- **(reflex)** Let the product or hero object lead the hero and at most two more sections, while another visual kind carries the rest of the page.
+- **(reflex)** Give named client assets such as trailers, key art, screenshots, CAD renders, or motion videos their own frames that read finished now, named in a comment for the client's file, and never leave them empty.
+- **(reflex)** Mount effects, objects, moments, and scenes exactly as their references specify, copy moments from the correct demo files, use the starter's booking-form for forms, and derive credits from the single footer line once photographs are used.
+- **(reflex)** A place must deal two different compositions and one type moment.
+- **(reflex)** Scene props must read correctly at the size shown on the page.
+- **(reflex)** Show real icons in their own brand colours on light tiles via <img> from assets/icons, write each as the client's tool with data-icon, and never call a CDN for an icon.
+- **(reflex)** Keep small inline marks beside text in the ink and never mix brand colours with ink marks.
+- **(reflex)** Place pipeline-board as .at-rise.fit with --fit-max 420px, whole with 24px or more of ground under it and no fade, and name each step's real tool mark on a light tile.
+- **(reflex)** Use shader grounds only on tech pages with one card group per page, still, from the page's one effect family.
+- **(reflex)** On product or service pages hold the client's photograph, real icons, or a still diagram on a flat panel, and give places no feature cards.
+- **(reflex)** Mount an object or raymarched canvas when its panel nears the screen and destroy it when it leaves, keeping one per card group and rendering at most 1 CSS px per pixel.
+- **(reflex)** Use an object from assets/objects as the whole picture of a .panel--top on one of the lit palettes, centred as the subject, and never tilt the card.
+- **(reflex)** Include a caption under each visual that explains or apologises for its placeholder nature.
+- **(reflex)** Stand pictures beside short copy, never in place of it, and keep every word as live text.
+- **(reflex)** Show customer logos only for real customers the brief names and allows, and keep real tool icons in their own colors.
+- **(reflex)** Add one short footer line naming only the sources used, linking the credits list, and never a per-photograph credit link.
+- **(reflex)** Let icons.mjs bake colour marks, text-colour violet marks, ink marks, and 2:1 wordmark pills into data-ic rather than computing them at runtime.
+- **(reflex)** Render tool marks in their own colours and never as a letter inside a circle, and make a core without an icon a pill containing its name.
+- **(reflex)** Place copy on the photograph's calm dark corner with white type and no scrim, and only in the hero and one band per page.
+- **(reflex)** Put the photographer's credit in the page's single footer credit line, never under the picture.
+- **(reflex)** Use fx-dither-object only when the product has no photograph, choosing the print render over a studio render.
+- **(reflex)** Use fx-icon-tiles only for a feature grid with drawn glyphs, never for brand logos.
+- **(reflex)** Use fx-chart only for one metric over time, never for decoration without numbers.
+- **(reflex)** Use fx-bars only for monthly figures on a labelled scale, never with more than sixteen bars.
+- **(reflex)** Use fx-photo only for the client's own photograph of the subject, never for mood stock or blank notebooks.
+- **(reflex)** Reserve natural colour for the meadow landscape, the gold horizon of dusk, and the map's water and parks, and never use violet or lavender.
+- **(reflex)** Use product-turntable only as a technical product's object when the generic form is its own.
+- **(reflex)** Model every product from its real measurements so proportions read correctly as the thing.
+- **(reflex)** Hardware without photographs or renders must use stand-in photographs of the same machine at work, and games without art files must show their name over stand-in photographs of their setting.
+- **(reflex)** When the brief asks for 3D, use a product render as the picture, let the page's single effect sit behind it as the transparent ground, and keep it as the beat rather than a second focal visual.
+- **(reflex)** Prefer the full-colour logos set from the curated list, falling back to one-colour simple-icons marks only where no colour mark exists.
+- **(reflex)** Use the file-type icon for document cards (pdf, markdown, zip, docx, xlsx, pptx) rather than a brand mark.
+- **(reflex)** Use only the ui set for interface glyphs and render them as inline svgs in the text colour.
+- **(reflex)** Only include Steam, PlayStation, and Epic Games marks in a game's store row via apps --tag gaming.
+- **(reflex)** Ban violet and lavender only for the page's own palette, never for a third-party logo.
+- **(reflex)** Fetch or scan logos whose violet fill share is half or more with --colour so they keep their real colours.
+- **(reflex)** Use one-colour mono marks in rows of customer logos, footer social links, and where no colour version exists.
+- **(reflex)** For multi-tone marks rendered in one colour, cut out paper-coloured parts from the silhouette instead of filling them solid.
+- **(reflex)** Exclude light marks that vanish on a light tile, such as Wise and Klarna, from the list.
+- **(reflex)** Set data-ic to violet, ink, or paper on the root so consumers treat the icon as icons.mjs printed it.
+- **(reflex)** Crop marks to their measured drawing box with a 2% margin and assign a shape class from the cropped proportions.
+- **(reflex)** Do not crop the file set icons.
+- **(reflex)** Use real icons at 20 to 40px in file cards, integration grids, and reads-from lists instead of grey boxes.
+- **(reflex)** Keep each logo's own proportions and colours intact.
+- **(reflex)** Allow software and product to dock one row under the hero content at most 96px, hidden on phone unless it ends by H - 24 - bar, and never dock on service or place pages.
+- **(reflex)** Span photographs on column lines or as full-bleed layers covering 90% or more of the section, use one ratio per row, and never bleed out to one side only.
+- **(reflex)** Use mid-to-dark photographs with edges and detail for giant-type-pass and liquid-hover, and never use violet or lavender images.
+- **(reflex)** The hero picture must never be hidden or fade; it settles from 1.05 to 1 over 1.1s inside its frame.
+- **(reflex)** A linked photograph scales 1.02–1.03 inside its hidden-overflow frame without dimming, fading or overlaying.
+- **(reflex)** Sample at one WebGL sample per CSS pixel or less, about 1.5 megapixels, with pixel ratio at most 1.5.
+- **(reflex)** Serve AVIF or WebP through srcset at 2x the shown width, never more.
+- **(reflex)** Keep the hero image under 400 KiB and every other photograph under 250 KiB.
+- **(reflex)** Keep the page's total images under 2400 KiB at 1440 width.
+- **(reflex)** Use a --g-alt fill while images load.
+- **(reflex)** Below-fold images must set loading="lazy" and decoding="async"; the hero image (above the first screen) stays eager with fetchpriority="high".
+- **(reflex)** Keep real-time 3D models near 2 MB compressed with a poster.
+- **(reflex)** Ship separate phone and desktop video files.
+- **(reflex)** Keep total images under 2400 and the largest single image under 700 KiB.
+- **(reflex)** Give every img width and height or CSS aspect-ratio.
+- **(reflex)** Lazy-load below-fold images that are not already lazy.
+- **(reflex)** Avoid oversized images, CSS backgrounds and SVGs whose natural size exceeds 2.2x the shown width.
+- **(reflex)** Avoid below-fold photos rendered as CSS or SVG backgrounds.
+- **(reflex)** Judge object modules by count, ensuring more object modules are not loaded than canvases or fallback hosts drawn.
+- **(reflex)** Zoom a linked-card photograph to 1.03 over 600ms inside an overflow-hidden mask without growing or moving the frame.
+- **(reflex)** Leave photographs outside linked cards with no hover effect.
+- **(reflex)** Make every photograph that leads somewhere a link and show its hover effect across every section.
+- **(reflex)** Render place photographs with square corners and no border, shadow, overlay or frame.
+- **(reflex)** Use one border radius for every product and service photograph.
+- **(reflex)** Use a single border radius between 12 and 20px for software window photographs.
+- **(reflex)** Put the place name in the image alt text.
+- **(reflex)** Keep the credit line to at most 110 characters and name only the sources, never the photographers.
+- **(reflex)** Paste the single credit line in the footer and place the full credits list on its own page.
+- **(reflex)** List each photographer, licence and source page in the credits list, marking adapted frames.
+- **(reflex)** List public-domain frames with the Public Domain Mark page and still name the photographer.
+- **(reflex)** Pass --history on every build and set TASTE_SKILL_RECENT to one file when building across several folders to keep recently used frames behind fresh ones.
+- **(reflex)** Lead every main section of a product, place, or service page with the client's own photograph, else one chosen via `photos.mjs`, shown plain and credited in a single footer line.
+- **(reflex)** Give every quote a 40px portrait of the person or the company logo, and keep the stat as a number with a grey line of up to eight words.
+- **(reflex)** Show two photographs side by side at one ratio and one light, with nothing under them and no captions or titles beneath.
+- **(reflex)** Show every model at one scale on one backdrop or one camera angle, with prices from and facts lines, and never mix angles or scales.
+- **(reflex)** List rooms with a 4:3 whole-room photograph, name, facts, price from with season, and a Book this room action, never as plan cards with checks or badges.
+- **(reflex)** Show services as a list beside one photograph of the work, never as icon cards, with prices present and no more than eight rows.
+- **(reflex)** Show only the real team the brief gives, with consistent light and grounds, and no more than eight people.
+- **(reflex)** Frame screenshot strips as uniform 16:9 captures with square or page-radius corners, no device chrome, no shadow, and no captions.
+- **(reflex)** A CAD or render frame must sit on a light flat ground with square corners.
+- **(reflex)** A stand-in photograph for a product's kind must not be reused by any other section.
+- **(reflex)** The parts section must show the client's exploded model or close-up photographs of parts.
+- **(reflex)** Key art must be named via a comment referencing assets/client/key-art.jpg.
+- **(reflex)** Meaningful media must provide captions, transcripts, or descriptions as appropriate.
+- **(reflex)** Apply SVG transforms to a g wrapper with transform-box fill-box and transform-origin center.
+- **(reflex)** Above-fold critical images must use priority or fetchpriority high.
+- **(reflex)** Prefer autoplay muted loop playsinline video over animated GIFs and provide a still alternative.
+- **(reflex)** Short non-essential loops must use compressed video with a still fallback and reduced-motion handling.
+- **(reflex)** Do not use emoji as substitutes for icons or decorative elements in interface copy.
+- **(finish)** Run the finish review in fresh context and close with the material ask naming every slot and its best missing piece.
+- **(finish)** Do not use spatial reveal motion for photographs; let the images carry the emphasis.
+- **(finish)** Use a small mark beside each entry and at most one photograph of the collection itself.
+- **(finish)** Drop an object if it still looks cheap after two honest attempts.
+- **(finish)** Include the details that name the thing, such as a bike's spokes, chain and mudguards or a lamp's springs and knobs.
+- **(guidance)** Never request copy, actions, or visuals the page lacks; instead state in one line what the owner could supply.

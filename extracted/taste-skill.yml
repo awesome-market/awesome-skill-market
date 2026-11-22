@@ -175,7 +175,6 @@ rules:
     severity: reflex
     scope:
       - code
-      - code
     evidence: audit
     mechanizable: true
     origin: skills/taste-skill/assets/effects/README.md
@@ -1339,9 +1338,9 @@ rules:
     localId: swatch-controls-color
   - id: taste--122
     rule: Keep aria-pressed on swatch buttons and press exactly one per group.
-    severity: a11y
+    severity: reflex
     scope:
-      - a1y
+      - a11y
       - code
     evidence: audit
     mechanizable: true
@@ -2545,7 +2544,6 @@ rules:
     severity: reflex
     scope:
       - code
-      - performance
     evidence: screenshot
     mechanizable: true
     origin: skills/taste-skill/references/cards.md
@@ -2557,7 +2555,6 @@ rules:
     severity: reflex
     scope:
       - code
-      - performance
     evidence: screenshot
     mechanizable: true
     origin: skills/taste-skill/references/cards.md
@@ -2569,7 +2566,6 @@ rules:
     severity: reflex
     scope:
       - code
-      - performance
       - imagery
     evidence: screenshot
     mechanizable: true
@@ -2903,7 +2899,6 @@ rules:
     severity: floor
     scope:
       - code
-      - performance
     evidence: screenshot
     mechanizable: true
     origin: skills/taste-skill/references/cards.md
@@ -4236,7 +4231,7 @@ rules:
     localId: vary-section-content
   - id: taste--386
     rule: Run copy-lint.mjs on the built page before the gate, fix every FAIL, and justify any kept WARN in the report.
-    severity: process
+    severity: guidance
     scope:
       - process
       - code
@@ -4247,7 +4242,7 @@ rules:
     localId: run-copy-lint-before-gate
   - id: taste--387
     rule: Substitute a rival's name or another town's trade into every heading and sub-line, and rewrite any line that still reads true.
-    severity: process
+    severity: guidance
     scope:
       - copy
       - process
@@ -4258,7 +4253,7 @@ rules:
     localId: rival-name-resistance-test
   - id: taste--388
     rule: Pass all pages built this session to the linter together and break any shared cadence, joke, or opening phrase between them.
-    severity: process
+    severity: guidance
     scope:
       - copy
       - process
@@ -4269,7 +4264,7 @@ rules:
     localId: cross-page-voice-consistency
   - id: taste--389
     rule: Read the copy aloud as the client and cut every sentence they would not say about themselves.
-    severity: process
+    severity: guidance
     scope:
       - copy
       - process
@@ -4280,7 +4275,7 @@ rules:
     localId: read-aloud-as-client
   - id: taste--390
     rule: After fixing one device, check that it was not replaced by another tic such as multiplying 'rather than' or fragmenting every sentence.
-    severity: process
+    severity: guidance
     scope:
       - copy
       - process
@@ -4291,7 +4286,7 @@ rules:
     localId: watch-over-correction
   - id: taste--391
     rule: When a subagent is available, give it only the page text and fix what it cannot use to identify the product, buyer, cost, and differentiator.
-    severity: process
+    severity: guidance
     scope:
       - copy
       - process
@@ -4302,7 +4297,7 @@ rules:
     localId: fresh-reader-disambiguation
   - id: taste--392
     rule: Carry the one-line voice card, every assumed price or hour, and the list of what the client must still supply in the report.
-    severity: process
+    severity: guidance
     scope:
       - process
       - copy
@@ -5515,7 +5510,7 @@ rules:
     severity: reflex
     scope:
       - code
-      - data
+      - imagery
     evidence: screenshot
     mechanizable: true
     origin: skills/taste-skill/references/effects-creative.md
@@ -5526,7 +5521,7 @@ rules:
     severity: reflex
     scope:
       - code
-      - data
+      - imagery
     evidence: screenshot
     mechanizable: true
     origin: skills/taste-skill/references/effects-creative.md
@@ -5617,7 +5612,7 @@ rules:
     severity: floor
     scope:
       - code
-      - data
+      - imagery
       - color
     evidence: screenshot
     mechanizable: true

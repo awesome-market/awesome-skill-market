@@ -3,6 +3,227 @@
 - **(floor)** Identify the product, audience, and primary job from the brief or memory before designing, and confirm them with the client if the brief omits them.
 - **(floor)** Do not render labels in all caps.
 - **(floor)** Write errors that explain what went wrong and how to fix them in the interface's voice without apologizing or being vague.
+- **(floor)** A sample section must never state a fact a visitor could take as true, such as a price, date, person's name, count, or review.
+- **(floor)** A buy page must never use an email field as its close; place it in the footer instead.
+- **(floor)** A sign-up page must never end with a newsletter.
+- **(floor)** A mailing list must never be the default close; it is one close in five.
+- **(floor)** Keep buttons, primary nav links, CTAs, footer links, tabs, and breadcrumbs single-line across all widths unless a phrase cannot realistically be shortened.
+- **(floor)** Rewrite any head that would work on a competitor's page using a noun only this prompt has.
+- **(floor)** On a redesign, never ask for copy, an action, or a visual the old page did not have.
+- **(floor)** Ensure the headline states something unique to this product in seven words or fewer.
+- **(floor)** Avoid template signatures such as centered stacks, pills or labels above the headline, gradient blobs, empty colored boxes, drawn illustrations, counting marks, two filled buttons side by side, grey bars, or outline cards inside slots.
+- **(floor)** Render the retro signal as atmosphere only and never draw a monitor bezel or literal screen frame.
+- **(floor)** Reject the generated voice and all named banned phrases in marketing copy.
+- **(floor)** Set lang, a page-own title, a one-sentence meta description, step-one heading levels and ensure every image has dimensions and a real file.
+- **(floor)** Use real numbers or an explicit text slot when a figure is missing, and never present a fabricated series.
+- **(floor)** Start bars at zero and annotate any zoomed axis explicitly, such as by stating the starting value.
+- **(floor)** Never ship a centered head over three cards, the run of hero features call to action and footer, or a stock second action.
+- **(floor)** Never use an eyebrow, tracked capitals, mono labels, one colored word in a head, or middle-dot strings.
+- **(floor)** Use the owner's own nouns, put a fact in every head, and write no line a competitor could use unchanged.
+- **(floor)** Avoid two clipped fragments in a row for the headline, since that is the shape every model reaches for.
+- **(floor)** Never invent metrics, testimonials, logo walls or case-study counts.
+- **(floor)** Never use an eyebrow and never set labels, captions, table heads, tags or nav links in tracked capitals or small caps; render them in the body or theme label face one step smaller in sentence or lower case without tracking.
+- **(floor)** Never join metadata with middle dots, glue arrows to link text or use decorative status dots.
+- **(floor)** Keep the hero headline, one sentence and primary action visible at 1280 x 800 without scrolling.
+- **(floor)** Keep roughly 80 words per screen and make the hero text only the headline, one sentence and its actions.
+- **(floor)** Use only the product's own figures; never add icon tiles, gradients, or trend arrows nobody measured.
+- **(floor)** Do not use emoji as list bullets.
+- **(floor)** Hallmark does not invent copy, pick a brand identity, enforce an uncommitted style, or build logic.
+- **(floor)** Never emit a tracked-caps label: any label, caption, table head, nav link, tag, chip, or text at 15px or under set uppercase, small caps, or letter-spaced past 0.03em.
+- **(floor)** Keep fewer than about 80 words in any 900px window at 1440 and never put more than two text blocks before actions in a hero.
+- **(floor)** Never use placeholder names, startup cliches, buzzwords, the rebuttal cadence three or more times, 'quietly trusted by', em/en dashes, filler openers, or stock secondary actions; say what the product does in its own nouns.
+- **(floor)** Never invent metrics, testimonials, logo walls, or case-study counts; use the user's number, a text slot, or nothing.
+- **(floor)** Never emit short inert type before a heading that announces it in any geometry, except figcaption, th, label, nav/tab label, byline, time, unit after figure, real filename, live status chip, or one linked announcement going somewhere real.
+- **(floor)** Never join meta strings with middle dots, glue arrows to link or button text, add decorative status dots before labels, or emit WORD - fragment labels.
+- **(floor)** Add lang, a title element, a meta description, and share tags to every document.
+- **(floor)** Until a form endpoint exists, validate without posting and plainly state that nothing was sent.
+- **(floor)** Allow emoji only inside a sentence, never as an ornament or as an icon.
+- **(floor)** Keep numbers, names and claims in type and never let a photograph stand in for a fact, customer, teammate or testimonial.
+- **(floor)** Never show visible placeholder labels, ratio notes or sample chips; carry that information in data-alt and the handoff.
+- **(floor)** Never use rows or grids of identical marks to represent quantities; set the number in type instead.
+- **(floor)** Never use illustration packs, mascots, 3D blobs, isometric scenes, mesh orbs, auroras behind text, stock faces as proof, invented logo walls, hover zoom or rotation, baked text in images, or photos of other interfaces.
+- **(floor)** Error state must apply the error colour to the border, message, and aria-invalid, never relying on colour alone.
+- **(floor)** Success state must derive from the server response, use at most one icon from the page set, never a toast, and must not exist where no request was made.
+- **(floor)** Every field must have a visible label above it; never rely on placeholder or aria-label alone as the label.
+- **(floor)** Error messages must describe what broke, why, and what to do in one sentence, tied to the field via aria-describedby and aria-invalid true.
+- **(floor)** Required fields must carry aria-required and a visible word, never colour alone.
+- **(floor)** Never leave empty grid frames, stock faces for people, or icon tiles over headings.
+- **(floor)** Only display figures the prompt explicitly provides.
+- **(floor)** Never default to an email field in a band.
+- **(floor)** Use schedules only for times visitors pick or plan around, never processes or workdays.
+- **(floor)** Close with an email field only when the job natively calls for a mailing list or the user asked.
+- **(floor)** Express the single visible action as a typographic link inside a paragraph carrying a verb, never as a separate block button.
+- **(floor)** Every figure must be the user's own value, include its unit, and cite its source.
+- **(floor)** Never ship a large number without an accompanying worded line that states what it means.
+- **(floor)** Do not invent or fabricate any numeric figure on the page.
+- **(floor)** Derive emphasis in manifesto headings exclusively from line breaks, never from coloured or italicised words.
+- **(floor)** Use the hero quote exactly as the user supplied it, including its attribution, and never invent or paraphrase a quote.
+- **(floor)** Do not ship a quote-led composition when the user has not supplied the quote, its name, role, and company.
+- **(floor)** Keep the catalogue heading to a single line at display scale so it never pushes the first row of cards below the fold.
+- **(floor)** Place a single link to the detail page inside each card and omit any global call-to-action.
+- **(floor)** Omit buttons and place the sole visible fold action as a verb-bearing link in the first paragraph.
+- **(floor)** Place a hero-sized heading naming the index with a single supporting line at the top of the page so the index begins on the first screen.
+- **(floor)** Place a case-study link inside each card and never add a global call-to-action button.
+- **(floor)** Place the page's single action with the orientation phrase inside the fold, never beneath the map.
+- **(floor)** Either label the map directly or mark it aria-hidden and provide a text legend containing every fact.
+- **(floor)** Label every code block with a Copy button that swaps to Copied on success instead of showing a toast.
+- **(floor)** Only include material cards (hero visual, logo row, three features, testimonials) when the user supplied the exact material named by the Picks block.
+- **(floor)** Never invent customer marks or a 'Trusted by' line when no logo row material was supplied.
+- **(floor)** Never invent plausible names, roles, companies or paraphrased quotes for testimonials.
+- **(floor)** Use number-tick reveals only on real figures the user supplied.
+- **(floor)** Omit toasts when the result is already visible on the page; reserve toasts for failures and invisible effects.
+- **(floor)** Set aria-invalid and aria-describedby on the field and swap the helper line for the error in the reserved space.
+- **(floor)** Show toasts only for failures and invisible effects, pin them to one corner, and keep error toasts retryable until acted on.
+- **(floor)** Roll back optimistic rows over the short duration on failure and surface a persistent error toast with a retry action.
+- **(floor)** Display a clear message when a form has no connected endpoint instead of attempting a fetch.
+- **(floor)** Carry over every fact, claim, name, price, date, quote, figure, and logo from the existing page exactly as found, adding nothing the page did not already state.
+- **(floor)** Never reword terms, disclaimers, or consent text.
+- **(floor)** Sweep the redesign against the before record and restore or record anything the page had and no longer has.
+- **(floor)** Ensure text placed on an effect reads at a contrast ratio of at least 4.5:1.
+- **(floor)** Only place an object of the product's own kind on a product page, never an object of another kind or a whole product when only a part is shown.
+- **(floor)** Never show an object of a different kind than the product on a product page.
+- **(floor)** On a product page, do not use an object of its own kind as the picture; instead compose the product from its parts.
+- **(floor)** Only use prints (halftone, engraving, dither, type) on software, tech, AI, and games pages, and always show the render on product pages.
+- **(floor)** Do not place objects on place pages (cafes, shops, hotels, studios) or beside the client's own photographs.
+- **(floor)** Do not add a caption under an object or words calling it a render, drawing, illustration, model, sample, or stand-in.
+- **(floor)** Always let the client's own photographs and screenshots lead; an object never takes their place.
+- **(floor)** Place text above or beside the scene panel, never over the scene, and never add a caption or chip that explains the effect.
+- **(floor)** Do not add a caption under a scene that explains or apologises for the effect.
+- **(floor)** Never add a caption under a print that explains the effect, and never reveal that the image is a print.
+- **(floor)** Never place text over a print, and only allow a small UI card on a corner of the frame without covering the subject.
+- **(floor)** A close must contain exactly one primary button.
+- **(floor)** A footer-visit must use hours matching the visit section.
+- **(floor)** A footer-visit must not print an email or phone the brief does not give.
+- **(floor)** A footer-statement must contain no second big button.
+- **(floor)** A product page must never include a line about missing photographs.
+- **(floor)** A place footer-visit must use hours matching the visit section.
+- **(floor)** Never add a caption beneath a product render.
+- **(floor)** Each section must hold one idea, one h2, and at most one action besides the main action.
+- **(floor)** The main action must read identically in the nav, hero, close or booking, and phone bar, and appear nowhere else as a filled button.
+- **(floor)** Show proof only as small exact objects from the brief, such as a named quote with a face, footnoted figure, press lines, rating line, or real customer logos with permission.
+- **(floor)** Never ship a row of big stat numbers, filler stat strips, check-icon lists, or a customer-logo wall.
+- **(floor)** Every nav word, button, and footer link must point to an #id on the page, the logo to #top, and the main action to where it is done.
+- **(floor)** Never use #contact from outside the footer; footer.closing must carry that id.
+- **(floor)** Never link to /contact, /[page], or a bare #.
+- **(floor)** Write Privacy and Terms as small pages, add Imprint only when the brief gives the company's own details, and otherwise leave them out.
+- **(floor)** The gaming hero must name the game and genre in the h1 or wordmark, with launch date or status from the brief.
+- **(floor)** Every headline promise must be shown in a picture, or the promise must be cut.
+- **(floor)** Never repeat a fact: each stat, spec, and figure appears once with one wording.
+- **(floor)** Never call a thing a render, model, or illustration in the heading or text.
+- **(floor)** Never use logos of invented clients.
+- **(floor)** Put no words on any photograph.
+- **(floor)** Keep hours, address and directions out of the footer only.
+- **(floor)** Render menus as whole text with visible prices and never as images, PDFs, tabs or accordions.
+- **(floor)** Put no names under photographs.
+- **(floor)** Set html lang to the page's language from the brief or its market and enable hyphens:auto for long words.
+- **(floor)** Keep every word as live text sized to fit and never bake text into images.
+- **(floor)** Every promise stated in a headline must be shown in a picture.
+- **(floor)** Remove every bracketed placeholder or sample tag from visible text and fix visuals that fail to draw.
+- **(floor)** Write a unique title and one-sentence description and never reuse the same words.
+- **(floor)** Never place a caption or description under any image, render, or visual, and put licence credits in a single footer line.
+- **(floor)** Show only street and district for addresses, omitting house numbers, postcodes, coordinates, register or VAT numbers, and real phone formats, and place contacts on .example domains.
+- **(floor)** On every product page, show the product big where it stands whole, use a different picture in each section, picture every headline promise, change the swatch to change the picture, show every color once, never repeat a fact, and make buttons step and press.
+- **(floor)** Fix every consistency finding and every copy-lint FAIL, read the copy aloud, and rerun checks until the gate reports GATE: PASS or GATE: OPEN, allowing at most three rounds.
+- **(floor)** The first screen must state what is sold, who it is for or where it applies, and include one hard fact, with the hero filling the screen alone at every width and its main button inside it.
+- **(floor)** Each section must span one or two screens, start with its top-aligned h2, and never contain a neighbour's heading or picture.
+- **(floor)** No caption may explain, apologise for, or label a picture, and credits must live in a single footer line.
+- **(floor)** No placeholder, sample note, or printed .example address may appear in the shipped UI.
+- **(floor)** Contacts must include street number, postcode, coordinates, company number, and phone number as specified in rule 9.
+- **(floor)** Get directions requires a street, See the area requires a district, and no map link may use a town only.
+- **(floor)** Headings must name things, buttons must pair a verb with an object, and there may be at most two hero actions.
+- **(floor)** Assumed facts must be marked, and no line may claim something is open now based on them.
+- **(floor)** Every link must land, forms must send, confirmations must only appear after a real send, and each error must sit under its own field.
+- **(floor)** No slop word, stock line, leftover, or device tic may appear, and the copy must have its own voice.
+- **(floor)** Never pass stock photographs off as the client's product, people, or place, and never show a stand-in with another maker's name or logo.
+- **(floor)** A product page must actually show the product.
+- **(floor)** Never invent reviews, quotes, customers, or figures.
+- **(floor)** Never copy a reference site's code, copy, pictures, or signature effect.
+- **(floor)** Show the product's own subject as real UI at true size with real data and marks, never a generic dashboard, chat, or stat card standing in for it.
+- **(floor)** Never include a sample, example, or to follow note anywhere, even one line in the footer.
+- **(floor)** Name the category in the hero h1 using one of the allowed forms and never stack two adjectives.
+- **(floor)** Keep greetings, state-of-mind lines, questions, imperatives, enemy lines, twisted idioms and product-news lines out of the h1.
+- **(floor)** Include only proof the brief gives: verbatim quotes with name and role or town, sourced figures and showable customer logos.
+- **(floor)** Place a risk reversal beside the button only when it is true.
+- **(floor)** Make every button a verb and the real object and keep it literal about what happens next.
+- **(floor)** Write form errors that name the field and what to type.
+- **(floor)** Write the sent message naming what was sent in the button's words.
+- **(floor)** Keep the footer to facts: brand, year, Privacy, Terms, credits, street, district and place hours.
+- **(floor)** Never use the model's default register unless the client explicitly requests it and the device budget allows.
+- **(floor)** A chosen register must never override the h1 category, heading nouns, or button verbs defined in copy.md.
+- **(floor)** Keep jokes on the product or failures, place the fact directly under the joke, and never use hype words even as a joke.
+- **(floor)** Never replace concrete facts with abstract category nouns such as power and alignment.
+- **(floor)** Exclude hype words like magic and superpowers from all copy.
+- **(floor)** Never use the banned marketing words (delve, tapestry, seamless, robust, etc.) unless the word is literal to the trade or part of the client's registered name.
+- **(floor)** Never use stock phrases like 'In today's fast-paced world', 'Unlock the power of', or 'Look no further'.
+- **(floor)** Never leave residue artifacts such as 'Company Name', lorem ipsum, template tokens, markdown syntax, or '[NEED]' placeholders on the rendered page.
+- **(floor)** Never invent specific details like times, batch numbers, or percentages; use only details from the brief.
+- **(floor)** Never call the business itself honest, calm, quiet, genuine, simple, thoughtful, or dependable.
+- **(floor)** Use person and company names only from the brief; ensure mock names fit the town and generation.
+- **(floor)** Invent no fact, figure, name, price, hour, or detail that the brief or client files do not supply, and leave the corresponding section empty or shrink it when a field is missing.
+- **(floor)** Never emit bracketed placeholders, [NEED] tokens, or 'coming soon' copy on a shipped page.
+- **(floor)** Make the h1 name the product category rather than a vague benefit.
+- **(floor)** Give every heading its concrete noun and keep it readable when a rival's name or another town's trade is substituted into it.
+- **(floor)** Write every button as a verb plus its real object, never a bare adjective or abstract noun.
+- **(floor)** Name the category in the h1, plus the buyer or place for unknown brands, in two to eight words.
+- **(floor)** Never use a riddle, command, mood, or brand line in place of a plain sub-line under the h1.
+- **(floor)** Make buttons a verb plus what the visitor gets, in one to five words from the allowed list.
+- **(floor)** Never use Learn more, Read more, Discover, Explore, More, or Click here as button labels.
+- **(floor)** Show the main action at most twice on one screen, since a third copy on one screen fails.
+- **(floor)** Never invent reviews, ratings, counts, quotes, statistics, names, portraits, awards, press lines, or products.
+- **(floor)** Never use sample, examples, illustrative, or asterisk footnote tags anywhere.
+- **(floor)** Never use square brackets, lorem ipsum, to be added, TODO, kit sample text, or empty hrefs.
+- **(floor)** Put no caption, label, description, name, price, link line, or hashtag under or on any visual.
+- **(floor)** Print a street and district only, never a house number, postcode, or map coordinates.
+- **(floor)** Never load a map with the page, never use an iframe, and never pin a stranger's door.
+- **(floor)** Show no map link or directions button when the brief gives only a town.
+- **(floor)** Never print an email address, domain, or social handle, and keep socials empty unless the brief gives accounts.
+- **(floor)** Fail when a banned coined name appears as the page's own name in the title or h1.
+- **(floor)** Avoid metaphors, slogans, boasts, questions as headlines, exclamation marks, all-caps labels, filler, virtue words, and puns or sign-offs in the footer.
+- **(floor)** Never drive an open-now line from assumed hours.
+- **(floor)** Call the core by the product's own name and never use jargon nodes like Orchestration layer or AI engine.
+- **(floor)** Use fx-dither-object only for a product the page actually sells, on a tech page, with one per page and no caption under the stage.
+- **(floor)** Place the map pin on a street line, never on a building, and only draw a map for a street the brief provides.
+- **(floor)** Open directions to an OpenStreetMap street-and-district query URL, never coordinates or a route link.
+- **(floor)** Replace every number, name, and stand-in photograph with the client's own, leaving out any figure the brief does not give and never inventing or tagging anything as sample.
+- **(floor)** Never caption or label a render, print or model as a render, model or illustration on the page.
+- **(floor)** Never add a caption explaining a visual, use blinking or random effects, or use violet or lavender, and keep credits to the single footer line.
+- **(floor)** Treat basics block FAILs as blocking while their WARNs never block.
+- **(floor)** Treat copy-lint FAILs as blocking while its WARNs are listed and never block.
+- **(floor)** Fail when the page deals no moment.
+- **(floor)** Name only tools the product genuinely works with and never imply endorsement by a third-party mark.
+- **(floor)** Include the footer trademark line and an icons-credits.json entry listing file, set, pinned source commit, licence, and trademark flag.
+- **(floor)** Name Xbox and Nintendo consoles in type instead of drawing a mark, since no permitted set contains them.
+- **(floor)** Place the h1 first, an optional notice line, a sub-line, at most two buttons, and the picture inside .wrap > .hero-text, with one plain claim, no caption, no second float card, and no three button styles.
+- **(floor)** Keep all copy in the HTML in its finished place so content is readable without motion, and never hide a headline on load.
+- **(floor)** On place, product, and service pages, carry the moment with the client's own photographs (each used once) and the page's real copy, never stand-in images.
+- **(floor)** Mark every interactive button with the .btn class and every running-text link with .link.
+- **(floor)** A game must lead with its own key art, in-engine shots, or trailer poster, never library frames, and only set its name over a live-search stand-in photograph of its setting when no art files exist.
+- **(floor)** Every stand-in photograph must be listed in the report with the client photograph to replace it, while nothing on the page itself indicates the image is a stand-in.
+- **(floor)** Text must never appear on place photographs, and elsewhere only on the hero and one closing band over a calm, empty, dark or light area, a solid box, or off the photograph, with no scrim, gradient, fade, or blur.
+- **(floor)** Place no caption, label or description under or on any picture.
+- **(floor)** Omit any credit, sample or example note from the interface.
+- **(floor)** Ensure every word on a page is live text and never baked into an image.
+- **(floor)** Ship only the client's own words, pictures, and objects in every scene and credit photographs in the footer line, marking adapted for crops beyond their frame.
+- **(floor)** Write the scene's words as real text in reading order so the finished composition says everything the scene says even without script.
+- **(floor)** Omit captions explaining the scene and never fly card chrome, chips, or labels with the scroll.
+- **(floor)** Rewrite every fragment's names, numbers, subjects, apps, and logos to the client's, since `data-ui-load` only shows the kit's sample drafts.
+- **(floor)** Never put a caption, name, price, or link line under a bare picture, and keep a sold item's name and price inside its card's padding.
+- **(floor)** Write copy in the form of the invented example names but never use their words, and take proof, quotes, customers, and figures only from the brief.
+- **(floor)** Include proof only when the brief provides real customers, quotes, reviews, press, or figures, and never invent it.
+- **(floor)** Name only customers the brief names and show whole-number counts with a change chip, never percentages as counts or carousels.
+- **(floor)** Never ship the kit's sample text and keep a fourth line of text out of feature cards.
+- **(floor)** Always top-align text and its adjacent frame, and never use a four-line h2, an image that contradicts the text, a button pair where one link belongs, or a second split on the opposite side.
+- **(floor)** Keep chapter fragments fully opaque and upright, never let the action cover the main screen's readable rows, and never repeat a fragment that changes the template.
+- **(floor)** Use steps only with three real steps, each card showing its result, with no arrows, stair-stepping, huge numerals, or mismatched panel heights.
+- **(floor)** Bleed one photograph across the screen as the section layer with a headline on its calm dark part, never two bands, words over the subject, or the hero photo again.
+- **(floor)** Give every peek-list row its own photograph, keep it to six rows, and never put the list on the right.
+- **(floor)** Keep the calendar frame one height at every width so the month shows whole, with real dates and the correct weekday for the 1st.
+- **(floor)** Only embed a street map for a street the brief gives, place the pin on the street line, keep routes still, and join the map credit to the footer line.
+- **(floor)** Keep booking forms to six fields with visible labels, per-field errors, correct types and autocompletes, and a real send endpoint or mailto stand-in.
+- **(floor)** A displayed saving must match the stated prices.
+- **(floor)** Do not present subscription plans for non-subscription offerings such as products or places.
+- **(floor)** Do not rely on color alone to convey information or state.
+- **(floor)** Every interactive element must have an accessible name via label, aria-label, or visible text.
 - **(reflex)** Treat copy as design content and write it with the same intentionality and minimalism applied to spacing and color.
 - **(reflex)** Name things by what users understand in plain language rather than by how the system is built.
 - **(reflex)** Use active voice by default in interface copy.
@@ -10,3 +231,391 @@
 - **(reflex)** Treat empty screens as invitations to act rather than as mood.
 - **(reflex)** Keep copy conversational with plain verbs, sentence case, no filler, and a tone matched to the brand and audience.
 - **(reflex)** Do not apply template chrome such as tracked-out ALL-CAPS eyebrows above every heading, middle-dot meta strings, spaced-em-dash labels, tinted near-black stand-in blacks, monospace data labels, or trailing arrows on links and buttons unless the brief explicitly requests them.
+- **(reflex)** Put the job's own action word (e.g. Book, Tickets, Shop, Listen, Start free) in the navigation.
+- **(reflex)** Present proof using the category's own form instead of a generic band of numbers.
+- **(reflex)** When the prompt gives no content for a section, build it as a clearly marked sample the user replaces, showing the shape of the real thing.
+- **(reflex)** A section whose content would be facts the prompt lacks (a lineup or tour) must be one line plus a text slot, or left empty.
+- **(reflex)** Slot the two missing practical facts a visitor needs to act (such as hours and address) when the prompt lacks them.
+- **(reflex)** For a subscribe job, place the action in the hero, often as the hero itself, with the name, one line, and an email field.
+- **(reflex)** A subscribe page may end with a second email field under the archive or with the archive itself.
+- **(reflex)** A book page must end with hours, address, and the booking again.
+- **(reflex)** For a visit job, place today's hours and address in the nav or hero, and add tickets or donate only if the prompt includes them.
+- **(reflex)** A visit page must end with visit information and address, or a mailing list for what is on next.
+- **(reflex)** For an attend job, place tickets in the nav from the first screen and make the date and place the headline.
+- **(reflex)** An attend page must end with tickets again, the questions, or a mailing list for the next edition.
+- **(reflex)** For a sign-up job, place start free in the nav and hero with its terms in one line under it.
+- **(reflex)** For a hire job, use a plain contact (email, phone, or Talk to us) in the nav and once more after the work, with no form.
+- **(reflex)** For a join job, place join or your first visit in the hero.
+- **(reflex)** For a listen job, place the new release or current issue with its listen, watch, or order buttons side by side.
+- **(reflex)** When a listen job has no release in the prompt, lead with the act and make the close the enquiry to book them.
+- **(reflex)** Order page endings as: the hero's action again in a short band, practical details, more of the catalogue, a short trust tail, and finally a mailing list only for recurring things.
+- **(reflex)** Build the comp prompt from the Picks block and the stamp's idea line rather than from the page prompt.
+- **(reflex)** Order the comp prompt as first-viewport layout, idea, ground and accent colour words, display class, macrostructure, then a negative clause describing the category default.
+- **(reflex)** Record the comp outcome in the stamp using the approved reproduction wording.
+- **(reflex)** Cut any region the comp invented but the copy does not support instead of building it.
+- **(reflex)** Write generated-still prompts as photographer prompts with one subject, place, light, and lens and no on-camera people or text.
+- **(reflex)** Stamp generated stills with the model and imagegen.mjs invocation.
+- **(reflex)** Set labels, captions and meta to the body face in sentence case and untracked, reserving monospace for code and measured figures.
+- **(reflex)** When clickable text must wrap, first shorten the label, then apply white-space nowrap to the control, and finally collapse the row rather than the labels.
+- **(reflex)** Use logical properties for spacing, allow room for 30 to 40 percent longer strings, and avoid hard-coded date or number formats.
+- **(reflex)** Name any head that would pass unchanged on a competitor's page.
+- **(reflex)** Before the idea line on a custom run, write two lines describing what the page is about and what a visitor would remember.
+- **(reflex)** Ensure every line is picturable, falsifiable and specific to this business, treating puns as rare second-draft moves.
+- **(reflex)** Write subheads under twelve words stating what, for whom and the difference, and make section heads state what the visitor sees rather than category labels.
+- **(reflex)** Write short lines beside longer ones, prefer verbs over adjectives, keep one idea per sentence and avoid adjective triads.
+- **(reflex)** Respect word budgets for headings, section heads, intros, paragraphs and lists, and cap pages at 450 visible words.
+- **(reflex)** Write button verbs as the action, keep Continue only as a flow's second step, describe errors without exclamation marks or Oops, and give empty states one action.
+- **(reflex)** Use example.com and clearly sample values in built product data, never figures a visitor could take as claims.
+- **(reflex)** Use curly quotes, true ellipses and apostrophes, avoid dashes and em/en dashes, and place non-breaking spaces before units.
+- **(reflex)** Open sections with nothing when the reader already knows, otherwise open with a fact, destination or identifier rather than a name for what comes next.
+- **(reflex)** Share at most two opening moves per section and rotate them against the log.
+- **(reflex)** Represent missing facts as text slots in muted colour within dashed outlines, two per page, and cut rows that would hold only missing facts.
+- **(reflex)** Handle missing display faces with a font slot, a same-build stand-in and a handoff request rather than an invented face.
+- **(reflex)** Open user-named-but-empty sections with their heading, one line and one text slot, or merge them into a neighbour.
+- **(reflex)** Point unknown links at the page section that does most of it and name the needed URL in the handoff rather than inventing a route.
+- **(reflex)** Give forms without known endpoints an empty data-endpoint, state nothing was sent and never print a success state.
+- **(reflex)** Show testimonials only when supplied, bottom-align attribution and use real avatars or none.
+- **(reflex)** Emphasise a pricing tier with its button and a word, align buttons across tiers and never use negative margins for taller featured tiers.
+- **(reflex)** Set prose line-height to 1.65 to 1.75 with 60 to 75ch measure, keep stat titles unwrapped without icons and mark features as definition lists.
+- **(reflex)** Use empty alt when the subject is named beside the image and split footer logo rows evenly.
+- **(reflex)** Keep all labels, values, and axis text in the ink or muted color and identify series with a swatch beside the label rather than colored text.
+- **(reflex)** Label sample data with a data: sample stamp and ensure totals sum and dates sequence.
+- **(reflex)** Design a complete, client-specific page that a design lead would bring to a client who rejected every template, rather than a generic good page.
+- **(reflex)** Make every large decision specific to this client, including its subject, place, materials, numbers, and the way its people talk.
+- **(reflex)** Before writing code, determine what only this client has, including its name, meaning, place, one-verb function, real numbers, hours, rituals, products, customer words, and prompt-supplied facts.
+- **(reflex)** Grow the entire page from one client-specific idea that decides type, color, structure, motion, product presentation, and interaction from top to bottom.
+- **(reflex)** Decide what a visitor must see, understand, and do in order, then give each part the form that shows it best, and name what you made with the stamp.
+- **(reflex)** Treat copy as half the design and write the first place a generated page gives itself away with care.
+- **(reflex)** Read the headings alone and ensure they tell this client's story and no one else's.
+- **(reflex)** Replace Shape and Theme with Idea and Look in the picks block, and state what was decided in every other row.
+- **(reflex)** Use the stamp format theme: custom with a one-sentence idea, a 4 to 8 word vibe, the paper accent and faces, hero in own words, and posture and axes values.
+- **(reflex)** Ask once about material, audience, use and tone before building, then infer skipped fields and state the inferences.
+- **(reflex)** Write a hero headline of seven words or fewer and one sentence of twelve words or fewer with at most two actions, one of which is on a place.
+- **(reflex)** Build six to nine sections including hero and footer with at most 450 visible words and give each section a composition with mass.
+- **(reflex)** Never use a stock-site URL, a drawn illustration, an empty wash, a row of counting marks or an invented figure.
+- **(reflex)** Deliver the product's signature object, such as the ledger, timeline, or queue, rather than a greeting above stat cards.
+- **(reflex)** In fast mode, give a one-line disclosure at Step 1 and cap narration at three lines.
+- **(reflex)** If you have restated the plan twice, stop narrating and build.
+- **(reflex)** Allow the wordmark to use a different face than the body, especially on tone-rich pages, and collapse to one family only when the body voice is the brand.
+- **(reflex)** Do not render a product page wordmark as the body face at weight 600, as that is the un-designed default.
+- **(reflex)** Do not render 24 or more identical marks standing for a quantity; set the number in type unless the marks form a chart differing in value or colour.
+- **(reflex)** Do not close with an email sign-up unless the page job is native to a mailing list or the stamp names a job; end on the action the job takes.
+- **(reflex)** Decide and name chrome (nav:, footer:) instead of emitting the AI nav or footer shapes by reflex.
+- **(reflex)** Do not use a bare figure as the hero's only headline unless it is user-supplied and labelled; pair it with the line that says what it means.
+- **(reflex)** Delete rotated vertical text, scroll cues, version or BETA pills, weather/locale strips, mono-caps strips, credit captions under stand-ins, and 01/4 tile counts unless the prompt is a launch, venue, or distributed studio and the text is a fact.
+- **(reflex)** Print each fact once where it works; never repeat a price, time, date, count, or restate a section heading in its last line across four or more sections.
+- **(reflex)** Place one accented word in bold or on a highlighter band once in the hero, keeping heads to a single weight, style, and colour.
+- **(reflex)** Treat a figure as a headline only when the page is built around it and it carries its unit and source.
+- **(reflex)** Keep small eyebrow type only when it carries a fact, destination, or identifier the reader would otherwise lack, and never delete it bare.
+- **(reflex)** Limit landing pages to about 80 words per 900px window with the hero reduced to a headline, one sentence, and its actions.
+- **(reflex)** Avoid the middle dot, arrow suffix, and coloured dot as universal separators, allowing them only as a single byline dot, a marquee separator, or a live-state dot.
+- **(reflex)** Delete decoration text that carries no fact, such as rotated labels, scroll cues, version pills, city-and-weather strips, mono-caps strips, and stock image credit lines.
+- **(reflex)** State each fact once where it works rather than repeating it across the hero, cards, FAQ, and footer.
+- **(reflex)** Write specific, slightly literary copy that favors verbs over adjectives.
+- **(reflex)** Write declarative, specific, technical copy and only use 'Built for X' when X is concrete.
+- **(reflex)** Write warm, direct, specific copy and avoid quirk for its own sake.
+- **(reflex)** Add captions as facts from the prompt beside or under each picture, never credit lines or claims that a stand-in is the user's own person, place or product.
+- **(reflex)** Display only the user's own logos, monochrome and one treatment per row, sized 32 to 48px tall, plus Simple Icons only for named platforms or brands.
+- **(reflex)** Labels sit 4 to 8px above fields, helpers sit about 4px below at label size with min-height 1lh, and errors replace helpers in that line without adding a second.
+- **(reflex)** Reversible actions must run immediately and offer Undo for 5 to 10 seconds; irreversible actions must keep confirm with the user typing the name of the thing being destroyed.
+- **(reflex)** Empty states must state what is empty, why it matters, and one action, never a bare No results.
+- **(reflex)** A disabled control near the user's attention must explain why it is disabled.
+- **(reflex)** Keep section heads to six words or fewer at --text-section and at most one lead line beneath.
+- **(reflex)** Build indexes with 6 to 20 rows and a larger lead row.
+- **(reflex)** On offer sections show the photo or screen, options, price, action, and one delivery or terms line.
+- **(reflex)** Close the page with the visitor's job, not a generic form.
+- **(reflex)** Make footers 200 to 400px with wordmark or closing line, real links, and a legal line.
+- **(reflex)** Inside tiles, use a typographic link that carries a verb instead of a full button.
+- **(reflex)** Write long-document pages as continuous prose that reads like a memo, letter, or journal entry, avoiding marketing structure.
+- **(reflex)** Include exactly one action under the hero statement, sized small at its foot as a typographic link or single button.
+- **(reflex)** Place an outlined button chip beneath the qualifier whose label begins with a verb.
+- **(reflex)** Render each capture as a figure element containing a figcaption that states one fact plus one inline annotation.
+- **(reflex)** Label the sticky bottom bar with an action verb such as 'Start a project'.
+- **(reflex)** Write captions that name concrete inputs and actions instead of marketing claims.
+- **(reflex)** Keep each answer to one or two short paragraphs placed directly under its question.
+- **(reflex)** Place a typographic link inside an answer that carries an explicit verb such as Read the policy.
+- **(reflex)** Include exactly one outlined call-to-action button at the foot of the FAQ.
+- **(reflex)** When the FAQ is the primary page, open with a hero that asks the first question.
+- **(reflex)** Write manifesto body copy as short paragraphs where each paragraph is a single assertion sized to read across the room.
+- **(reflex)** Limit the manifesto's call to action to one action: showing up, signing, or joining.
+- **(reflex)** Place exactly one typographic verb-led link on the plate under the sentence as the visible action.
+- **(reflex)** Write captions as dates, places, and plate numbers rather than marketing copy.
+- **(reflex)** Separate quotes with a centred quote-mark glyph or a short rule.
+- **(reflex)** Place a verb-bearing typographic link beneath the attribution instead of a heavy button.
+- **(reflex)** Present additional supplied quotes as rows beneath the hero statement.
+- **(reflex)** Only apply Specimen when the prompt concerns type, publishing, or writing, or the user names it.
+- **(reflex)** Fill each card with its image, name, price, and one action.
+- **(reflex)** Carry the sign-off link at the letter's foot with an explicit verb such as Join the list.
+- **(reflex)** Show exactly one hero action button returning once at the foot, and keep links inside stages.
+- **(reflex)** Write stage headings as numbered, declarative, process-language lines with one stage per line.
+- **(reflex)** Place one outlined Buy the family action in the fold and repeat it at the foot.
+- **(reflex)** Write foundry-voice copy that names the face, its weights, and its use in short phrases.
+- **(reflex)** Organise page content as a single large spatial diagram (flowchart, floor plan, network graph, or system map) rather than linear prose.
+- **(reflex)** Place an orientation heading at or beside the map to orient the reader before the diagram carries the page.
+- **(reflex)** Surface multiple distinct cuts of platform content (featured, latest, by category, by people) via horizontal rails or grids.
+- **(reflex)** Place a verbed link (for example "See all templates") at each rail's edge and avoid a global CTA so the fold's single visible action is the first rail's link.
+- **(reflex)** Write rail headings as dated lines that include a count (for example "Featured this week.").
+- **(reflex)** For B2B SaaS pages whose shape is Bento Grid, Stat-Led, Workbench or Marquee Hero, build from the SaaS section deck.
+- **(reflex)** Use only honest base cards (spec sheet, worked example, changelog, comparison anatomy, pricing table, FAQ, CTA strip, footer) that require no invented material.
+- **(reflex)** State both deck moves in the Picks block using the deck syntax such as deck: -cta +changelog.
+- **(reflex)** State the chosen shape once, in the Picks block Shape row and the stamp shape field.
+- **(reflex)** Swap the copy button label to Copied for 2.5s instead of showing a toast.
+- **(reflex)** Place exactly one filled primary button per page and route the quiet variant elsewhere.
+- **(reflex)** Limit placeholder fill spans to two per page and name each in the handoff.
+- **(reflex)** Tighten wording that fails a copy gate from facts already on the page and list every changed line before and after.
+- **(reflex)** Never delete an eyebrow alone; where its heading is figurative, promote the plain label to the heading.
+- **(reflex)** When the user says to keep every word, stamp copy: verbatim and report copy gates 19, 58, and 69 as notes.
+- **(reflex)** Replace the Step 1 ask with a single message requesting what must stay, what is wrong, and anything new to show.
+- **(reflex)** Fix plain defects such as misalignment, broken glyphs, and lying labels at any depth.
+- **(reflex)** Focal grounds must pair with one compact UI piece, never a large window, screenshot, or text.
+- **(reflex)** Leave aria-label alone or name the thing plainly, such as 'A desk lamp, switched on'.
+- **(reflex)** Label exploded-layers sheets only with names in the client's words, never after printing techniques.
+- **(reflex)** The client's own photograph requires no credit entry.
+- **(reflex)** A FAQ contact link must be a mailto: or tel: only when the brief provides an address or number.
+- **(reflex)** A close h2 must be at most eight words.
+- **(reflex)** A close-word must not repeat the name in a footer wordmark.
+- **(reflex)** Footer columns must match the navigation order and names.
+- **(reflex)** A footer-visit address must place the street and district on two lines, or the district alone when no street is given.
+- **(reflex)** The report must name every stand-in and the art to replace it.
+- **(reflex)** The report must list every stand-in and the shots to take when no photographs exist.
+- **(reflex)** When a recipe and this section disagree on a place, this section wins.
+- **(reflex)** When the moment is `address`, set the street and district large under the visit h2, never invent a street.
+- **(reflex)** Keep one main action per screen and never repeat Get directions beyond the hero button and phone bar.
+- **(reflex)** Show the open-now line only when the brief gives hours.
+- **(reflex)** Render notice lines as still 14px lines and never rotate them.
+- **(reflex)** Link the credits list from one footer line only.
+- **(reflex)** Ensure every name fits on one line beside its price on span-3, shortening entries to roughly 24 characters when they would otherwise wrap.
+- **(reflex)** When a section has no photograph add one statement section of height 1 after the hero using word-highlight with 12 to 40 words from the brief.
+- **(reflex)** Write "not used" on plan line 2 for every printed deal part that the page does not build, including the place composition, the type moment, the rooms layout, and the address moment.
+- **(reflex)** Paste the UI fragment into its recipe slot and rewrite every name, number, subject, logo, and loop arriving text from meta.json edit.
+- **(reflex)** Write sentence case with curly quotes, keep numbers attached to units and cap lines at 62 characters with nothing below 13px.
+- **(reflex)** Apply the dealt nav class and repeat the logo in the footer.
+- **(reflex)** Make footer.closing the last section with the dealt close row and a directory row on one ground.
+- **(reflex)** Include the brand, current year, Privacy, Terms and a single credits details element and leave .socials empty unless the brief gives accounts.
+- **(reflex)** Mark opening hours with dt dd pairs and data-days and read data-tz on dl.hours to mark today and fill data-open-now.
+- **(reflex)** Show one form__status line that reads sending then success or failure and keep typed input on failure.
+- **(reflex)** Name the submit button with the action and state the reply time under the form.
+- **(reflex)** Keep tech copy to 60 to 80 words per screen outside UI mocks.
+- **(reflex)** Write all copy first, naming the category and buyer or place in the h1, stating one hard fact on the first screen, using a noun in every heading, and writing buttons as a verb and object, while marking assumed hours and prices on place pages with data-assumed.
+- **(reflex)** A place must deal two different compositions and one type moment.
+- **(reflex)** No single action may repeat more than once per screen.
+- **(reflex)** A heading's grey half must form its own complete sentence.
+- **(reflex)** Each statement must carry one fact and one wording.
+- **(reflex)** Place a scene where the copy promises it.
+- **(reflex)** Start loops on the finished picture, never an empty window or greyed text, and hold the finished text for the rest of the cycle.
+- **(reflex)** Show only text from the markup in a fragment's script and keep its finished picture as the markup as written.
+- **(reflex)** Use placeholders such as [Name], Example Street 1, a .example address, or lorem ipsum for card example content.
+- **(reflex)** Include a caption under each visual that explains or apologises for its placeholder nature.
+- **(reflex)** Write the sub-line as 15 to 30 words describing how it works and the main benefit with one fact or mechanism and never a row of adjectives.
+- **(reflex)** For a place, keep the sub-line to the fact plus today's hours within 80 characters.
+- **(reflex)** Make section headings name the part with one line of claim beneath it as the default.
+- **(reflex)** Use a verb and the thing for headings where the reader acts and never a bare command.
+- **(reflex)** Start the about and story section in a concrete moment the brief gives rather than a thesis.
+- **(reflex)** Avoid value pillars and instead use anecdotes, a timeline or questions.
+- **(reflex)** Include failure and luck in the plot when the brief contains them.
+- **(reflex)** Show founders as people using only the names the brief gives.
+- **(reflex)** Express values as behaviours with numbers rather than adjectives.
+- **(reflex)** End the about section in a modest present tense rather than a vision.
+- **(reflex)** State how to reach them with the form, street and hours.
+- **(reflex)** Write a portfolio about section with one line on what the person does, what they make and for whom, one or two dated projects, one sentence of belief and availability as a plain date.
+- **(reflex)** Describe features as verb-led steps showing the mechanism.
+- **(reflex)** Lead features with the outcome and use the feature as its proof.
+- **(reflex)** Use real times, sizes and amounts in feature examples and never the word customisable.
+- **(reflex)** Show the product doing the work using the client's own data, names and numbers.
+- **(reflex)** Use every named room, plan, blend or model identically throughout the page.
+- **(reflex)** Vary card length with how much the brief knows, keeping titles as a verb and an object.
+- **(reflex)** Let others state superlatives with full attribution rather than claiming them yourself.
+- **(reflex)** Keep real quotes rough, lowercase and unchanged rather than polished.
+- **(reflex)** Prove craft with a rule instead of using the word craft.
+- **(reflex)** Drop to fact tone in prices, FAQ and booking because the reader is anxious.
+- **(reflex)** Price and state every perk literally.
+- **(reflex)** Admit limits in the FAQ such as platform availability.
+- **(reflex)** Ask the buyer's real objection and answer it flatly in the FAQ.
+- **(reflex)** Restate the hero's promise with one brief fact and the main action word in the close.
+- **(reflex)** Write empty states that name the next action.
+- **(reflex)** Write the 404 page pointing to the menu and hours.
+- **(reflex)** Write the newsletter confirmation with the rhythm from the brief.
+- **(reflex)** Write field hints only for what the brief promises.
+- **(reflex)** Prefer odd human numbers over round big ones when the brief gives them.
+- **(reflex)** Place every number inside a sentence beside the claim it proves.
+- **(reflex)** Keep humour self-directed, bracketed and inside microcopy, never at the end of every paragraph and absent on serious purchases beyond microcopy.
+- **(reflex)** Treat no chosen register as the default and only select one per client.
+- **(reflex)** Borrow at most one move from a second register beyond the chosen one.
+- **(reflex)** Select the register by the buyer, price, and client character, preferring the register least like the last page written when the brief is ambiguous.
+- **(reflex)** Use plain declaratives with names, dates, and counts, and show exclusivity through a rule or fact rather than an adjective.
+- **(reflex)** Pair each label with a hard figure, present the mechanism in verb-led steps, and place real commands, UI strings, and file names on the page.
+- **(reflex)** Write in first person with a named enemy, the reader's own pain, a purposeful refrain, and a plain human sign-off inside the body text, never the footer.
+- **(reflex)** Use exact slightly raised vocabulary, sensory lists by name, never an exclamation mark, and place the price plainly on the button.
+- **(reflex)** Let places, history, and geography carry the story, keep physical verbs unhurried, omit prices and quotes from the hero, and never use the word luxury.
+- **(reflex)** Describe literal sensory facts of the place in second person present tense, show craft as a repeated step with a constraint, and state one defining absence.
+- **(reflex)** Open on a dated moment with named streets, furniture, and people, and never caption old photographs on the page.
+- **(reflex)** State the mission in one measurable sentence, admit its own harm, and back it with numbers and reports.
+- **(reflex)** Position the brand by what it will not do, state scarcity as an honest limit, and name the makers when the brief names them.
+- **(reflex)** Use almost no we, make the product the subject of every sentence, and follow each turn of phrase immediately with a spec.
+- **(reflex)** Address one busy person with bracketed asides and self-deprecation while keeping section labels that still name the thing.
+- **(reflex)** Match the register to the trade using the provided starting points and avoid the listed registers for each trade.
+- **(reflex)** Only use a brand-name word like 'Elevate' when the brief explicitly provides that name as the client's name.
+- **(reflex)** Do not tack an -ing phrase onto a fact (e.g., ', ensuring a smooth start').
+- **(reflex)** Do not use question-then-answer, colon-reveal, or 'serves as'/'plays a key role' phrasing where 'is' or 'has' would suffice.
+- **(reflex)** Avoid using em dashes throughout body copy.
+- **(reflex)** Do not use exclamation marks in body copy.
+- **(reflex)** Do not append an arrow after every link's text.
+- **(reflex)** Name the specific street or thing instead of using dead metaphors like 'landscape', 'ecosystem', or 'journey'.
+- **(reflex)** Choose a writing register per client from copy-registers.md instead of applying one uniform house voice.
+- **(reflex)** Do not build a strip of three or four figures over one-word labels; place each number in the sentence it proves.
+- **(reflex)** Avoid two-fragment headings like 'Twelve rooms. Three ways to stay.'; use a name with a claim, a verb and thing, or a plain sentence.
+- **(reflex)** Avoid number-pair headings like 'Four projects, four very different problems.'; state what the section holds.
+- **(reflex)** Suppress 'not X but Y' and its substitutes (rather than, instead of, without the); state the positive fact alone.
+- **(reflex)** Do not use negation runs like 'No forms, no back-and-forth.' unless each item is a checkable refusal.
+- **(reflex)** End paragraphs on information, not a joke; move humor to microcopy.
+- **(reflex)** Keep the footer to the legal row from copy.md; do not add a sign-off line.
+- **(reflex)** Use a brand-derived metaphor at most once, or never.
+- **(reflex)** Do not use the 'In [year], [names] found [store] and kept [detail]' origin template; use the brief's real story or omit the story section.
+- **(reflex)** Only include testimonials when the brief provides them word for word; never fabricate three-quote sets with numbers and punchlines.
+- **(reflex)** Build section shapes from the reader's questions instead of applying the default eyebrow-claim-cards template everywhere.
+- **(reflex)** State one response-time figure from the brief, worded identically wherever it repeats.
+- **(reflex)** Use 'Since [year]' at most once, where it matters, and only from the brief.
+- **(reflex)** Only use figures the brief provides, with their unit, stated in a sentence; never round unsourced claims like '3x faster'.
+- **(reflex)** Write hand-tuned hero, stock form error, and stock thank-you microcopy in the client's register.
+- **(reflex)** Do not talk about the page itself, its structure, or how it was built.
+- **(reflex)** Ensure the copyright line reflects the current year.
+- **(reflex)** After removing banned habits, use colons, brackets, and semicolons naturally; avoid comma splices and fragment drumbeats.
+- **(reflex)** Avoid virtue words describing the business itself, allowing only literal physical ones and at most two elsewhere.
+- **(reflex)** Use at most one pun on the brand name or its metaphor per page and never place it in the h1.
+- **(reflex)** Keep the footer factual and free of sign-off jokes or puns.
+- **(reflex)** Record the chosen voice card on the plan, not on the page, and pick the register least like the last page written this session when the brief does not settle it.
+- **(reflex)** Write prices, the FAQ, booking, and forms in plain, calm copy, reserving voice for the hero and story.
+- **(reflex)** Lead with the true difference and its proof instead of unproven adjectives or slogans.
+- **(reflex)** Describe how the product works as verb-led steps rather than as how good it is.
+- **(reflex)** Place numbers inside sentences with their units and vary their distribution like real figures.
+- **(reflex)** Admit exactly one limit per page, drawn from the brief or plain trade facts, never an invented flaw.
+- **(reflex)** Put proof from named outsiders beside each claim, or a strip of plain brief facts, or nothing.
+- **(reflex)** Spend each signature device at most once per page, where it lands hardest, and never repeat two in a row.
+- **(reflex)** Do not place lists of three in consecutive sentences.
+- **(reflex)** Use step numbers only where the order itself is the content, such as a booking flow.
+- **(reflex)** Put one hard fact—a number, place, price, or date—in the first screen.
+- **(reflex)** Give every heading a noun naming a thing, a section, or a digit.
+- **(reflex)** Use at most one brand line per page, never as the h1, and pair it with a factual line beneath it.
+- **(reflex)** Use at most ten different button labels across a page.
+- **(reflex)** Name the main transaction the same way in the nav, hero, close, and phone bar, and nowhere else.
+- **(reflex)** Write the hero sub-line in fifteen to thirty words as one to two sentences describing how it works and the main benefit.
+- **(reflex)** For a place, keep the hero sub-line to eighty characters stating the fact and today's hours.
+- **(reflex)** Make section headings a noun phrase or short plain claim of one to six words in at most two lines.
+- **(reflex)** Never use a bare command, question, colon heading, or context-only line as a section heading.
+- **(reflex)** Title each card with a verb and object in one line using real words.
+- **(reflex)** End the first sentence of a two-half heading with a full stop before the muted span.
+- **(reflex)** Keep one line to two sentences under headings and card bodies to two sentences of at most twenty-five words.
+- **(reflex)** Never write a paragraph longer than five lines at 1440.
+- **(reflex)** Keep words per screen at the product, place, or service budget and keep pages under about nine hundred words.
+- **(reflex)** Stay within sixty to eighty tech words per screen at 1440, counted outside UI mocks, diagrams, and code.
+- **(reflex)** Place numbers in sentences with their unit and keep figures uneven where real.
+- **(reflex)** Add a numbered footnote of thirteen pixels or larger near the footer for real brief claims needing a source.
+- **(reflex)** Stand pictures beside short copy, never in place of it, and keep every word as live text.
+- **(reflex)** Label forms by what goes in, never with a question or placeholder.
+- **(reflex)** Name the field and what to type in error messages.
+- **(reflex)** State what was sent using the button's own words.
+- **(reflex)** Show customer logos only for real customers the brief names and allows, and keep real tool icons in their own colors.
+- **(reflex)** Add one short footer line naming only the sources used, linking the credits list, and never a per-photograph credit link.
+- **(reflex)** Give each price, opening time, and address one value and one wording, repeated only where it belongs.
+- **(reflex)** Open directions with the street and district, or see the area with the district and town when no street is given.
+- **(reflex)** Omit phone numbers, tel links, and Call buttons unless the brief gives a number.
+- **(reflex)** Keep the legal row to the brand, year, Privacy, Terms, and credits, adding an Imprint link only when the brief gives company details.
+- **(reflex)** Coin names that are not dictionary words or existing businesses, and search them before using them.
+- **(reflex)** Send links where their label says, to a part of the page or an existing page, never to here or a closed answer.
+- **(reflex)** Ask once near the footer with Subscribe or Sign up and an email field only.
+- **(reflex)** Mark every assumed price, hour, date, or place with data-assumed on its own element.
+- **(reflex)** Copy a preset into data-diagram and rename every label, icon, and number to the client's own, placing specs containing apostrophes or quotes inside a script element.
+- **(reflex)** Label tools by name, steps by result, and places by city, using one to three words per label.
+- **(reflex)** Use realistic numbers in meta fields such as counts and latency values.
+- **(reflex)** Omit any caption under the diagram, set the card title to describe it, and put the description in the spec alt for screen readers.
+- **(reflex)** Place copy on the photograph's calm dark corner with white type and no scrim, and only in the hero and one band per page.
+- **(reflex)** Put the photographer's credit in the page's single footer credit line, never under the picture.
+- **(reflex)** Use fx-stat only for two to four proof numbers from the brief at the stat size, never for small numbers, count-ups, or invented figures.
+- **(reflex)** Use fx-button only for the single primary call to action, not for every button.
+- **(reflex)** Use fx-prompt only for the hero prompt box of an AI or developer product, not for ordinary forms.
+- **(reflex)** Use fx-search only for docs or command search, never for a field that always glows.
+- **(reflex)** Use fx-globe only for products with global reach, not for local businesses.
+- **(reflex)** Use fx-pricing only for the recommended plan, not for all plans.
+- **(reflex)** Keep words outside the product frame and never place them over the product or beside it.
+- **(reflex)** Run copy-lint.mjs on the page's file, or on the browser-built page when the file holds no sections, and never pass the copy when it cannot be checked.
+- **(reflex)** Put open FAILs, waivers, and the first WARNs in the report when the gate prints GATE: OPEN.
+- **(reflex)** Record GATE: DONE, the user's words, and the open FAILs in the report when closing with --done.
+- **(reflex)** Constrain text to the left line and the page's split line, start all headings and the close on the left line, and never centre or right-align blocks wider than half the .wrap.
+- **(reflex)** Use exactly one underline style per page for links and nav words.
+- **(reflex)** Reserve the count width, show the final figure in the HTML and never count years, prices or phone numbers.
+- **(reflex)** Make every photograph that leads somewhere a link and show its hover effect across every section.
+- **(reflex)** Place a sold item's name and price inside its card padding rather than as a line under a bare picture.
+- **(reflex)** Put the place name in the image alt text.
+- **(reflex)** Keep the credit line to at most 110 characters and name only the sources, never the photographers.
+- **(reflex)** Paste the single credit line in the footer and place the full credits list on its own page.
+- **(reflex)** List each photographer, licence and source page in the credits list, marking adapted frames.
+- **(reflex)** List public-domain frames with the Public Domain Mark page and still name the photographer.
+- **(reflex)** Lead every main section of a product, place, or service page with the client's own photograph, else one chosen via `photos.mjs`, shown plain and credited in a single footer line.
+- **(reflex)** Use one plain buyer-word label per nav bar link and never wrap the bar below the `.wrap` width.
+- **(reflex)** Keep nav link helper lines to at most 30 characters and never put chevrons on plain links.
+- **(reflex)** Avoid vague nav labels like "Solutions" or "Platform" and never mirror the split pair.
+- **(reflex)** Write the hero h1 in 2 to 8 words naming the category and the buyer or place, and keep the sub-line to 15 to 30 words with one hard fact.
+- **(reflex)** Make the hero primary action a verb and object matching the nav, close, and phone bar word for word, with at most one quieter action on a place.
+- **(reflex)** Use app buttons as text like "Download for iPhone" and never place store badges beside the system buttons.
+- **(reflex)** Give every quote a 40px portrait of the person or the company logo, and keep the stat as a number with a grey line of up to eight words.
+- **(reflex)** Never turn a stat into a count-up or a slogan, and keep quote cards out of customer-proof rows.
+- **(reflex)** Write the product statement as one plain paragraph with the first sentence in ink and the rest muted, and never place it straight after a hero of the same width.
+- **(reflex)** State product facts as values with units, never as claims or slogans.
+- **(reflex)** Keep small bento card copy to two to four words and never place text in different positions across bento cards.
+- **(reflex)** Write tab labels as a verb plus object in two or three words with consistent grammar.
+- **(reflex)** Use two to four chapters per row in a series, each with an h2, a ~25-word grey paragraph, one link, a 16:7 hero frame, and four feature names.
+- **(reflex)** Write enough rows and open-item lines that both panes run past the frame bottom and are cut by its fade, never leaving an empty strip.
+- **(reflex)** Show every model at one scale on one backdrop or one camera angle, with prices from and facts lines, and never mix angles or scales.
+- **(reflex)** List rooms with a 4:3 whole-room photograph, name, facts, price from with season, and a Book this room action, never as plan cards with checks or badges.
+- **(reflex)** Show services as a list beside one photograph of the work, never as icon cards, with prices present and no more than eight rows.
+- **(reflex)** Show only the real team the brief gives, with consistent light and grounds, and no more than eight people.
+- **(reflex)** Pricing-three must show three plans side by side with the middle plan recommended.
+- **(reflex)** The middle plan must be .is-featured and carry a Most popular .badge.
+- **(reflex)** Every price must carry data-monthly and data-yearly and show the correct billing line in each mode.
+- **(reflex)** The every-plan inclusion list must not be repeated inside the individual cards.
+- **(reflex)** FAQ questions must be phrased in the buyer's words and stay at most 60 characters.
+- **(reflex)** FAQ answers must start with the answer and stay under 50 words.
+- **(reflex)** Use a single ellipsis character instead of three dots.
+- **(reflex)** Use curly quotes instead of straight quotes for typography.
+- **(reflex)** Use non-breaking spaces between units, modifiers, and brand names.
+- **(reflex)** Loading state labels must end with an ellipsis character.
+- **(reflex)** Use title case for headings and buttons following Chicago style.
+- **(reflex)** Use numerals for counts instead of spelled-out numbers.
+- **(reflex)** Use specific button labels describing the action instead of generic labels.
+- **(reflex)** Error messages must include a fix or next step, not just the problem.
+- **(reflex)** Use ampersand instead of and where space is constrained.
+- **(reflex)** Do not use emoji as substitutes for icons or decorative elements in interface copy.
+- **(reflex)** Write copy in clear, plain language avoiding jargon and abbreviations.
+- **(finish)** Permit a filled primary button paired with an outlined or text action that navigates elsewhere, and permit a sample of the built product placed in a slot.
+- **(finish)** On redesigns, treat content below the first screen as the unbuilt old page and do not flag it.
+- **(finish)** Balance paragraphs to avoid orphaned last-line words and balance heads of two or three lines ending on a stub at 375px and 1280px.
+- **(finish)** Write direct, slightly poetic, specific copy such as an imperative prompt.
+- **(finish)** Write inventory headers as dated counts with a qualifier and no adjectives.
+- **(finish)** Write opening lines as date ranges, sort-and-scope statements, or short role summaries without preamble.
+- **(finish)** Treat gate 58, the screen budget, as a note at every depth because words belong to the owner and only a copy gate cuts one.
+- **(finish)** Do not add a credit line for the client's own photographs.
+- **(finish)** Ship no testimonials when craft, luxury or a small place relies on photographs and facts.
+- **(finish)** Offer a low-pressure exit for browsers where the register fits.
+- **(finish)** Use rhythm once on purpose through short sentences, a surprising list ending or one long sentence beside a short one.
+- **(finish)** Vary section and paragraph lengths to follow the material rather than forcing perfect evenness.
+- **(finish)** Use one or two eyebrow labels per page and none when the heading already names the thing.
+- **(finish)** Include testimonials only when the brief supplies them, each with a name, role, or town, and treat zero as normal.
+- **(finish)** Repeat the product's own name instead of cycling through generic terms like 'the platform' or 'the tool'.
+- **(finish)** Vary what each section contains, such as a list, table, short letter, or single longer paragraph, instead of repeating the same skeleton.
+- **(finish)** An open-now line may fill once at load but the panel must read correctly without it.
+- **(guidance)** Never request copy, actions, or visuals the page lacks; instead state in one line what the owner could supply.
+- **(guidance)** Write answers as concrete facts rather than comparisons.
+- **(guidance)** Write manifesto opening lines as committed declarations without hedging language.
+- **(guidance)** Write opening lines that name the volume and era, such as a date range or counts without adjectives.
+- **(guidance)** Do not use a map as a substitute for narrative; some stories must not be read spatially.
+- **(guidance)** Open with a tangible working example rather than an abstract claim.
+- **(guidance)** Read vague tone words like modern or clean through the genre and state them as an inference, never as a second question.
+- **(guidance)** Allow true exceptions such as perfect grammar, plain 'is'/'has', client house-style title case, and proven narrow superlatives.
+- **(guidance)** Write copy in active voice.
+- **(guidance)** Write copy in second person and avoid first person.
+- **(guidance)** Substitute a rival's name or another town's trade into every heading and sub-line, and rewrite any line that still reads true.
+- **(guidance)** Pass all pages built this session to the linter together and break any shared cadence, joke, or opening phrase between them.
+- **(guidance)** Read the copy aloud as the client and cut every sentence they would not say about themselves.
+- **(guidance)** After fixing one device, check that it was not replaced by another tic such as multiplying 'rather than' or fragmenting every sentence.
+- **(guidance)** When a subagent is available, give it only the page text and fix what it cannot use to identify the product, buyer, cost, and differentiator.
+- **(guidance)** Carry the one-line voice card, every assumed price or hour, and the list of what the client must still supply in the report.

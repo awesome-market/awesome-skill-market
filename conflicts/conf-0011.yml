@@ -20,7 +20,7 @@ ai_explanation: Both rules govern where credits live in the footer, but A requir
 suggestion:
   kind: scope-split
   note: A applies to photography/licence credits → footer's Photographs line; B applies to all other credits → footer's single credits line, never under the print.
-issue_url: null
+issue_url: https://github.com/terry2010/skill-fusion/issues/11
 evidence_files:
   - option-a.png
   - option-b.png

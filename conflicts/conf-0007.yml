@@ -20,7 +20,7 @@ ai_explanation: Rule A permits only transform and opacity (excluding colours), w
 suggestion:
   kind: merge
   note: Allow transform, opacity and colours; never animate width, height, top, left, padding, or layout properties.
-issue_url: null
+issue_url: https://github.com/terry2010/skill-fusion/issues/7
 evidence_files:
   - option-a.png
   - option-b.png
