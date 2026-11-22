@@ -1,1 +1,0 @@
-A shows a 7-day schedule table including staff-only workdays (Mon-Fri) and process-based class times — the forbidden use of schedules for processes/workdays. B replaces that with a 4-step visitor journey and three figures (12 classes, 48 seats, 2 public days) — no timed grid at all. Look for the schedule table present in A vs. absent in B, and the added step/figure blocks in B.

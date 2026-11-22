@@ -1,1 +1,0 @@
-Look for the row structure: Option A shows exactly four inline slots per row with absent subjects set in type only (no frames), while Option B shows a single photograph spanning six of twelve columns and standing 440px tall with thumbnails as clip art — six columns exceeds the four-slot cap, so the two rules cannot both hold.

@@ -1,1 +1,0 @@
-At a glance: Option A keeps the hero image and feature card motionless under the pointer, with only the container background shifting; Option B shows the button and linked card lifted (translateY) with deeper shadow, frozen in their hover state, plus a pressed button example — no page CSS sets a transform/transition outside these interactive elements.

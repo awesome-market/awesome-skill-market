@@ -1,1 +1,0 @@
-Look at the hero band: Option A shows it already at scale 1.00 with no animation (static, reduced-motion friendly); Option B shows the hero mid-settle at scale 1.05 animating to 1.00 over 1.1s — the mandated hero motion that conflicts with l2c1's static requirement.

@@ -1,1 +1,0 @@
-Option A renders a full-width hero photograph (gradient frame + caption) above the link list; Option B omits all hero imagery and shows only a vertical list of links with metadata and arrows — same product and scaffold, differing only on whether a hero photograph is present.

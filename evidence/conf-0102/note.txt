@@ -1,1 +1,0 @@
-Compare the hero heading: Option A uses 64px with -2px tracking; Option B uses 96px with -4px tracking. Labels, captions, and nav links are identical in both files (body face, no tracking), showing the rule applies only to large display type, not to labels/captions/nav.

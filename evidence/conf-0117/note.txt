@@ -1,1 +1,0 @@
-Look at the yellow measure box (Option A) versus the green deferred box (Option B): both show 640px, but A reads layout during render while B defers the read until after modules load and avoids scroll/move listeners.

@@ -1,1 +1,0 @@
-Look at the hero/section image: Option A caps the image width to the 720px body measure with surrounding whitespace; Option B stretches the photograph edge-to-edge filling the entire viewport with no margins.

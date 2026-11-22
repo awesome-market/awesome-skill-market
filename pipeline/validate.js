@@ -38,7 +38,7 @@ for (const f of listYAMLFiles(DIRS.conflicts)) {
   if (!/^conf-\d{4}$/.test(c.id)) err(name, `bad id ${c.id}`);
   if (confIds.has(c.id)) err(name, `dup conflict id ${c.id}`);
   confIds.set(c.id, c);
-  if (!['pending', 'decided'].includes(c.status)) err(name, `bad status ${c.status}`);
+  if (!['pending', 'decided', 'dismissed'].includes(c.status)) err(name, `bad status ${c.status}`);
   if (!c.fingerprint) err(name, 'missing fingerprint');
   if (!Array.isArray(c.sides) || c.sides.length !== 2) err(name, 'sides must be 2');
   for (const s of c.sides ?? []) {

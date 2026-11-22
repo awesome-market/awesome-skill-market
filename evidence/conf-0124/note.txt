@@ -1,1 +1,0 @@
-A shows only first-viewport content (header + two cards + footer) with no below-fold sections; B shows three full sections below the fold with 120px gaps (64px on the middle section) and varied spacing.

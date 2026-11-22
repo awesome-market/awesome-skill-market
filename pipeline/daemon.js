@@ -5,6 +5,7 @@ import { log, sleep, git, gitDirty } from './lib/util.js';
 import { sync } from './sync.js';
 import { extract } from './extract.js';
 import { synthesize } from './synthesize.js';
+import { arbitrate } from './arbitrate.js';
 import { evidence } from './evidence.js';
 import { issues } from './issues.js';
 import { translateConflicts } from './translate.js';
@@ -41,6 +42,7 @@ async function cycle() {
 
   if (!skipLLM) {
     await synthesize();
+    await arbitrate(); // independent second opinion — auto-decides sound suggestions
     await translateConflicts(); // backfill zh fields the model under-fills
     await evidence();
     await issues();

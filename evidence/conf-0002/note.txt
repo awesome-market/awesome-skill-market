@@ -1,1 +1,0 @@
-Both pages share the same FAQ scaffold; Option A collapses answers (max-height:0, only the first is expanded via .show), Option B renders every answer block fully open with visible content and a minus marker. Look for whether the answer text is visible immediately on load.

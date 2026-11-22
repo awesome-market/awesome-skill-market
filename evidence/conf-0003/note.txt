@@ -1,1 +1,0 @@
-Look at the footer: Option A prints a separate credit line for each library photograph (multiple lines) and still lists the render; Option B collapses all photograph credits into a single line and omits the render credit entirely.

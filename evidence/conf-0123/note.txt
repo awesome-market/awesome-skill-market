@@ -1,1 +1,0 @@
-Look for the left-side behavior: Option A keeps an opaque, upright fragment that never covers the main rows and never repeats a changed template; Option B shows a sticky left pane whose scroll-synced right pane cycles through captures, repeating the same fragment and overlapping the readable rows.

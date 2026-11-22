@@ -1,1 +1,0 @@
-A keeps a page-level filled primary button plus a filled primary inside the close (two filled primaries — violates Rule A). B removes the page-level primary, leaving exactly one filled primary inside the close (satisfies Rule B). Look for the presence/absence of the standalone 'Confirm workspace' button below the card.

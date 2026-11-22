@@ -19,6 +19,9 @@ function render(rules, version) {
   const finish = rules.filter((r) => r.severity === 'finish');
   const guidance = rules.filter((r) => r.severity === 'guidance');
   const REFLEX_INLINE = 80;
+  const FLOOR_INLINE = 150; // cap inline floor rules — an agent can't track 800 constraints anyway;
+  // pick the most-consensus ones (rules synthesized from the most upstream sources), rest live in references/
+  floor.sort((a, b) => (b.sources?.length ?? 0) - (a.sources?.length ?? 0));
 
   const byScope = new Map(SCOPES.map((s) => [s, rules.filter((r) => r.scope?.includes(s))]));
   const refList = [...byScope.entries()].filter(([, v]) => v.length);
@@ -35,7 +38,7 @@ Rules distilled from upstream design skills by the deslop-fusion pipeline. **Do 
 
 ## The Floor — never ship a violation
 
-${floor.map((r) => `- ${r.rule}`).join('\n')}
+${floor.slice(0, FLOOR_INLINE).map((r) => `- ${r.rule}`).join('\n')}${floor.length > FLOOR_INLINE ? `\n\n_…and ${floor.length - FLOOR_INLINE} more floor rules in references/ — load the scope file you're working in._` : ''}
 
 ## Reflex defaults — apply unless the brief says otherwise
 

@@ -151,6 +151,44 @@ async function synthDomain(domain, input) {
   return synthSet(domain, input, `synth:${domain}`, 0);
 }
 
+const SEV_RANK = { floor: 0, reflex: 1, finish: 2, guidance: 3 };
+const EV_RANK = { none: 0, audit: 1, recording: 2, screenshot: 3 };
+
+/** Deterministic post-pass: union-find merge of near-verbatim duplicates (Jaccard ≥ 0.9 on
+ * content tokens). Chunked synthesis often emits the same rule twice from different chunks —
+ * folding them keeps one survivor with unioned provenance/scope, strictest severity, strongest
+ * evidence. Arbitrated rules (decidedBy) are never absorbed. */
+function dedupeMerged(rules) {
+  const parent = rules.map((_, i) => i);
+  const find = (i) => (parent[i] === i ? i : (parent[i] = find(parent[i])));
+  const toks = rules.map((r) => tokens(r.rule));
+  const pairs = [];
+  for (let i = 0; i < rules.length; i++) {
+    for (let j = i + 1; j < rules.length; j++) {
+      if (rules[i].decidedBy || rules[j].decidedBy) continue;
+      const sim = jaccard(toks[i], toks[j]);
+      if (sim >= 0.9) pairs.push([sim, i, j]);
+    }
+  }
+  pairs.sort((a, b) => b[0] - a[0]); // most-identical first — deterministic merge order
+  for (const [, i, j] of pairs) {
+    const ri = find(i), rj = find(j);
+    if (ri === rj) continue;
+    const a = rules[ri], b = rules[rj];
+    // survivor: stricter severity, then longer (more detailed) text
+    const keepA = SEV_RANK[a.severity] !== SEV_RANK[b.severity]
+      ? SEV_RANK[a.severity] < SEV_RANK[b.severity]
+      : a.rule.length >= b.rule.length;
+    const [keep, drop, keepRoot, dropRoot] = keepA ? [a, b, ri, rj] : [b, a, rj, ri];
+    keep.sources = [...new Map([...keep.sources, ...drop.sources].map((s) => [`${s.source}:${s.id}`, s])).values()];
+    keep.scope = [...new Set([...keep.scope, ...drop.scope])];
+    keep.mechanizable ||= drop.mechanizable;
+    if ((EV_RANK[drop.evidence] ?? 0) > (EV_RANK[keep.evidence] ?? 0)) keep.evidence = drop.evidence;
+    parent[dropRoot] = keepRoot;
+  }
+  return rules.filter((_, i) => find(i) === i);
+}
+
 export async function synthesize({ applyOnly = false, onlyDomain = null } = {}) {
   const rules = loadExtracted();
   log(`synthesize: ${rules.length} extracted rules in`);
@@ -242,7 +280,7 @@ export async function synthesize({ applyOnly = false, onlyDomain = null } = {}) 
 
     const out = await synthDomain(domain, input);
 
-    const sevRank = (s) => ({ floor: 0, reflex: 1, finish: 2, guidance: 3 }[s] ?? 3);
+    const sevRank = (s) => SEV_RANK[s] ?? 3;
     for (const r of out.rules) {
       const srcIds = new Set(r.source_ids);
       const srcs = input.filter((r2) => srcIds.has(r2.id));
@@ -325,13 +363,15 @@ export async function synthesize({ applyOnly = false, onlyDomain = null } = {}) 
     ? [...(prev?.rules ?? []).filter((r) => r.synthesizedFrom !== `domain:${onlyDomain}` && !r.decidedBy), ...synthRules, ...overlays]
     : [...synthRules, ...overlays]
   ).filter((r) => !held.has(r.hash)); // contested verbatim must not leak via passthrough/reuse
+  const deduped = dedupeMerged(merged);
+  if (deduped.length !== merged.length) log(`synthesize: folded ${merged.length - deduped.length} near-identical synthesized rules`);
   writeYAML(FILES.mergedRules, {
     generated: new Date().toISOString(),
-    count: merged.length,
-    rules: merged.sort((a, b) => a.scope[0].localeCompare(b.scope[0])),
+    count: deduped.length,
+    rules: deduped.sort((a, b) => a.scope[0].localeCompare(b.scope[0])),
   });
   writeJSON(STATE_FILE, { domains: newDigests, at: new Date().toISOString() });
-  log(`synthesize: wrote ${merged.length} merged rules; ${dilemmaCount} new dilemmas, ${held.size} held pending`);
+  log(`synthesize: wrote ${deduped.length} merged rules; ${dilemmaCount} new dilemmas, ${held.size} held pending`);
 }
 
 if (process.argv[1] && import.meta.url.endsWith(path.basename(process.argv[1]))) {

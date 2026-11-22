@@ -1,1 +1,0 @@
-Option A leaves the product surface text-free; Option B keeps the same layout but adds lowercase body copy on the product — the two rules conflict because A forbids exactly the body text B permits.

@@ -1,1 +1,0 @@
-Look for whether scroll-driven reveal exists: Option A shows a static card with an explicit 'nothing happens' scroll hint; Option B shows exactly one card highlighted/revealed via horizontal reveal while the others remain untouched, with a matching hint.

@@ -1,1 +1,0 @@
-Look at the footer: Option A prints each photograph's credit on its own line directly in the footer; Option B shows exactly one footer line linking to the credits list (per-photograph credits hidden via display:none).

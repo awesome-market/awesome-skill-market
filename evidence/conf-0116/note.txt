@@ -1,1 +1,0 @@
-Look at the top-right tags and card copy: Option A emits no --spacing tokens and derives spacing from the 4px unit directly; Option B emits --spacing-* tokens mapped to 4px, which the no-spacing-tokens rule forbids — the visible conflict when both rules apply.
