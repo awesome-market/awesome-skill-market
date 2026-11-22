@@ -1,9 +1,9 @@
-generated_at: 2026-11-22T11:10:10.453Z
+generated_at: 2026-11-22T11:28:40.513Z
 counts:
   extracted: 2570
   canonical: 2570
-  merged: 2557
-  pendingHeld: 2
+  merged: 2555
+  pendingHeld: 4
 rules:
   - id: fronte-001
     rule: Identify the product, audience, and primary job from the brief or memory before designing, and confirm them with the client if the brief omits them.
@@ -11401,19 +11401,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--824
-  - id: taste--825
-    rule: A photograph must never stand where an effect, a drawing, or an empty box would appropriately appear.
-    severity: floor
-    scope:
-      - imagery
-      - layout
-    evidence: screenshot
-    mechanizable: false
-    hash: 2ed0a12f1310
-    source: taste-skill
-    sources:
-      - source: taste-skill
-        id: taste--825
   - id: taste--826
     rule: Never substitute a video for a photograph.
     severity: floor
@@ -14507,19 +14494,6 @@ rules:
     sources:
       - source: hallmark
         id: hallma-1020
-  - id: hallma-1021
-    rule: Flag an empty coloured box or a drawn illustration where a photograph or the product should appear.
-    severity: reflex
-    scope:
-      - imagery
-      - layout
-    evidence: screenshot
-    mechanizable: false
-    hash: d3965f672452
-    source: hallmark
-    sources:
-      - source: hallmark
-        id: hallma-1021
   - id: hallma-1022
     rule: Flag a row of counting marks as a layout defect.
     severity: reflex

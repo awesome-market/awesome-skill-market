@@ -8,6 +8,20 @@ import { chatJSON } from './lib/llm.js';
 
 const SIM_THRESHOLD = 0.08;
 const MAX_PAIRS_PER_RUN = 80;
+const CACHE_FILE = path.join(DIRS.work, 'judge-cache.jsonl'); // verdict replay cache — survives Ctrl-C
+
+function loadJudgeCache() {
+  const map = new Map();
+  if (!fs.existsSync(CACHE_FILE)) return map;
+  for (const line of fs.readFileSync(CACHE_FILE, 'utf8').split('\n')) {
+    if (!line.trim()) continue;
+    try {
+      const o = JSON.parse(line);
+      map.set(o.fp, o.verdict);
+    } catch { /* tolerate partial last line from a crash */ }
+  }
+  return map;
+}
 
 export function loadExtracted() {
   const all = [];
@@ -130,7 +144,10 @@ export async function merge({ applyOnly = false } = {}) {
   const shortlisted = pairs.slice(0, MAX_PAIRS_PER_RUN);
   log(`merge: ${pairs.length} candidate pairs, judging top ${shortlisted.length}`);
 
-  for (const [i, j] of shortlisted) {
+  const judgeCache = loadJudgeCache();
+  let llmCalls = 0, llmMs = 0;
+
+  for (const [n, [i, j]] of shortlisted.entries()) {
     if (applyOnly) break;
     const a = canonical[i], b = canonical[j];
     if (absorbed.has(a.hash) || absorbed.has(b.hash)) continue;
@@ -143,15 +160,26 @@ export async function merge({ applyOnly = false } = {}) {
       continue;
     }
 
-    let verdict;
-    try {
-      verdict = await judgePair(a, b);
-    } catch (e) {
-      log(`judge ${a.id}~${b.id} failed: ${e.message}; holding both`);
-      held.add(a.hash); held.add(b.hash);
-      continue;
+    let verdict = judgeCache.get(fp);
+    const cached = !!verdict;
+    const t0 = Date.now();
+    if (!verdict) {
+      try {
+        verdict = await judgePair(a, b);
+        llmCalls++; llmMs += Date.now() - t0;
+        fs.appendFileSync(CACHE_FILE, JSON.stringify({ fp, verdict }) + '\n');
+      } catch (e) {
+        log(`judge [${n + 1}/${shortlisted.length}] ${a.id}~${b.id} failed: ${e.message}; holding both`);
+        held.add(a.hash); held.add(b.hash);
+        continue;
+      }
     }
-    log(`judge ${a.id}~${b.id}: ${verdict.relationship}`);
+
+    const secs = cached ? 'cached' : `${((Date.now() - t0) / 1000).toFixed(1)}s`;
+    const eta = llmCalls
+      ? ` ETA ~${Math.max(1, Math.round((llmMs / llmCalls) * (shortlisted.length - n - 1) / 60000))}m`
+      : '';
+    log(`judge [${n + 1}/${shortlisted.length}] ${a.id}~${b.id}: ${verdict.relationship} (${secs})${eta}`);
 
     if (verdict.relationship === 'overlap' && verdict.merged?.rule) {
       const m = verdict.merged;

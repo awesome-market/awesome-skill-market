@@ -194,7 +194,6 @@
 - **(floor)** All non-hero images must be loading="lazy", decoding="async", with explicit width, height, and sizes attributes matching the shown width.
 - **(floor)** Every photograph must be visible from the first paint, never hidden behind opacity 0, scroll reveals, print styles, or load-time dissolves, masks, or clips.
 - **(floor)** Cut-outs must only depict the client's own subject on the page ground or one backdrop, with no drop shadows, never stock imagery, people, or buildings.
-- **(floor)** A photograph must never stand where an effect, a drawing, or an empty box would appropriately appear.
 - **(floor)** Never substitute a video for a photograph.
 - **(floor)** Capture photographs at 1440, 1024, 768 and 390 pixels and inspect every frame for empty, blank, grey or half-loaded areas.
 - **(floor)** Apply no print, grading, effect, halftone, dither, duotone, engraving, grain, glitch, filter or blend mode to any photograph, and never cover more than half of a photograph with a canvas.
@@ -244,7 +243,6 @@
 - **(reflex)** Write generated-still prompts as photographer prompts with one subject, place, light, and lens and no on-camera people or text.
 - **(reflex)** Inspect every generated still and discard results with malformed anatomy, doubled furniture, or melted labels.
 - **(reflex)** Provide srcset with width descriptors, use picture for different crops, set width and height attributes on every image, and apply loading lazy below the fold while never lazy-loading the LCP element.
-- **(reflex)** Flag an empty coloured box or a drawn illustration where a photograph or the product should appear.
 - **(reflex)** Treat the theme's picture as the bar for finish, never as a model to copy.
 - **(reflex)** Where the theme file and its picture disagree, let the theme file win over its picture.
 - **(reflex)** Center the content in the screen and place a real visual beside the text that occupies at least 60 percent of the screen height.

@@ -300,7 +300,6 @@
 - **(floor)** Place pages must use only 4:5, 4:3, and 1:1 ratios, with other page types adding 3:2, and maintain one ratio per row with equal-sized frames.
 - **(floor)** A place hero must be a full-bleed top photograph with nothing overlaid and words placed below it, while software and product heroes must end inside the screen.
 - **(floor)** Text must never appear on place photographs, and elsewhere only on the hero and one closing band over a calm, empty, dark or light area, a solid box, or off the photograph, with no scrim, gradient, fade, or blur.
-- **(floor)** A photograph must never stand where an effect, a drawing, or an empty box would appropriately appear.
 - **(floor)** Give each page at most one big scene and never place a shader ground or WebGL part beside it.
 - **(floor)** Deal a scene as the hero only when its restH is 1, and otherwise place it below the hero as a two-screen section with an h2 heading.
 - **(floor)** Never use powers-of-ten-pullback as the hero because its first screen has no headline and no action.
@@ -395,7 +394,6 @@
 - **(reflex)** Treat the column beside a later screen as the pin when a pinned pane appears once in a full-page shot.
 - **(reflex)** A screen with nothing big enough to be its reason outranks every detail finding.
 - **(reflex)** Flag any section head smaller than 40px as a layout defect.
-- **(reflex)** Flag an empty coloured box or a drawn illustration where a photograph or the product should appear.
 - **(reflex)** Flag a row of counting marks as a layout defect.
 - **(reflex)** On a custom run, judge the page as a design and never against layout.md.
 - **(reflex)** Name which template, catalog theme, or familiar site a page or section reads as, and where.

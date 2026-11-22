@@ -1,7 +1,7 @@
 ---
 name: deslop
 description: "Anti-AI-slop design skill. Use when building, redesigning, reviewing, or auditing web/app UI. Distilled from multiple upstream design skills with human-arbitrated conflict resolution; covers aesthetic direction, hard floor rules, motion/a11y craft details."
-version: "0.4.11"
+version: "0.5.11"
 ---
 
 # Deslop
@@ -887,7 +887,6 @@ Rules distilled from upstream design skills by the deslop-fusion pipeline. **Do 
 - All non-hero images must be loading="lazy", decoding="async", with explicit width, height, and sizes attributes matching the shown width.
 - Every photograph must be visible from the first paint, never hidden behind opacity 0, scroll reveals, print styles, or load-time dissolves, masks, or clips.
 - Cut-outs must only depict the client's own subject on the page ground or one backdrop, with no drop shadows, never stock imagery, people, or buildings.
-- A photograph must never stand where an effect, a drawing, or an empty box would appropriately appear.
 - Never substitute a video for a photograph.
 - Capture photographs at 1440, 1024, 768 and 390 pixels and inspect every frame for empty, blank, grey or half-loaded areas.
 - Apply no print, grading, effect, halftone, dither, duotone, engraving, grain, glitch, filter or blend mode to any photograph, and never cover more than half of a photograph with a canvas.
@@ -1100,7 +1099,7 @@ Rules distilled from upstream design skills by the deslop-fusion pipeline. **Do 
 - Set labels, captions and meta to the body face in sentence case and untracked, reserving monospace for code and measured figures.
 - Build paper, ink, five to nine neutrals and one accent with tinted values, plus a focus colour on the accent hue.
 
-_…and 1385 more reflex rules in references/ — load the scope file you're working in._
+_…and 1384 more reflex rules in references/ — load the scope file you're working in._
 
 ## Finish & Direction
 
@@ -1110,11 +1109,11 @@ _…and 1385 more reflex rules in references/ — load the scope file you're wor
 
 - `references/color.md` — 303 rules on color
 - `references/type.md` — 279 rules on type
-- `references/layout.md` — 993 rules on layout
+- `references/layout.md` — 991 rules on layout
 - `references/motion.md` — 326 rules on motion
 - `references/a11y.md` — 272 rules on a11y
 - `references/copy.md` — 632 rules on copy
-- `references/imagery.md` — 481 rules on imagery
+- `references/imagery.md` — 479 rules on imagery
 - `references/code.md` — 1064 rules on code
 - `references/process.md` — 658 rules on process
 

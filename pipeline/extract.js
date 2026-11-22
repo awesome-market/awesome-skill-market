@@ -99,8 +99,10 @@ export async function extractOne(name, { force = false } = {}) {
     }
   }
   log(`extract: ${name} — ${files.length} files, ${tasks.length} calls, pool=3`);
+  let doneN = 0;
   const results = await mapPool(tasks, async (t) => {
     const label = `extract:${name}:${t.rel}${t.part ? `#${t.part}` : ''}`;
+    const pos = ++doneN;
     try {
       const { rules: got } = await chatJSON({
         label,
@@ -109,10 +111,10 @@ export async function extractOne(name, { force = false } = {}) {
         shapeDesc: SHAPE,
         validate: (o) => validate(o, t.rel),
       });
-      log(`${label} ok (${got.length} rules)`);
+      log(`[${pos}/${tasks.length}] ${label} ok (${got.length} rules)`);
       return got.map((r) => ({ ...r, origin: t.rel, chunk: t.part }));
     } catch (e) {
-      log(`${label} FAILED (skipping file): ${e.message}`);
+      log(`[${pos}/${tasks.length}] ${label} FAILED (skipping file): ${e.message}`);
       return [];
     }
   }, 3);

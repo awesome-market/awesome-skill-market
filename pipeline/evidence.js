@@ -82,25 +82,23 @@ async function makeEvidence(conf) {
 
 export async function evidence() {
   const made = [];
-  for (const f of listYAMLFiles(DIRS.conflicts)) {
+  const todo = listYAMLFiles(DIRS.conflicts).filter((f) => {
+    const c = readYAML(f);
+    return c.status === 'pending'
+      && ['screenshot', 'recording'].includes(c.evidence)
+      && !(c.evidence_files?.length && fs.existsSync(path.join(DIRS.evidence, c.id, 'option-a.png')));
+  });
+  for (const [n, f] of todo.entries()) {
     const conf = readYAML(f);
-    if (conf.status !== 'pending') continue;
-    if (!['screenshot', 'recording'].includes(conf.evidence)) {
-      log(`evidence: ${conf.id} type=${conf.evidence}, skip`);
-      continue;
-    }
-    if (conf.evidence_files?.length && fs.existsSync(path.join(DIRS.evidence, conf.id, 'option-a.png'))) {
-      continue; // already generated
-    }
     try {
       const { files, inconclusive } = await makeEvidence(conf);
       conf.evidence_files = files;
       conf.evidence_inconclusive = inconclusive || undefined;
       writeYAML(f, conf);
       made.push(conf.id);
-      log(`evidence: ${conf.id} rendered${inconclusive ? ' (inconclusive)' : ''}`);
+      log(`evidence [${n + 1}/${todo.length}]: ${conf.id} rendered${inconclusive ? ' (inconclusive)' : ''}`);
     } catch (e) {
-      log(`evidence: ${conf.id} failed: ${e.message}`);
+      log(`evidence [${n + 1}/${todo.length}]: ${conf.id} failed: ${e.message}`);
     }
   }
   return made;
