@@ -1,0 +1,27 @@
+id: conf-0076
+status: pending
+fingerprint: f62711987aad
+detected_at: 2026-11-22T15:46:54.593Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--574
+    hash: 550cf9c0eb75
+    severity: floor
+    text: Use blend modes only for an effect-internal job like a glint and never on text, and never apply glass or frosted effects on any kind, using a flat 40 percent dim for menu curtains instead.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-1083
+    hash: df632de1ab66
+    severity: floor
+    text: Restrict scanline overlays to arcade and arcade-adjacent custom themes only.
+    text_zh: null
+ai_explanation: "EN: color-l1c1-blend-modes-internal-only forbids applying glass/frosted effects on any kind and restricts blend modes to effect-internal jobs, while color-l1c3-scanlines-arcade-only explicitly permits scanline overlays on arcade/arcade-adjacent custom themes. Scanlines are a layered visual effect that, when applied over surfaces, functionally overlap with the prohibited glass/frost/blend-family effects, creating a hard contradiction between 'never glass/frost/blend on anything' and 'allow scanline overlays on arcade themes.'"
+ai_explanation_zh: 中文：color-l1c1-blend-modes-internal-only 禁止在任何地方使用玻璃/毛玻璃效果并将混合模式限制为仅内部特效；而 color-l1c3-scanlines-arcade-only 明确允许在街机/街机相邻自定义主题上使用扫描线叠加。扫描线属于覆盖表面的图层特效，其效果与被禁止的玻璃/毛玻璃/混合模式家族重叠，从而在‘永不玻璃/毛玻璃/混合’与‘街机主题允许扫描线’之间形成直接矛盾。
+suggestion:
+  kind: scope-split
+  note: Restrict scanline overlays to a dedicated arcade theme surface that is explicitly excluded from the neutral-interface scope of color-l1c1-blend-modes-internal-only, keeping blend/glass/frost rules intact for all non-arcade UI.
+  note_zh: 将扫描线叠加限制为明确排除在 color-l1c1-blend-modes-internal-only 中性界面范围之外的独立街机主题表面，从而保持其余非街机 UI 的混合/玻璃/毛玻璃规则不变。
+issue_url: null

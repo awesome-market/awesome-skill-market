@@ -1,0 +1,27 @@
+id: conf-0029
+status: pending
+fingerprint: bc3a142d9c85
+detected_at: 2026-11-22T14:57:34.992Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-148
+    hash: 282f73845680
+    severity: reflex
+    text: Always place paper-2 cards on paper so cards are lighter than the canvas.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--155
+    hash: 0bae65095f4e
+    severity: floor
+    text: Keep product, service and place grounds as flat CSS colours with no gradients, textures, glass, filters or shadows on the interface.
+    text_zh: null
+ai_explanation: "EN: hallma-148 requires paper-2 cards to sit on paper and be lighter than the canvas, which typically needs subtle elevation/shadow or a lighter surface layer; taste--155 forbids shadows on the interface and mandates flat CSS colour grounds, so any card that reads as elevated via shadow conflicts with the no-shadow rule."
+ai_explanation_zh: hallma-148 要求 paper-2 卡片置于纸面且比画布更浅，通常需要微妙的阴影或更浅的表面层级来表现；taste--155 禁止界面使用阴影并要求扁平 CSS 颜色背景，因此通过阴影表现抬升的卡片会与无阴影规则冲突。
+suggestion:
+  kind: keep-b
+  note: Resolve by making cards lighter via flat surface tokens rather than elevation shadows, keeping them on paper without shadows.
+  note_zh: 通过扁平表面 token 使卡片更浅而非通过阴影抬升，使其置于纸面且无阴影。
+issue_url: null

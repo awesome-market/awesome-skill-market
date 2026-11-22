@@ -1,0 +1,27 @@
+id: conf-0042
+status: pending
+fingerprint: 537003d32506
+detected_at: 2026-11-22T15:00:19.276Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-295
+    hash: d229482e5922
+    severity: floor
+    text: Never let gradient ramps stand in for material.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--169
+    hash: 50986a2f8f58
+    severity: floor
+    text: Render every ground and panel on product, service and place pages as a flat CSS colour.
+    text_zh: null
+ai_explanation: "EN: hallma-295 forbids gradient ramps standing in for material, yet taste--169 mandates flat CSS colour for every ground and panel — a flat colour requirement that removes the gradient entirely, so they conflict on whether gradients are ever permissible as grounds."
+ai_explanation_zh: hallma-295 禁止用渐变 ramp 替代材质，而 taste--169 要求所有地面与面板使用纯 CSS 颜色，后者完全移除渐变，二者在渐变是否可用作地面时直接矛盾。
+suggestion:
+  kind: keep-b
+  note: taste--169 enforces flat colour, which already satisfies hallma-295's intent.
+  note_zh: taste--169 强制纯色，已满足 hallma-295 的意图。
+issue_url: null

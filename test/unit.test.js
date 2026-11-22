@@ -6,7 +6,7 @@ import os from 'node:os';
 import { execFileSync } from 'node:child_process';
 import { extractJSON } from '../pipeline/lib/llm.js';
 import { tokens, jaccard, ruleHash, nextId, normText } from '../pipeline/lib/util.js';
-import { conflictFingerprint } from '../pipeline/merge.js';
+import { conflictFingerprint } from '../pipeline/lib/util.js';
 import { parseVote } from '../pipeline/poll.js';
 
 test('extractJSON parses plain, fenced, and nested JSON', () => {

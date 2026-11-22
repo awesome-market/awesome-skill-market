@@ -1,0 +1,27 @@
+id: conf-0080
+status: pending
+fingerprint: 51a65f4fdc0b
+detected_at: 2026-11-22T15:50:50.273Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-072
+    hash: cc924368aa1a
+    severity: reflex
+    text: Set display line-height between 1.0 and 1.15, tightening as size grows, and never below 1.0 for wrappable uppercase heads.
+    text_zh: null
+  - key: B
+    source: web-design-guidelines
+    rule_id: web-de-107
+    hash: 0377aa06419f
+    severity: reflex
+    text: Set line height to at least 1.5 for body text.
+    text_zh: null
+ai_explanation: "EN: hallma-072 sets display line-height between 1.0 and 1.15 (tightening as size grows), while web-de-107 requires body text line-height of at least 1.5 — these directly contradict when display type doubles as body text, where a single element cannot simultaneously satisfy tight display spacing and generous body readability."
+ai_explanation_zh: hallma-072 设置显示行高在 1.0 至 1.15 之间（随尺寸增大而收紧），而 web-de-107 要求正文行高至少 1.5——当显示类型同时充当正文时，二者直接矛盾，单个元素无法同时满足紧凑显示间距与充裕的正文可读性。
+suggestion:
+  kind: keep-b
+  note: Body readability (1.5) must win when display text is also body.
+  note_zh: 当显示文本同时作为正文时，正文可读性（1.5）应优先。
+issue_url: null

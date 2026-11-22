@@ -1,0 +1,27 @@
+id: conf-0079
+status: pending
+fingerprint: 19eb9bd62e8f
+detected_at: 2026-11-22T15:50:50.272Z
+evidence: screenshot
+sides:
+  - key: A
+    source: frontend-design
+    rule_id: fronte-029
+    hash: 5f4758dfde6b
+    severity: reflex
+    text: Do not apply template chrome such as tracked-out ALL-CAPS eyebrows above every heading, middle-dot meta strings, spaced-em-dash labels, tinted near-black stand-in blacks, monospace data labels, or trailing arrows on links and buttons unless the brief explicitly requests them.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--681
+    hash: fbd8bb7cb56c
+    severity: floor
+    text: Set headlines at --display-weight with size and tight tracking, use text 400 and 500 only, keep sizes per level with at least 1.3x scaling from 1024, and never use weights 700 or 800 except the letters moment.
+    text_zh: null
+ai_explanation: "EN: fronte-029 forbids template chrome like tracked-out ALL-CAPS eyebrows above every heading unless explicitly requested, while taste--681 sets headlines at --display-weight with tight tracking — these conflict when tight tracking on display-weight headlines effectively produces tracked-out visual chrome even without explicit ALL-CAPS eyebrows."
+ai_explanation_zh: fronte-029 禁止在未明确要求时于每个标题上方使用跟踪全大写眉注等模板装饰，而 taste--681 以 --display-weight 配紧凑字距设置标题——当紧凑字距在显示字重标题上实际产生类似跟踪装饰的视觉效果时，二者冲突，即使没有显式全大写眉注。
+suggestion:
+  kind: keep-a
+  note: Tight tracking on display-weight may visually replicate forbidden tracked-out chrome.
+  note_zh: 紧凑字距在显示字重标题上可能视觉上复现被禁止的跟踪装饰。
+issue_url: null

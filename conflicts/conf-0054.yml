@@ -1,0 +1,27 @@
+id: conf-0054
+status: pending
+fingerprint: d4a4aacfa2f9
+detected_at: 2026-11-22T15:04:08.384Z
+evidence: none
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-307
+    hash: d329b66fca25
+    severity: floor
+    text: Do not use Inter, Roboto, Open Sans, Lato, Poppins, Source Sans, Nunito, Montserrat, Raleway, Work Sans, DM Sans, Plus Jakarta Sans, system-ui, Arial, Helvetica, Merriweather, Lora, Georgia, Courier New, or the system mono as the default display or body face unless the user explicitly requests it or the pre-flight confirms it exists in the project.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-326
+    hash: "580856348295"
+    severity: reflex
+    text: Never use Inter, Roboto, Open Sans, Poppins, Lato, or a system face as the display; use a display face from the theme or fonts.md.
+    text_zh: null
+ai_explanation: Both rules forbid the same set of default/system faces (Inter, Roboto, etc.) as display faces, but type-c1 additionally bans them as body faces while type-c2 permits a body face from the theme and only restricts display. They overlap on display but diverge on body scope, so they conflict only where both apply to display usage.
+ai_explanation_zh: 两条规则都禁止将默认/系统字体（Inter、Roboto 等）用作展示字体，但 type-c1 额外禁止其作为正文字体，而 type-c2 允许主题中的正文字体并仅限制展示字体。二者在展示用途上重叠，但在正文范围上分叉，因此仅在两者同时适用的展示场景下冲突。
+suggestion:
+  kind: keep-b
+  note: type-c2 is more recent and scoped to display only; keep its narrower display ban and drop c1's body-level ban to avoid over-restriction.
+  note_zh: type-c2 更新且仅限定展示；保留其更窄的展示禁令并取消 c1 的正文级禁令，以避免过度限制。
+issue_url: null

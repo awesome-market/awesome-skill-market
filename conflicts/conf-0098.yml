@@ -1,0 +1,24 @@
+id: conf-0098
+status: pending
+fingerprint: 8a76ff832f77
+detected_at: 2026-11-22T15:50:50.297Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-929
+    hash: bda0baf763b6
+    severity: reflex
+    text: Show the inset outline immediately on focus and never change the border width, keeping floating labels as placeholders at rest.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-580
+    hash: 3cd9e29762f2
+    severity: floor
+    text: Every field must have a visible label above it, never using placeholder as the label.
+    text_zh: null
+ai_explanation: "EN: l1c1 fixes floating labels as placeholders at rest and never changes border width, while l1c3 mandates visible labels above every field and never uses placeholder as the label — these directly contradict on both label treatment and implied layout."
+ai_explanation_zh: null
+suggestion: null
+issue_url: null

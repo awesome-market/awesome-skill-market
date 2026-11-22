@@ -1,0 +1,27 @@
+id: conf-0090
+status: pending
+fingerprint: 47d730a35587
+detected_at: 2026-11-22T15:50:50.287Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-580
+    hash: 3cd9e29762f2
+    severity: floor
+    text: Every field must have a visible label above it, never using placeholder as the label.
+    text_zh: null
+  - key: B
+    source: frontend-design
+    rule_id: fronte-010
+    hash: 4575d87d52a2
+    severity: reflex
+    text: Do not add typographic labels above content unless they carry meaning.
+    text_zh: null
+ai_explanation: hallma-580 mandates a visible label above every field and forbids placeholder-as-label, while fronte-010 forbids adding typographic labels above content unless they carry meaning. For fields where the label is purely functional (e.g., a search box, a toggle, or a field whose purpose is obvious from context), hallma-580 forces a label that fronte-010 deems meaningless — a direct 'always label' vs 'never label' contradiction in the same scope.
+ai_explanation_zh: hallma-580 要求每个字段上方必须有可见标签，禁止用占位符代替标签；而 fronte-010 禁止在内容上方添加无意义的排版标签。对于标签仅具功能性（如搜索框、切换开关或用途显然的字段）的场景，hallma-580 强制添加的标签正是 fronte-010 认为无意义的——这是同一作用域内'始终加标签'与'永不加标签'的直接矛盾。
+suggestion:
+  kind: keep-a
+  note: "Resolve by treating 'meaningful' as including functional clarity: a label counts as meaningful when its absence would leave the field's purpose ambiguous; otherwise use inline/placeholder patterns permitted by fronte-010."
+  note_zh: 将'有意义'扩展为包含功能性清晰度：当字段目的不明确时，标签即有意义；否则可使用 fronte-010 允许的内联/占位符模式。
+issue_url: null

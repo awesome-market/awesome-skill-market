@@ -1,0 +1,27 @@
+id: conf-0093
+status: pending
+fingerprint: 935ac28c536e
+detected_at: 2026-11-22T15:50:50.291Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-072
+    hash: cc924368aa1a
+    severity: reflex
+    text: Set display line-height between 1.0 and 1.15, tightening as size grows, and never below 1.0 for wrappable uppercase heads.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-332
+    hash: 6936b912b1bb
+    severity: floor
+    text: Never allow an uppercase display head to wrap with line-height under 1.0; use at least 1.0 and ideally 1.02 to 1.08.
+    text_zh: null
+ai_explanation: "Both rules govern line-height for display/uppercase headings but set overlapping bounds: l0c1 caps display line-height at 1.15 and forbids going below 1.0 for wrappable uppercase heads, while l0c4 mandates uppercase wrapping display headings use 1.0–1.08 (ideally 1.02–1.08) and never below 1.0. They agree on the 1.0 floor, but l0c1's 1.15 upper bound conflicts with l0c4's 1.08 ideal ceiling for the same uppercase display context, so a single value must satisfy both without contradiction."
+ai_explanation_zh: 两条规则都约束展示/大写标题的行高，但范围重叠：l0c1 将展示行高上限设为 1.15，并禁止可换行的大写标题低于 1.0；l0c4 则要求大写换行展示标题使用 1.0–1.08（理想 1.02–1.08）且不低于 1.0。二者在 1.0 下限一致，但 l0c1 的 1.15 上限与 l0c4 对同类大写展示标题的 1.08 理想上限冲突，需在单一值上同时满足而不矛盾。
+suggestion:
+  kind: keep-b
+  note: l0c4 is more specific to uppercase display headings and gives an ideal band; treat 1.08 as the ceiling and 1.0–1.08 as the operative range, with 1.15 as the general display cap only when not an uppercase wrapping head.
+  note_zh: l0c4 对大写展示标题更具体且给出理想区间；将 1.08 视为上限，1.0–1.08 作为适用区间，1.15 仅作为非大写换行展示标题的一般上限。
+issue_url: null

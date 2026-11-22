@@ -1,0 +1,27 @@
+id: conf-0072
+status: pending
+fingerprint: 16fc9b84f5f4
+detected_at: 2026-11-22T15:46:54.586Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--224
+    hash: 4db1b99025c1
+    severity: floor
+    text: Keep grounds to calm hues of their own and never use violet or lavender.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--1299
+    hash: 0ff9c6836641
+    severity: floor
+    text: Never use violet or lavender anywhere in the page's own design, including accents, grounds, gradients, effect colours, or tints, though real third-party logos keep their own colours.
+    text_zh: null
+ai_explanation: "EN: Both rules prohibit violet/lavender in the page design with identical scope (accents, grounds, gradients, effects). They do not contradict; they are redundant constraints. No dilemma."
+ai_explanation_zh: 两条规则都禁止在页面设计中使用紫色/薰衣草色，作用域相同，属于冗余约束而非冲突。
+suggestion:
+  kind: keep-a
+  note: Redundant constraints, not a real contradiction.
+  note_zh: 冗余约束，非真实冲突。
+issue_url: null

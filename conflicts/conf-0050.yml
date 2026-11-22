@@ -1,0 +1,27 @@
+id: conf-0050
+status: pending
+fingerprint: 38c6fe98c30a
+detected_at: 2026-11-22T15:04:08.374Z
+evidence: none
+sides:
+  - key: A
+    source: web-design-guidelines
+    rule_id: web-de-093
+    hash: da64ddf21ee9
+    severity: reflex
+    text: Use the native system font stack instead of custom web fonts for body text.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-307
+    hash: d329b66fca25
+    severity: floor
+    text: Do not use Inter, Roboto, Open Sans, Lato, Poppins, Source Sans, Nunito, Montserrat, Raleway, Work Sans, DM Sans, Plus Jakarta Sans, system-ui, Arial, Helvetica, Merriweather, Lora, Georgia, Courier New, or the system mono as the default display or body face unless the user explicitly requests it or the pre-flight confirms it exists in the project.
+    text_zh: null
+ai_explanation: "EN: web-de-093 says 'Use the native system font stack instead of custom web fonts for body text.' hallma-307 says never use system-ui, Arial, Helvetica, or the system mono as the default display or body face unless explicitly requested or pre-flight confirms it exists. These directly contradict: web-de-093 mandates system fonts for body, while hallma-307 forbids system-ui/system fonts as default body face. No scope-split resolves this because both govern body text rendering."
+ai_explanation_zh: web-de-093 要求正文使用原生系统字体栈，而 hallma-307 禁止将 system-ui/系统字体作为默认正文字体，除非明确请求或预检确认存在。两者直接矛盾，且无法通过作用域拆分解决，因为两者都管辖正文渲染。
+suggestion:
+  kind: keep-a
+  note: web-de-093 is a domain-specific finish rule for web-de; but hallma-307 is a floor that explicitly names system fonts. Given hallma-307's explicitness and floor status, it should win unless the user requests system fonts.
+  note_zh: web-de-093 是 web-de 域的具体完成规则；但 hallma-307 是明确点名系统字体的 floor。鉴于 hallma-307 的明确性和 floor 状态，除非用户请求系统字体，否则应以其为准。
+issue_url: null

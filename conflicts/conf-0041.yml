@@ -1,0 +1,27 @@
+id: conf-0041
+status: pending
+fingerprint: 6e34bc89d669
+detected_at: 2026-11-22T15:00:19.274Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-060
+    hash: bf5086904083
+    severity: floor
+    text: Never assign a CSS gradient or layered background to any region the comp rendered as material, grain, photography, or depth.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--169
+    hash: 50986a2f8f58
+    severity: floor
+    text: Render every ground and panel on product, service and place pages as a flat CSS colour.
+    text_zh: null
+ai_explanation: "EN: hallma-060 forbids gradients/layered backgrounds on regions rendered as material, grain, photography, or depth, while taste--169 requires rendering every ground and panel as a flat CSS colour — these directly conflict on whether any surface may use a gradient."
+ai_explanation_zh: hallma-060 禁止对渲染为材质、纹理、摄影或深度的区域使用渐变/分层背景，而 taste--169 要求将所有地面与面板渲染为纯 CSS 颜色，二者在是否允许渐变上直接矛盾。
+suggestion:
+  kind: keep-b
+  note: taste--169 is the more specific surface-level rule for product/service/place pages.
+  note_zh: taste--169 是针对产品/服务/地点页面的更具体表面规则。
+issue_url: null

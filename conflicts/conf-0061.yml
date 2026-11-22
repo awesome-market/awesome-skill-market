@@ -1,0 +1,27 @@
+id: conf-0061
+status: pending
+fingerprint: 417c14ad8a5e
+detected_at: 2026-11-22T15:42:48.455Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-570
+    hash: f65fa36858db
+    severity: reflex
+    text: Hover state must communicate through exactly one visual signal such as a colour step, a 1px lift, or a border step.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-252
+    hash: 65fbfa78bb3c
+    severity: floor
+    text: "Every interactive component must ship all eight states: default, hover, focus-visible, active, disabled, loading, error, and success."
+    text_zh: null
+ai_explanation: "EN: color-l1c1-one-hover-signal mandates that the hover state communicates through exactly one visual signal (a colour step, a 1px lift, or a border step), while color-l1c1-eight-interactive-states requires every interactive component to ship all eight states including distinct hover. These directly contradict in the same scope: the single-signal rule forbids combining multiple visual changes on hover, whereas delivering eight distinct states often requires layered signals (e.g., colour + elevation + border) to make each state perceptibly unique, making it impossible to satisfy both literally."
+ai_explanation_zh: 中文：color-l1c1-one-hover-signal 规定悬停状态必须仅通过一个视觉信号（颜色步、1px 提升或边框步）传达，而 color-l1c1-eight-interactive-states 要求每个交互组件必须交付全部八个状态，包括独立的悬停态。两者在同一范围内直接冲突：单信号规则禁止在悬停时组合多个视觉变化，而交付八个可感知的独立状态通常需要多层信号（如颜色+ elevation+边框）才能区分，因此无法同时满足两者。
+suggestion:
+  kind: scope-split
+  note: "Resolve by scope-splitting: apply the single-signal constraint to the hover state specifically (one visual change on hover), while allowing other states (active, focus-visible, disabled) to use their own distinct signals as needed to fulfill the eight-state requirement."
+  note_zh: 中文：通过作用域拆分解决：将单信号约束应用于悬停状态本身（悬停时仅一个视觉变化），同时允许其他状态（激活、可见焦点、禁用）使用各自独立的信号，以满足八状态要求。
+issue_url: null

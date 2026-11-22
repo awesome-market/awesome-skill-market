@@ -1,0 +1,27 @@
+id: conf-0045
+status: pending
+fingerprint: 5fa01cc64b2c
+detected_at: 2026-11-22T15:00:19.284Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-160
+    hash: d6487fc891b8
+    severity: reflex
+    text: Allow a sparkline to fade-fill to transparent as the only sanctioned gradient near a chart.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-320
+    hash: 8050402df89a
+    severity: floor
+    text: Never use purple-to-blue, purple-to-pink, or cyan-on-dark gradients, background-clip:text, or any gradient text unless it is a single-hue ramp with both stops as tokens.
+    text_zh: null
+ai_explanation: "EN: color-c1-sanctioned-chart-gradient explicitly permits a sparkline fade-to-transparent gradient fill as the sole gradient near a chart, while color-c4-hallma-320 forbids any gradient text or multi-stop gradient effects unless both stops are tokens of a single-hue ramp. A sparkline fade-to-transparent is a gradient effect, so one rule licenses it and the other bans it in the same scope (a chart)."
+ai_explanation_zh: color-c1-sanctioned-chart-gradient 明确允许图表旁的 sparkline 渐变到透明填充，而 color-c4-hallma-320 禁止任何渐变文字或多色阶渐变效果，除非两个色停都是单色相色板的 token。sparkline 渐变属于渐变效果，因此一条规则授权、另一条在同一范围（图表）禁止。
+suggestion:
+  kind: scope-split
+  note: Treat the sparkline fade-to-transparent as a chart mark derived from the accent, not as decorative gradient text; keep both stops as tokens and restrict it to charts only.
+  note_zh: 将 sparkline 渐变到透明视为由 accent 派生的图表标记，而非装饰性渐变文字；两个色停均设为 token，并仅限图表使用。
+issue_url: null

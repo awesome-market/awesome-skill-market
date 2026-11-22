@@ -34,6 +34,10 @@ export const normText = (s) =>
 
 export const ruleHash = (text) => sha1(normText(text));
 
+export function conflictFingerprint(sides) {
+  return sha1(sides.map((s) => s.text).map((t) => t.toLowerCase().replace(/\s+/g, ' ').trim()).sort().join('\n---\n'));
+}
+
 export function* walk(dir, filter = () => true) {
   if (!fs.existsSync(dir)) return;
   for (const e of fs.readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {

@@ -4,7 +4,7 @@ import { CFG, ROOT } from './lib/env.js';
 import { log, sleep, git, gitDirty } from './lib/util.js';
 import { sync } from './sync.js';
 import { extract } from './extract.js';
-import { merge } from './merge.js';
+import { synthesize } from './synthesize.js';
 import { evidence } from './evidence.js';
 import { issues } from './issues.js';
 import { translateConflicts } from './translate.js';
@@ -40,13 +40,13 @@ async function cycle() {
   }
 
   if (!skipLLM) {
-    await merge();
-    await translateConflicts(); // backfill zh fields the judge missed
+    await synthesize();
+    await translateConflicts(); // backfill zh fields the model under-fills
     await evidence();
     await issues();
     await poll(); // harvest a/b votes from issue comments
   } else {
-    log('merge/evidence/issues skipped (--no-llm)');
+    log('synthesize/evidence/issues skipped (--no-llm)');
     await poll(); // votes don't need the model
   }
 

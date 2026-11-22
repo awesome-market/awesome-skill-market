@@ -1,0 +1,27 @@
+id: conf-0066
+status: pending
+fingerprint: cf67ea87bd4c
+detected_at: 2026-11-22T15:46:54.577Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-471
+    hash: 197345bb904b
+    severity: floor
+    text: Prohibit mesh gradients, treating the bloom as the only licence.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--574
+    hash: 550cf9c0eb75
+    severity: floor
+    text: Use blend modes only for an effect-internal job like a glint and never on text, and never apply glass or frosted effects on any kind, using a flat 40 percent dim for menu curtains instead.
+    text_zh: null
+ai_explanation: "EN: hallma-471 treats the bloom as the only licence for gradients (prohibiting mesh gradients), while taste--574 permits blend modes only for effect-internal jobs like a glint — these conflict on whether non-bloom gradient/blend effects are ever allowed."
+ai_explanation_zh: hallma-471 将 bloom 视为唯一允许渐变的授权（禁止网格渐变），而 taste--574 允许混合模式仅用于效果内部任务（如闪光）——两者在非 bloom 渐变/混合效果是否被允许上冲突。
+suggestion:
+  kind: scope-split
+  note: hallma-471 governs gradient licence (bloom only); taste--574 governs blend-mode usage (internal effects only). Keep both by separating gradient and blend-mode scopes.
+  note_zh: hallma-471 管理渐变授权（仅 bloom）；taste--574 管理混合模式使用（仅内部效果）。通过分离渐变与混合模式作用域保留两者。
+issue_url: null

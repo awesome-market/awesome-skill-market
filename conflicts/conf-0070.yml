@@ -1,0 +1,24 @@
+id: conf-0070
+status: pending
+fingerprint: 7923b7ed3f94
+detected_at: 2026-11-22T15:46:54.583Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-467
+    hash: 8d5adb93d3ce
+    severity: reflex
+    text: Elevate cards by lightness steps using --color-paper-2 and -3 instead of hairlines.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--184
+    hash: a3b779a1c9dd
+    severity: floor
+    text: Set the card fill to --card one clear step off the page, apply a 1px border at 8-14% ink with a 1px inner top highlight, and never use a blurred shadow at rest.
+    text_zh: null
+ai_explanation: "EN: l0c1 elevates cards purely via lightness steps (--color-paper-2/-3) and explicitly avoids hairlines, while l0c3 mandates a 1px ink border plus an inner top highlight and forbids blurred shadows at rest. These contradict on whether a card needs a border/stroke to express elevation."
+ai_explanation_zh: null
+suggestion: null
+issue_url: null

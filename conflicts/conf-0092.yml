@@ -1,0 +1,27 @@
+id: conf-0092
+status: pending
+fingerprint: a5e2337fe04b
+detected_at: 2026-11-22T15:50:50.290Z
+evidence: screenshot
+sides:
+  - key: A
+    source: frontend-design
+    rule_id: fronte-029
+    hash: 5f4758dfde6b
+    severity: reflex
+    text: Do not apply template chrome such as tracked-out ALL-CAPS eyebrows above every heading, middle-dot meta strings, spaced-em-dash labels, tinted near-black stand-in blacks, monospace data labels, or trailing arrows on links and buttons unless the brief explicitly requests them.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-2501
+    hash: fb0a9538495f
+    severity: floor
+    text: Never use an eyebrow and never set labels, captions, table heads, tags or nav links in tracked capitals or small caps; render them in the body or theme label face one step smaller in sentence or lower case without tracking.
+    text_zh: null
+ai_explanation: "EN: l0c1 forbids tracked-out ALL-CAPS eyebrows above every heading, yet l0c1 also says never use an eyebrow and never set labels in tracked capitals or small caps; these overlap on the same eyebrow/label element, so the first's explicit list of forbidden chrome directly contradicts the second's absolute 'never'."
+ai_explanation_zh: 中文：l0c1 禁止在每个标题上方使用追踪排版的 ALL-CAPS 眉注，但 l0c1 同时规定永不使用眉注、永不将标签用追踪大写字母或小 caps 呈现，二者在同一眉注/标签元素上重叠，前者明确列出的禁用样式与后者的绝对禁止直接冲突。
+suggestion:
+  kind: keep-b
+  note: Resolve by keeping the absolute eyebrow/caps prohibition and treating l0c1's chrome list as applying only to non-eyebrow decorative marks.
+  note_zh: 以绝对禁止眉注与大写字母为准，将 l0c1 的样式列表仅解释为适用于非眉注的装饰性标记。
+issue_url: null

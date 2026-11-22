@@ -1,0 +1,27 @@
+id: conf-0097
+status: pending
+fingerprint: 1e27e0d33ae4
+detected_at: 2026-11-22T15:50:50.296Z
+evidence: none
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--681
+    hash: fbd8bb7cb56c
+    severity: floor
+    text: Set headlines at --display-weight with size and tight tracking, use text 400 and 500 only, keep sizes per level with at least 1.3x scaling from 1024, and never use weights 700 or 800 except the letters moment.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-319
+    hash: 4faa1d2c8b86
+    severity: reflex
+    text: Only use Nunito Sans at weight 700 when there is an explicit argument for it.
+    text_zh: null
+ai_explanation: "EN: The headline rule sets headlines at --display-weight with sizes per level and never uses weights 700 or 800 except the letters moment, while the Nunito rule says only use Nunito Sans at weight 700 when there is an explicit argument for it. These directly contradict in scope: the headline rule's --display-weight likely resolves to a heavy weight (700+), which the Nunito rule permits only with explicit argument, creating an unavoidable conflict when --display-weight is 700."
+ai_explanation_zh: 标题规则将标题设置为 --display-weight 并按级别指定大小，且除字母时刻外从不使用 700 或 800 字重；而 Nunito 规则说仅在明确论证时才使用 Nunito Sans 700 字重。两者在作用域上直接冲突：--display-weight 很可能解析为沉重字重（700+），而 Nunito 规则仅在明确论证时才允许，当 --display-weight 为 700 时产生无法避免的冲突。
+suggestion:
+  kind: keep-a
+  note: Define --display-weight explicitly as a non-700/800 weight to satisfy both rules.
+  note_zh: 明确定义 --display-weight 为非 700/800 字重，以满足两条规则。
+issue_url: null

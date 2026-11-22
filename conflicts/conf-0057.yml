@@ -1,0 +1,27 @@
+id: conf-0057
+status: pending
+fingerprint: c85e2bc14151
+detected_at: 2026-11-22T15:42:48.445Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--151
+    hash: 36d6f4eaa32e
+    severity: reflex
+    text: Allow the brand band to replace the dark band at most once, in the second half of the page, on product and place pages.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--1101
+    hash: 4af40a02614c
+    severity: floor
+    text: On a place page never use effects, WebGL, canvas, CSS gradients, grain, glass, print, scenes, loops, counts, UI fragments, diagrams, feature or plan cards, tabs, accordions, switches, logo rows, timelines, fact strips, calendar cards, maps of streets not given by the brief, ratings, reviews, figures or quotes not given by the brief, words on photographs, rounded or filtered photographs, see-through or blurred navigation, outline/pale/blurred/rotated display type, SaaS furniture, or dark sections except the single brand band.
+    text_zh: null
+ai_explanation: "EN: taste--151 explicitly permits a dark band to replace the brand band once on product/place pages, while taste--1101 forbids every dark section except the single brand band on place pages. On place pages these directly contradict: one authorizes an extra dark band, the other prohibits any dark section beyond the brand band. A scope-split cannot resolve it because both rules target the same place-page surface and the same dark-band element."
+ai_explanation_zh: taste--151 允许在产品/地点页第二半用深色带替换品牌带一次，而 taste--1101 禁止地点页出现除单条品牌带之外的任何深色区块。两者在地点页表面直接冲突：一个授权额外深色带，另一个禁止除品牌带外的所有深色区块。由于两条规则都作用于同一地点页表面和同一条深色带元素，无法通过作用域拆分解决。
+suggestion:
+  kind: keep-b
+  note: Resolve by keeping taste--1101's strict prohibition on place pages and treating taste--151 as applying only to non-place product pages.
+  note_zh: 以 taste--1101 在地点页的严格禁止为准，将 taste--151 仅视为适用于非地点类产品页。
+issue_url: null

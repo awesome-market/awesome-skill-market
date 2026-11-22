@@ -1,0 +1,27 @@
+id: conf-0075
+status: pending
+fingerprint: fa7e69dd57ec
+detected_at: 2026-11-22T15:46:54.591Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-2514
+    hash: 0c2e58ca3b64
+    severity: reflex
+    text: Use one primary button style, one container width, one column gap below the hero, one radius per nesting level and never more centred heading groups than left-aligned ones.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--1086
+    hash: 3c624fa07a5e
+    severity: floor
+    text: Every offered colour must be shown at least once on the page, swapping the product picture per swatch.
+    text_zh: null
+ai_explanation: "EN: uniform-styling-units enforces one radius per nesting level and minimal variation, while show-every-color-once requires showing every offered colour at least once by swapping the product picture per swatch. Showing every colour necessarily breaks the one-radius-per-level uniformity by introducing many colour variants — directly contradictory in scope."
+ai_explanation_zh: uniform-styling-units 强制每层一个圆角与最小变化，而 show-every-color-once 要求通过按色板切换产品图来展示每种颜色。展示所有颜色必然通过大量颜色变体破坏每层一个圆角的统一性，作用域内矛盾。
+suggestion:
+  kind: scope-split
+  note: "Resolve by scope: uniform-styling-units governs layout/structure radii; show-every-color-once governs product-image colour variants only, not structural tokens."
+  note_zh: 按作用域划分：uniform-styling-units 管理布局/结构圆角；show-every-color-once 仅管理产品图片颜色变体，不影响结构 token。
+issue_url: null

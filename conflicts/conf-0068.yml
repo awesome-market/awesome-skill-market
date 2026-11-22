@@ -1,0 +1,27 @@
+id: conf-0068
+status: pending
+fingerprint: 50babb20227d
+detected_at: 2026-11-22T15:46:54.580Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-138
+    hash: efd4302235d6
+    severity: reflex
+    text: Reduce accent chroma by 0.02-0.04 and raise lightness by 5-10% so saturated light-mode accents do not glare on dark.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-221
+    hash: c22c94cf2d11
+    severity: reflex
+    text: Declare color in OKLCH in any posture, with the accent contrast and focus unchanged.
+    text_zh: null
+ai_explanation: "EN: hallma-138 explicitly lowers accent chroma and raises lightness to prevent glare on dark surfaces, while hallma-221 demands the accent contrast and focus remain unchanged across all postures. These directly contradict: one requires mutating the accent for dark mode, the other forbids changing it."
+ai_explanation_zh: hallma-138 要求降低强调色的饱和度并提高明度，以防在深色表面上刺眼；而 hallma-221 要求在任何姿态下强调色的对比度和焦点保持不变。两者直接冲突：一个要求为深色模式修改强调色，另一个则禁止修改。
+suggestion:
+  kind: keep-b
+  note: Resolve by treating hallma-221 as the posture-agnostic contract and applying hallma-138 only as a fallback when the unchanged accent fails contrast on dark surfaces.
+  note_zh: 将 hallma-221 视为跨姿态的契约，仅在未修改的强调色在深色表面上对比度不足时，将 hallma-138 作为回退方案。
+issue_url: null

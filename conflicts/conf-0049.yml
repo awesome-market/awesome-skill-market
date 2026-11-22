@@ -1,0 +1,27 @@
+id: conf-0049
+status: pending
+fingerprint: ba5e4e8302a3
+detected_at: 2026-11-22T15:04:08.371Z
+evidence: screenshot
+sides:
+  - key: A
+    source: frontend-design
+    rule_id: fronte-008
+    hash: f76ad83c7c75
+    severity: floor
+    text: Do not accent a single word or phrase within a headline using italic, bold, or a different color.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-329
+    hash: 41898b99b5d5
+    severity: floor
+    text: Never place one italic word inside an otherwise roman heading; use a line break or set the whole heading one way.
+    text_zh: null
+ai_explanation: "EN: Both rules target the same scope — accenting words within headlines. fronte-008 says 'Do not accent a single word or phrase within a headline using italic, bold, or a different color.' hallma-329 says 'Never place one italic word inside an otherwise roman heading; use a line break or set the whole heading one way.' These are directly contradictory in the sense that fronte-008 permits emphasis via 'a different color' while hallma-329 and hallma-209 forbid colored/italic emphasis in headings. If a designer wants to emphasize a word via color (permitted by fronte-008's 'different color' clause interpretation), hallma-209/329 forbid it. This is a real contradiction: fronte-008's allowance of 'a different color' conflicts with hallma-329's absolute 'never place one italic word' and hallma-209's 'never... one colored word in a head.'"
+ai_explanation_zh: fronte-008 与 hallma-329、hallma-209 在同一范围内直接矛盾。fronte-008 允许通过'不同颜色'强调单词，而 hallma-329 和 hallma-209 禁止在标题中使用斜体或彩色单词。fronte-008 的'不同颜色'条款与 hallma-209/329 的绝对禁止相冲突。
+suggestion:
+  kind: keep-b
+  note: hallma-329 and hallma-209 are more specific and recent constraints on headline accenting; fronte-008's 'different color' clause should be overridden.
+  note_zh: hallma-329 和 hallma-209 对标题强调有更具体、更晚的约束；fronte-008 的'不同颜色'条款应被覆盖。
+issue_url: null

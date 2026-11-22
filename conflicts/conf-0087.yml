@@ -1,0 +1,27 @@
+id: conf-0087
+status: pending
+fingerprint: a95750d4ee76
+detected_at: 2026-11-22T15:50:50.282Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-736
+    hash: 80d69f3fbb11
+    severity: floor
+    text: Derive emphasis in manifesto headings exclusively from line breaks, never from coloured or italicised words.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--681
+    hash: fbd8bb7cb56c
+    severity: floor
+    text: Set headlines at --display-weight with size and tight tracking, use text 400 and 500 only, keep sizes per level with at least 1.3x scaling from 1024, and never use weights 700 or 800 except the letters moment.
+    text_zh: null
+ai_explanation: "EN: hallma-736 derives emphasis in manifesto headings exclusively from line breaks, never from coloured or italicised words, while taste--681 sets headlines at --display-weight with tight tracking — these conflict when tight tracking on display-weight headlines is treated as emphasis, which hallma-736 forbids except via line breaks."
+ai_explanation_zh: hallma-736 仅通过换行在宣言标题中派生强调，从不使用彩色或斜体词，而 taste--681 以 --display-weight 配紧凑字距设置标题——当显示重量标题上的紧凑字距被视为强调时二者冲突，而 hallma-736 除换行外禁止此类强调。
+suggestion:
+  kind: keep-a
+  note: Tight tracking as emphasis conflicts with line-break-only emphasis.
+  note_zh: 紧凑字距作为强调与仅换行强调冲突。
+issue_url: null

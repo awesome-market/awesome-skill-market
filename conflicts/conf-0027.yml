@@ -1,0 +1,27 @@
+id: conf-0027
+status: pending
+fingerprint: ab187f2ea69e
+detected_at: 2026-11-22T14:57:34.988Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-489
+    hash: 5e116194f394
+    severity: floor
+    text: Prohibit pure black or pure white paper and ink.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-499
+    hash: 1ec6127d1df1
+    severity: reflex
+    text: Use pure white paper and zero-chroma neutrals with subtle surface borders.
+    text_zh: null
+ai_explanation: hallma-489 is a floor rule that explicitly prohibits pure black or pure white paper and ink, while hallma-499 is a reflex rule that mandates pure white paper and zero-chroma neutrals with subtle surface borders. These directly contradict on the same scope (paper/ink color choice) and no scope-split resolves them since both govern the base surface.
+ai_explanation_zh: hallma-489 是明确禁止纯黑或纯白纸墨的地板规则，而 hallma-499 是要求纯白纸墨与零色相中性色的反射规则。两者在同一作用域（纸墨颜色）直接矛盾，且无法通过作用域拆分解决，因为两者都管辖基础表面。
+suggestion:
+  kind: keep-a
+  note: hallma-489's explicit prohibition takes precedence over hallma-499's reflexive mandate.
+  note_zh: 优先采用 hallma-489 的明确禁止，而非 hallma-499 的反射式要求。
+issue_url: null

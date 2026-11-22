@@ -1,0 +1,27 @@
+id: conf-0030
+status: pending
+fingerprint: eb3ff5b248e3
+detected_at: 2026-11-22T14:57:34.993Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-474
+    hash: 360570d381aa
+    severity: floor
+    text: Prohibit glass panels or cards.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-148
+    hash: 282f73845680
+    severity: reflex
+    text: Always place paper-2 cards on paper so cards are lighter than the canvas.
+    text_zh: null
+ai_explanation: "EN: hallma-474 prohibits glass panels or cards entirely, while hallma-148 mandates placing paper-2 cards on paper; these overlap in scope (cards) and one forbids the object the other governs, so they cannot both be satisfied for a card."
+ai_explanation_zh: hallma-474 完全禁止玻璃面板或卡片，而 hallma-148 要求将 paper-2 卡片置于纸面；两者在卡片范围上重叠，一个禁止另一个所规范的对象，因此无法同时满足。
+suggestion:
+  kind: keep-b
+  note: Treat hallma-474 as overriding card creation; use flat paper-2 surface tokens instead of glass cards.
+  note_zh: 将 hallma-474 视为覆盖卡片创建；使用扁平 paper-2 表面 token 而非玻璃卡片。
+issue_url: null

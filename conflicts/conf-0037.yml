@@ -1,0 +1,27 @@
+id: conf-0037
+status: pending
+fingerprint: dcfc262c4e7d
+detected_at: 2026-11-22T14:57:34.998Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-472
+    hash: ab36fdd0ab91
+    severity: floor
+    text: Prohibit light sections within a dark build.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-195
+    hash: dde6ab04392c
+    severity: reflex
+    text: Keep every road open on a custom page, including dark or light postures, one or many colors, type as picture or edge-to-edge photographs, and non-template structures.
+    text_zh: null
+ai_explanation: "EN: color-c1-prohibit-light-sections-in-dark-build bans light sections within a dark build, but color-c2-preserve-open-road-custom-pages keeps every road open on custom pages including light postures and many colours, which can include light sections even in otherwise dark builds. These contradict on allowing light sections in dark builds."
+ai_explanation_zh: color-c1-prohibit-light-sections-in-dark-build 禁止在深色构建中使用浅色区块，但 color-c2-preserve-open-road-custom-pages 在自定义页面上保持所有可能性开放，包括浅色姿态和多种颜色，可能在原本深色的构建中包含浅色区块。两者在深色构建中是否允许浅色区块上矛盾。
+suggestion:
+  kind: scope-split
+  note: Apply color-c1's no-light-sections rule to standard builds, but let color-c2's open-road custom pages override it when explicitly declared as a custom page.
+  note_zh: 在标准构建中应用 color-c1 的无浅色区块规则，但当明确声明为自定义页面时，让 color-c2 的 open-road 自定义页面覆盖该规则。
+issue_url: null

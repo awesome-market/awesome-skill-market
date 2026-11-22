@@ -1,0 +1,27 @@
+id: conf-0036
+status: pending
+fingerprint: eb21d5219bc7
+detected_at: 2026-11-22T14:57:34.997Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-205
+    hash: 3a9afeaf353a
+    severity: floor
+    text: Never pick a hue for the category, such as blue for software or green for health.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--1144
+    hash: 8d4d1933b926
+    severity: reflex
+    text: Deal palettes by trade and take the first unless it clashes with the client's own colours.
+    text_zh: null
+ai_explanation: "EN: color-c1-never-pick-category-hue forbids choosing a hue by category (e.g. blue for software), yet color-c2-deal-palettes-by-trade assigns palettes by trade, which inherently picks a category-derived hue. These contradict on whether category/trade determines hue."
+ai_explanation_zh: color-c1-never-pick-category-hue 禁止按类别选择色相（如软件用蓝色），而 color-c2-deal-palettes-by-trade 按行业分配调色板，本质上就是选择类别相关的色相。两者在类别/行业是否决定色相上矛盾。
+suggestion:
+  kind: scope-split
+  note: Resolve by treating color-c2's trade palette as a default starting point that must still avoid category stereotyping per color-c1; do not use trade to force a category hue.
+  note_zh: 将 color-c2 的行业调色板视为默认起点，但仍需按 color-c1 避免类别刻板印象；不要用行业来强制类别色相。
+issue_url: null

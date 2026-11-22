@@ -1,0 +1,27 @@
+id: conf-0035
+status: pending
+fingerprint: 091bcf6df958
+detected_at: 2026-11-22T14:57:34.995Z
+evidence: none
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-321
+    hash: 45055f520084
+    severity: floor
+    text: "Never emit #000, #fff, oklch(0%), or oklch(100%) as a colour outside the token block, and never resolve a surface token to a pure absolute unless the stamp declares surface:absolute."
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-082
+    hash: a7c9261f77bf
+    severity: floor
+    text: Never use pure absolute colours as surfaces or improvised values; always tint greys toward the anchor hue.
+    text_zh: null
+ai_explanation: "EN: color-c1-no-pure-colors-outside-tokens bans pure absolute colours (including oklch(0%/100%)) outside the token block, but color-c2-tint-greys-to-anchor-hue explicitly requires using zero-chroma neutrals is forbidden and instead tints greys toward the anchor hue — the two conflict on how neutrals/pure values are handled."
+ai_explanation_zh: color-c1-no-pure-colors-outside-tokens 禁止在 token 块外使用纯绝对色（包括 oklch(0%/100%)），但 color-c2-tint-greys-to-anchor-hue 明确禁止使用零色相中性色，改为将中性色 tint 向锚定色相，两者在中性色/纯色处理方式上冲突。
+suggestion:
+  kind: keep-b
+  note: Keep color-c2's tinted-grey requirement; color-c1's pure-value ban is satisfied by routing through tinted tokens.
+  note_zh: 保留 color-c2 的 tint 中性色要求；color-c1 的纯色禁止可通过 tinted token 满足。
+issue_url: null

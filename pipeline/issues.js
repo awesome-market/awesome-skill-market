@@ -13,16 +13,18 @@ const LABELS = [
   { name: 'decided', color: '5319e7', description: 'Arbitrated via issue comment or decisions/*.yml' },
 ];
 
+const stripLangTag = (s) => (s ?? '').replace(/^(EN|ZH|中文)\s*[:：]\s*/i, '');
+
 function issueBody(conf) {
   const [A, B] = conf.sides;
   const img = (p) => `![](${rawURL(p)})`;
   const side = (s) => `${s.text}${s.text_zh ? `<br>${s.text_zh}` : ''}`;
   const sug = conf.suggestion
-    ? `\`${conf.suggestion.kind}\`${conf.suggestion.note ? ` — ${conf.suggestion.note}` : ''}${conf.suggestion.note_zh ? `<br>${conf.suggestion.note_zh}` : ''}`
+    ? `\`${conf.suggestion.kind}\`${conf.suggestion.note ? ` — ${stripLangTag(conf.suggestion.note)}` : ''}${conf.suggestion.note_zh ? `<br>${stripLangTag(conf.suggestion.note_zh)}` : ''}`
     : '_none_ / 无_';
   const explanation = [
-    conf.ai_explanation || '—',
-    conf.ai_explanation_zh ? `<br>${conf.ai_explanation_zh}` : '',
+    stripLangTag(conf.ai_explanation) || '—',
+    conf.ai_explanation_zh ? `<br>${stripLangTag(conf.ai_explanation_zh)}` : '',
   ].join('');
   const evSection = conf.evidence_files?.length
     ? `### 证据对比 Evidence — 左 A / 右 B (left A / right B)

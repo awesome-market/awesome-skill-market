@@ -1,0 +1,27 @@
+id: conf-0078
+status: pending
+fingerprint: b4ed8402f00b
+detected_at: 2026-11-22T15:50:50.271Z
+evidence: screenshot
+sides:
+  - key: A
+    source: frontend-design
+    rule_id: fronte-005
+    hash: ac81c6abdb1d
+    severity: reflex
+    text: When type functions as a headline or visual element, treat the type treatment itself as an active design element rather than a neutral carrier.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--258
+    hash: d0057060eaf4
+    severity: reflex
+    text: Render card body text at 16px in the default ink color.
+    text_zh: null
+ai_explanation: "EN: fronte-005 treats type as an active design element when used as a headline/visual, while taste--258 renders card body text at 16px in default ink — these conflict when a card body functions as a headline or visual element, since treating it as active design may require non-default treatment beyond plain 16px default ink."
+ai_explanation_zh: fronte-005 将标题或视觉元素中的字体本身视为主动设计元素，而 taste--258 以 16px 默认墨色渲染卡片正文——当卡片正文充当标题或视觉元素时，二者冲突，因为视为主动设计元素可能需要在默认 16px 墨色之外进行特殊处理。
+suggestion:
+  kind: keep-a
+  note: Card body used as headline needs active treatment over default ink.
+  note_zh: 卡片正文用作标题时，需在默认墨色之上施加主动设计处理。
+issue_url: null

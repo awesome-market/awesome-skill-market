@@ -1,0 +1,27 @@
+id: conf-0046
+status: pending
+fingerprint: 2ab38a40db3f
+detected_at: 2026-11-22T15:00:19.286Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-086
+    hash: 003beaa94c8c
+    severity: floor
+    text: Avoid gradients past three stops, purple-blue, purple-pink or cyan-on-dark, glow shadows, chromatic halos, spotlights and alpha-defined colours.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--002
+    hash: 526d9097a3f9
+    severity: floor
+    text: Derive every colour an effect draws from the page palette variables rather than fixed hues.
+    text_zh: null
+ai_explanation: "EN: color-c1-ban-gradient-styles prohibits multi-stop gradients and glow shadows entirely, whereas color-c4-taste--002 requires every colour an effect draws to come from page palette variables (which can include gradient tokens) and implies effects may use gradients. These directly contradict for any effect that uses a gradient."
+ai_explanation_zh: color-c1-ban-gradient-styles 完全禁止多色阶渐变和发光阴影，而 color-c4-taste--002 要求效果绘制时使用的颜色必须来自页面色板变量（可能包含渐变 token），暗示效果可使用渐变。两者对任何使用渐变的效果直接矛盾。
+suggestion:
+  kind: scope-split
+  note: Honor color-c1's ban on multi-stop/gradient-text effects, but still route any permitted single-stop sparkline gradient through palette variables as color-c4-taste--002 requires.
+  note_zh: 遵守 color-c1 对多色阶/渐变文字的禁止，但将允许的单一色停 sparkline 渐变按 color-c4-taste--002 要求通过色板变量路由。
+issue_url: null

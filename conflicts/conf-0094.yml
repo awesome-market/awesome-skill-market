@@ -1,0 +1,27 @@
+id: conf-0094
+status: pending
+fingerprint: 01f5a9ae012e
+detected_at: 2026-11-22T15:50:50.292Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-2495
+    hash: 625bf4ad2d2c
+    severity: floor
+    text: Never place a single italic word inside a roman (non-italic) heading.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-482
+    hash: ab284ecee08a
+    severity: finish
+    text: Permit hairline rules, fleurons, drop caps, double rules, and italic text inside running body copy.
+    text_zh: null
+ai_explanation: "EN: type-l1c1-no-single-italic-in-roman-heading forbids italic type for body copy ('never use italic type for body copy'), while type-l1c1-permitted-body-ornaments explicitly permits italic text inside running body copy. Both govern running body copy in the same scope, so no pick or scope-split resolves them."
+ai_explanation_zh: 中文：type-l1c1-no-single-italic-in-roman-heading 禁止在正文中使用斜体（「永远不要在正文中使用斜体」），而 type-l1c1-permitted-body-ornaments 明确允许在运行正文中使用斜体。两者都约束同一范围内的运行正文，无法通过选择或范围拆分解决。
+suggestion:
+  kind: keep-b
+  note: Body italic is a permitted ornament; the absolute body-italic ban is overbroad and should be narrowed to roman headings only.
+  note_zh: 斜体是允许的正文装饰；对正文斜体的绝对禁止过于宽泛，应缩小为仅针对非斜体标题。
+issue_url: null

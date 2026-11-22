@@ -1,0 +1,27 @@
+id: conf-0081
+status: pending
+fingerprint: ee5a9c43efbe
+detected_at: 2026-11-22T15:50:50.275Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-333
+    hash: ae4a07d5705f
+    severity: reflex
+    text: Do not use monospace as costume on labels, captions, meta rows, table heads, or small type unless the display or body is mono or the content is code, a figure, or a measurement.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--681
+    hash: fbd8bb7cb56c
+    severity: floor
+    text: Set headlines at --display-weight with size and tight tracking, use text 400 and 500 only, keep sizes per level with at least 1.3x scaling from 1024, and never use weights 700 or 800 except the letters moment.
+    text_zh: null
+ai_explanation: "EN: hallma-333 forbids monospace as costume on labels/captions/meta/table heads unless display or body is mono, while taste--681 uses --display-weight with text 400/500 only — these conflict when a display-weight headline uses a mono face as costume, since taste--681's weight constraints imply a non-mono display face, yet hallma-333 still blocks mono costume on small type."
+ai_explanation_zh: hallma-333 禁止将等宽字体作为标签/说明/元数据/表头的戏服，除非显示或正文是等宽；taste--681 仅使用 --display-weight 配 400/500 字重——当显示字重标题以等宽字体作为戏服时二者冲突，因为 taste--681 的字重约束暗示非等宽显示字体，而 hallma-333 仍阻止小字号的等宽戏服。
+suggestion:
+  kind: keep-a
+  note: Non-mono display face from taste--681 blocks mono costume per hallma-333.
+  note_zh: taste--681 产生的非等宽显示字体，依 hallma-333 阻止等宽戏服。
+issue_url: null

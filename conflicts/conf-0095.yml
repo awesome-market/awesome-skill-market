@@ -1,0 +1,27 @@
+id: conf-0095
+status: pending
+fingerprint: a6a78e65279a
+detected_at: 2026-11-22T15:50:50.294Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-683
+    hash: 8ee380748fc2
+    severity: reflex
+    text: Emerge section headings from the paragraph flow as short bold phrases inline with the body rather than as standalone block headings.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-724
+    hash: 361d41115699
+    severity: reflex
+    text: Make each FAQ section heading a short direct question ending in a question mark.
+    text_zh: null
+ai_explanation: "EN: The section-headings rule mandates emerging headings as short bold phrases inline with the body flow rather than standalone block headings, while the FAQ rule requires each section heading to be a short direct question ending in a question mark. These directly contradict in scope: one forbids standalone block headings while the other prescribes them as distinct FAQ section headings, and no reasonable scope-split resolves whether FAQ headings should be inline-flow phrases or standalone question blocks."
+ai_explanation_zh: 章节标题规则要求将标题作为简短粗体短语融入正文流，而非独立块状标题；而 FAQ 规则要求每个章节标题必须是简短的直接疑问句并以问号结尾。两者在作用域上直接冲突：一个禁止独立块状标题，另一个却将其指定为独立的疑问句章节标题，且无法通过合理的作用域划分解决 FAQ 标题应是内联流式短语还是独立块状疑问句。
+suggestion:
+  kind: scope-split
+  note: FAQ headings are a distinct component; scope-split by treating FAQ section headings as an exception to the inline-flow rule.
+  note_zh: FAQ 标题是独立组件；通过将 FAQ 章节标题视为内联流规则的例外来划分作用域。
+issue_url: null

@@ -1,0 +1,27 @@
+id: conf-0055
+status: pending
+fingerprint: a9205349a2d7
+detected_at: 2026-11-22T15:42:48.433Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-141
+    hash: 19ca7db90e1a
+    severity: floor
+    text: Keep the hue constant across modes on every token.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--153
+    hash: ea1a7596f999
+    severity: reflex
+    text: Keep saturated colour in accents and pictures, and never use a mid-tone section as the main ground.
+    text_zh: null
+ai_explanation: "EN: hallma-141 mandates keeping hue constant across modes on every token, while taste--153 explicitly keeps saturated colour only in accents and pictures and varies them — a direct contradiction on whether hue may change for non-neutral tokens."
+ai_explanation_zh: hallma-141要求每个token在各模式下保持色相不变，而taste--153明确将饱和色仅用于强调与图片并允许其变化，二者在非中性token上是否可变色相直接冲突。
+suggestion:
+  kind: scope-split
+  note: Keep hue constant for structural/ink/line tokens (hallma-141); allow hue and saturation variation only for accent and picture tokens (taste--153).
+  note_zh: 对结构/ink/线条token保持色相稳定（hallma-141）；仅对强调与图片token允许色相与饱和度变化（taste--153）。
+issue_url: null

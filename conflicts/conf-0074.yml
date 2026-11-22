@@ -1,0 +1,27 @@
+id: conf-0074
+status: pending
+fingerprint: 700e4e653159
+detected_at: 2026-11-22T15:46:54.590Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--458
+    hash: 95b900b51577
+    severity: reflex
+    text: Restrict accent colour to the light and what it reaches, use hairline lines, and make the core an ink tile.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--166
+    hash: 43f2b5a9066e
+    severity: reflex
+    text: Place words on photo grounds over their calm, dark part, only in the hero and one closing band.
+    text_zh: null
+ai_explanation: "EN: accent-light-only restricts accent colour to light surfaces and hairlines with an ink core, while words-on-photo-calm-dark places text over a calm dark photo band. A dark photo band is neither light nor an ink tile, so accent-derived text/elements on it violate the light-only restriction — contradictory in the same scope."
+ai_explanation_zh: accent-light-only 将强调色限制在浅色表面与发丝线、深色核心上，而 words-on-photo-calm-dark 将文字置于平静的深色照片带。深色照片带既非浅色也非深色核心，其上的强调色文字/元素违反 light-only 限制，作用域内矛盾。
+suggestion:
+  kind: scope-split
+  note: "Resolve by precedence: words-on-photo applies only in hero/closing band with neutral ink text, not accent colour; accent-light-only governs accent usage elsewhere."
+  note_zh: 按优先级划分：words-on-photo 仅用于 hero/收尾带且使用中性墨色文字，不使用强调色；accent-light-only 管理其余地方的强调色。
+issue_url: null

@@ -1,0 +1,27 @@
+id: conf-0051
+status: pending
+fingerprint: 35ebbebc3b33
+detected_at: 2026-11-22T15:04:08.379Z
+evidence: screenshot
+sides:
+  - key: A
+    source: frontend-design
+    rule_id: fronte-009
+    hash: 966bc5b9d313
+    severity: floor
+    text: Do not render labels in all caps.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-787
+    hash: c35ddbe2e044
+    severity: reflex
+    text: Render the letter's salutation as display italic at 1.5 to 2 times body size as a single unified style.
+    text_zh: null
+ai_explanation: fronte-009 forbids rendering labels in all caps, while hallma-787 prescribes rendering the letter's salutation as display italic at 1.5–2× body size. A salutation like 'Dear' is a label-like element; treating it as a large display element directly conflicts with the all-caps floor, and scope-splitting (label vs. display) does not resolve the contradiction since both apply to the same word.
+ai_explanation_zh: fronte-009 禁止将所有大写的标签渲染，而 hallma-787 要求将信件的称呼语以显示体斜体呈现为正文的 1.5–2 倍大小。'Dear' 这类称呼语属于标签式元素，将其作为大型显示元素会直接与 all-caps 限制冲突，且范围划分（标签 vs. 显示）无法解决这一矛盾，因为两者都作用于同一单词。
+suggestion:
+  kind: keep-b
+  note: Treat the salutation as an intentional display element, not a label; the reflex rule overrides the floor for this single hero instance.
+  note_zh: 将称呼语视为有意的显示元素而非标签；该反射规则在此单一 hero 实例中覆盖 floor 限制。
+issue_url: null

@@ -1,0 +1,27 @@
+id: conf-0085
+status: pending
+fingerprint: 71895d3b550d
+detected_at: 2026-11-22T15:50:50.279Z
+evidence: none
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-328
+    hash: 6d54d434e1eb
+    severity: reflex
+    text: Use at most three font families, and only declare a font-slot stand-in waiver on the record.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--681
+    hash: fbd8bb7cb56c
+    severity: floor
+    text: Set headlines at --display-weight with size and tight tracking, use text 400 and 500 only, keep sizes per level with at least 1.3x scaling from 1024, and never use weights 700 or 800 except the letters moment.
+    text_zh: null
+ai_explanation: "EN: hallma-328 uses at most three font families and only declares a font-slot stand-in waiver on record, while taste--681 sets headlines at --display-weight with sizes per level — these conflict when the display-weight system requires three+ families (display, body, accent) plus stand-ins, exceeding hallma-328's three-family cap without an on-record waiver."
+ai_explanation_zh: hallma-328 最多使用三个字体家族，仅在记录上声明字体槽替代豁免，而 taste--681 以 --display-weight 按级别设置标题尺寸——当显示重量系统需要三个以上家族（显示、正文、强调）加替代字体时，超过 hallma-328 的三家族上限且无记录上声明。
+suggestion:
+  kind: keep-a
+  note: Display-weight system may exceed three-family cap without waiver.
+  note_zh: 显示重量系统可能在无豁免时超过三家族上限。
+issue_url: null

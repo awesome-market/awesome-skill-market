@@ -1,0 +1,27 @@
+id: conf-0028
+status: pending
+fingerprint: 088fcfd2a1e9
+detected_at: 2026-11-22T14:57:34.992Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-195
+    hash: dde6ab04392c
+    severity: reflex
+    text: Keep every road open on a custom page, including dark or light postures, one or many colors, type as picture or edge-to-edge photographs, and non-template structures.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--552
+    hash: a3151e50e218
+    severity: floor
+    text: On non-tech pages, ban canvas, WebGL, autoplay video, CSS gradients, SVG pattern or texture grounds, backdrop-filter, filter, mix-blend-mode, mask-image, glass, grain, halftone, dither, duotone, print, all data-fx/data-print/data-scene/data-big-scene/data-ui-loop/data-m-* attributes, SVG animation, GIFs, Lottie, custom cursors, and any scroll or animation library.
+    text_zh: null
+ai_explanation: "EN: hallma-195 explicitly permits 'CSS gradients' and 'SVG pattern or texture grounds' on custom pages, while taste--552 bans CSS gradients and SVG pattern/texture grounds on non-tech pages. On a non-tech custom page, these directly contradict: one rule allows the effect, the other forbids it, and no scope-split resolves it because 'custom page' and 'non-tech page' overlap."
+ai_explanation_zh: hallma-195 明确允许自定义页面使用 CSS 渐变与 SVG 图案/纹理背景，而 taste--552 禁止非技术页面使用 CSS 渐变与 SVG 图案/纹理背景。在‘非技术自定义页面’这一重叠范围内，两者直接矛盾：一条允许，另一条禁止，且无法通过范围划分解决，因为‘自定义页面’与‘非技术页面’存在交集。
+suggestion:
+  kind: keep-b
+  note: Prefer the more specific, context-bound ban (taste--552) for non-tech pages; treat hallma-195's allowance as applying only to tech/posture-locked pages.
+  note_zh: 对非技术页面采用更具体、上下文受限的禁令（taste--552）；将 hallma-195 的允许视为仅适用于技术/姿态锁定页面。
+issue_url: null

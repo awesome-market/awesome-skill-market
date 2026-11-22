@@ -1,0 +1,27 @@
+id: conf-0100
+status: pending
+fingerprint: ff4f10b2a1de
+detected_at: 2026-11-22T16:11:20.797Z
+evidence: none
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-069
+    hash: cce7140c8d17
+    severity: floor
+    text: Use at most two type families, with a single third family restricted to exactly one role.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-306
+    hash: 9d26c1f9a84e
+    severity: floor
+    text: Use exactly one display face and one body face, or a single family for both, plus at most one outlier that serves exactly one role.
+    text_zh: null
+ai_explanation: "EN: Both rules cap type families, but l2c1 allows 'at most two type families plus one outlier role' while l2c2 demands 'exactly one display face and one body face, or a single family for both, plus at most one outlier'. l2c1's two-family allowance directly contradicts l2c2's exactly-one-or-single constraint in the same scope of family count."
+ai_explanation_zh: 中文：两条规则都限制字体家族数量，但 l2c1 允许'最多两个家族加一个例外角色'，而 l2c2 要求'恰好一个显示字体加一个正文字体，或单一家族，外加最多一个例外'。l2c1 的两家族授权与 l2c2 的恰好一个/单一家族约束在同一范围内直接矛盾。
+suggestion:
+  kind: scope-split
+  note: l2c1 targets level-1 pages with two-family flexibility; l2c2 targets level-2 pages with stricter single-family preference. Scope by level.
+  note_zh: l2c1 面向需要两家族灵活性的 1 级页面；l2c2 面向更严格的单家族优先的 2 级页面。按层级划分范围。
+issue_url: null

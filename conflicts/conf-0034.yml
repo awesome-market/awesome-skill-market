@@ -1,0 +1,27 @@
+id: conf-0034
+status: pending
+fingerprint: 15e2d015168e
+detected_at: 2026-11-22T14:57:34.995Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-499
+    hash: 1ec6127d1df1
+    severity: reflex
+    text: Use pure white paper and zero-chroma neutrals with subtle surface borders.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-082
+    hash: a7c9261f77bf
+    severity: floor
+    text: Never use pure absolute colours as surfaces or improvised values; always tint greys toward the anchor hue.
+    text_zh: null
+ai_explanation: "EN: color-c1-use-pure-white-and-zero-chroma-neutrals mandates pure white paper and zero-chroma neutrals, while color-c2-tint-greys-to-anchor-hue forbids pure absolute colours and zero-chroma neutrals on pages with an anchor hue, requiring greys tinted toward the anchor hue. These directly contradict on the same scope (neutral/paper values)."
+ai_explanation_zh: color-c1-use-pure-white-and-zero-chroma-neutrals 要求使用纯白纸和零色相中性色，而 color-c2-tint-greys-to-anchor-hue 禁止在有锚定色相的页面使用纯绝对色和零色相中性色，要求将中性色 tint 向锚定色相。两者在同一作用域直接矛盾。
+suggestion:
+  kind: keep-b
+  note: Prefer color-c2's explicit constraint (tinted greys, no pure absolutes) since it adds the anchor-hue condition; color-c1's pure-white/zero-chroma rule conflicts.
+  note_zh: 优先采用 color-c2 的显式约束（tint 中性色、禁止纯绝对色），因其带有锚定色相条件；color-c1 的纯白/零色相规则与之冲突。
+issue_url: null

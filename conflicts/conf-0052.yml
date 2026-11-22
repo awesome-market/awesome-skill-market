@@ -1,0 +1,27 @@
+id: conf-0052
+status: pending
+fingerprint: 4da7765af8be
+detected_at: 2026-11-22T15:04:08.381Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-510
+    hash: a6ef6e4fb2c0
+    severity: floor
+    text: Never use a monospace label voice.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-335
+    hash: 69ffd5de4403
+    severity: floor
+    text: "Never emit a tracked-caps label: any label, caption, table head, nav link, tag, chip, or text at 15px or under set uppercase, small caps, or letter-spaced past 0.03em."
+    text_zh: null
+ai_explanation: "EN: hallma-510 forbids a monospace label voice entirely, while hallma-335 mandates uppercase/small-caps/letter-spaced labels at 15px or under. A 15px label cannot satisfy both without either using monospace (violating 510) or using a non-monospace tracked-caps face (violating 335)."
+ai_explanation_zh: hallma-510 完全禁止等宽标签语音，而 hallma-335 要求 15px 及以下标签使用大写/小型大写字母/字距。15px 标签无法同时满足两者：使用等宽违反 510，使用非等宽跟踪大写则违反 335。
+suggestion:
+  kind: keep-b
+  note: Resolve by treating 510 as the stronger floor for labels and applying 335 only to non-label tracked-caps contexts.
+  note_zh: 将 510 视为标签的更强地板规则，仅对非标签的跟踪大写场景应用 335。
+issue_url: null

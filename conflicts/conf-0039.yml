@@ -1,0 +1,27 @@
+id: conf-0039
+status: pending
+fingerprint: 1f48e8655f0b
+detected_at: 2026-11-22T15:00:19.263Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-459
+    hash: cc6b8c058a1f
+    severity: floor
+    text: Use exactly one accent hue applied only to the canvas treatment, focus rings, and small tags, never to display text unless the theme's type names an accented word.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--253
+    hash: 02613c2ae2f5
+    severity: floor
+    text: Never put the accent on every chip, date, and keyword, mix brand colours with ink marks, or ship glossy 3D blobs.
+    text_zh: null
+ai_explanation: "EN: hallma-459 explicitly permits using the single accent hue on 'small tags', while taste--253 explicitly forbids putting the accent on 'every chip' and forbids mixing brand colours with ink marks. 'Tags' and 'chips' are the same UI element in this scope, so one rule says always allow accent on small tags and the other says never put accent on every chip — a direct contradiction with no scope-split that resolves both."
+ai_explanation_zh: hallma-459 明确允许把单一强调色用于「小标签 (small tags)」，而 taste--253 明确禁止把强调色用于「每个芯片 (every chip)」并禁止用品牌色混入墨色标记。标签与芯片在同一作用域内是同一 UI 元素，因此一条规则要求始终允许对小型标签使用强调色，另一条要求绝不把强调色用于每个芯片，二者直接矛盾且无法通过划分作用域同时满足。
+suggestion:
+  kind: keep-b
+  note: Prefer taste--253's global ban on accenting every chip as the more specific, safety-oriented constraint; treat 'small tags' as needing ink/muted colour rather than accent.
+  note_zh: 优先保留 taste--253 对「每个芯片都使用强调色」的全局禁止，将其视为更具体、更安全的约束；把「小型标签」当作需使用墨色/中性色而非强调色。
+issue_url: null

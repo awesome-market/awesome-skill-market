@@ -1,0 +1,27 @@
+id: conf-0060
+status: pending
+fingerprint: 0001aea5efcb
+detected_at: 2026-11-22T15:42:48.455Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-203
+    hash: ad1d249cdd03
+    severity: floor
+    text: Never ship a pale ground with a single timid accent.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-493
+    hash: 3ae1cde14524
+    severity: floor
+    text: Use ink or a single hue applied only to focus rings and one control, and never flood color without a declared visual posture.
+    text_zh: null
+ai_explanation: "EN: hallma-203 forbids shipping a pale ground with only one timid accent, implying colour must be present and confident, while single-hue-and-ink forbids flooding colour and mandates restricting accent to focus rings and one control. A confident single accent used as a signal can satisfy both if kept under area limits, but if 'timid' is read as 'insufficiently present', they directly contradict on whether colour must be shown broadly vs. restricted to one element."
+ai_explanation_zh: hallma-203 禁止以苍白背景搭配单一怯懦强调色，暗示色彩必须充分且自信；single-hue-and-ink 则禁止泛滥色彩，仅允许用于焦点环与一个控件。若将‘怯懦’理解为‘存在感不足’，二者在是否广泛用色与仅单元素用色上直接冲突。
+suggestion:
+  kind: keep-b
+  note: Scope the accent to focus ring + one control and ensure it is saturated enough to count as present, not timid, keeping area under 5%.
+  note_zh: 将强调色限定于焦点环与一个控件，并确保其饱和度足够以视为‘存在’而非‘怯懦’，面积控制在5%以内。
+issue_url: null

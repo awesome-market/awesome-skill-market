@@ -1,0 +1,27 @@
+id: conf-0069
+status: pending
+fingerprint: b7b3c0c1760b
+detected_at: 2026-11-22T15:46:54.582Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-294
+    hash: e4232d9569c9
+    severity: floor
+    text: Never ship a tight grotesk at 600 on near-white with one blue accent and a 1px border under a soft shadow.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-436
+    hash: d9cfe577e219
+    severity: reflex
+    text: Keep declared Committed, Full-palette, or Drenched postures moving colour into surface tokens and reject undeclared colour sprawl measured against the 1280x800 fold.
+    text_zh: null
+ai_explanation: "EN: The tight-grotesk-card rule forbids a near-white surface with one blue accent and 1px border, while the reject-undeclared-sprawl rule requires moving declared/Full/Drenched colour into surface tokens and rejects undeclared colour sprawl against the 1280x800 fold. A Full-palette/Drenched build legitimately needs surface-level colour (sprawl) yet must avoid the specific near-white + single-accent + hairline composition — one rule gates the surface area, the other gates the exact layout recipe, and no scope split separates them because both apply to the same surface treatment decision."
+ai_explanation_zh: 中文：tight-grotesk-card 禁止「近白底 + 一个蓝强调 + 1px 边框」的组合，而 reject-undeclared-sprawl 要求把声明式/Full/Drenched 色彩带入表面 token 并拒绝未声明的色域蔓延。Full/Drenched 构建合法需要表面级色彩（sprawl），却必须避免那种近白加单强调的构图——一个规则限制表面面积，另一个规则限制具体布局配方，且两者无法通过作用域拆分分离，因为它们都作用于同一表面处理决策。
+suggestion:
+  kind: scope-split
+  note: "Split by posture: near-white + single-accent + hairline is forbidden only under Restrained/neutral postures; Full/Drenched postures may use surface colour but must still avoid the exact tight-grotesk recipe and keep accent under area caps."
+  note_zh: 按姿态拆分：近白加单强调加 hairline 仅在 Restrained/中性姿态下被禁止；Full/Drenched 姿态可使用表面色彩，但仍需避免 tight-grotesk 配方并遵守面积上限。
+issue_url: null
