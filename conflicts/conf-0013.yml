@@ -1,0 +1,29 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0013.yml
+id: conf-0013
+status: dismissed
+fingerprint: 7378e0ba5544
+detected_at: 2026-11-22T21:30:09.825Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--106
+    hash: 134bb456fc8d
+    severity: floor
+    text: Only render physical products that exist as a model or are requested by a 3D/render brief.
+    text_zh: 仅渲染存在模型或由 3D/render brief 请求的物理产品。
+  - key: B
+    source: taste-skill
+    rule_id: taste--1033
+    hash: f6c321bec74a
+    severity: floor
+    text: A product with no 3D brief must never default to a 3D render.
+    text_zh: 没有 3D brief 的产品绝不得默认为 3D 渲染。
+ai_explanation: "Both rules prohibit defaulting to 3D renders without a 3D brief, but imagery-l1c1-mock-render-and-3d-gating additionally forbids 'a data-product-fill over 1' (i.e., any generated fill beyond a single unit), whereas imagery-l1c2-no-3d-without-brief permits rendering 'from a short JSON spec of the product's own parts' when the brief asks. The contradiction is whether any generated fill counts as a render: one treats data-product-fill as off-limits, the other treats spec-derived composition as acceptable."
+ai_explanation_zh: 两条规则都禁止在没有 3D brief 时默认使用 3D 渲染，但 imagery-l1c1-mock-render-and-3d-gating 额外禁止 'data-product-fill over 1'（即任何超过单个单位的生成填充），而 imagery-l1c2-no-3d-without-brief 允许在 brief 要求时 '从描述产品自身部件的简短 JSON spec' 进行渲染。矛盾点在于：任何生成的填充是否都算作渲染——前者将 data-product-fill 视为禁止，后者将 spec 派生的组合视为可接受。
+suggestion:
+  kind: keep-b
+  note: Treat spec-derived product composition as a render governed by the 3D brief; keep data-product-fill over 1 prohibited.
+  note_zh: 将 spec 派生的产品组合视为受 3D brief 约束的渲染；保持 data-product-fill over 1 继续禁止。
+issue_url: null
+dismiss_reason: Rules A and B are compatible restatements of the same 3D-brief gating requirement, and the imagery-l1c1/l1c2 details describe different scopes rather than a genuine contradiction between A and B.

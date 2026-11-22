@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0035.yml
+id: conf-0035
+status: decided
+fingerprint: 483c65059733
+detected_at: 2026-11-22T22:19:29.763Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-756
+    hash: 1ecb723e1ce1
+    severity: finish
+    text: Do not use spatial reveal motion for photographs; let the images carry the emphasis.
+    text_zh: 规则 A：不要对照片使用空间揭示动画，让图像本身承载强调。
+  - key: B
+    source: taste-skill
+    rule_id: taste--715
+    hash: 1cc2b2dfa677
+    severity: floor
+    text: At 1440px width a hovered card must lift 2px and a hovered photograph must scale to 1.02–1.03.
+    text_zh: 规则 B：在 1440px 宽度下，悬停的卡片应提升 2px，悬停的照片应缩放到 1.02–1.03。
+ai_explanation: l0c1 forbids opacity changes and spatial reveal for photographs, while l0c3 permits zooming linked photographs 1.02–1.03 on hover within hidden-overflow frames — the two rules contradict on whether hover-driven image motion is allowed.
+ai_explanation_zh: l0c1 禁止对照片使用透明度变化与空间揭示动画，而 l0c3 允许在 overflow 为 hidden 的容器内，对链接的照片在 hover 时缩放 1.02–1.03；两条规则在 hover 驱动的图像运动是否被允许上存在冲突。
+suggestion:
+  kind: keep-b
+  note: l0c3's subtle zoom is a hover interaction signal, not a scroll reveal.
+  note_zh: l0c3 的轻微缩放属于 hover 交互提示，而非滚动揭示。
+issue_url: null

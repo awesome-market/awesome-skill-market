@@ -1,0 +1,29 @@
+id: conf-0006
+status: pending
+fingerprint: ff1dec62aba8
+detected_at: 2026-11-22T20:56:30.171Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-326
+    hash: "580856348295"
+    severity: reflex
+    text: Never use Inter, Roboto, Open Sans, Poppins, Lato, or a system face as the display; use a display face from the theme or fonts.md.
+    text_zh: Rule A：display 字体须从主题或 fonts.md 中选取，禁止使用 Inter、Roboto、Open Sans、Poppins、Lato 或系统字体。
+  - key: B
+    source: frontend-design
+    rule_id: fronte-004
+    hash: 356d1823d34c
+    severity: reflex
+    text: Choose non-default typefaces and set a clear type scale with intentional weights, widths, and spacing.
+    text_zh: Rule B：选择非默认 typeface，并建立清晰的 type scale，有意识地使用 weight、width 与 spacing。
+ai_explanation: Both rules govern display-face selection in the same scope (choosing a display face). Rule a forbids Inter/Roboto/Open Sans/Poppins/Lato/system faces as display; rule b forbids Inter/Roboto/Open Sans/Lato/Poppins/system-ui/Arial/Helvetica/Merriweather/Lora/Georgia/Courier New/system mono as default. They directly contradict on system-ui (a bans it as 'system face'; b bans it as 'system-ui' default), on Lora/Merriweather (a permits theme faces; b forbids them), and on Montserrat/Raleway/Work Sans/DM Sans/Plus Jakarta Sans (a silent; b explicit). No pick satisfies both.
+ai_explanation_zh: 两条规则均约束 display 字体选择。Rule A 禁止将 Inter/Roboto/Open Sans/Poppins/Lato/系统字体用作 display；Rule B 禁止将 Inter/Roboto/Open Sans/Lato/Poppins/system-ui/Arial/Helvetica/Merriweather/Lora/Georgia/Courier New/系统等宽字体设为默认。二者在 system-ui（A 以‘系统字体’禁止，B 以‘system-ui’默认禁止）、Lora/Merriweather（A 允许主题字体，B 禁止）以及 Montserrat/Raleway/Work Sans/DM Sans/Plus Jakarta Sans（A 未提及，B 明确禁止）上直接冲突，没有选择能同时满足两者。
+suggestion: null
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

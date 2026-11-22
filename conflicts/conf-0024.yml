@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0024.yml
+id: conf-0024
+status: decided
+fingerprint: dcf700882246
+detected_at: 2026-11-22T21:49:32.690Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--1214
+    hash: 56aca35029de
+    severity: reflex
+    text: Show one form__status line that reads sending then success or failure and keep typed input on failure.
+    text_zh: 显示一行 form__status，依次呈现 sending、success 或 failure；失败时保留已输入内容。
+  - key: B
+    source: hallmark
+    rule_id: hallma-583
+    hash: e176a1a0092c
+    severity: floor
+    text: Error messages must describe what broke, why, and what to do in one sentence, tied to the field via aria-describedby and aria-invalid true.
+    text_zh: 错误消息需用一句话描述问题、原因及处理方式，并通过 aria-describedby 与 aria-invalid="true" 关联到对应字段。
+ai_explanation: l0c1 keeps typed input on failure and always allows pasting while keeping the button live until pressed, while l0c2 validates on submit and moves focus to the first failed field — l0c2's focus movement and submit-time validation conflict with l0c1's keep-input-and-stay-on-field behavior.
+ai_explanation_zh: l0c1 在失败时保留已输入内容、始终允许粘贴，并在按钮被按下前保持其可用状态；l0c2 在提交时验证并将焦点移至第一个失败字段——l0c2 的焦点移动与提交时验证和 l0c1 的保留输入并停留在当前字段的行为相冲突。
+suggestion:
+  kind: scope-split
+  note: Apply l0c2 validation/focus-on-first-error on submit, but keep l0c1's paste-allowed and typed-input-retained behavior on failure.
+  note_zh: 在提交时应用 l0c2 的验证/聚焦首个错误，同时保留 l0c1 在失败时允许粘贴并保留已输入内容的行为。
+issue_url: null

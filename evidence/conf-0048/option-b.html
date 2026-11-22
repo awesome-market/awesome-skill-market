@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head><style>
+body{margin:0;font-family:system-ui,sans-serif;background:#0f1115;color:#e8e8ec;height:800px;overflow:hidden}
+#stage{display:flex;flex-direction:column;height:100%}
+header{height:64px;display:flex;align-items:center;padding:0 32px;border-bottom:1px solid #23262e;background:#13161c}
+header .logo{width:28px;height:28px;background:#6c7a8a;border-radius:6px;margin-right:14px}
+header h1{font-size:15px;font-weight:600;margin:0;letter-spacing:.3px}
+main{flex:1;display:flex;padding:32px;gap:32px}
+.left{flex:1;display:flex;flex-direction:column;gap:18px}
+.right{width:420px;display:flex;flex-direction:column;gap:16px}
+.hero{height:320px;border-radius:12px;background:linear-gradient(135deg,#3a2a40,#1f1a28);border:1px solid #3a3040;position:relative;overflow:hidden}
+.hero .kicker{position:absolute;top:20px;left:24px;font-size:11px;letter-spacing:1.2px;color:#b094c8;text-transform:uppercase}
+.hero h2{position:absolute;bottom:28px;left:24px;right:24px;font-size:30px;line-height:1.15;margin:0;color:#fff}
+.card{background:#161a21;border:1px solid #23262e;border-radius:10px;padding:18px}
+.card h3{margin:0 0 8px;font-size:13px;color:#9aa3b1}
+.card p{margin:0;font-size:12px;line-height:1.6;color:#c8cdd5}
+.row{display:flex;gap:10px}
+.chip{font-size:10px;padding:4px 9px;border-radius:20px;background:#1e242e;color:#9aa3b1;border:1px solid #2a3038}
+.history{margin-top:8px}
+.history .entry{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #1e242e;font-size:11px;color:#9aa3b1}
+.history .entry:last-child{border-bottom:none}
+.history .num{width:22px;height:22px;border-radius:50%;background:#2a3340;display:flex;align-items:center;justify-content:center;font-size:10px;color:#8a94a4}
+.history .entry.active{color:#fff}
+.history .entry.active .num{background:#6a4fa5;color:#fff}
+.history .entry.skipped{opacity:.45}
+.meta{font-size:10px;color:#6a7482;margin-top:6px}
+#caption{position:absolute;left:24px;bottom:20px;font-size:11px;color:#8a94a4;letter-spacing:.4px}
+</style></head>
+<body>
+<div id="stage">
+<header>
+<div class="logo"></div>
+<h1>ATLAS — Landing / Hero</h1>
+</header>
+<main>
+<div class="left">
+<div class="hero">
+<div class="kicker">Hero — Scene 09 (weighted random)</div>
+<h2>Scale with confidence, not complexity.</h2>
+</div>
+<div class="card">
+<h3>Selection logic applied</h3>
+<p>Deal scenes at random among those whose fits includes hero, types includes landing, and needs the brief meets — weighted by weight, avoiding the last three history entries.</p>
+<div class="row">
+<span class="chip">fits:hero</span>
+<span class="chip">type:landing</span>
+<span class="chip">needs:ship</span>
+</div>
+</div>
+<div class="card history">
+<h3>scenes-history.json (weighted random)</h3>
+<div class="entry skipped"><span class="num">1</span>Scene 04 — fits:hero, type:landing, needs:ship — deterministic winner, but LOW weight</div>
+<div class="entry skipped"><span class="num">2</span>Scene 07 — fits:hero, type:landing, needs:scale</div>
+<div class="entry active"><span class="num">3</span>Scene 09 — fits:hero, type:landing, needs:ship — WINS weighted random draw</div>
+<div class="meta">Scene 04 is deterministic first result but has low weight; random deal picks Scene 09 instead. Last three entries excluded from future draws only.</div>
+</div>
+</div>
+<div class="right">
+<div class="card">
+<h3>Randomized candidate pool</h3>
+<p>Scene 04 (weight 0.2), Scene 07 (weight 0.5), Scene 09 (weight 0.8). Weighted random lands on Scene 09 — different from deterministic Scene 04.</p>
+</div>
+<div class="card">
+<h3>Why not deterministic</h3>
+<p>History-based first result (Scene 04) collides with low weight and risks stale hero. Randomized rule surfaces Scene 09, which better meets the brief.</p>
+</div>
+</div>
+</main>
+</div>
+<div id="caption">OPTION B — randomized weighted scene deal selection</div>
+</body>
+</html>

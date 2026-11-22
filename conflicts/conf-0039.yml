@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0039.yml
+id: conf-0039
+status: decided
+fingerprint: ffc06f2e557d
+detected_at: 2026-11-22T22:26:53.621Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-556
+    hash: 9d268b3958b3
+    severity: reflex
+    text: Apply the theme's photo treatment to every slotted image, including the user's own, via CSS on the slot.
+    text_zh: RULE A：通过 CSS 将主题的照片处理应用于每个插槽化图片，包括用户自己的图片。
+  - key: B
+    source: hallmark
+    rule_id: hallma-554
+    hash: 5d6f725a19ce
+    severity: reflex
+    text: Place text over a photograph's calmest part with a scrim from the theme's ink, ensuring at least 4.5 to 1 contrast and never centered white type over busy frames.
+    text_zh: RULE B：将文字置于照片最平静区域，使用主题墨色的 scrim，确保对比度至少为 4.5:1，且绝不在繁忙画面正中央放置白色文字。
+ai_explanation: l0c2 applies exactly one theme treatment to every slotted image via CSS (including full-bleed, tightly cropped, margin-aligned, etc.), but l0c6 places text over a photograph's calmest part with a scrim and forbids effects over the hero or in place of client photographs — a treatment that adds a scrim/text overlay contradicts l0c6's no-effect-over-hero and no-words-on-photograph constraints in the same slot.
+ai_explanation_zh: l0c2 通过 CSS 对每个插槽化图片（包括全出血、紧裁剪、边距对齐等）应用恰好一个主题处理；而 l0c6 将文字置于照片最平静区域并叠加 scrim，同时禁止在 hero 上或替代客户照片处添加效果。在同一插槽中，添加 scrim/文字叠加的处理方式与 l0c6 的 no-effect-over-hero 与 no-words-on-photograph 约束相冲突。
+suggestion:
+  kind: scope-split
+  note: Treatments must exclude hero slots where l0c6 composites text; apply CSS treatments only to non-hero slotted images.
+  note_zh: 处理必须排除 l0c6 合成文字所用的 hero 插槽；仅对非 hero 的插槽化图片应用 CSS 处理。
+issue_url: null

@@ -1,0 +1,32 @@
+id: conf-0045
+status: pending
+fingerprint: 84692bfdff35
+detected_at: 2026-11-22T22:39:38.859Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-095
+    hash: 1c8a9bc9c756
+    severity: floor
+    text: Give the hero a single entrance of 0.4 to 0.8s from an already-visible default and never combine fade, sweep and scale or use bounce, starfields, parallax or auto-carousels.
+    text_zh: RULE A：给 hero 一个 0.4 到 0.8s 的单一入场，从已可见的默认状态进入，绝不组合 fade、sweep 与 scale，也不使用 bounce、星场、parallax 或自动轮播。
+  - key: B
+    source: hallmark
+    rule_id: hallma-480
+    hash: 827bcbca6ba0
+    severity: reflex
+    text: Implement a single, quiet orchestrated entrance animation.
+    text_zh: RULE B：实现一个安静、编排好的单一入场动画。
+ai_explanation: Both mandate exactly one load entrance, but motion-l0c3-hero-entrance-once explicitly places it on the hero while motion-l0c4-motion-entrance explicitly keeps it below the fold and forbids combining it with scroll choreography on the same element; these hero-vs-below-fold placements directly contradict for the same single entrance.
+ai_explanation_zh: 两条规则都要求恰好一次加载入场动画，但 motion-l0c3-hero-entrance-once 将其置于 hero，而 motion-l0c4-motion-entrance 明确将其放在首屏下方并禁止在同一元素上与滚动编排组合；两者对同一单次入场的 hero 与首屏下方放置直接冲突。
+suggestion:
+  kind: keep-b
+  note: Prefer motion-l0c4-motion-entrance (below-fold, no scroll-choreography combination) as the more restrictive and self-consistent constraint; drop hero-only entrances.
+  note_zh: 优先采用更严格且自洽的 motion-l0c4-motion-entrance（首屏下方、不与滚动编排组合），并移除仅 hero 的入场。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

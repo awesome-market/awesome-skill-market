@@ -1,0 +1,27 @@
+id: conf-0066
+status: pending
+fingerprint: f7297796315c
+detected_at: 2026-11-22T23:33:20.387Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--742
+    hash: 321092c4269b
+    severity: floor
+    text: Never place two self-moving elements inside one 900px window or two loops inside one panel.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-965
+    hash: 37154f649ddb
+    severity: floor
+    text: Pause any content moving longer than five seconds until script runs, off-screen, under reduced motion, on hover/focus, and expose a visible pause control.
+    text_zh: null
+ai_explanation: l0c1 allows at most one self-moving loop per container and fits diagrams to one pulse cycle, while l0c2 forbids self-advancing content and requires pausing anything moving longer than five seconds with a visible pause control. A self-moving loop permitted by l0c1 would violate l0c2's prohibition of self-advancing motion and its pause requirement.
+ai_explanation_zh: l0c1 允许每个容器最多一个自移动循环并将图表适配为一个脉冲周期，而 l0c2 禁止自 advancing 内容并要求暂停任何超过五秒的移动内容且提供可见暂停控件。l0c1 允许的自移动循环会违反 l0c2 对自 advancing 运动的禁止及其暂停要求。
+suggestion:
+  kind: keep-b
+  note: Treat l0c2's no-autoplay rule as dominant; allow loops only with an explicit pause control and bounded duration.
+  note_zh: 将 l0c2 的无自动播放规则视为主导；仅在有明确暂停控件且时长受限时允许循环。
+issue_url: null

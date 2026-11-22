@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Option A</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#f4f5f7;color:#1a1a1a;height:800px;padding:32px}
+.wrap{max-width:1100px;margin:0 auto}
+h1{font-size:20px;margin-bottom:20px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.card{background:#fff;border:1px solid #d8d9dd;border-radius:12px;padding:20px;position:relative;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.card h2{font-size:15px;margin-bottom:8px}
+.pill{display:inline-block;background:#eef1f6;border-radius:999px;padding:4px 10px;font-size:12px;color:#555;margin-bottom:12px}
+.bar{height:8px;background:#eef1f6;border-radius:4px;overflow:hidden;margin-top:12px}
+.bar span{display:block;height:100%;width:60%;background:#3b82f6}
+/* Option A: single pause button 12px from bottom-right */
+.pause{position:absolute;right:12px;bottom:12px;width:32px;height:32px;border-radius:8px;border:1px solid #c4c6cc;background:#fff;color:#333;font-size:14px;cursor:default;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.caption{position:fixed;left:24px;bottom:20px;background:#1a1a1a;color:#fff;padding:8px 12px;border-radius:8px;font-size:13px;letter-spacing:.2px}
+</style></head>
+<body>
+<div class="wrap">
+<h1>Auto-rotating content — slow turn still moving past 5s</h1>
+<div class="grid">
+<div class="card">
+<span class="pill">phoneRuns=true · slow turn</span>
+<h2>Weekly highlights</h2>
+<p style="font-size:13px;color:#555">Three cards rotate every 8s on mobile.</p>
+<div class="bar"><span></span></div>
+<div class="pause" aria-label="Pause">&#9208;</div>
+</div>
+<div class="card">
+<span class="pill">phoneRuns=true · slow turn</span>
+<h2>Top picks for you</h2>
+<p style="font-size:13px;color:#555">Same slow rotation, no hover behavior.</p>
+<div class="bar"><span></span></div>
+<div class="pause" aria-label="Pause">&#9208;</div>
+</div>
+</div>
+</div>
+<div class="caption">OPTION A — one pause button per card</div>
+</body></html>

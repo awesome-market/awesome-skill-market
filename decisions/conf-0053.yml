@@ -1,0 +1,11 @@
+id: conf-0053
+status: active
+resolution: merge
+custom: Apply l2c2's overall visible-word cap to body copy and l2c3's 60–80 tech-word budget per screen at 1440 only to technical feature sections, both counted outside UI mocks, diagrams, and code.
+reason: "auto-accepted scope-split: The two rules genuinely conflict on word budget, and the scope-split resolves them by applying the overall cap to body copy and the 60–80 tech-word budget only to technical feature sections."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T23:11:35.269Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

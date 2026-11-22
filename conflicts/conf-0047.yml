@@ -1,0 +1,32 @@
+id: conf-0047
+status: pending
+fingerprint: 1d97e12d3a42
+detected_at: 2026-11-22T22:45:45.901Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-362
+    hash: 0bea30515dc9
+    severity: reflex
+    text: Keep photographs below about a third of the page at 1440 (45% on Photographic or Portfolio Grid shapes); carry the rest in type, figures, the product, or a table.
+    text_zh: 规则 A：照片高度约占页面三分之一（在 Photographic 或 Portfolio Grid 形状上为 45%），1440 处其余内容以文字、图形、产品或表格呈现。
+  - key: B
+    source: taste-skill
+    rule_id: taste--676
+    hash: 80712423bcb6
+    severity: reflex
+    text: Span photographs on column lines or as full-bleed layers covering 90% or more of the section, use one ratio per row, and never bleed out to one side only.
+    text_zh: 规则 B：照片跨列线或作为全出血层覆盖 90% 以上区块，每行使用一个比例，且不得仅向一侧出血。
+ai_explanation: l1c1 requires hero/full-bleed photographs to be at least 2400px on the long side and soft past 1920px, while l1c2 forbids full-bleed and requires images cropped tightly inside their individual blocks — these directly contradict on whether a section-level photograph may bleed to the edges.
+ai_explanation_zh: l1c1 要求 hero/全出血照片长边至少 2400px、1920px 以下渐软；l1c2 禁止全出血，并要求图像在其各自区块内紧密裁切——两者在「区块级照片是否可出血到边缘」上直接冲突。
+suggestion:
+  kind: scope-split
+  note: l1c1 governs hero/hero-photography scale thresholds; l1c2 governs section-level row/bleed layout. Apply 2400px long-side only to the hero frame ending by H-24, and apply tight-in-block cropping to non-hero section rows.
+  note_zh: l1c1 管理 hero/hero 照片的缩放阈值；l1c2 管理区块级行/出血布局。仅对截至 H-24 的 hero 帧应用 2400px 长边，对非 hero 区块行应用区块内紧密裁切。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

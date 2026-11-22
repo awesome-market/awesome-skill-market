@@ -1,0 +1,11 @@
+id: conf-0018
+status: active
+resolution: B
+custom: null
+reason: "auto-accepted keep-b: Rule B's atmospheric-effect bans are genuinely page-wide and conflict with Rule A's tech-page permission, and the suggestion correctly makes B authoritative while routing tech-page atmospheric effects through an explicit licence."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T22:07:39.001Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

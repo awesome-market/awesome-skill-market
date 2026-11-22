@@ -1,0 +1,1 @@
+Look for the difference in how slow auto-rotating content past 5s is handled: Option A shows a single 32px pause button pinned 12px from each card's bottom-right with no hover behavior (the phone exception). Option B shows visible Pause/Stop controls at the top-right and a frozen mid-transition frame, pausing rotation on hover/focus even on phones.

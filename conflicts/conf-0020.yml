@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0020.yml
+id: conf-0020
+status: decided
+fingerprint: 041d21ea2dc5
+detected_at: 2026-11-22T21:48:55.401Z
+evidence: screenshot
+sides:
+  - key: A
+    source: web-design-guidelines
+    rule_id: web-de-030
+    hash: 823f98374dde
+    severity: floor
+    text: Animate only transform and opacity properties.
+    text_zh: 仅动画化 transform 与 opacity 属性。
+  - key: B
+    source: hallmark
+    rule_id: hallma-726
+    hash: 021d87da0e85
+    severity: reflex
+    text: Open FAQ answers as disclosable sections that expand over --dur-long with --ease-out on grid-template-rows from 0fr to 1fr.
+    text_zh: 将 FAQ 答案作为可展开区块，以 --ease-out 在 grid-template-rows 从 0fr 到 1fr 上、耗时 --dur-long 展开。
+ai_explanation: motion-l0c1 forbids animating layout properties (width, height, top, left, margin, padding) and requires moving tab indicators by transform alone with fixed-height panels, but motion-l0c4 explicitly animates grid-template-rows from 0fr to 1fr to expand FAQ answers over --dur-long, which is a layout property animation.
+ai_explanation_zh: motion-l0c1 禁止动画化布局属性（width、height、top、left、margin、padding），并要求仅通过 transform 移动 tab 指示器、使用固定高度面板；但 motion-l0c4 明确将 grid-template-rows 从 0fr 动画到 1fr，以 --dur-long 展开 FAQ 答案，这属于布局属性动画。
+suggestion:
+  kind: scope-split
+  note: FAQ/disclosable expansion is a distinct interaction context from tab indicators and load reveals; scope the transform-only rule to tab indicators and entrance/reveal motion, and allow grid-template-rows animation only for disclosable sections.
+  note_zh: FAQ/可展开内容的展开是与 tab 指示器、加载揭示不同的交互上下文；应将仅 transform 的规则限定到 tab 指示器与入场/揭示动效，并仅允许为可展开区块使用 grid-template-rows 动画。
+issue_url: null

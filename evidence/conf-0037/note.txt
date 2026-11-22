@@ -1,0 +1,1 @@
+Both files share the identical layout scaffold; the only difference is the single footer credits line. Option A names the photographer (Ada Okonkwo) in that line; Option B keeps it under 110 chars and names only sources, never photographers. Look at the footer line to see whether a photographer's name is present.

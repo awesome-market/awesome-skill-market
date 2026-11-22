@@ -1,0 +1,27 @@
+id: conf-0067
+status: pending
+fingerprint: 942dec22a60c
+detected_at: 2026-11-22T23:33:20.390Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--060
+    hash: 7df3c494ab71
+    severity: floor
+    text: Make scenes move only under the pointer or touch, never while the page scrolls.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--699
+    hash: 4b851837d1bd
+    severity: floor
+    text: Scroll moments must be scrubbed to the scrollbar within their own one- or two-screen section and show a finished state at the top and bottom.
+    text_zh: null
+ai_explanation: l0c2 moves nothing because the page scrolled except a dealt moment inside its own section or the big scene for tech, while l0c4 permits scroll-driven motion restricted to one- or two-screen sections scrubbed to the scrollbar and shows finished states at top and bottom. l0c4's explicit allowance of scroll-driven motion contradicts l0c2's near-total prohibition of scroll-driven movement.
+ai_explanation_zh: l0c2 除其自身section内的处理时刻或科技大场景外，页面滚动时不移动任何内容；l0c4 则允许将滚动驱动运动限制在一到两个屏幕的section内并沿滚动条 scrub，在顶部和底部展示完成状态。l0c4 明确允许滚动驱动运动，与 l0c2 近乎完全禁止滚动驱动运动相矛盾。
+suggestion:
+  kind: scope-split
+  note: Apply l0c4's scroll motion only on tech pages and within single/two-screen sections; keep l0c2's prohibition elsewhere.
+  note_zh: 仅在科技页面且在单/双屏幕section内应用 l0c4 的滚动运动；其余场景保留 l0c2 的禁止。
+issue_url: null

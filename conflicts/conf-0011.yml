@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0011.yml
+id: conf-0011
+status: decided
+fingerprint: c2170a7d1af7
+detected_at: 2026-11-22T21:26:25.549Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--838
+    hash: 2712d8f62c67
+    severity: floor
+    text: Place no caption, label or description under or on any picture.
+    text_zh: Rule A：在任何图片下方或图片上不得放置任何标题、标签或说明。
+  - key: B
+    source: taste-skill
+    rule_id: taste--1208
+    hash: 4e6d30c14745
+    severity: floor
+    text: Remove every bracketed placeholder or sample tag from visible text and fix visuals that fail to draw.
+    text_zh: Rule B：移除可见文本中所有方括号占位符或示例标签，并修复无法渲染的视觉元素。
+ai_explanation: "copy-l2c1 forbids any caption under or on any picture, while copy-l2c2 requires a caption under each visual that explains or apologises for its placeholder nature. These directly contradict for the same scope (every image/visual): one says never caption images, the other says always caption them. A scope-split cannot resolve it because both rules apply to all visible images on the page."
+ai_explanation_zh: copy-l2c1 禁止在任何图片下方或图片上放置任何标题、标签或说明，而 copy-l2c2 要求每张视觉元素下方都放置说明或致歉其占位性质的标题。两者在同一范围（页面上所有可见图片）直接冲突：一个要求永不给图片加标题，另一个要求始终给图片加标题。由于两条规则都适用于页面上所有可见图片，无法通过范围划分解决。
+suggestion:
+  kind: keep-a
+  note: Resolve by keeping the no-caption rule and dropping the required image caption; stand-ins are handled via the report/photographer list instead of on-page captions.
+  note_zh: 保留无标题规则并取消强制图片标题；占位内容通过报告/摄影师列表处理，而非页面内标题。
+issue_url: null

@@ -1,0 +1,32 @@
+id: conf-0049
+status: pending
+fingerprint: 6cb6f224ed62
+detected_at: 2026-11-22T22:50:47.343Z
+evidence: screenshot
+sides:
+  - key: A
+    source: frontend-design
+    rule_id: fronte-025
+    hash: 33da6f2ba9d4
+    severity: reflex
+    text: Do not default to a warm cream background with high-contrast serif display and terracotta or warm-clay accents unless the brief explicitly requests that direction.
+    text_zh: RULE A：除非 brief 明确要求该方向，否则不要默认使用暖奶油色背景、高对比衬线展示字体以及陶土或暖 clay 强调色。
+  - key: B
+    source: hallmark
+    rule_id: hallma-205
+    hash: 3a9afeaf353a
+    severity: floor
+    text: Never pick a hue for the category, such as blue for software or green for health.
+    text_zh: RULE B：切勿为类别指定颜色，例如软件用蓝色、健康用绿色。
+ai_explanation: color-l0c1-no-warm-cream-default forbids defaulting to warm-cream + high-contrast serif + terracotta/clay accents unless explicitly requested, while color-l0c2-no-hue-stereotypes explicitly forbids shipping cream/off-white/beige paper with high-contrast serif and a clay accent — the latter is an absolute prohibition with no explicit-request carve-out, directly contradicting the former's conditional allowance.
+ai_explanation_zh: color-l0c1-no-warm-cream-default 禁止在 brief 未明确要求时默认使用暖奶油色背景 + 高对比衬线展示字体 + 陶土/暖 clay 强调色；而 color-l0c2-no-hue-stereotypes 明确禁止以奶油/米白/米色纸张搭配高对比衬线字体与 clay 强调色——后者是绝对禁止，无“明确要求”例外，与前者有条件允许直接冲突。
+suggestion:
+  kind: keep-b
+  note: The l0c2 rule removes the conditional path that l0c1 keeps; pick the stronger, scope-bounded prohibition.
+  note_zh: l0c2 规则取消了 l0c1 保留的条件路径；应采用更强、作用域受限的禁止。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0042.yml
+id: conf-0042
+status: decided
+fingerprint: 7f4cc49c1805
+detected_at: 2026-11-22T22:37:49.902Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-325
+    hash: 86448cd47fc1
+    severity: reflex
+    text: Never use a framework default palette (Tailwind indigo-500, violet-600, slate-900, etc.) as a token or utility; mix a colour for the page in OKLCH.
+    text_zh: 规则 A：切勿使用框架默认色板（如 Tailwind indigo-500、violet-600、slate-900 等）作为 token 或工具类；需在 OKLCH 中为页面调配颜色。
+  - key: B
+    source: frontend-design
+    rule_id: fronte-030
+    hash: 0f20db885a56
+    severity: reflex
+    text: When the brief pins a visual direction, follow it exactly, including when it requests one of the generic default looks.
+    text_zh: 规则 B：当简报固定了视觉方向时，严格按其执行，包括其请求某种通用默认外观时。
+ai_explanation: l0c1 forbids framework defaults and derived-look overrides, requiring all colour from custom tokens; l0c3 explicitly overrides derived tokens with pinned generic default looks. These directly contradict when a pinned direction exists, and no scope-split resolves it because both rules operate on the same token derivation scope.
+ai_explanation_zh: l0c1 禁止使用框架默认色板及派生外观覆盖，要求所有颜色来自自定义 token；l0c3 则用固定的通用默认外观显式覆盖派生 token。当存在固定方向时，二者直接冲突，且因两条规则作用于同一 token 派生作用域，无法通过作用域拆分解决。
+suggestion:
+  kind: keep-b
+  note: When a direction is pinned, l0c3's explicit override wins; otherwise l0c1's token-only derivation applies.
+  note_zh: 当方向被固定时，l0c3 的显式覆盖优先；否则应用 l0c1 的仅 token 派生。
+issue_url: null

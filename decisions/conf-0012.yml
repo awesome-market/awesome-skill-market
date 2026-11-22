@@ -1,0 +1,11 @@
+id: conf-0012
+status: active
+resolution: merge
+custom: Keep numbers, names and claims in type and never let a photograph stand in for a fact, customer, teammate or testimonial; capture slots may reserve product/service frames and the product's own subject in the product UI section, but must not be used to visually prove facts, customers, teammates or testimonials.
+reason: "auto-accepted scope-split: Rule A's prohibition on using photographs as proof of facts/testimonials is fully compatible with Rule B's allowance of product/service frames and named product subjects in content slots once the scope is split to exclude testimonial/factual claims from image content."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T21:43:58.968Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

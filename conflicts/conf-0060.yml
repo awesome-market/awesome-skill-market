@@ -1,0 +1,32 @@
+id: conf-0060
+status: pending
+fingerprint: ef0e19cc598c
+detected_at: 2026-11-22T23:22:06.054Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-377
+    hash: ae5ed4f5d312
+    severity: reflex
+    text: Print each fact once where it works; never repeat a price, time, date, count, or restate a section heading in its last line across four or more sections.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-352
+    hash: 1193f38d24e4
+    severity: floor
+    text: Keep fewer than about 80 words in any 900px window at 1440 and never put more than two text blocks before actions in a hero.
+    text_zh: null
+ai_explanation: The no-repetition rule forbids reusing the same words across titles and descriptions, while the signature device rule allows reusing words across unique titles and one-sentence descriptions once per page; these directly contradict on whether word reuse across titles is permitted.
+ai_explanation_zh: 无重复规则禁止在标题和描述间重复使用相同词汇，而签名设备规则允许每页在唯一标题和单句描述间重复使用词汇一次；二者在是否允许标题间词汇重复上直接冲突。
+suggestion:
+  kind: keep-b
+  note: Signature device explicitly permits reuse once per page; no-repetition is stricter. Keep signature device for its narrow allowance.
+  note_zh: 签名设备明确允许每页重复一次；无重复规则更严格。保留签名设备的窄允许。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

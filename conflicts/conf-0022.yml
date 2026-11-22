@@ -1,0 +1,32 @@
+id: conf-0022
+status: pending
+fingerprint: d540e3d604df
+detected_at: 2026-11-22T21:49:32.687Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--745
+    hash: 9a2ebd2eccd2
+    severity: reflex
+    text: Anything still moving five seconds after first sight gets one 32px pause button 12px from the bottom-right of its panel or card.
+    text_zh: 首次可见后仍在移动、且超过 5 秒的内容，在其面板或卡片右下角 12px 处放置一个 32px 的暂停按钮。
+  - key: B
+    source: hallmark
+    rule_id: hallma-386
+    hash: d58714e4527c
+    severity: floor
+    text: Pause auto-rotating content on hover and focus, and add a visible pause control for anything moving past 5 seconds.
+    text_zh: 在悬停和聚焦时暂停自动轮播内容，并为超过 5 秒的移动内容添加可见的暂停控件。
+ai_explanation: l0c1 permits slow turns on phones via phoneRuns/phone flags, while l0c2 requires pausing auto-rotating content on hover/focus and exposing pause/stop/hide controls for motion longer than five seconds — l0c2's mandatory pause behavior conflicts with l0c1's phone exception for slow turns.
+ai_explanation_zh: l0c1 允许通过 phoneRuns/phone 标志在手机端进行慢速轮播，而 l0c2 要求对悬停/聚焦时的自动轮播内容执行暂停，并为超过 5 秒的动画提供暂停/停止/隐藏控件——l0c2 的强制暂停行为与 l0c1 针对慢速轮播的手机例外相冲突。
+suggestion:
+  kind: keep-b
+  note: l0c2 pause requirement overrides the phone slow-turn exception.
+  note_zh: l0c2 的暂停要求覆盖手机端慢速轮播例外。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

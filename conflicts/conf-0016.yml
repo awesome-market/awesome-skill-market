@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0016.yml
+id: conf-0016
+status: decided
+fingerprint: 4719d3ac538f
+detected_at: 2026-11-22T21:45:49.300Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-060
+    hash: bf5086904083
+    severity: floor
+    text: Never assign a CSS gradient or layered background to any region the comp rendered as material, grain, photography, or depth.
+    text_zh: Never assign a CSS gradient or layered background to any region the comp rendered as material, grain, photography, or depth.
+  - key: B
+    source: hallmark
+    rule_id: hallma-086
+    hash: 003beaa94c8c
+    severity: floor
+    text: Avoid gradients past three stops, purple-blue, purple-pink or cyan-on-dark, glow shadows, chromatic halos, spotlights and alpha-defined colours.
+    text_zh: Avoid gradients past three stops, purple-blue, purple-pink or cyan-on-dark, glow shadows, chromatic halos, spotlights and alpha-defined colours.
+ai_explanation: color-l0c1-no-gradient-material only forbids gradients on regions rendered as material/grain/photography/depth, implicitly permitting gradients elsewhere (e.g., decorative body areas). color-l0c3-ban-prohibited-effects broadly bans gradients past three stops, purple-blue, purple-pink, and cyan-on-dark across the whole page. In the same scope (page-wide gradient handling), one rule permits gradients while the other bans them — a direct 'always allow' vs 'never allow' conflict that scope-splitting cannot resolve because both govern page-level gradient use.
+ai_explanation_zh: color-l0c1-no-gradient-material 仅禁止在渲染为材质/纹理/摄影/深度的区域使用渐变，隐含允许在其他区域（如装饰性主体区域）使用渐变。color-l0c3-ban-prohibited-effects 则在整个页面范围内禁止超过三个色阶的渐变、紫蓝、紫粉以及深色上的青色。在同一作用域（页面级渐变处理）中，一条规则允许渐变而另一条禁止渐变，形成直接的“始终允许”与“永不允许”冲突，作用域拆分无法解决，因为两者都管辖页面级渐变使用。
+suggestion:
+  kind: keep-b
+  note: "Resolve by making the page-wide ban authoritative: apply the color-l0c3 prohibited-effects ban uniformly and keep color-l0c1-no-gradient-material as the material/photography-specific subset."
+  note_zh: 使页面级禁止规则生效：统一应用 color-l0c3 的禁止效果禁令，并将 color-l0c1-no-gradient-material 保留为材质/摄影相关的子集。
+issue_url: null

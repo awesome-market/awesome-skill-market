@@ -1,0 +1,1 @@
+Look at the four stars: Option A renders them frozen/static (no animation, no idle cycle), while Option B renders them mid-cycle with a 5s ambient pulse (opacity/scale) — the same element, differing only on whether decorative motion is allowed while idle.

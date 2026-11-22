@@ -1,0 +1,11 @@
+id: conf-0030
+status: active
+resolution: B
+custom: null
+reason: "auto-accepted keep-b: Rule A targets display/subordinate typography while Rule B sets a 16px minimum for body copy, so the suggestion correctly scopes 13px to meta/labels and preserves 16px body readability."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T22:36:26.074Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

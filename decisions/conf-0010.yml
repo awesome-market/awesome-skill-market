@@ -1,0 +1,11 @@
+id: conf-0010
+status: active
+resolution: B
+custom: null
+reason: "auto-accepted keep-b: Both rules govern focus-visible rendering but are reconcilable by implementing the ring as an outline-based :focus-visible style with 2px width and 2px outline-offset, satisfying l0c2's outline requirement while preserving l0c1's offset and width semantics."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T21:43:56.056Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

@@ -1,0 +1,29 @@
+id: conf-0015
+status: pending
+fingerprint: 2235bd4003b6
+detected_at: 2026-11-22T21:43:27.565Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-282
+    hash: 661b31444716
+    severity: reflex
+    text: In fast mode, give a one-line disclosure at Step 1 and cap narration at three lines.
+    text_zh: 快速模式下，Step 1 仅给一行披露，并将叙述上限设为三行。
+  - key: B
+    source: hallmark
+    rule_id: hallma-284
+    hash: e48405c5b946
+    severity: floor
+    text: In fast mode, always keep the Floor, the stamp, tokens.css, the log, and contrast checks.
+    text_zh: 快速模式下，始终保留 Floor、stamp、tokens.css、log 与对比度检查。
+ai_explanation: process-l2c1 caps narration at three lines and skips the Finish tier in fast mode, while process-l2c2 requires always keeping the stamp, tokens.css, the log, and contrast checks in fast mode. The cap directly limits how much can be narrated/recorded, yet the kept-essentials rule demands specific high-value outputs (stamp, log, contrast checks) that inherently require narration/record beyond three lines — no pick or scope-split honors both.
+ai_explanation_zh: process-l2c1 在快速模式下将叙述限制为三行并跳过 Finish 层级，而 process-l2c2 要求快速模式下始终保留 Floor、stamp、tokens.css、log 与对比度检查。行数上限直接限制了可叙述/记录的内容量，而保留核心项规则却要求输出特定高价值内容（stamp、log、对比度检查），这些必然需要超出三行的叙述/记录——因此无论选择哪一方或拆分范围，都无法同时满足两条规则。
+suggestion: null
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0052.yml
+id: conf-0052
+status: decided
+fingerprint: 403a0c30fcc3
+detected_at: 2026-11-22T22:56:20.239Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--369
+    hash: 0e89b6b39e2c
+    severity: reflex
+    text: Avoid virtue words describing the business itself, allowing only literal physical ones and at most two elsewhere.
+    text_zh: 规则 A：避免使用描述业务本身的“美德词”，仅允许字面物理词汇，其余位置至多两个。
+  - key: B
+    source: taste-skill
+    rule_id: taste--286
+    hash: 1e6eac802a50
+    severity: reflex
+    text: Let others state superlatives with full attribution rather than claiming them yourself.
+    text_zh: 规则 B：让他人以完整归属声明最高级，而非自行宣称。
+ai_explanation: l2c1 allows at most two virtue words elsewhere; l2c3 excludes hype words and states scarcity as an honest limit rather than claiming superlatives. Same scope (allowing vs excluding evaluative/hype language) → directly contradictory.
+ai_explanation_zh: l2c1 允许其余位置至多使用两个“美德词”；l2c3 排除“炒作词”，并将稀缺性表述为诚实的限制，而非自称最高级。两者范围相同（一个允许、一个排除评价性/炒作性语言），因此直接矛盾。
+suggestion:
+  kind: keep-b
+  note: Follow l2c3's stricter ban on hype words; keep any remaining virtue words to literal physical ones only and cite sources.
+  note_zh: 遵循 l2c3 对炒作词更严格的禁止；其余保留的美德词仅限字面物理描述，并引用来源。
+issue_url: null

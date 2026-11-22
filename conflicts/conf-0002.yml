@@ -1,0 +1,32 @@
+id: conf-0002
+status: pending
+fingerprint: 1b76dfaaa679
+detected_at: 2026-11-22T20:30:45.155Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--1118
+    hash: 23a84d5c83f3
+    severity: reflex
+    text: Use exactly one display-type moment per page.
+    text_zh: 每页恰好使用一个 display 类型的高光时刻。
+  - key: B
+    source: hallmark
+    rule_id: hallma-787
+    hash: c35ddbe2e044
+    severity: reflex
+    text: Render the letter's salutation as display italic at 1.5 to 2 times body size as a single unified style.
+    text_zh: 将信件的称呼语渲染为 display 斜体，大小为正文的 1.5 至 2 倍，作为统一的单一样式。
+ai_explanation: type-l2c1-single-display-moment-per-page mandates exactly one display-type moment per page and limits the hero to one quieter level of small text, while type-l2c1-salutation-display-italic requires rendering the letter's salutation as display italic at 1.5–2× body size. A letter page needs both the hero display moment and the salutation display moment, so keeping both contradicts the single-display rule with no scope-split that satisfies both.
+ai_explanation_zh: type-l2c1-single-display-moment-per-page 要求每页恰好一个 display 类型的高光时刻，并将 hero 限制为仅比正文低一级的较小文本；type-l2c1-salutation-display-italic 要求将信件的称呼语渲染为 display 斜体，大小为正文的 1.5–2 倍。一个信纸页面同时需要 hero display 时刻与称呼语 display 时刻，因此同时保留二者会违反单 display 规则，且没有满足两者的作用域拆分。
+suggestion:
+  kind: keep-b
+  note: Resolve by treating the salutation as the single allowed display moment and folding the hero into body/lead sizes.
+  note_zh: 将称呼语作为唯一允许的 display 时刻，并把 hero 折叠为正文/lead 大小。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0028.yml
+id: conf-0028
+status: decided
+fingerprint: 7c3c13395321
+detected_at: 2026-11-22T22:09:26.633Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-324
+    hash: 90519af1119c
+    severity: reflex
+    text: Never place aurora, mesh blobs, floating blurred orbs, chromatic radial halos, spotlights, or coloured zero-offset glow shadows behind text.
+    text_zh: 永远不要在文字后方放置极光、网格色块、漂浮模糊光球、彩色径向光晕、聚光灯或彩色零偏移辉光阴影。
+  - key: B
+    source: hallmark
+    rule_id: hallma-1077
+    hash: 2d9324a01b2d
+    severity: reflex
+    text: Apply grain only at 0.08 or below when the theme names it, on one plate, one accent card, or the whole page.
+    text_zh: 仅当主题命名时，将噪点应用于单个色板、单个强调卡片或整页，且透明度不超过 0.08。
+ai_explanation: color-l0c1 forbids aurora/mesh blobs/blurred orbs/colored zero-offset glow shadows behind text, while color-l0c3 explicitly permits 'a single mark band positioned behind the x-height' (Full/Drenched postures) and page-wide grain/scanline overlays, which can sit behind content and contradict the absolute 'never behind text' rule.
+ai_explanation_zh: color-l0c1 禁止在文字后方放置极光、网格色块、漂浮模糊光球、彩色零偏移辉光阴影；而 color-l0c3 明确允许‘位于 x-height 下方的单个标记带’（Full/Drenched 姿态）以及页面级噪点/扫描线叠加层，这些可以置于内容后方，与‘文字后方永远禁止’的绝对规则相冲突。
+suggestion:
+  kind: scope-split
+  note: Restrict color-l0c3's mark band and decorative overlays to non-text areas (margins, empty canvas, behind images only), keeping color-l0c1's no-ambient-behind-text as the default for text-bearing regions.
+  note_zh: 将 color-l0c3 的标记带与装饰性叠加层限制在非文字区域（页边距、空白画布、仅位于图片后方），使 color-l0c1 的‘文字区域禁止环境光’作为默认规则。
+issue_url: null

@@ -1,0 +1,29 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0036.yml
+id: conf-0036
+status: dismissed
+fingerprint: bb0f8a6690f2
+detected_at: 2026-11-22T22:19:29.765Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-938
+    hash: 1684a11646d1
+    severity: reflex
+    text: Count real figures from the previous value over 400 to 800ms, format with Intl.NumberFormat, and announce only the final value.
+    text_zh: RULE A：在 400–800ms 内统计真实数值，用 Intl.NumberFormat 格式化，仅播报最终值。
+  - key: B
+    source: hallmark
+    rule_id: hallma-710
+    hash: e1ca4288fa7a
+    severity: reflex
+    text: Animate the hero figure with a number tick from zero to the target over the long duration only when the figure is real, and keep the final figure present in the markup so it renders with scripting off and under reduced motion.
+    text_zh: RULE B：仅当数值为真实值时，将 hero 数值从零到目标值在长时长内做数字跳动动画，并在 markup 中保留最终数值，以便在关闭脚本和减少动效下仍能渲染。
+ai_explanation: l0c1 counts real figures over 400–800ms and announces only the final value, while l0c4 animates numbers only when the figure is real and keeps the final value in markup — the two rules conflict on whether counting animation is permitted at all.
+ai_explanation_zh: l0c1 在 400–800ms 内统计真实数值并用 Intl.NumberFormat 格式化，仅播报最终值；l0c4 仅当数值为真实值时才执行从零到目标值的数字动画，并在 markup 中保留最终值——两条规则在是否允许计数动画上存在冲突。
+suggestion:
+  kind: keep-b
+  note: l0c4's conditional allowance is more permissive and consistent with keeping final values in markup.
+  note_zh: l0c4 的条件性允许更宽松，且与在 markup 中保留最终值保持一致。
+issue_url: null
+dismiss_reason: Rule A governs the announcement timing/format while Rule B governs the visible animation and markup fallback, so they address different concerns and are compatible rather than contradictory.

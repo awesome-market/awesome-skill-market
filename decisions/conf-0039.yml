@@ -1,0 +1,11 @@
+id: conf-0039
+status: active
+resolution: merge
+custom: Apply the theme's CSS photo treatment to every slotted image except hero slots; reserve hero slots for l0c6's text-over-calmest-part compositing with an ink scrim, ≥4.5:1 contrast, and never centered white type over busy frames.
+reason: "auto-accepted scope-split: l0c2's blanket per-image treatment and l0c6's no-effect-over-hero/text-over-calmest-part rule genuinely conflict, and excluding hero slots from CSS treatments while keeping text compositing there cleanly resolves both."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T22:36:36.760Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

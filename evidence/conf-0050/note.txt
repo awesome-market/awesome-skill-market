@@ -1,0 +1,1 @@
+Both files share the identical Wayfinder card grid; Option A has zero moving elements while Option B renders exactly one decorative moving dot inside a single card group, frozen statically to show the single permitted animated element.

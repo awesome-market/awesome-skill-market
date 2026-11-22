@@ -1,0 +1,29 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0017.yml
+id: conf-0017
+status: dismissed
+fingerprint: a92c5fe52865
+detected_at: 2026-11-22T21:45:49.307Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--003
+    hash: 5430d223279d
+    severity: floor
+    text: Never default an effect colour to violet or lavender.
+    text_zh: RULE A：永远不要将效果色默认为 violet 或 lavender。
+  - key: B
+    source: hallmark
+    rule_id: hallma-082
+    hash: a7c9261f77bf
+    severity: floor
+    text: Never use pure absolute colours as surfaces or improvised values; always tint greys toward the anchor hue.
+    text_zh: RULE B：永远不要使用纯绝对颜色作为表面或临时值；始终将灰色向锚色调 tint。
+ai_explanation: color-l0c1-no-violet-default bans violet/lavender for the page's own palette, while color-l0c3-tint-greys-to-anchor requires tinting greys toward the anchor hue — which, if the anchor is a warm/terracotta hue, conflicts with keeping greys neutral and non-violet, and more directly, both constrain how neutral surfaces are colored page-wide. Where the anchor hue itself leans violet (allowed elsewhere), color-l0c3's tinting would reintroduce violet into surfaces that color-l0c1 forbids — a direct contradiction in surface color derivation.
+ai_explanation_zh: color-l0c1-no-violet-default 禁止页面自身调色板使用 violet/lavender，而 color-l0c3-tint-greys-to-anchor 要求将灰色向锚色调 tint。若锚色调为暖色/赤陶色，则与保持中性、非 violet 的灰色相冲突；更直接地，两者共同约束页面级中性表面的着色。当锚色调本身偏向 violet（其他场景允许）时，color-l0c3 的 tinting 会重新把 violet 引入 color-l0c1 所禁止的表面，从而在表面颜色派生上产生直接矛盾。
+suggestion:
+  kind: scope-split
+  note: Resolve by making color-l0c1-no-violet-default authoritative for the page's own palette (no violet anchor), and let color-l0c3-tint-greys-to-anchor apply only when the anchor is explicitly non-violet per the brief.
+  note_zh: 使 color-l0c1-no-violet-default 对页面自身调色板具有权威性（不使用 violet 锚色调），并仅在 brief 明确指定锚色调非 violet 时，才让 color-l0c3-tint-greys-to-anchor 生效。
+issue_url: null
+dismiss_reason: Rule A only forbids defaulting effect colours to violet/lavender, while Rule B governs how neutral surfaces are tinted toward the anchor hue; they target different colour roles and do not conflict, so both can simply coexist without a scope split.

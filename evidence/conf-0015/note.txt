@@ -1,0 +1,1 @@
+Look for whether fast mode keeps the stamp, tokens.css, the log, and contrast checks (Option B) versus truncating narration to three lines and skipping those outputs (Option A).

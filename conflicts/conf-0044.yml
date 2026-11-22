@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0044.yml
+id: conf-0044
+status: decided
+fingerprint: dd4b83efc017
+detected_at: 2026-11-22T22:39:38.856Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-183
+    hash: decf1c0888db
+    severity: floor
+    text: Allow at most one reveal animation.
+    text_zh: RULE A：每页最多允许一次 reveal 动画。
+  - key: B
+    source: hallmark
+    rule_id: hallma-938
+    hash: 1684a11646d1
+    severity: reflex
+    text: Count real figures from the previous value over 400 to 800ms, format with Intl.NumberFormat, and announce only the final value.
+    text_zh: RULE B：对 400 至 800ms 内从上一值变化的真实数值进行计数，使用 Intl.NumberFormat 格式化，并仅播报最终值。
+ai_explanation: motion-l0c3-single-reveal-per-page caps the page at exactly one reveal animation, while motion-l0c2-count-and-loop-reveals prescribes multiple distinct reveal behaviors (count-up over 400–800ms, per-node reveal capped at five nodes, and a single staggered page-load reveal), which together exceed one reveal per page and cannot both be satisfied without scope-splitting by page type.
+ai_explanation_zh: motion-l0c3-single-reveal-per-page 限制每页仅允许一次 reveal 动画；而 motion-l0c2-count-and-loop-reveals 规定了多种不同的 reveal 行为（400–800ms 的 count-up、每个节点最多五个节点的 per-node reveal，以及单次交错式页面加载 reveal），这些行为合计超过每页一次 reveal，且无法在不按页面类型划分作用域的情况下同时满足。
+suggestion:
+  kind: scope-split
+  note: Resolve by applying count-up and per-node reveals only on data/finance pages and the single page-load reveal elsewhere, keeping each page within one reveal family.
+  note_zh: 在 data/finance 页面应用 count-up 与 per-node reveal，其余页面应用单次页面加载 reveal，使每个页面都归属于同一个 reveal 家族。
+issue_url: null

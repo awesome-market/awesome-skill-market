@@ -1,0 +1,11 @@
+id: conf-0059
+status: active
+resolution: merge
+custom: When the user explicitly says to keep every word, stamp the copy verbatim and report copy gates 19, 58, and 69 as notes; otherwise, tighten wording that fails a copy gate using facts already on the page and list every changed line before and after.
+reason: "auto-accepted scope-split: The two rules genuinely conflict when the user demands verbatim copy yet a gate fails, and the scope-split cleanly resolves it by letting explicit verbatim instructions override the tighten-and-list behavior."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T23:28:20.984Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

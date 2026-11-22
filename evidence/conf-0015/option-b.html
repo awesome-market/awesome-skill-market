@@ -1,0 +1,70 @@
+<!doctype html>
+<html><head><style>
+body{margin:0;font:14px/1.4 system-ui,sans-serif;background:#0b0f14;color:#e6edf3}
+#stage{width:1200px;height:800px;background:#111820;position:relative;padding:24px;box-sizing:border-box}
+h1{font-size:20px;margin:0 0 4px}
+.sub{color:#94a3b8;margin:0 0 20px}
+.row{display:flex;gap:16px}
+.col{flex:1;background:#0f1720;border:1px solid #1e293b;border-radius:8px;padding:16px}
+.step{border-left:3px solid #3b82f6;padding-left:12px;margin-bottom:16px}
+.step.done{border-left-color:#22c55e}
+.tag{display:inline-block;background:#1e293b;color:#94a3b8;font-size:11px;padding:2px 8px;border-radius:999px;margin-bottom:6px}
+.dl{background:#0b0f14;border:1px dashed #334155;border-radius:6px;padding:10px;color:#cbd5e1;font-size:12px}
+.dl p{margin:0 0 4px}
+.dl p:last-child{margin:0}
+.disclosure{background:#172033;border:1px solid #334155;border-radius:6px;padding:10px;color:#f1f5f9;font-size:12px;margin-bottom:16px}
+.cap{color:#64748b;font-size:11px;margin-top:8px}
+#caption{position:absolute;left:24px;bottom:16px;background:#0b0f14;border:1px solid #334155;color:#e2e8f0;padding:6px 12px;border-radius:6px;font-size:12px}
+</style></head><body>
+<div id="stage">
+<h1>Fast-mode build</h1>
+<p class="sub">process-l2c2 — keep Floor, stamp, tokens.css, log, and contrast checks</p>
+<div class="disclosure">
+<p><b>Disclosure:</b> Fast mode keeps all essentials; outputs are recorded and audited.</p>
+</div>
+<div class="row">
+<div class="col">
+<h2 style="margin-top:0">Step 1 — Floor</h2>
+<div class="step done">
+<span class="tag">floor present</span>
+<p>Floor scaffolded at 1200×800.</p>
+</div>
+<h2 style="margin-top:0">Step 2 — tokens.css</h2>
+<div class="step done">
+<span class="tag">kept</span>
+<div class="dl">
+<p>:root{--bg:#0b0f14;--fg:#e6edf3;--accent:#3b82f6}</p>
+</div>
+</div>
+<h2 style="margin-top:0">Step 3 — Stamp</h2>
+<div class="step done">
+<span class="tag">kept</span>
+<div class="dl">
+<p>stamp: build-id=7f3a · ts=12:00:00 · mode=fast</p>
+</div>
+</div>
+</div>
+<div class="col">
+<h2 style="margin-top:0">Step 4 — Log</h2>
+<div class="step done">
+<span class="tag">kept</span>
+<div class="dl">
+<p>[12:00:00] floor ok</p>
+<p>[12:00:01] tokens.css loaded</p>
+<p>[12:00:02] panels rendered</p>
+<p>[12:00:03] contrast checked 2/2</p>
+<p>[12:00:04] finish recorded</p>
+</div>
+</div>
+<h2 style="margin-top:0">Step 5 — Contrast checks</h2>
+<div class="step done">
+<span class="tag">kept</span>
+<div class="dl">
+<p>Panel A: 8.1:1 ✓</p>
+<p>Panel B: 4.7:1 ✓</p>
+</div>
+</div>
+</div>
+<div id="caption">OPTION B — fast mode keeps stamp, tokens.css, log, contrast checks</div>
+</div>
+</body></html>

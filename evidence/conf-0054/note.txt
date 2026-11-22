@@ -1,0 +1,1 @@
+Look for whether the hero image bleeds to the viewport edge (B) versus stays inside a bordered, rounded card with an inset outline and never full-bleed (A).

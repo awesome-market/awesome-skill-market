@@ -1,0 +1,1 @@
+Look for Option A emitting multiple paired accent-ink tokens and context-dependent fill/ink swaps to hit 4.5:1 body contrast, versus Option B using a single near-black (#262626) ink across a 90-95% neutral palette with no per-context swapping.

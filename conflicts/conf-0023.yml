@@ -1,0 +1,32 @@
+id: conf-0023
+status: pending
+fingerprint: 6a4f4db9a8f6
+detected_at: 2026-11-22T21:49:32.689Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--745
+    hash: 9a2ebd2eccd2
+    severity: reflex
+    text: Anything still moving five seconds after first sight gets one 32px pause button 12px from the bottom-right of its panel or card.
+    text_zh: 任何在首次可见后 5 秒内仍在移动的元素，在其面板或卡片的右下角 12px 处提供 1 个 32px 的暂停按钮。
+  - key: B
+    source: web-design-guidelines
+    rule_id: web-de-067
+    hash: 110ad69b48fa
+    severity: floor
+    text: Gesture-only actions must provide tap, click, and keyboard alternatives unless truly essential.
+    text_zh: 纯手势操作必须提供点击、鼠标点击和键盘替代方式，除非确实必要。
+ai_explanation: l0c1 allows slow turns on phones via flags, whereas l0c2 requires holding fragments to play once on keyboard focus and repeat only while a pointer rests on the card — the l0c2 interaction model contradicts l0c1's permission to keep slow turns running on phones.
+ai_explanation_zh: l0c1 允许通过 flags 在手机端保留慢速旋转，而 l0c2 要求在键盘获得焦点时按住片段才能播放一次，且仅当指针悬停在卡片上时才重复——l0c2 的交互模型与 l0c1 允许手机端慢速旋转持续运行的权限相矛盾。
+suggestion:
+  kind: keep-b
+  note: l0c2 hold-and-play model supersedes the phone slow-turn exception.
+  note_zh: l0c2 的按住并播放模型取代了手机端慢速旋转的例外。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

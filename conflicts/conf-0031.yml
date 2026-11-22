@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0031.yml
+id: conf-0031
+status: decided
+fingerprint: fc857163b909
+detected_at: 2026-11-22T22:10:36.868Z
+evidence: screenshot
+sides:
+  - key: A
+    source: frontend-design
+    rule_id: fronte-008
+    hash: f76ad83c7c75
+    severity: floor
+    text: Do not accent a single word or phrase within a headline using italic, bold, or a different color.
+    text_zh: 不要在标题中用斜体、粗体或不同颜色强调单个单词或短语。
+  - key: B
+    source: hallmark
+    rule_id: hallma-438
+    hash: 8badf43e0cf6
+    severity: reflex
+    text: Place one accented word in bold or on a highlighter band once in the hero, keeping heads to a single weight, style, and colour.
+    text_zh: 在 hero 中，将强调的单词加粗或置于高亮条带一次，保持标题为单一字重、样式和颜色。
+ai_explanation: type-l0c1-no-emphasis-in-headings forbids accenting any word in a headline via bold, color, italics, etc., while type-l0c4-typeface-emphasis-and-waivers explicitly permits one accented word in bold or on a highlighter band once in the hero — these contradict on whether headings may emphasize a single word.
+ai_explanation_zh: type-l0c1-no-emphasis-in-headings 禁止在标题中通过粗体、颜色、斜体等方式强调任何单词，而 type-l0c4-typeface-emphasis-and-waivers 明确允许在 hero 中一次使用一个加粗或高亮条带强调的单词——两者在标题是否可强调单个单词上相互矛盾。
+suggestion:
+  kind: scope-split
+  note: Apply type-l0c1's prohibition to all headings except the hero; reserve the single accented-word waiver for the hero only per type-l0c4.
+  note_zh: 将 type-l0c1 的禁止规则应用于除 hero 之外的所有标题；按 type-l0c4 将单个强调单词的豁免仅保留给 hero。
+issue_url: null

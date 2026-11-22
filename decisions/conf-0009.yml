@@ -1,0 +1,11 @@
+id: conf-0009
+status: active
+resolution: merge
+custom: Choose exactly one load reveal pattern (fade-up stagger, horizontal sweep, type-unmask, number-tick, typewriter, or none) via a single IntersectionObserver, and reserve any scroll-triggered reveal/choreography exclusively within a dedicated big scene, leaving below-fold content static otherwise.
+reason: "auto-accepted scope-split: Rule A governs the initial load reveal pattern while Rule B governs scroll-triggered viewport entry, so the scope-split cleanly separates them by using the IntersectionObserver reveal for load and reserving scroll choreography for a dedicated scene."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T21:43:54.594Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

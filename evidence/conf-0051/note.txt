@@ -1,0 +1,1 @@
+Compare casing of the h1 hero headline, the primary CTA button, nav links, and feature card titles: Option A uses sentence case with casual verbs; Option B applies Chicago-style title case to every heading and button while keeping identical layout and copy otherwise.

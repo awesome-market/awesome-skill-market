@@ -1,0 +1,26 @@
+<!doctype html>
+<html><head><style>
+body{margin:0;font-family:system-ui,sans-serif;background:#f4f1ec;color:#2c2c2c;height:800px;overflow:hidden}
+#stage{width:1200px;height:800px;margin:0 auto;position:relative;background:#ffffff;border:1px solid #d8d2c8}
+header{height:64px;border-bottom:1px solid #e0d8cc;padding:0 32px;display:flex;align-items:center;gap:12px}
+header .logo{width:28px;height:28px;background:#3a5a40;border-radius:6px}
+header h1{font-size:16px;margin:0;font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:32px}
+.card{background:#faf8f4;border:1px solid #e0d8cc;border-radius:12px;padding:24px;position:relative;overflow:hidden}
+.card h2{font-size:14px;margin:0 0 8px;color:#3a5a40}
+.card p{font-size:12px;margin:0 0 16px;line-height:1.5;color:#5a5a5a}
+.badge{display:inline-block;padding:4px 10px;background:#3a5a40;color:#fff;border-radius:20px;font-size:11px}
+.dot{width:10px;height:10px;border-radius:50%;background:#c9a86b;position:absolute;top:24px;right:24px}
+.mover{position:absolute;bottom:20px;right:20px;width:22px;height:22px;background:#c9a86b;border-radius:50%;box-shadow:0 0 0 6px rgba(201,168,107,.25)}
+.caption{position:absolute;left:16px;bottom:12px;font-size:11px;color:#3a5a40;font-weight:600;letter-spacing:.3px}
+</style></head><body>
+<div id="stage">
+<header><div class="logo"></div><h1>Wayfinder — Trail Map</h1></header>
+<div class="grid">
+<div class="card"><span class="dot"></span><h2>Redwood Loop</h2><p>A gentle 3km path through mature forest with bench stops every kilometer.</p><span class="badge">Open now</span></div>
+<div class="card"><span class="dot"></span><h2>Cliff Edge</h2><p>Steep descent with guardrails; views of the bay on clear afternoons.</p><span class="badge">Moderate</span></div>
+<div class="card"><span class="dot"></span><h2>River Crossing</h2><p>Shallow ford with stepping stones; check water level before crossing.</p><span class="badge">Easy</span><span class="mover"></span></div>
+</div>
+<div class="caption">OPTION B — one animated character moment</div>
+</div>
+</body></html>

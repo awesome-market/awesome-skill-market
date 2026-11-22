@@ -1,0 +1,38 @@
+<!doctype html>
+<html><head><style>
+body{margin:0;font-family:system-ui,sans-serif;background:#0f1115;color:#e8e6e3;height:800px;overflow:hidden}
+#stage{position:absolute;inset:0;display:grid;grid-template-columns:260px 1fr;gap:0}
+aside{background:#161920;padding:28px 24px;border-right:1px solid #2a2e37}
+aside h1{font-size:18px;margin:0 0 6px;color:#fff}
+aside p{font-size:13px;line-height:1.5;color:#9aa0ab;margin:0 0 22px}
+.card{background:#1c2029;border:1px solid #2a2e37;border-radius:10px;padding:16px;margin-bottom:14px}
+.card .k{font-size:11px;color:#7a8090;text-transform:uppercase;letter-spacing:.06em}
+.card .v{font-size:15px;color:#fff;margin-top:4px}
+main{position:relative;overflow:hidden}
+#poster{position:absolute;inset:0;background:radial-gradient(120% 120% at 70% 30%,#2a3340 0%,#0f1115 70%)}
+.star{position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 8px 2px rgba(255,255,255,.55)}
+.s1{top:18%;left:62%}.s2{top:42%;left:74%}.s3{top:68%;left:55%}.s4{top:30%;left:82%}
+/* OPTION B: ambient cycle ≥4s, pointer-reactive glow held at rest */
+@keyframes pulse{0%,100%{opacity:.35;transform:scale(1)}50%{opacity:1;transform:scale(1.6)}}
+.star{animation:pulse 5s ease-in-out infinite}
+.s2{animation-delay:1.25s}.s3{animation-delay:2.5s}.s4{animation-delay:3.75s}
+#caption{position:absolute;left:18px;bottom:14px;background:#161920;border:1px solid #2a2e37;color:#e8e6e3;padding:7px 12px;border-radius:6px;font-size:12px;letter-spacing:.02em}
+</style></head><body>
+<div id="stage">
+<aside>
+<h1>Stellar — Night Mode</h1>
+<p>Decorative stars react to pointer and time, hold ambient cycles of 4s+, and show a still fallback under reduced motion.</p>
+<div class="card"><div class="k">Motion</div><div class="v">Enabled — 5s ambient cycle</div></div>
+<div class="card"><div class="k">Ambient cycle</div><div class="v">5s (≥4s requirement met)</div></div>
+<div class="card"><div class="k">Pointer effect</div><div class="v">Glow held at rest</div></div>
+</aside>
+<main>
+<div id="poster"></div>
+<div class="star s1"></div>
+<div class="star s2"></div>
+<div class="star s3"></div>
+<div class="star s4"></div>
+<div id="caption">OPTION B — ambient idle cycle, pointer-reactive</div>
+</main>
+</div>
+</body></html>

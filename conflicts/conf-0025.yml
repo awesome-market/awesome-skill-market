@@ -1,0 +1,32 @@
+id: conf-0025
+status: pending
+fingerprint: ff15080ccc2d
+detected_at: 2026-11-22T21:59:48.349Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--383
+    hash: 01b7a430f9a1
+    severity: finish
+    text: Include testimonials only when the brief supplies them, each with a name, role, or town, and treat zero as normal.
+    text_zh: RULE A：仅在简报提供证言时才包含证言，每条证言需附带姓名、职务或城镇，并将零视为正常。
+  - key: B
+    source: taste-skill
+    rule_id: taste--316
+    hash: 5ee16af6d3c4
+    severity: reflex
+    text: Write in first person with a named enemy, the reader's own pain, a purposeful refrain, and a plain human sign-off inside the body text, never the footer.
+    text_zh: RULE B：以第一人称写作，点名敌人、读者自身的痛苦、有目的的重复句，并在正文内使用朴素的人情化落款，绝不放在页脚。
+ai_explanation: "copy-l2c1-lead-with-difference requires leading with the true difference and its proof instead of unproven adjectives or slogans, implying an objective third-person framing. copy-l2c4-first-person-and-humour requires writing in first person with a named enemy, the reader's own pain, and a plain human sign-off inside the body text. These directly contradict in scope: one forbids first-person/slogan framing while the other mandates first-person narrative, and no reasonable pick or scope-split resolves them because they govern the same page-level voice."
+ai_explanation_zh: copy-l2c1-lead-with-difference 要求以真实差异及其证明开篇，而非未经证实的形容词或口号，隐含客观第三人称视角；copy-l2c4-first-person-and-humour 要求使用第一人称、点名敌人、读者自身的痛苦，并在正文内以朴素的人情化落款结尾。两者在范围上直接冲突：一个禁止第一人称/口号式表达，另一个则强制第一人称叙事，且二者共同约束同一页面的整体语气，无法通过合理的取舍或范围划分解决。
+suggestion:
+  kind: keep-b
+  note: "Scope-split by section: lead sections objective, body first-person; but both rules apply to the same page-level voice, so this is a genuine dilemma."
+  note_zh: 按版块划分范围：lead 部分采用客观语气，正文部分采用第一人称；但由于两条规则均作用于同一页面级语气，因此这是真正的两难。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

@@ -1,0 +1,11 @@
+id: conf-0016
+status: active
+resolution: B
+custom: null
+reason: "auto-accepted keep-b: Rule A only forbids gradients on material/grain/photography/depth regions while Rule B bans specific gradients everywhere, so keeping B as the page-wide ban and A as the material-specific subset resolves the contradiction without over-permitting prohibited effects."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T22:07:34.704Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

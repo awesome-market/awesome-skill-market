@@ -1,0 +1,32 @@
+id: conf-0048
+status: pending
+fingerprint: 1f3804d008ff
+detected_at: 2026-11-22T22:49:22.976Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--758
+    hash: 89bc9870a322
+    severity: reflex
+    text: Compare timing numbers only between pages, never against field data, because FCP and LCP are CPU-rendered.
+    text_zh: RULE A：仅在各页面之间比较 timing 数值，绝不与 field data 比较，因为 FCP 与 LCP 由 CPU 渲染。
+  - key: B
+    source: taste-skill
+    rule_id: taste--864
+    hash: a1311894c414
+    severity: reflex
+    text: Deal scenes at random among those whose fits includes the section, whose types includes the page type, and whose needs the brief meets, weighted by weight and avoiding the last three entries in scenes-history.json.
+    text_zh: RULE B：在 fits 包含该 section、types 包含该 page type、且 needs 满足 brief 的场景中，按 weight 加权随机处理场景，并避开 scenes-history.json 中的最近三条记录。
+ai_explanation: These two rules both govern hero/scene selection but use contradictory selection logic in the same scope. l2c1-timing mandates deterministic history-based hero selection (first printed result unless it clashes with logo/photographs, never violet), while l2c1-deal-scenes-by-fit-and-need mandates randomized selection among scenes whose fits/types/needs match, weighted by weight and avoiding the last three history entries. When the first deterministic history result happens to be among the last three history entries or has low weight, the two rules directly contradict with no scope-split that resolves them.
+ai_explanation_zh: 这两条规则都用于控制 hero/场景选择，但在同一范围内使用了相互矛盾的选取逻辑。l2c1-timing 要求确定性的基于历史记录的 hero 选取（优先取首个打印结果，除非与 logo/照片冲突，且绝不使用 violet）；l2c1-deal-scenes-by-fit-and-need 则要求在 fits/types/needs 均匹配的场景中按 weight 加权随机选取，并避开 scenes-history.json 中的最近三条记录。当首个确定性历史结果恰好落在最近三条记录内或权重较低时，两条规则直接冲突，且没有作用域划分能解决该冲突。
+suggestion:
+  kind: keep-a
+  note: Deterministic history-first selection conflicts with weighted randomized selection when the first history entry is among the last three history entries.
+  note_zh: 当首个历史条目落在最近三条历史条目范围内时，确定性的历史优先选取与按权重的随机选取会发生冲突。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

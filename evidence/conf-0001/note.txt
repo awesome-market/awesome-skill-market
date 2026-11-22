@@ -1,0 +1,1 @@
+At a glance: Option A uses a dark tinted mid-tone paper (hsl 30/18%/15%) with chroma in every surface and no pure black/white; Option B uses pure white paper with zero-chroma gray neutrals and subtle surface borders. The paper background color and whether surfaces sit on a white or tinted field are the visible conflict.

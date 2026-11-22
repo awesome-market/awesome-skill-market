@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0030.yml
+id: conf-0030
+status: decided
+fingerprint: 833a14b3fa9f
+detected_at: 2026-11-22T22:10:36.864Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-748
+    hash: 96983ec8baa0
+    severity: floor
+    text: Keep all text small and subordinate to the photographs rather than using large display typography.
+    text_zh: 保持所有文本小巧并从属于照片，而非使用大型展示排版。
+  - key: B
+    source: hallmark
+    rule_id: hallma-077
+    hash: 9d09a8828a24
+    severity: floor
+    text: Keep body copy at 16px minimum with 1.5 to 1.65 line-height and 45 to 75ch measure, never all caps or unhyphenated justified text.
+    text_zh: 保持正文至少 16px，行高 1.5 至 1.65，度量 45 至 75ch，禁止全大写或未连字符化的两端对齐文本。
+ai_explanation: type-l0c1-small-subordinate-typography renders product UI at 13px text/12px meta and keeps everything small and subordinate, while type-l0c2-body-prose-readability requires body copy at 16px minimum with 1.5–1.65 line-height — these directly contradict on body size.
+ai_explanation_zh: type-l0c1-small-subordinate-typography 将产品 UI 设为 13px 正文/12px 元数据，保持整体小巧且从属；而 type-l0c2-body-prose-readability 要求正文至少 16px、行高 1.5–1.65——两者在正文尺寸上直接冲突。
+suggestion:
+  kind: keep-b
+  note: "Prioritize readability: 16px minimum body per type-l0c2; keep 13px only for genuinely subordinate meta/labels."
+  note_zh: 优先保障可读性：正文按 type-l0c2 至少 16px；13px 仅用于真正从属的 meta/标签。
+issue_url: null

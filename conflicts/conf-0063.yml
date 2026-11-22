@@ -1,0 +1,27 @@
+id: conf-0063
+status: pending
+fingerprint: 247d8bd027a4
+detected_at: 2026-11-22T23:31:31.546Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-203
+    hash: ad1d249cdd03
+    severity: floor
+    text: Never ship a pale ground with a single timid accent.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--253
+    hash: 02613c2ae2f5
+    severity: floor
+    text: Never put the accent on every chip, date, and keyword, mix brand colours with ink marks, or ship glossy 3D blobs.
+    text_zh: null
+ai_explanation: l1c1 explicitly permits up to two fixed, non-animated radial blooms sized 20–30% of the canvas (a 'focal ground' / atmospheric effect), while l1c2 forbids glossy 3D blobs and restricts ambient effects to the design canvas, creating a contradiction on whether atmospheric radial effects are allowed as grounds on non-hero pages.
+ai_explanation_zh: l1c1 明确允许最多两个固定、非动画的径向光斑（占画布20–30%），而 l1c2 禁止光泽3D blob并将环境效果限制在设计画布中，两者在非英雄页是否允许环境径向效果上直接冲突。
+suggestion:
+  kind: scope-split
+  note: "l1c1's blooms are flat, fixed, non-animated radial tokens; l1c2's ban targets glossy 3D blobs and non-canvas ambient effects. Resolve by scope-splitting: allow l1c1's two fixed radial blooms only when the canvas itself is the design, and apply l1c2's ban elsewhere."
+  note_zh: l1c1 的光斑是扁平、固定、非动画的径向 token；l1c2 的禁令针对光泽3D blob和非画布环境效果。按作用域拆分解决：仅当画布本身是设计时允许 l1c1 的两个固定径向光斑，其余场景应用 l1c2 的禁令。
+issue_url: null

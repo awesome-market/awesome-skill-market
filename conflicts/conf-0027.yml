@@ -1,0 +1,29 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0027.yml
+id: conf-0027
+status: dismissed
+fingerprint: c11ac960eafd
+detected_at: 2026-11-22T22:07:16.853Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--685
+    hash: 88913902b47a
+    severity: floor
+    text: Deal moments only from the pool listed for the page kind in each moment's meta.json, never choosing by taste.
+    text_zh: RULE A：仅从每个 moment 的 meta.json 中该页面类型对应的池中抽取 moment，绝不按口味选择。
+  - key: B
+    source: taste-skill
+    rule_id: taste--688
+    hash: 126715d5f1aa
+    severity: floor
+    text: Never deal the same moment id twice on one page, and never place two moments of the same kind (a hover and a liquid moment count as one pointer effect).
+    text_zh: RULE B：同一页面上不得发放同一个 moment id 两次，也不得放置两个同 kind 的 moment（hover 与 liquid 视为同一种指针效果）。
+ai_explanation: "Both rules constrain moment selection in the same scope but contradict: the L2 rule says deal moments only from the page kind's pool and never by taste, while the L2 rule also forbids placing two moments of the same kind (counting hover and liquid as one pointer effect). When the pool itself contains two same-kind moments, following the pool rule forces a duplicate that the dedup rule forbids, and neither scope-split nor pick resolves it since both are hard constraints over the same page."
+ai_explanation_zh: 两条规则约束同一作用域内的 moment 选择，但相互矛盾：池子规则要求仅从当前页面类型对应的池中抽取 moment 且不得按口味挑选，而去重规则又禁止在同一页面放置两个同 kind 的 moment（hover 与 liquid 视为同一种指针效果）。当池子本身包含两个同 kind 的 moment 时，遵循池子规则必然导致去重规则所禁止的重复，且作用域拆分或挑选都无法解决，因为二者都是作用于同一页面的硬约束。
+suggestion:
+  kind: keep-b
+  note: Prefer the dedup rule as the stronger anti-repetition guard; when the pool yields two same-kind moments, defer the second to another page or mark it not used rather than placing both.
+  note_zh: 优先采用去重规则作为更强的防重复保障；当池子给出两个同 kind 的 moment 时，将第二个 defer 到其他页面或标记为未使用，而不是同时放置两个。
+issue_url: null
+dismiss_reason: Rule A governs which moments are eligible (the pool) while Rule B governs placement uniqueness, so they are complementary constraints rather than a true contradiction.

@@ -1,0 +1,1 @@
+A uses warm cream (#f4f1ec) background, high-contrast Georgia serif display headings, and terracotta (#c15a3b) accents — the forbidden default. B uses white background, system sans-serif headings, and a neutral blue (#2b6cb0) accent, avoiding both the warm-cream default and any category hue stereotype.

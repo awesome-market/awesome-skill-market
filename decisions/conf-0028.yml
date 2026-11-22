@@ -1,0 +1,11 @@
+id: conf-0028
+status: active
+resolution: merge
+custom: Never place aurora, mesh blobs, floating blurred orbs, chromatic radial halos, spotlights, or coloured zero-offset glow shadows behind text; grain and single mark bands may sit behind content only in non-text areas (margins, empty canvas, or behind images), keeping the no-ambient-behind-text default for text-bearing regions.
+reason: "auto-accepted scope-split: color-l0c1's absolute no-ambient-behind-text rule and color-l0c3's permission for marks/grain behind content genuinely conflict, and the scope-split correctly confines l0c3's decorative overlays to non-text areas while preserving l0c1's default for text-bearing regions."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T22:36:23.337Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

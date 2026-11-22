@@ -1,0 +1,38 @@
+<!doctype html>
+<html><head><meta charset=utf-8><style>
+body{margin:0;font-family:system-ui,sans-serif;background:#f4f2ee;color:#222;height:800px;overflow:hidden}
+#stage{position:absolute;inset:0;padding:40px;display:flex;gap:32px;align-items:flex-start}
+.card{width:560px;height:680px;background:#fff;border:1px solid #d8d4cc;border-radius:14px;padding:28px;box-shadow:0 6px 18px rgba(0,0,0,.06)}
+h1{font-size:20px;margin:0 0 6px}
+p{font-size:13px;line-height:1.5;color:#555;margin:0 0 18px}
+.player{height:320px;background:#2b2a28;border-radius:10px;color:#fff;padding:20px;box-sizing:border-box}
+.player .title{font-size:15px;margin-bottom:10px}
+.player .meta{font-size:12px;color:#aaa}
+.pill{display:inline-block;background:#ece8df;border-radius:20px;padding:4px 10px;font-size:11px;color:#6a5f40;margin-right:6px;margin-bottom:6px}
+.controls{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.btn{background:#ece8df;color:#3a3420;border:1px solid #cfc8b8;border-radius:8px;padding:8px 12px;font-size:12px;cursor:pointer}
+.kbd{background:#fff;border:1px solid #cfc8b8;border-radius:4px;padding:2px 7px;font-size:11px;margin-left:6px;box-shadow:0 1px 0 #999}
+caption{position:absolute;left:16px;bottom:12px;font-size:12px;color:#6a5f40;font-weight:600}
+</style></head><body>
+<div id="stage">
+  <article class="card">
+    <h1>Slow Turn: Forest Edge</h1>
+    <p>l0c2 model: play once on keyboard focus, repeat only while pointer rests. No lingering motion.</p>
+    <div class="player">
+      <div class="title">Chapter 3 — The Ridge</div>
+      <div class="meta">Froze mid-transition: pointer resting, repeat active</div>
+      <div style="margin-top:14px">
+        <span class="pill">l0c2: hold fragment to play once</span>
+        <span class="pill">l0c2: repeat while pointer rests</span>
+      </div>
+      <div class="controls">
+        <button class="btn">Tap: play once</button>
+        <button class="btn">Click: play once</button>
+        <button class="btn">Keyboard <span class="kbd">Enter</span></button>
+        <button class="btn">Pointer rest: repeat</button>
+      </div>
+    </div>
+  </article>
+</div>
+<caption>OPTION B — tap/click/keyboard alternatives, no lingering motion</caption>
+</body></html>

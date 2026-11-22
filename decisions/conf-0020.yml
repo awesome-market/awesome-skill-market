@@ -1,0 +1,11 @@
+id: conf-0020
+status: active
+resolution: merge
+custom: Animate only transform and opacity properties for tab indicators and entrance/reveal motion; for disclosable FAQ sections, expand grid-template-rows from 0fr to 1fr over --dur-long with --ease-out.
+reason: "auto-accepted scope-split: The two rules govern genuinely different interaction contexts (tab indicators/reveals vs. FAQ disclosables), so the scope-split cleanly resolves the contradiction by restricting the transform-only constraint to the former while permitting grid-template-rows animation for the latter."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T22:07:43.529Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

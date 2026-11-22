@@ -1,0 +1,29 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0032.yml
+id: conf-0032
+status: dismissed
+fingerprint: 79b3537f41e3
+detected_at: 2026-11-22T22:19:29.756Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-518
+    hash: bbcd969b78b2
+    severity: floor
+    text: Only apply a spring animation under a declared spring posture, and only on the primary CTA and one character moment.
+    text_zh: 仅在有声明的 spring 姿态时应用弹簧动画，且仅用于主 CTA 与一个角色时刻。
+  - key: B
+    source: hallmark
+    rule_id: hallma-382
+    hash: dd798aa4e432
+    severity: reflex
+    text: Use exponential ease-out for UI state transitions; reserve bounce or overshoot for declared spring postures on the primary action and one character moment.
+    text_zh: UI 状态过渡使用指数缓出（exponential ease-out）；弹跳或过冲仅保留给主操作与一个角色时刻上已声明的 spring 姿态。
+ai_explanation: l0c1 permits a spring animation on the primary CTA and one character moment, while l0c2 mandates exponential ease-out for all UI state transitions and reserves bounce/overshoot exclusively for declared spring postures — the two rules conflict on whether the CTA uses a spring (l0c1) or exponential ease-out (l0c2).
+ai_explanation_zh: l0c1 允许在主 CTA 与一个角色时刻使用弹簧动画，而 l0c2 要求所有 UI 状态过渡使用指数缓出，并将弹跳/过冲仅保留给已声明的弹簧姿态；两条规则在主 CTA 是否使用弹簧（l0c1）还是指数缓出（l0c2）上存在冲突。
+suggestion:
+  kind: keep-b
+  note: l0c2 is more specific about easing semantics and state-driven motion.
+  note_zh: l0c2 在缓动语义与状态驱动动画方面更为具体。
+issue_url: null
+dismiss_reason: Rule A and Rule B are compatible because Rule B explicitly reserves bounce/overshoot for declared spring postures on the primary action and one character moment, which is exactly the scope Rule A permits, so both can be merged without conflict.

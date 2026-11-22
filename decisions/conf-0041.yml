@@ -1,0 +1,11 @@
+id: conf-0041
+status: active
+resolution: merge
+custom: Record the existing page with the before command, capturing every link, form, field, handler, test hook, script, selector, heading, and figure, without copying or building inside the product's own repository; build the page in the current folder unless the user explicitly asks otherwise.
+reason: "auto-accepted scope-split: Recording an existing page's structure read-only and building the rebuilt page in the current folder are distinct operations that can coexist without touching the product's own repository."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T22:36:39.614Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

@@ -1,0 +1,11 @@
+id: conf-0026
+status: active
+resolution: merge
+custom: On product pages where the product is the subject, apply product-as-hero (product fills the hero plus at least one additional section); on pages without a captureable product subject, treat interactive previews as imagery and restrict photographs to at most one band per page.
+reason: "auto-accepted scope-split: The two rules govern different page scopes—product-subject pages versus pages without a captureable product—so the scope-split cleanly resolves the contradiction without ambiguity."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T22:07:53.950Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

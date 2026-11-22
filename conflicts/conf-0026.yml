@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0026.yml
+id: conf-0026
+status: decided
+fingerprint: 8e200375f323
+detected_at: 2026-11-22T22:01:14.245Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--855
+    hash: ca3281ea2a3c
+    severity: floor
+    text: Keep animals and vehicles out of the frame.
+    text_zh: 把动物和车辆排除出画面。
+  - key: B
+    source: hallmark
+    rule_id: hallma-877
+    hash: 1fcd1ea4b1aa
+    severity: reflex
+    text: Treat the interactive previews as the imagery and restrict photographs to at most one band per page.
+    text_zh: 将交互式预览视为图像，并将照片限制为每页最多一个 band。
+ai_explanation: "'product-as-hero' mandates that the product must be the hero and fill its frame at large scale in the hero plus at least one more section, requiring multiple large product photographs across the page. 'single-image-restrictions' caps photographs to at most one band per page, which would prevent the product from occupying the hero and additional sections simultaneously. These directly contradict in the same scope (product pages with a hero)."
+ai_explanation_zh: "'product-as-hero' 要求产品必须作为主角，在 hero 区域及至少一个其他区块中以大尺寸呈现，因此页面需要多张大尺寸产品照片。'single-image-restrictions' 将照片限制为每页最多一个 band，这会阻止产品同时占据 hero 与额外区块。两者在同一范围（带 hero 的产品页）内直接冲突。"
+suggestion:
+  kind: scope-split
+  note: Product pages where the product is the subject should follow product-as-hero; single-image-restrictions applies to pages without a captureable product subject.
+  note_zh: 以产品为主题的产品页应遵循 product-as-hero；single-image-restrictions 适用于没有可拍摄产品主题（captureable product subject）的页面。
+issue_url: null

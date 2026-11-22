@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0008.yml
+id: conf-0008
+status: decided
+fingerprint: c0c0fc53ce01
+detected_at: 2026-11-22T21:13:17.940Z
+evidence: screenshot
+sides:
+  - key: A
+    source: web-design-guidelines
+    rule_id: web-de-029
+    hash: 13d87f7ccb89
+    severity: floor
+    text: Honor prefers-reduced-motion by providing a reduced variant or disabling motion.
+    text_zh: 规则 A：尊重 prefers-reduced-motion，提供简化版变体或禁用动画。
+  - key: B
+    source: hallmark
+    rule_id: hallma-411
+    hash: 941ba202afcb
+    severity: finish
+    text: Use only one scroll-choreography pattern per page.
+    text_zh: 规则 B：每页仅使用一套滚动编排模式。
+ai_explanation: The L0C1 rule caps scroll-linked effects to a single display element per page and forbids self-moving cards/panels, while L0C5 permits one full scroll-choreography pattern per page with motion mapped to scroll progress — contradicting whether scroll-driven motion is allowed beyond a single element.
+ai_explanation_zh: L0C1 规则将滚动关联效果限制为每页仅一个展示元素，并禁止卡片/面板自移动；L0C5 则允许每页使用一套完整滚动编排，且将动画映射到滚动进度。两者在是否允许超出单一元素的滚动驱动动画上存在矛盾。
+suggestion:
+  kind: scope-split
+  note: "Resolution: apply L0C1's single-element cap to interactive/self-moving elements and L0C5's single choreography to a dedicated big scene only."
+  note_zh: 解决方案：将 L0C1 的单元素上限应用于交互/自移动元素，并将 L0C5 的单套编排仅用于专属大场景。
+issue_url: null

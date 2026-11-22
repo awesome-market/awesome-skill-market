@@ -1,0 +1,29 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0003.yml
+id: conf-0003
+status: dismissed
+fingerprint: 25236b257e62
+detected_at: 2026-11-22T20:30:45.158Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-748
+    hash: 96983ec8baa0
+    severity: floor
+    text: Keep all text small and subordinate to the photographs rather than using large display typography.
+    text_zh: type-l2c1-text-subordinate-to-images：所有文本保持小巧并从属于照片，而非使用大型展示型排版。
+  - key: B
+    source: hallmark
+    rule_id: hallma-357
+    hash: 7b020c2ca057
+    severity: reflex
+    text: Render median h2s below the hero at --text-section and item titles at --text-title.
+    text_zh: type-l2c1-median-heading-sizes：在 hero 下方渲染中位 h2 为 --text-section，条目标题为 --text-title，section heads 在 1440px 下不低于 40px。
+ai_explanation: type-l2c1-text-subordinate-to-images keeps all text small and subordinate to photographs rather than using large display typography, directly contradicting type-l2c1-median-heading-sizes, which renders median h2s below the hero at --text-section and item titles at --text-title with section heads never below 40px at 1440px. One rule forbids large display-type text while the other requires it.
+ai_explanation_zh: type-l2c1-text-subordinate-to-images 要求所有文本保持小巧并从属于照片，而非使用大型展示型排版，这与 type-l2c1-median-heading-sizes 直接冲突：后者在 hero 下方渲染中位 h2 为 --text-section、条目标题为 --text-title，且 section heads 在 1440px 下不低于 40px。一条规则禁止大型展示型文本，另一条则要求使用。
+suggestion:
+  kind: keep-b
+  note: Resolve by treating text-subordinate-to-images as a guidance for photo-led pages only, while median-heading-sizes governs structure on content pages.
+  note_zh: 将 text-subordinate-to-images 视为仅针对以照片为主的页面的指导，而 median-heading-sizes  governs 内容页面的结构。
+issue_url: null
+dismiss_reason: The two rules govern different page contexts (photo-led vs content pages), so they are not mutually exclusive and both can coexist without conflict.

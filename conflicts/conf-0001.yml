@@ -1,0 +1,32 @@
+id: conf-0001
+status: pending
+fingerprint: 5fb1f9b8d02e
+detected_at: 2026-11-22T20:27:38.532Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-133
+    hash: 3c92479abd6c
+    severity: floor
+    text: Set --color-paper to 12-18% lightness with anchor-tinted chroma and never use pure black.
+    text_zh: 将 --color-paper 设为 12-18% 明度，使用锚定色调的 chroma，绝不使用纯黑。
+  - key: B
+    source: hallmark
+    rule_id: hallma-499
+    hash: 1ec6127d1df1
+    severity: reflex
+    text: Use pure white paper and zero-chroma neutrals with subtle surface borders.
+    text_zh: 使用纯白 paper 与零 chroma 中性色，并辅以细微的表面边框。
+ai_explanation: l2c1 mandates paper at 12-18% lightness with anchor-tinted chroma and explicitly forbids pure black/white, while l2c3 mandates pure white paper and zero-chroma neutrals. These directly contradict on paper lightness (tinted mid vs pure white) and neutral chroma (tinted vs zero).
+ai_explanation_zh: l2c1 要求 paper 色相为 12-18% 明度、使用锚定色调的 chroma，并明确禁止纯黑/纯白；而 l2c3 要求使用纯白 paper 与零 chroma 的中性色。两者在 paper 明度（带色调的中间色 vs 纯白）与中性色 chroma（带色调 vs 零 chroma）上直接冲突。
+suggestion:
+  kind: keep-b
+  note: l2c3 is the newer, more specific spec; prefer its pure-white/zero-chroma path.
+  note_zh: l2c3 是更新、更具体的规范；优先采用其纯白/零 chroma 方案。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

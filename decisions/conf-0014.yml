@@ -1,0 +1,11 @@
+id: conf-0014
+status: active
+resolution: merge
+custom: Apply rounded frames (12-20px border radius) and flat-colour grounds to product/service and software-window photographs, while rendering place/room photographs with square corners and no border, shadow, overlay, or frame.
+reason: "auto-accepted scope-split: The two rules genuinely conflict for place/room imagery, and the scope-split cleanly resolves it by assigning rounded frames/flat colour to product/service/software-window frames and square corners/no frame to place/room photographs."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T21:44:01.203Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

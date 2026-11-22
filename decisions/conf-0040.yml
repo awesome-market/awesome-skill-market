@@ -1,0 +1,11 @@
+id: conf-0040
+status: active
+resolution: merge
+custom: Never use illustration packs, mascots, 3D blobs, isometric scenes, mesh orbs, auroras behind text, stock faces as proof, invented logo walls, hover zoom or rotation, baked text in images, photos of other interfaces, or hero/standalone drawings; charts and data visualizations may be used for imagery, product photographs are reserved for explicitly requested slots, and small drawn dimension figures beside specs are permitted only on pages that already show photographs.
+reason: "auto-accepted scope-split: l0c2's absolute ban on drawings conflicts with l0c6's allowance of small dimension figures beside specs on already-photographic pages, and the scope-split correctly preserves the hero/standalone illustration ban while permitting only narrow contextual specs illustrations."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T22:36:38.364Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

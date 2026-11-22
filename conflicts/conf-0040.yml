@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0040.yml
+id: conf-0040
+status: decided
+fingerprint: d5f3e645c84d
+detected_at: 2026-11-22T22:26:53.622Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-562
+    hash: c3aa505f6fa7
+    severity: floor
+    text: Never use illustration packs, mascots, 3D blobs, isometric scenes, mesh orbs, auroras behind text, stock faces as proof, invented logo walls, hover zoom or rotation, baked text in images, or photos of other interfaces.
+    text_zh: 规则 A：绝不使用插画包、吉祥物、3D 色块、等距场景、网格球体、文字后光晕、作为论据的库存人脸、虚构的 Logo 墙、悬停缩放或旋转、图像中烘焙文字，或其他界面的照片。
+  - key: B
+    source: hallmark
+    rule_id: hallma-705
+    hash: f1794781a69d
+    severity: reflex
+    text: Use charts and data visualizations for imagery and reserve product photographs only for slots the user explicitly requested.
+    text_zh: 规则 B：使用图表和数据可视化作为图像；产品照片仅保留在用户明确请求的插槽。
+ai_explanation: l0c2 never uses illustrations, 3D blobs, mesh orbs, auroras behind text, or oversized SVGs, while l0c6 permits drawings as dimension figures beside specs on pages that already show photographs and uses dot-objects/cut-out PNGs with clear grounds — allowing drawn illustrations in a narrow specs context directly contradicts l0c2's absolute never-drawings rule in the same imagery scope.
+ai_explanation_zh: l0c2 从不使用插画、3D 色块、网格球体、文字后光晕，或 oversized SVG；而 l0c6 允许在已展示照片的页面上，在规格旁以尺寸标注形式使用绘图，并采用带清晰底色的点状对象/裁剪 PNG——在同一图像范围内允许绘制性插画，与 l0c2 的绝对禁止绘制规则相冲突。
+suggestion:
+  kind: scope-split
+  note: l0c2's never-drawings rule should yield only for small dimension figures beside specs on already-photographic pages; keep l0c2's ban on hero/standalone illustrations intact.
+  note_zh: l0c2 的禁止绘制规则仅可为已摄影页面中规格旁的小尺寸标注让步；保持 l0c2 对 hero/独立插画的禁令不变。
+issue_url: null

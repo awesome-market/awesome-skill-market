@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Option A</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,Georgia,serif;color:#1a1a1a;background:#fff;overflow-x:hidden}
+.wrap{max-width:1200px;margin:0 auto;padding:0 40px}
+header{padding:32px 0;border-bottom:1px solid #e5e5e5}
+nav{display:flex;justify-content:space-between;align-items:center}
+nav .brand{font-weight:700;letter-spacing:.02em}
+nav ul{display:flex;gap:24px;list-style:none;font-size:14px}
+.hero{padding:64px 0 48px;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.hero h1{font-size:44px;line-height:1.15;margin-bottom:16px}
+.hero p{font-size:16px;line-height:1.6;color:#444;margin-bottom:24px;max-width:480px}
+.hero .cta{display:inline-block;background:#1a1a1a;color:#fff;padding:12px 28px;border-radius:4px;font-size:14px;text-decoration:none}
+.photo{aspect-ratio:3/2;background:#c9d4dc;border-radius:6px;overflow:hidden;position:relative}
+.photo .cap{position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,.85);padding:8px 12px;font-size:12px;color:#333}
+.section{padding:56px 0}
+.section h2{font-size:28px;margin-bottom:24px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.card{background:#f7f7f7;border-radius:6px;padding:24px}
+.card h3{font-size:18px;margin-bottom:8px}
+.card p{font-size:14px;line-height:1.5;color:#555}
+.table{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px}
+.table th,.table td{text-align:left;padding:12px 16px;border-bottom:1px solid #e5e5e5}
+.table th{background:#f7f7f7;font-weight:600}
+figure{margin:0}
+figcaption{font-size:13px;color:#666;margin-top:8px}
+footer{padding:40px 0;border-top:1px solid #e5e5e5;font-size:13px;color:#888}
+.caption{position:fixed;left:0;bottom:0;background:#1a1a1a;color:#fff;padding:10px 18px;font-size:13px;letter-spacing:.03em;z-index:10}
+</style></head>
+<body>
+<header class="wrap"><nav><span class="brand">Lumen &amp; Co.</span><ul><li>Work</li><li>Studio</li><li>Contact</li></ul></nav></header>
+<main>
+<section class="hero wrap">
+<div><h1>Quiet spaces for focused work.</h1><p>Our portfolio pairs tight-cropped product photography with generous type. Each image stays inside its own block, keeping the page readable and the layout calm.</p><a class="cta" href="#">View the collection</a></div>
+<figure class="photo"><span class="cap">Hero — cropped inside block, ~30% of page height</span></figure>
+</section>
+<section class="wrap"><h2>What we deliver</h2><div class="cards">
+<div class="card"><h3>Design</h3><p>Every photograph is cropped tightly inside its individual block, never bleeding to the edges of the section.</p></div>
+<div class="card"><h3>Content</h3><p>The remaining space is carried in type, figures, and a comparison table rather than large image layers.</p></div>
+<div class="card"><h3>Consistency</h3><p>Photographs stay below about a third of the page height, preserving rhythm across rows.</p></div>
+</div></section>
+<section class="wrap"><h2>Specs at a glance</h2><table class="table">
+<thead><tr><th>Element</th><th>Max height</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>Hero photograph</td><td>~30% of page</td><td>Cropped inside its block</td></tr>
+<tr><td>Section images</td><td>~30% of page</td><td>One ratio per row</td></tr>
+<tr><td>Type / table</td><td>—</td><td>Carries the rest of the space</td></tr>
+</tbody></table></section>
+<section class="wrap"><h2>Field notes</h2><figure class="photo" style="aspect-ratio:16/9"><figcaption>Figure 1 — a single tight crop, fully inside its block, no bleed to any edge.</figcaption></figure></section>
+</main>
+<footer class="wrap">© 2024 Lumen &amp; Co. — Option A: images below a third, rest in type and tables.</footer>
+<div class="caption">OPTION A — images below a third, rest in type</div>
+</body></html>

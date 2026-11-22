@@ -1,0 +1,32 @@
+<!doctype html>
+<html><head><style>
+body{margin:0;font-family:system-ui,sans-serif;background:#0f1115;color:#e8e8ec}
+.hero{height:800px;display:flex;flex-direction:column;justify-content:center;padding:64px;background:linear-gradient(135deg,#1a1d26,#0f1115);border-bottom:1px solid #2a2d36}
+.hero h1{font-size:56px;margin:0 0 16px;color:#fff;transform:translateY(24px) scale(1.06);opacity:1}
+.hero p{font-size:18px;margin:0 0 32px;color:#a8adb8;max-width:520px}
+.cta{display:inline-block;padding:14px 28px;background:#4f6ef5;color:#fff;border-radius:8px;font-size:15px;width:fit-content}
+.below{padding:64px;max-width:960px;margin:0 auto}
+.below h2{font-size:28px;margin:0 0 12px}
+.below p{font-size:15px;color:#a8adb8;line-height:1.6}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:32px}
+.card{background:#1a1d26;border:1px solid #2a2d36;border-radius:10px;padding:24px}
+.card h3{margin:0 0 8px;font-size:16px}
+.card p{margin:0;font-size:13px;color:#a8adb8}
+.caption{position:fixed;left:16px;bottom:16px;background:#1a1d26;border:1px solid #2a2d36;color:#e8e8ec;padding:8px 14px;border-radius:6px;font-size:13px;letter-spacing:.3px}
+</style></head><body>
+<section class="hero">
+  <h1>Ship design systems faster</h1>
+  <p>A single orchestrated entrance loads the hero once, then keeps every below-fold element static — no combined fade, sweep, or scale.</p>
+  <a class="cta" href="#">Get started</a>
+</section>
+<main class="below">
+  <h2>Why this loads quietly</h2>
+  <p>The entrance lives on the hero only. Below the fold, cards sit in their default visible state with no animation, no parallax, and no auto-carousel.</p>
+  <div class="cards">
+    <div class="card"><h3>Consistent timing</h3><p>One 0.6s ease-in-out load, never combined with motion on the same element.</p></div>
+    <div class="card"><h3>Below the fold</h3><p>Content stays static until the user scrolls — no scroll choreography.</p></div>
+    <div class="card"><h3>No extras</h3><p>Starfields, parallax, and bounce are absent from every element.</p></div>
+  </div>
+</main>
+<div class="caption">OPTION A — hero entrance only, below-fold static</div>
+</body></html>

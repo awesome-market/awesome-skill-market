@@ -1,0 +1,32 @@
+id: conf-0061
+status: pending
+fingerprint: 052e52832b93
+detected_at: 2026-11-22T23:24:18.871Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--701
+    hash: f54909bea79e
+    severity: floor
+    text: On place, product, and service pages, carry the moment with the client's own photographs (each used once) and the page's real copy, never stand-in images.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-566
+    hash: dbf2b3f09545
+    severity: reflex
+    text: Use 3D and WebGL only when the product is 3D and the visitor can interact with it, always with a still fallback.
+    text_zh: null
+ai_explanation: l1c1 forbids drawing/illustrating objects, places, and products past icon size on place/product/service pages, while l1c2 explicitly permits 3D/WebGL diagrams and small diagram visuals (e.g., hubs with branches) as legitimate imagery. These directly contradict for the same scope (product/place pages) — one bans illustrated/drawn visuals beyond icons, the other sanctions drawn diagrams and 3D renders. A scope-split (allow small diagrams only) is not a clean resolution because l1c1's 'never draw ... past icon size' and l1c2's 'use real full-color icons ... including small diagram visuals' conflict on whether any drawn product/place representation is allowed.
+ai_explanation_zh: l1c1 禁止在地点/产品/服务页面绘制或插图化超过图标大小的对象、地点和产品，而 l1c2 明确允许 3D/WebGL 图表和小型图表视觉元素（如带分支的枢纽）。两者在同一范围内直接矛盾：一个禁止图标以上的绘制/图形，另一个授权绘制的图表和 3D 渲染。
+suggestion:
+  kind: keep-b
+  note: Prefer l1c2's allowance for small diagrams and 3D when the product is 3D/interactive with a still fallback, while keeping l1c1's ban on large illustrated products/places; treat 'small diagram visuals' as the reconciling boundary.
+  note_zh: 当产品为 3D/交互式时，优先采用 l1c2 对小型图表和 3D 的允许，同时保留 l1c1 对大型插图化产品/地点的禁止，将'小型图表视觉'作为调和边界。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

@@ -1,0 +1,11 @@
+id: conf-0057
+status: active
+resolution: merge
+custom: Do not reveal FAQ answers on page load or via scroll-triggered reveals; allow a single horizontal reveal sweep and sticky scroll synchronization on the first claim below the fold only, leaving all remaining content static.
+reason: "auto-accepted scope-split: The two rules genuinely conflict on whether scroll can drive reveals, and the scope-split cleanly resolves it by limiting the exception to the first below-fold claim while preserving the general no-scroll-reveal rule for everything else."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T23:28:17.254Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

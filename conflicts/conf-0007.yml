@@ -1,0 +1,32 @@
+id: conf-0007
+status: pending
+fingerprint: bb34b3856c78
+detected_at: 2026-11-22T21:13:17.938Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--750
+    hash: 11754f733495
+    severity: floor
+    text: Never blink, twinkle, glitter, flicker, cycle hue or scramble text; every change must show a state, step or real data.
+    text_zh: 规则 A：禁止闪烁、 twinkling、glitter、flicker、色相循环或文字打乱；每次变化都必须展示状态、步骤或真实数据。
+  - key: B
+    source: taste-skill
+    rule_id: taste--572
+    hash: 146b28d84f05
+    severity: reflex
+    text: Make effects react to pointer or time, hold at rest with ambient cycles of 4 seconds or longer, show a poster and still fallback under reduced motion, and disable pointer play on touch.
+    text_zh: 规则 B：效果需响应指针或时间，静止时保持 4 秒或更长的环境循环，在 motion reduced 时展示 poster 与静态 fallback，并在 touch 上禁用 pointer play。
+ai_explanation: The content rule forbids any effect while holding and requires loops to start on the finished picture, while the pointer rule requires ambient idle cycles of 4+ seconds and pointer-reactive effects that persist at rest — directly contradicting whether a decorative element may move while idle.
+ai_explanation_zh: 内容规则禁止在静止状态下出现任何动画，并要求循环动画需从完成态画面开始；指针规则则要求 4 秒以上的环境 idle 循环以及静止时仍持续的指针响应效果——两者在装饰元素静止时是否可移动这一问题上直接冲突。
+suggestion:
+  kind: keep-b
+  note: "Resolution: prioritize pointer-reactive ambient cycles over static-content stillness for interactive elements; keep non-interactive content fully static."
+  note_zh: 解决方案：对交互元素优先采用指针响应的环境循环，而非静态内容的静止；对非交互内容保持完全静止。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

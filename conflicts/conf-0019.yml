@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0019.yml
+id: conf-0019
+status: decided
+fingerprint: 061af5261fed
+detected_at: 2026-11-22T21:47:47.486Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-331
+    hash: 6a4683b54d5c
+    severity: reflex
+    text: Do not set one word or phrase apart in a heading by colour, weight, highlight, or underline unless the theme names it as its signature and it appears once in the hero.
+    text_zh: 禁止
+  - key: B
+    source: hallmark
+    rule_id: hallma-738
+    hash: ce0e7251f1c5
+    severity: reflex
+    text: When a theme's signature is an accented word, place it exactly once in the hero and record that placement as the single 38iii waiver.
+    text_zh: 允许
+ai_explanation: type-l1c1 forbids setting one word apart in a heading by colour/weight/highlight/underline unless the theme names it as its signature and it appears once in the hero, while type-l1c3 explicitly permits an accented signature word placed exactly once in the hero as a single waiver. For pages where the theme names an accent word, these rules directly contradict on whether the accenting is allowed at all.
+ai_explanation_zh: type-l1c1 禁止在标题中通过颜色、字重、高亮或下划线将单个单词或短语突出显示，除非主题将其命名为其标志性词汇且该词在 hero 区域仅出现一次；而 type-l1c3 明确允许将带强调的标志性词汇在 hero 区域恰好出现一次，作为单一豁免。对于主题命名了强调词（accent word）的页面，这两条规则在是否允许强调这一点上直接矛盾。
+suggestion:
+  kind: keep-b
+  note: "Resolve by treating the theme-named signature word as the single hero waiver: accent it exactly once in the hero and nowhere else, recording the placement as the sole exception."
+  note_zh: 通过将主题命名的标志性词汇视为唯一的 hero 豁免来解决：仅在该词在 hero 区域出现一次时进行强调，其余位置不强调，并将该次 placement 记录为唯一例外。
+issue_url: null

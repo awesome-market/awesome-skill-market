@@ -1,0 +1,29 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0058.yml
+id: conf-0058
+status: dismissed
+fingerprint: 15e66139e2db
+detected_at: 2026-11-22T23:22:06.051Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-2512
+    hash: 2c3d13700880
+    severity: reflex
+    text: Write a hero headline of seven words or fewer and one sentence of twelve words or fewer with one or two actions.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--404
+    hash: 5429b92ac0ac
+    severity: reflex
+    text: Write the hero sub-line in fifteen to thirty words as one to two sentences describing how it works and the main benefit.
+    text_zh: null
+ai_explanation: Both constrain hero copy length but use different word counts (2-9 vs 7 or fewer for head, 15-30 for sub-line); they overlap and can be satisfied together by keeping the head to 7 words and the sub-line to 15-30 words, so no true contradiction.
+ai_explanation_zh: 两条规则都约束标题区复制长度，但用词数不同（标题 2-9 词 vs 7 词以内，副线 15-30 词）；它们重叠且可同时满足，只需将标题控制在 7 词、副线控制在 15-30 词，因此无真正冲突。
+suggestion:
+  kind: merge
+  note: Reconcilable via combined constraints.
+  note_zh: 可通过合并约束协调。
+issue_url: null
+dismiss_reason: Rules A and B govern different hero elements (headline vs sub-line) with distinct word-count targets that can both be satisfied simultaneously, so they are not contradictory.

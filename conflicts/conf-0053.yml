@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0053.yml
+id: conf-0053
+status: decided
+fingerprint: 320664c1c9aa
+detected_at: 2026-11-22T22:56:20.240Z
+evidence: screenshot
+sides:
+  - key: A
+    source: web-design-guidelines
+    rule_id: web-de-101
+    hash: 44fc862535b4
+    severity: reflex
+    text: Write copy in clear, plain language avoiding jargon and abbreviations.
+    text_zh: 用清晰、平实的语言撰写文案，避免行话与缩写。
+  - key: B
+    source: taste-skill
+    rule_id: taste--413
+    hash: 3044192f73c5
+    severity: reflex
+    text: Stay within sixty to eighty tech words per screen at 1440, counted outside UI mocks, diagrams, and code.
+    text_zh: 在 1440 分辨率下，每屏保持在 60–80 个 tech 词，且不计入 UI mock、图表与代码。
+ai_explanation: l2c2 caps pages at 450 visible words and keeps words within product/place/service budget; l2c3 requires 60–80 tech words per screen at 1440 counted outside UI mocks. Same scope (word budget vs tech-word minimum) → directly contradictory.
+ai_explanation_zh: l2c2 将页面限制为最多 450 个可见词，并控制词数在 product/place/service 预算内；l2c3 要求在 1440 分辨率下每屏 60–80 个 tech 词，且不计入 UI mock、图表与代码。两者范围不同（词预算 vs. tech 词最低要求），直接冲突。
+suggestion:
+  kind: scope-split
+  note: Apply l2c2's overall cap to visible body copy and l2c3's 60–80 tech-word budget only to technical feature sections, keeping them outside UI mocks.
+  note_zh: 对可见正文应用 l2c2 的总词数上限，仅对技术特性部分应用 l2c3 的 60–80 tech 词预算，且这些部分需置于 UI mock 之外。
+issue_url: null

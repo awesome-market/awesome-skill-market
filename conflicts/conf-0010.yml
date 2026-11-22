@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0010.yml
+id: conf-0010
+status: decided
+fingerprint: 47c0c5793232
+detected_at: 2026-11-22T21:13:56.152Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-383
+    hash: c916c3201e60
+    severity: floor
+    text: Make focus rings instant, never fading in.
+    text_zh: 使聚焦环即时出现，永不淡入。
+  - key: B
+    source: hallmark
+    rule_id: hallma-387
+    hash: c1f7c99e5f04
+    severity: floor
+    text: Give every interactive element a :focus-visible ring at 3:1 contrast or better, and never remove the outline without replacing it.
+    text_zh: 为每个交互元素提供 :focus-visible 聚焦环，对比度不低于 3:1，且不得在未替换为等效可见聚焦样式前移除 outline。
+ai_explanation: "Rule l0c1-focus-ring-specs mandates a 2px action-color focus ring rendered via outline-offset (2px off the control) with no transition, while l0c2-focus-visible-and-no-hidden-outlines requires an instantly visible :focus-visible indicator via outline and forbids outline:none unless replaced by an equivalent visible focus style. These directly contradict on the focus ring mechanism: l0c1 prescribes a specific offset-based ring, while l0c2 demands an outline-based indicator and implicitly forbids relying on non-outline focus styles. A scope-split fails because both govern the same focus-visible rendering scope."
+ai_explanation_zh: 规则 l0c1-focus-ring-specs 要求使用 2px 动作色聚焦环，通过 outline-offset（距控件 2px）实现且无过渡；l0c2-focus-visible-and-no-hidden-outlines 要求通过 outline 实现即时可见的 :focus-visible 指示器，并禁止 outline:none，除非以等效的可见聚焦样式替换。两者在聚焦环机制上直接冲突：l0c1 指定了基于 offset 的特定环，而 l0c2 要求基于 outline 的指示器，并隐含禁止依赖非 outline 的聚焦样式。由于两者均作用于同一 focus-visible 渲染范围，无法通过作用域拆分解决。
+suggestion:
+  kind: keep-b
+  note: Resolve by implementing the focus ring as an outline-based :focus-visible style (satisfying l0c2) while preserving the 2px offset and 2px width semantics from l0c1 via outline-offset on the outline itself.
+  note_zh: 将聚焦环实现为基于 outline 的 :focus-visible 样式（满足 l0c2），同时通过 outline 自身的 outline-offset 保留 l0c1 中的 2px 偏移与 2px 宽度语义。
+issue_url: null

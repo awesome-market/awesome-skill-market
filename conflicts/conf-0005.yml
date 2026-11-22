@@ -1,0 +1,32 @@
+id: conf-0005
+status: pending
+fingerprint: e56cf1295cea
+detected_at: 2026-11-22T20:55:01.971Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-525
+    hash: e35321774aad
+    severity: floor
+    text: Never use saturated consumer pinks and violets without a declared posture.
+    text_zh: 规则 A：在未声明后处理方式的情况下，切勿使用饱和的消费者级粉色与紫色。
+  - key: B
+    source: hallmark
+    rule_id: hallma-080
+    hash: 22f00874c015
+    severity: floor
+    text: Define all colours in OKLCH.
+    text_zh: 规则 B：所有颜色均在 OKLCH 中定义。
+ai_explanation: color-l2c1 forbids violet/lavender/pink anywhere including accents and grounds, while color-l2c2 explicitly requires building five to nine tinted neutrals and an accent on the OKLCH axis, which naturally produces violet-adjacent hues; these contradict when a palette must include both a declared accent and tinted neutrals without knowing if the accent is violet.
+ai_explanation_zh: color-l2c1 禁止在包括强调色和背景色在内的任何位置使用紫色/薰衣草色/粉色，而 color-l2c2 明确要求在 OKLCH 轴上构建 5 到 9 个带色调中性色及一个强调色，这会自然产生接近紫色的色相；当调色板必须同时包含已声明的强调色和带色调中性色、 yet 尚不知强调色是否为紫色时，二者相互矛盾。
+suggestion:
+  kind: scope-split
+  note: Resolve by treating color-l2c1 as applying only to non-tinted-declared palettes and color-l2c2 as governing OKLCH-based Full-palette/Drenched postures.
+  note_zh: 通过将 color-l2c1 仅应用于未声明带色调的调色板、并将 color-l2c2 作为 OKLCH 基础的 Full-palette/Drenched 后处理方式的规范，来解决该冲突。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

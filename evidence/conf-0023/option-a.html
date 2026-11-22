@@ -1,0 +1,28 @@
+<!doctype html>
+<html><head><meta charset=utf-8><style>
+body{margin:0;font-family:system-ui,sans-serif;background:#f4f2ee;color:#222;height:800px;overflow:hidden}
+#stage{position:absolute;inset:0;padding:40px;display:flex;gap:32px;align-items:flex-start}
+.card{width:560px;height:680px;background:#fff;border:1px solid #d8d4cc;border-radius:14px;padding:28px;box-shadow:0 6px 18px rgba(0,0,0,.06);position:relative}
+h1{font-size:20px;margin:0 0 6px}
+p{font-size:13px;line-height:1.5;color:#555;margin:0 0 18px}
+.player{height:320px;background:#2b2a28;border-radius:10px;color:#fff;padding:20px;box-sizing:border-box;position:relative}
+.player .title{font-size:15px;margin-bottom:10px}
+.player .meta{font-size:12px;color:#aaa}
+.pill{display:inline-block;background:#ece8df;border-radius:20px;padding:4px 10px;font-size:11px;color:#6a5f40;margin-right:6px}
+#pause{position:absolute;right:12px;bottom:12px;width:32px;height:32px;border-radius:8px;background:#2b2a28;color:#fff;border:none;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+caption{position:absolute;left:16px;bottom:12px;font-size:12px;color:#6a5f40;font-weight:600}
+</style></head><body>
+<div id="stage">
+  <article class="card">
+    <h1>Slow Turn: Forest Edge</h1>
+    <p>Still rendering after five seconds on mobile. One pause control anchored to the panel corner.</p>
+    <div class="player">
+      <div class="title">Chapter 3 — The Ridge</div>
+      <div class="meta">32px pause · 12px from bottom-right · still moving</div>
+      <div style="margin-top:14px"><span class="pill">l0c1 flag: slow turns allowed</span></div>
+      <button id="pause" aria-label="Pause">❚❚</button>
+    </div>
+  </article>
+</div>
+<caption>OPTION A — one pause button per moving card</caption>
+</body></html>

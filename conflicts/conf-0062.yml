@@ -1,0 +1,29 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0062.yml
+id: conf-0062
+status: dismissed
+fingerprint: 6687812d4211
+detected_at: 2026-11-22T23:27:44.528Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-916
+    hash: ef9cb72123fe
+    severity: reflex
+    text: A None on Image or Reveal that the theme or material forces does not count as a shared choice for the anti-repetition rule.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-980
+    hash: d8052600409b
+    severity: floor
+    text: Do not blend depths; a polish that finds the concept wrong must say so and recommend the full run.
+    text_zh: null
+ai_explanation: "The anti-repetition rule explicitly carves out theme- or material-forced None choices on Image/Reveal from counting as shared choices, implying forced empties are acceptable within a page. But no-blend-depths states a polish that finds the concept wrong must recommend the full run rather than patching, and polishes must not fix during review — yet the anti-repetition rule expects forced None choices to coexist on the same page as other choices. These contradict in scope: one permits and expects forced empty choices to remain on the page, the other treats a wrong concept as requiring a full rebuild rather than selective toleration."
+ai_explanation_zh: 防重复规则明确把主题或材料强行的 Image/Reveal 上的 None 排除在共享选择之外，意味着页面内允许存在被强行的空选择；但 no-blend-depths 规定，若概念错误的打磨必须推荐完整重跑而非局部修补，且打磨阶段不得在审查时修复。二者在同一范围内冲突：一个允许并期望在页面上保留被强行的空选择，另一个则把概念错误视为必须整体重建。
+suggestion:
+  kind: keep-b
+  note: Prefer the no-blend-depths full-run mandate; still record forced None choices per anti-repetition but treat them as concept-level signals, not tolerable page patches.
+  note_zh: 优先遵循 no-blend-depths 的完整重跑要求；仍按防重复规则记录强制 None 选择，但将其视为概念层信号，而非可容忍的页面修补。
+issue_url: null
+dismiss_reason: Rule A governs shared-choice accounting for anti-repetition while Rule B governs concept-level correctness and full-run remediation, so they operate on different scopes and do not actually contradict.

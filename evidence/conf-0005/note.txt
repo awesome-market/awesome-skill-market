@@ -1,0 +1,1 @@
+Look at the accent button and the top swatch: Option A keeps the accent a saturated pink while violet appears only as muted tinted neutrals; Option B makes the accent itself violet-adjacent and builds the whole palette in OKLCH, so the same hue family is both accent and ground.

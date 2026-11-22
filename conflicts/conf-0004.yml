@@ -1,0 +1,29 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0004.yml
+id: conf-0004
+status: dismissed
+fingerprint: 714f9414e702
+detected_at: 2026-11-22T20:30:45.160Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-331
+    hash: 6a4683b54d5c
+    severity: reflex
+    text: Do not set one word or phrase apart in a heading by colour, weight, highlight, or underline unless the theme names it as its signature and it appears once in the hero.
+    text_zh: RULE A：不要在标题中用颜色、字重、高亮或下划线突出显示单个单词或短语，除非主题将其命名为其标志性元素并在 hero 中仅出现一次。
+  - key: B
+    source: hallmark
+    rule_id: hallma-482
+    hash: ab284ecee08a
+    severity: finish
+    text: Permit hairline rules, fleurons, drop caps, double rules, and italic text inside running body copy.
+    text_zh: RULE B：允许在正文段落中使用发丝线、花饰符、首字下沉、双线规则和斜体文本。
+ai_explanation: "type-l2c1-no-colorful-heading-emphasis forbids accenting a single word within a headline using italic, bold, colour, highlight, or underline, while type-l2c1-allowed-body-ornaments permits italic text inside running body copy. The contradiction lies in scope: one bans italic emphasis in headings, the other explicitly allows italic within body copy, yet both reference italic emphasis on the same typographic axis."
+ai_explanation_zh: type-l2c1-no-colorful-heading-emphasis 禁止在标题中用斜体、粗体、颜色、高亮或下划线强调单个单词，而 type-l2c1-allowed-body-ornaments 允许在正文段落中使用斜体。矛盾在于作用域：前者禁止标题中的斜体强调，后者明确允许正文中的斜体，但两者都涉及同一排版轴上的斜体强调。
+suggestion:
+  kind: scope-split
+  note: Resolve by keeping the heading ban on italic emphasis and the body allowance for italic, treating them as non-overlapping scopes.
+  note_zh: 通过保持标题对斜体强调的禁令以及正文对斜体的允许，将二者视为互不重叠的作用域来解决。
+issue_url: null
+dismiss_reason: Rule A governs headings and Rule B governs body copy, so they address different scopes and do not actually contradict each other.

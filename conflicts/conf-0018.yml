@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0018.yml
+id: conf-0018
+status: decided
+fingerprint: 0a151710958d
+detected_at: 2026-11-22T21:45:49.309Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--170
+    hash: e6b9414e8494
+    severity: floor
+    text: Never use gradients, hard-stop two-tones, grain, paper, halo, texture, pattern, glass, contour, canvas, backdrop-filter, gradient masks or interface shadows on non-tech pages.
+    text_zh: RULE A：在非技术页面上，禁止使用渐变、硬停双色、颗粒、纸张、光晕、纹理、图案、玻璃、轮廓、canvas、backdrop-filter、渐变遮罩或界面阴影。
+  - key: B
+    source: hallmark
+    rule_id: hallma-086
+    hash: 003beaa94c8c
+    severity: floor
+    text: Avoid gradients past three stops, purple-blue, purple-pink or cyan-on-dark, glow shadows, chromatic halos, spotlights and alpha-defined colours.
+    text_zh: RULE B：禁止超过三段的渐变、紫蓝、紫粉或深色背景上的青色、发光阴影、彩色光晕、聚光灯以及由 alpha 定义的颜色。
+ai_explanation: color-l0c2-prohibited-visual-effects bans gradients, grain, paper, textures, glass, etc. only on non-tech pages, explicitly permitting them on tech pages. color-l0c3-ban-prohibited-effects bans gradients past three stops, purple-blue/purple-pink, cyan-on-dark, spotlights, etc. across the whole page regardless of page type. For tech pages with atmospheric effects, color-l0c2 permits what color-l0c3 bans — a direct 'always allow on tech' vs 'never allow' contradiction in the same page-level scope.
+ai_explanation_zh: color-l0c2-prohibited-visual-effects 仅对非技术页面禁止渐变、颗粒、纸张、纹理、玻璃等效果，并明确允许在技术页面使用。color-l0c3-ban-prohibited-effects 则跨整个页面、无论页面类型，禁止超过三段的渐变、紫蓝/紫粉、深色背景上的青色、聚光灯等。对于带有氛围效果的技术页面，color-l0c2 允许 color-l0c3 所禁止的内容——在同一页面级作用域内出现‘技术页面始终允许’与‘永不允许’的直接矛盾。
+suggestion:
+  kind: keep-b
+  note: Resolve by making color-l0c3's banned effect list authoritative page-wide; keep color-l0c2-prohibited-visual-effects as the non-tech-specific subset, and route any allowed atmospheric effects through color-l0c2-contextual-ambience-licence with explicit tech-page authorization.
+  note_zh: 将 color-l0c3 的禁止效果列表设为页面级权威；保留 color-l0c2-prohibited-visual-effects 作为非技术页面的子集，并通过 color-l0c2-contextual-ambience-licence 路由任何允许的氛围效果，且需明确的技术页面授权。
+issue_url: null

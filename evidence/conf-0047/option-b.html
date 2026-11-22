@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Option B</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,Georgia,serif;color:#1a1a1a;background:#fff;overflow-x:hidden}
+.wrap{max-width:1200px;margin:0 auto;padding:0 40px}
+header{padding:32px 0;border-bottom:1px solid #e5e5e5}
+nav{display:flex;justify-content:space-between;align-items:center}
+nav .brand{font-weight:700;letter-spacing:.02em}
+nav ul{display:flex;gap:24px;list-style:none;font-size:14px}
+.hero{position:relative;height:82vh;min-height:600px;background:#c9d4dc;color:#fff;overflow:hidden}
+.hero .bg{position:absolute;inset:0;background:linear-gradient(135deg,#a8c0d0,#7fa3b8)}
+.hero .txt{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:0 40px;height:100%;display:flex;flex-direction:column;justify-content:center}
+.hero h1{font-size:52px;line-height:1.1;margin-bottom:16px;max-width:640px}
+.hero p{font-size:18px;line-height:1.6;max-width:520px;opacity:.95}
+.hero .cta{display:inline-block;background:#fff;color:#1a1a1a;padding:12px 28px;border-radius:4px;font-size:14px;text-decoration:none;margin-top:24px;align-self:flex-start}
+.section{padding:64px 0}
+.section h2{font-size:32px;margin-bottom:28px}
+.full{position:relative;height:70vh;min-height:520px;background:#d9c7b3;overflow:hidden}
+.full .bg{position:absolute;inset:0;background:linear-gradient(160deg,#e0cfa8,#bfa378)}
+.full .txt{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:48px;color:#1a1a1a}
+.full h3{font-size:30px;margin-bottom:8px}
+.full p{font-size:15px;max-width:480px}
+.split{display:grid;grid-template-columns:1fr 1fr;height:60vh;min-height:440px}
+.split .bg{position:absolute;inset:0}
+.split .left,.split .right{position:relative;z-index:2;padding:40px;display:flex;flex-direction:column;justify-content:center}
+.split .left{background:#b3c7d9}
+.split .right{background:#d9c7b3}
+.split h3{font-size:24px;margin-bottom:8px}
+.split p{font-size:14px;line-height:1.5}
+.caption{position:fixed;left:0;bottom:0;background:#1a1a1a;color:#fff;padding:10px 18px;font-size:13px;letter-spacing:.03em;z-index:10}
+</style></head>
+<body>
+<header class="wrap"><nav><span class="brand">Lumen &amp; Co.</span><ul><li>Work</li><li>Studio</li><li>Contact</li></ul></nav></header>
+<main>
+<section class="hero">
+<div class="bg"></div>
+<div class="txt"><h1>Spaces that let the work speak.</h1><p>Photographs span the full width as layered backgrounds, one ratio per row, bleeding edge to edge with type carried over the image.</p><a class="cta" href="#">Explore the studio</a></div>
+</section>
+<section class="full">
+<div class="bg"></div>
+<div class="txt"><h3>A single ratio per row</h3><p>Each section uses one photograph ratio and spans the column lines, covering most of the section without bleeding to one side only.</p></div>
+</section>
+<section class="split">
+<div class="bg"></div>
+<div class="left"><h3>Left layer</h3><p>Image spans the left half to the column line, carrying its own caption and short copy.</p></div>
+<div class="right"><h3>Right layer</h3><p>Matching image on the right half, same ratio, balanced across the row.</p></div>
+</section>
+</main>
+<footer class="wrap">© 2024 Lumen &amp; Co. — Option B: full-bleed photographs, one ratio per row.</footer>
+<div class="caption">OPTION B — full-bleed photos, one ratio per row</div>
+</body></html>

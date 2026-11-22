@@ -1,0 +1,11 @@
+id: conf-0034
+status: active
+resolution: merge
+custom: In a section or scene group allow only one self-moving scene among non-diagram cards, holding the others still until the pointer reaches them; each diagram card runs its own independent pulse loop.
+reason: "auto-accepted scope-split: Rules A and B genuinely conflict on whether multiple independent motion loops can run simultaneously, and the scope-split cleanly resolves this by confining the single-loop constraint to non-diagram groups while allowing per-card pulse loops for diagram cards."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T22:36:31.224Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

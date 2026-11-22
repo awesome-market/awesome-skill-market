@@ -1,0 +1,11 @@
+id: conf-0035
+status: active
+resolution: B
+custom: null
+reason: "auto-accepted keep-b: Rule A prohibits scroll-driven spatial reveals for photographs, while Rule B's 1.02–1.03 hover zoom is a distinct interaction signal, so keeping B resolves the contradiction by scope."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T22:36:32.459Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

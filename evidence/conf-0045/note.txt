@@ -1,0 +1,1 @@
+Look for the below-fold cards: Option A renders them fully visible and static (hero-only entrance), while Option B renders them mid-transition (translated + faded) as part of one shared page entrance — the hero-vs-below-fold placement conflict.

@@ -1,0 +1,32 @@
+id: conf-0037
+status: pending
+fingerprint: 07c2ef83843a
+detected_at: 2026-11-22T22:25:15.510Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--096
+    hash: e9cbe8381d1a
+    severity: floor
+    text: Place all credits in the footer's single credits line, never under the print, and mark printed photographs as adapted.
+    text_zh: 将所有 credits 放入页脚的单行 credits 中，不得置于 print 下方，并将打印照片标注为已改编。
+  - key: B
+    source: taste-skill
+    rule_id: taste--843
+    hash: a37da1df83a3
+    severity: reflex
+    text: Keep the credit line to at most 110 characters and name only the sources, never the photographers.
+    text_zh: 将 credits 行控制在最多 110 个字符，仅命名来源，绝不命名摄影师。
+ai_explanation: l2c1 requires putting the photographer's credit in the single footer line, while l2c3 requires naming only sources and never photographers — these directly contradict on whether a photographer's name belongs in the footer.
+ai_explanation_zh: l2c1 要求将摄影师署名放入页脚的单行 credits 中，而 l2c3 要求仅列出来源、绝不列出摄影师——两者在摄影师姓名是否应出现在页脚中直接冲突。
+suggestion:
+  kind: keep-b
+  note: l2c3 is the more specific and later rule for credit content; it overrides l2c1's photographer-in-line requirement.
+  note_zh: l2c3 是针对署名内容的更具体且更晚的规则，覆盖 l2c1 的“摄影师入行”要求。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

@@ -1,0 +1,1 @@
+Look at the hero quote region: Option A renders the quote plus a grayed-out avatar and 'Name omitted / Role omitted' placeholders; Option B renders the same quote but replaces the attribution block with a dashed 'Attribution unavailable' note and no avatar, no name, no role — the same quote, two different handling of missing attribution.

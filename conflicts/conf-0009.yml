@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0009.yml
+id: conf-0009
+status: decided
+fingerprint: a87b74668043
+detected_at: 2026-11-22T21:13:17.941Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-911
+    hash: 419ae83215ff
+    severity: reflex
+    text: Choose exactly one reveal pattern from fade-up stagger, horizontal sweep, type-unmask, number-tick, typewriter, or none.
+    text_zh: RULE A：从 fade-up stagger、horizontal sweep、type-unmask、number-tick、typewriter 或 none 中恰好选择一种 reveal 模式。
+  - key: B
+    source: hallmark
+    rule_id: hallma-678
+    hash: 69b6a0922200
+    severity: reflex
+    text: Use no reveal animation or at most one one-shot fade as the grid enters the viewport.
+    text_zh: RULE B：网格进入视口时不使用任何 reveal 动画，或最多使用一次一次性淡入。
+ai_explanation: L0C3 mandates exactly one reveal pattern per page via IntersectionObserver and leaves remaining content static, while L0C5 allows one scroll-choreography pattern plus one-shot reveals and below-the-fold staggering — contradicting whether below-fold content may reveal via scroll.
+ai_explanation_zh: L0C3 要求每页通过 IntersectionObserver 仅使用一种 reveal 模式，其余内容保持静态；而 L0C5 允许一种滚动编排（scroll choreography）加一次性淡入及视口下方（below-the-fold）错开呈现——两者在视口下方内容是否可通过滚动呈现上存在矛盾。
+suggestion:
+  kind: scope-split
+  note: "Resolution: use L0C3's single IntersectionObserver reveal for load, and reserve L0C5's scroll choreography exclusively within a dedicated big scene."
+  note_zh: 解决方案：加载时使用 L0C3 的单 IntersectionObserver reveal，并将 L0C5 的滚动编排保留在专属的大场景（big scene）中。
+issue_url: null

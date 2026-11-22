@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Option B</title>
+<style>
+body{margin:0;font-family:system-ui,sans-serif;background:#f4f1f6;color:#2a2a35;height:800px;display:flex;flex-direction:column}
+header{padding:28px 40px;background:#ffffff;border-bottom:1px solid #e6e0ef}
+h1{margin:0;font-size:26px;color:#3a2f4a}
+p{margin:8px 0 0;font-size:14px;color:#6b6378}
+main{flex:1;padding:40px;display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.card{background:#ffffff;border:1px solid #e6e0ef;border-radius:14px;padding:28px;box-shadow:0 8px 24px rgba(120,80,160,.08)}
+.card h2{margin:0 0 10px;font-size:18px;color:#3a2f4a}
+.swatch{height:64px;border-radius:10px;margin-top:16px;display:flex;align-items:center;padding:0 14px;font-size:12px;color:#ffffff}
+button{margin-top:20px;padding:12px 22px;border:none;border-radius:10px;background:#a370ff;color:#fff;font-size:14px;cursor:pointer}
+.neutral{background:#c9c3d6}
+.accent{background:#a370ff}
+footer{position:fixed;left:0;bottom:0;padding:10px 20px;background:#3a2f4a;color:#fff;font-size:12px;letter-spacing:.3px}
+</style></head>
+<body>
+<header>
+<h1>Lumen — OKLCH-only palette</h1>
+<p>Five tinted neutrals plus one accent, all defined in OKLCH; accent happens to sit violet-adjacent.</p>
+</header>
+<main>
+<section class="card">
+<h2>Tinted neutrals (OKLCH)</h2>
+<p>92/84/76/68/60 lightness steps, same hue family, no separate ground color.</p>
+<div class="swatch neutral">tints · OKLCH L=60–92</div>
+</section>
+<section class="card">
+<h2>Accent (OKLCH)</h2>
+<p>Single accent chosen on the OKLCH axis; hue lands near violet, saturation moderate.</p>
+<div class="swatch accent">accent #a370ff · OKLCH</div>
+<button>Get started</button>
+</section>
+</main>
+<footer>OPTION B — everything in OKLCH</footer>
+</body></html>

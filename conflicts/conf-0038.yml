@@ -1,0 +1,29 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0038.yml
+id: conf-0038
+status: dismissed
+fingerprint: 05795970f649
+detected_at: 2026-11-22T22:26:53.619Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-484
+    hash: 6e08606e85b4
+    severity: reflex
+    text: Display photographs in the theme's treatment and caption them with factual details.
+    text_zh: 在主题的处理与说明中展示照片，并以事实细节进行图注。
+  - key: B
+    source: hallmark
+    rule_id: hallma-534
+    hash: 5c2a5c92f9f0
+    severity: reflex
+    text: Make the hero photograph the largest element on the first screen, either full-bleed behind the headline or beside it at 60 to 75 percent of screen height.
+    text_zh: 将英雄照片设为首屏最大元素，要么作为标题后全出血背景，要么位于标题旁，高度为屏幕高度的 60% 至 75%。
+ai_explanation: l0c2 forbids slicing or half-covering any hero picture with text and demands a single clear subject with plain ground, while l0c6 explicitly places text over the hero (full-bleed behind or beside the headline) and uses full-bleed edge-to-edge photographs spanning columns — directly contradicting the no-text-over-image and plain-ground single-subject requirements in the same hero scope.
+ai_explanation_zh: l0c2 禁止对任何英雄图进行裁切或半覆盖，并要求单一清晰主体与纯背景；l0c6 则明确将文字置于英雄图之上（标题后全出血或标题旁），并采用跨列的全出血、边缘到边缘照片——这与同一英雄图范围内 l0c2 的‘文字不覆盖图像’和‘纯背景单一主体’要求直接冲突。
+suggestion:
+  kind: keep-b
+  note: Hero text-over-photography is a dominant-layout requirement; l0c2's no-slice rule should yield when text is intentionally composited over the hero.
+  note_zh: 英雄图文字覆盖是主导布局要求；当文字有意图地合成到英雄图之上时，l0c2 的禁止裁切规则应让步。
+issue_url: null
+dismiss_reason: Rule A governs general content photography (factual captions) while Rule B governs hero layout (size and placement), so they operate in different scopes and do not actually conflict.

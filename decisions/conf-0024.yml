@@ -1,0 +1,11 @@
+id: conf-0024
+status: active
+resolution: merge
+custom: On submit, validate all fields and move focus to the first invalid field; keep the user's typed input intact on failure, show a single form__status line reading 'sending' then 'success' or 'failure', and surface each field error as one sentence describing what broke, why, and what to do via aria-describedby with aria-invalid=true on the invalid field.
+reason: "auto-accepted scope-split: l0c1's keep-input-on-failure and l0c2's submit-time validation with focus-to-first-error are complementary rather than mutually exclusive, so applying both preserves typed input while still surfacing a field-tied, actionable error message."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T23:11:17.284Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

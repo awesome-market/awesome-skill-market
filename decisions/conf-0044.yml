@@ -1,0 +1,11 @@
+id: conf-0044
+status: active
+resolution: merge
+custom: "Allow at most one reveal animation per page: on data/finance pages use count-up (400–800ms, Intl.NumberFormat, announce final value) and per-node reveals capped at five nodes; elsewhere use a single staggered page-load reveal."
+reason: "auto-accepted scope-split: Rule A caps reveals per page at one while Rule B describes multiple reveal behaviors, so scope-splitting by page type keeps each page within a single reveal family and satisfies both constraints."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T22:49:39.459Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

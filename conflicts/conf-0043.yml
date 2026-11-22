@@ -1,0 +1,29 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0043.yml
+id: conf-0043
+status: dismissed
+fingerprint: 98c1e32a061a
+detected_at: 2026-11-22T22:38:30.420Z
+evidence: screenshot
+sides:
+  - key: A
+    source: frontend-design
+    rule_id: fronte-029
+    hash: 5f4758dfde6b
+    severity: reflex
+    text: Do not apply template chrome such as tracked-out ALL-CAPS eyebrows above every heading, middle-dot meta strings, spaced-em-dash labels, tinted near-black stand-in blacks, monospace data labels, or trailing arrows on links and buttons unless the brief explicitly requests them.
+    text_zh: 规则 A：除非简报明确要求，否则不要应用模板装饰，例如置于每个标题上方的追踪放大全大写眉题、中间点元字符串、带空格的 em dash 标签、带色调的近黑占位黑、等宽数据标签，或链接与按钮末尾的箭头。
+  - key: B
+    source: frontend-design
+    rule_id: fronte-009
+    hash: 966bc5b9d313
+    severity: floor
+    text: Do not render labels in all caps.
+    text_zh: 规则 B：不要以全大写呈现标签。
+ai_explanation: Both rules forbid all-caps tracking, but type-l0c2 explicitly lists 'tracked-out ALL-CAPS eyebrows' among forbidden template chrome while type-l0c4 issues a blanket 'Do not render labels or eyebrow text in all caps.' The contradiction is not reconcilable by scope-splitting because both govern the same eyebrow/label element and both use absolute 'never'/'do not' language, leaving no reasonable pick.
+ai_explanation_zh: 两条规则都禁止大写字母的字母间距（tracking）处理，但 type-l0c2 明确将“追踪放大的全大写眉题”列为禁止的模板装饰，而 type-l0c4 则发出 blanket 的“不要以全大写呈现标签或眉题文字”。两者无法通过范围划分来调和，因为它们都约束同一个眉题/标签元素，且都使用绝对的“永不/不要”措辞，导致没有合理的取舍。
+suggestion:
+  kind: keep-b
+  note: Prefer the broader, simpler prohibition from type-l0c4-no-all-caps-labels as the controlling rule.
+  note_zh: 优先采用 type-l0c4-no-all-caps-labels 中更宽泛、更简单的禁止作为控制规则。
+issue_url: null
+dismiss_reason: Rule A's all-caps prohibition targets tracked-out eyebrow chrome specifically while Rule B's blanket all-caps ban governs labels generally, so they target different elements and are compatible rather than contradictory.

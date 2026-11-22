@@ -1,0 +1,11 @@
+id: conf-0042
+status: active
+resolution: B
+custom: null
+reason: "auto-accepted keep-b: When the brief pins a visual direction, its explicit requirement overrides the default-palette prohibition, while the prohibition still applies to unpinned work."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T22:49:37.161Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

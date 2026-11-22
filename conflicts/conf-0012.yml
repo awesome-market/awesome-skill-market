@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0012.yml
+id: conf-0012
+status: decided
+fingerprint: 29dcb3a78123
+detected_at: 2026-11-22T21:30:09.821Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-535
+    hash: bbf29117b63d
+    severity: floor
+    text: Keep numbers, names and claims in type and never let a photograph stand in for a fact, customer, teammate or testimonial.
+    text_zh: 规则 A：数字、名称与声明必须保留在文本中，绝不让照片替代事实、客户、队友或证言。
+  - key: B
+    source: hallmark
+    rule_id: hallma-548
+    hash: 95ee320cffa8
+    severity: reflex
+    text: Mark capture slots with data-kind product so they do not count toward the photo balance.
+    text_zh: 规则 B：用 data-kind product 标记捕获插槽，使其不计入照片配额。
+ai_explanation: "Rule imagery-l1c1-keep-facts-in-type forbids letting a photograph stand in for a fact, customer, teammate, or testimonial, while imagery-l1c2-capture-slots-and-content-slots explicitly reserves slots to 'show a product/service frame with the photograph of the named part or work' and 'show the product's own subject in the product UI section'. These directly contradict when a testimonial or factually-weighted quote is paired with a photo of the quoted person or their workspace: one rule says never use the image as proof, the other says slot it as content."
+ai_explanation_zh: 规则 imagery-l1c1-keep-facts-in-type 禁止用照片充当事实、客户、队友或证言；而 imagery-l1c2-capture-slots-and-content-slots 明确预留了‘展示带有命名部件或作品照片的服务/产品框架’以及‘在产品 UI 区域展示产品自身主体’的插槽。当证言或具事实权重的引语与所引人物或其工作区的照片配对时，两条规则直接冲突：一条要求绝不要把图像作为证据，另一条则要求将其作为内容插入。
+suggestion:
+  kind: scope-split
+  note: Facts/testimonials must remain in type; only product/service frames and named product subjects may occupy content slots.
+  note_zh: 事实/证言必须保持为文本；仅服务/产品框架与命名产品主体可占用内容插槽。
+issue_url: null

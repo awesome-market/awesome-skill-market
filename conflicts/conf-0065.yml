@@ -1,0 +1,27 @@
+id: conf-0065
+status: pending
+fingerprint: 68ea867ee116
+detected_at: 2026-11-22T23:33:20.384Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-184
+    hash: 26a86fc6b575
+    severity: floor
+    text: Under reduced motion, all motion must resolve instantly.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-096
+    hash: c05413a55259
+    severity: floor
+    text: Ship the hero visual as the real thing, keep its accent footprint small, stay under 2 MB and provide a reduced-motion fallback.
+    text_zh: null
+ai_explanation: l0c1 resolves all motion instantly with a 150ms opacity crossfade and keeps functional state changes intact, implying motion still occurs as a crossfade; l0c2 says disable or minimize non-essential animations and provide fallbacks, which can mean fully removing them rather than crossfading. The two differ on whether reduced motion keeps a crossfade or removes motion entirely.
+ai_explanation_zh: l0c1 将所有动画即时解析为 150ms 透明度交叉淡入淡出并保持功能性状态变化；l0c2 则要求禁用或最小化非必要动画并提供回退，可能意味着完全移除而非交叉淡入淡出。二者在简化模式下是保留交叉淡入淡出还是完全移除动画上存在差异。
+suggestion:
+  kind: keep-b
+  note: Prefer l0c2's disable/minimize approach; keep functional state changes but drop the crossfade as optional.
+  note_zh: 优先采用 l0c2 的禁用/最小化方案；保留功能性状态变化，将交叉淡入淡出作为可选。
+issue_url: null

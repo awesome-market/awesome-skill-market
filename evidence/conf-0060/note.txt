@@ -1,0 +1,1 @@
+OPTION A repeats no fact across sections (each price/time/date/count appears once). OPTION B keeps the hero under ~80 words with exactly two text blocks (heading + lead) before two CTAs, and repeats the same CTA labels across sections — the visible difference is the hero's two-CTA row plus reused section-level action labels.

@@ -1,0 +1,32 @@
+id: conf-0054
+status: pending
+fingerprint: 6461be8e9f39
+detected_at: 2026-11-22T23:03:59.825Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-558
+    hash: 35ab444a7996
+    severity: reflex
+    text: Use the theme's frame with its radius and an inset ink outline at 6 to 10 percent, and never combine a border with a wide shadow.
+    text_zh: 使用主题框架并应用其圆角，以及 6%–10% 的 inset ink 描边；切勿将边框与宽阴影组合。
+  - key: B
+    source: hallmark
+    rule_id: hallma-540
+    hash: 995897e626be
+    severity: reflex
+    text: Use a hero or full-bleed photograph at least 2400px on its long side, and treat smaller ones as soft past 1920px.
+    text_zh: 使用英雄图或全出血照片，长边至少 2400px；小于 1920px 的视为软性处理。
+ai_explanation: l1c1 explicitly forbids full-bleed for any image ('never let them full-bleed'), while l1c2 explicitly requires full-bleed heroes ('Use a hero or full-bleed photograph at least 2400px on its long side'). These directly contradict on whether a hero image may bleed to the edge within the same scope.
+ai_explanation_zh: l1c1 明确禁止任何图片全出血（'never let them full-bleed'），而 l1c2 明确要求英雄图或全出血照片长边至少 2400px。两者在同一范围内对英雄图是否可出血到边缘直接冲突。
+suggestion:
+  kind: scope-split
+  note: Apply the full-bleed allowance only to the hero/full-bleed photograph (l1c2), and keep the 'never full-bleed' rule for all non-hero images (l1c1).
+  note_zh: 仅对英雄图/全出血照片应用全出血允许（l1c2），并对所有非英雄图片保留'禁止全出血'规则（l1c1）。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

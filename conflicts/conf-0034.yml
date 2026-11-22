@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0034.yml
+id: conf-0034
+status: decided
+fingerprint: bee2f9b2abb8
+detected_at: 2026-11-22T22:19:29.762Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--064
+    hash: ac1de86ee2a2
+    severity: reflex
+    text: In a section or scene group allow only one self-moving scene, holding the others still until the pointer reaches them.
+    text_zh: RULE A：在 section 或 scene group 中只允许一个自移动场景，其余场景保持静止，直到指针到达它们。
+  - key: B
+    source: taste-skill
+    rule_id: taste--453
+    hash: d9d546656209
+    severity: reflex
+    text: Give each diagram card its own pulse loop rather than one loop per card group.
+    text_zh: RULE B：为每个 diagram card 提供独立的 pulse 循环，而不是每个卡片组一个循环。
+ai_explanation: l0c1 allows only one self-moving scene per section/scene group and carries exactly one loop per card group, while l0c2 gives each diagram card its own pulse loop — the two rules contradict on whether multiple independent loops can run simultaneously.
+ai_explanation_zh: l0c1 在 section/scene group 中只允许一个自移动场景，且每个卡片组仅携带一个循环；l0c2 则给每个 diagram card 独立的 pulse 循环。两条规则在是否允许多个独立循环同时运行上相互矛盾。
+suggestion:
+  kind: scope-split
+  note: Restrict l0c1's single-loop rule to non-diagram card groups and apply l0c2's per-card pulse only to diagram cards.
+  note_zh: 将 l0c1 的单循环规则限制为非 diagram card group，并仅对 diagram card 应用 l0c2 的 per-card pulse。
+issue_url: null

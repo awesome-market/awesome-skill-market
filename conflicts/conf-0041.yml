@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0041.yml
+id: conf-0041
+status: decided
+fingerprint: 0e78e1351144
+detected_at: 2026-11-22T22:36:09.276Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-982
+    hash: 59b3c958fd3e
+    severity: reflex
+    text: Record the existing page with the before command, capturing every link, form, field, handler, test hook, script, selector, heading, and figure.
+    text_zh: 用 before 命令记录现有页面，捕获每个链接、表单、字段、处理器、测试钩子、脚本、选择器、标题和图表。
+  - key: B
+    source: hallmark
+    rule_id: hallma-245
+    hash: 7f698c196f0c
+    severity: floor
+    text: Build the page in the current folder, never inside the product's own repository, unless the user explicitly asks otherwise.
+    text_zh: 在当前文件夹中构建页面，绝不构建在产品自身的仓库内，除非用户明确要求。
+ai_explanation: The existing-page rule captures every link, form, field, handler, script, selector, etc. of the live page into the record, while the build-in-current-folder rule says to build the page in the current folder rather than the product's own repository. When the existing page lives in the product's own repo, recording it fully (which implies reading/replicating its files) conflicts with not building inside that repo, and no scope split cleanly separates capture from build since both touch the same files.
+ai_explanation_zh: 现有页面规则要求把实时页面的每个链接、表单、字段、处理器、测试钩子、脚本、选择器、标题和图表都记录进记录；当前文件夹规则要求把页面构建在当前文件夹，而不是产品自身的仓库。当现有页面位于产品自身仓库时，完整记录（意味着读取/复制其文件）与不在该仓库内构建相冲突，且没有范围能干净地把捕获与构建分开，因为两者都触及同一批文件。
+suggestion:
+  kind: scope-split
+  note: Capture the existing page's structure into the record without copying or building inside the product's own repository; keep capture read-only and build in the current folder.
+  note_zh: 把现有页面的结构捕获进记录，但不要复制或构建在产品自身仓库内；保持捕获为只读，并在当前文件夹中构建。
+issue_url: null

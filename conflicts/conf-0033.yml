@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0033.yml
+id: conf-0033
+status: decided
+fingerprint: c6a6f68765ce
+detected_at: 2026-11-22T22:19:29.758Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-869
+    hash: 4a63a32ae211
+    severity: floor
+    text: Do not apply reveal animations to the ecosystem index.
+    text_zh: RULE A：不要对 ecosystem index 应用 reveal 动画。
+  - key: B
+    source: hallmark
+    rule_id: hallma-099
+    hash: 0ccccae7523a
+    severity: reflex
+    text: Allow one staggered reveal per page with content visible without it, and force end states under reduced motion.
+    text_zh: RULE B：每页允许一次交错 reveal，内容无需其即可显示，并在 reduced motion 下强制使用结束状态。
+ai_explanation: l0c1 disables scroll reveal and scrub animations on feature cards and place pages, whereas l0c3 explicitly permits a single horizontal sweep or scroll-choreography pinned pattern below the fold — the two rules contradict on whether any scroll-based reveal is allowed.
+ai_explanation_zh: l0c1 禁止在 feature cards 与 place pages 上应用 scroll reveal 与 scrub 动画，而 l0c3 明确允许在首屏下方使用单次水平扫过或 scroll-choreography 固定模式。两条规则在是否允许任何基于 scroll 的 reveal 上相互矛盾。
+suggestion:
+  kind: scope-split
+  note: Apply l0c1's prohibition on cards/place pages and l0c3's single-reveal allowance elsewhere.
+  note_zh: 在 cards/place pages 上应用 l0c1 的禁止，并在其余位置应用 l0c3 的单次 reveal 允许。
+issue_url: null

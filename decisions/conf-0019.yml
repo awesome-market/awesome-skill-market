@@ -1,0 +1,11 @@
+id: conf-0019
+status: active
+resolution: B
+custom: null
+reason: "auto-accepted keep-b: Rules A and B genuinely conflict on whether a theme-named signature word may be accentuated, and keeping B resolves it by treating the single hero placement as the sole exception, consistent with A's one-time-in-hero condition."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T22:07:41.209Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

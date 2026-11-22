@@ -1,0 +1,32 @@
+id: conf-0056
+status: pending
+fingerprint: 8db9005a8584
+detected_at: 2026-11-22T23:15:19.463Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-139
+    hash: fa2e43219688
+    severity: floor
+    text: Re-verify accent-ink contrast is at least 4.5:1 for body text and 3:1 for large text on the new accent fill.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--1190
+    hash: 31abfa6f0e4d
+    severity: reflex
+    text: "Keep the interface 90 to 95 percent neutral with one near-black ink that is never #000."
+    text_zh: null
+ai_explanation: l1c1 requires emitting paired ink tokens whenever text sits within 5% lightness and 0.05 chroma of its fill, which forces frequent ink/surface swaps to maintain 4.5:1 body contrast. l1c2 mandates keeping the interface 90-95% neutral with a single near-black ink that is never pure black, which structurally prevents the per-context ink swapping and paired-token emission l1c1 demands. These contradict in the same scope (ink tokenization vs. neutral-dominant single-ink palette) and no reasonable pick or scope-split resolves them.
+ai_explanation_zh: l1c1 要求当文本与其填充色在 5% 明度与 0.05 色相内时发出成对的 ink token，强制频繁切换 ink/表面色以维持 4.5:1 的正文对比度。l1c2 要求界面 90-95% 为中性色，仅使用一个非纯黑的近黑 ink，结构上阻止了 l1c1 所要求的按上下文切换 ink 与成对 token 发出。二者在同一作用域（ink token 化 vs. 中性主导的单 ink 调色板）直接矛盾，且任何选择或作用域拆分都无法调和。
+suggestion:
+  kind: keep-b
+  note: l1c2's single near-black ink and 90-95% neutral mandate overrides l1c1's paired-ink-token emission and per-surface ink swapping.
+  note_zh: l1c2 的单近黑 ink 与 90-95% 中性要求覆盖 l1c1 的成对 ink token 发出与按表面切换 ink。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

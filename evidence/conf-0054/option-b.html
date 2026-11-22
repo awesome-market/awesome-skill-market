@@ -1,0 +1,23 @@
+<!doctype html>
+<html><head><meta charset=utf-8><style>
+body{margin:0;font-family:system-ui,sans-serif;background:#1a1a1a;color:#fff;height:800px;overflow:hidden}
+header{height:64px;display:flex;align-items:center;padding:0 32px;border-bottom:1px solid #333}
+header b{margin-left:12px;font-size:14px;letter-spacing:.04em;color:#9a9a9a}
+main{height:calc(800px - 64px);position:relative}
+.hero{position:absolute;inset:0;background:linear-gradient(135deg,#7fa9c7,#2a3f52);background-size:cover}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.55))}
+.overlay{position:absolute;inset:0;display:flex;align-items:flex-end;padding:48px}
+.overlay h1{margin:0;font-size:32px;max-width:520px;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+.overlay p{margin:8px 0 0;font-size:14px;max-width:420px;color:#e8e8e8;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+caption{position:absolute;left:16px;bottom:12px;font-size:12px;color:#9a9a9a;background:#1a1a1a;padding:4px 8px;border:1px solid #333;border-radius:6px}
+</style></head><body>
+<header><b>ACME</b><span>Design System — Hero</span></header>
+<main>
+<div class="hero"></div>
+<div class="overlay"><div>
+<h1>Ship faster with fewer moving parts.</h1>
+<p>A full-bleed hero photograph at 2400px on its long side. Smaller images are treated as soft past 1920px.</p>
+</div></div>
+</main>
+<caption>OPTION B — full-bleed hero image to the edge</caption>
+</body></html>

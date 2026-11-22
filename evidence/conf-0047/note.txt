@@ -1,0 +1,1 @@
+Look for whether section-level photographs bleed edge-to-edge (Option B) versus stay cropped inside their own blocks with space carried in type/tables (Option A).

@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0029.yml
+id: conf-0029
+status: decided
+fingerprint: c2b081067f50
+detected_at: 2026-11-22T22:10:36.861Z
+evidence: screenshot
+sides:
+  - key: A
+    source: web-design-guidelines
+    rule_id: web-de-093
+    hash: da64ddf21ee9
+    severity: reflex
+    text: Use the native system font stack instead of custom web fonts for body text.
+    text_zh: 正文使用原生系统字体栈，而非自定义网络字体。
+  - key: B
+    source: frontend-design
+    rule_id: fronte-003
+    hash: 2da155f51e20
+    severity: reflex
+    text: Use one typeface family, or at most two that are clearly distinct, and never a separate display face from the body face.
+    text_zh: 使用一个字体族，最多两个明显不同的字体族，且展示字体与正文字体不得为独立字体。
+ai_explanation: type-l0c1-system-font-for-body mandates native system font stack for body text, while type-l0c1-limit-typeface-count requires a display plus a text face with no more than four font files — these conflict when the system font is the only body option, leaving no room for a distinct text face without exceeding the typeface budget.
+ai_explanation_zh: type-l0c1-system-font-for-body 要求正文使用原生系统字体栈，而 type-l0c1-limit-typeface-count 要求展示字体与正文字体搭配且不超过四个字体文件；当系统字体作为唯一的正文选项时，两者冲突，因为没有空间再引入一个独立的正文字体而不超出字体数量预算。
+suggestion:
+  kind: scope-split
+  note: Resolve by treating system font as the body face within the two-family budget; the display face remains the second allowed family.
+  note_zh: 将系统字体视为两字体预算内的正文字体，展示字体作为第二个允许的字体族，即可解决冲突。
+issue_url: null

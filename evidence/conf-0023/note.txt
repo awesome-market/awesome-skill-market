@@ -1,0 +1,1 @@
+Look for the single 32px pause button 12px from the bottom-right of the card in A, versus A's still-moving state replaced by explicit tap/click/keyboard/pointer-rest controls and a frozen mid-transition frame in B.

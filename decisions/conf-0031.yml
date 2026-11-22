@@ -1,0 +1,11 @@
+id: conf-0031
+status: active
+resolution: merge
+custom: Do not accent a single word or phrase within any headline using italic, bold, or a different colour, except that the hero may place one accented word in bold or on a highlighter band once, keeping heads to a single weight, style, and colour.
+reason: "auto-accepted scope-split: Rule A's blanket prohibition and Rule B's hero-specific waiver genuinely conflict, and the scope-split cleanly resolves them by applying the no-emphasis rule to all headings while reserving the single accented-word waiver for the hero."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T22:36:27.406Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

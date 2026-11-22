@@ -1,0 +1,11 @@
+id: conf-0029
+status: active
+resolution: merge
+custom: Use the native system font stack for body text as one of the two allowed typeface families, and permit at most one additional, clearly distinct display face; never use a separate display face from the body face beyond this single allowance.
+reason: "auto-accepted scope-split: System font as the body face within the two-family budget leaves room for exactly one distinct display face, satisfying both the native-font requirement and the typeface-count limit."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T22:36:24.606Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

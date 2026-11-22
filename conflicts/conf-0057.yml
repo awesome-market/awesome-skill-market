@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0057.yml
+id: conf-0057
+status: decided
+fingerprint: 99217ee4b720
+detected_at: 2026-11-22T23:17:49.405Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-727
+    hash: 4fdccace0f0e
+    severity: floor
+    text: Do not reveal FAQ answers on page load.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-743
+    hash: 5fda02a46e9c
+    severity: reflex
+    text: Trigger a single horizontal reveal sweep on the first claim below the fold and leave all remaining content static.
+    text_zh: null
+ai_explanation: l0c1 forbids all scroll-triggered reveals and scroll-driven motion, while l0c2 explicitly permits a single horizontal reveal sweep on the first below-fold claim and sticky scroll synchronization — a direct contradiction on whether scroll can drive any reveal.
+ai_explanation_zh: l0c1 禁止所有滚动触发的呈现与滚动驱动动画，而 l0c2 明确允许在首个折叠下声明处使用一次水平滑动呈现与粘性滚动同步，二者在「滚动是否可驱动呈现」上直接矛盾。
+suggestion:
+  kind: scope-split
+  note: Reserve l0c2's single horizontal sweep and sticky scroll-sync for the first below-fold claim only; keep l0c1's no-scroll-reveal for all other elements.
+  note_zh: 将 l0c2 的单次水平滑动与粘性滚动同步仅保留给首个折叠下声明处，其余元素仍遵守 l0c1 的 no-scroll-reveal。
+issue_url: null

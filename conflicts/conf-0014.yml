@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0014.yml
+id: conf-0014
+status: decided
+fingerprint: de79f3947bb6
+detected_at: 2026-11-22T21:30:09.829Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--132
+    hash: bec184de6ceb
+    severity: reflex
+    text: Scene props must read correctly at the size shown on the page.
+    text_zh: 场景元素必须在页面显示尺寸下正确可读。
+  - key: B
+    source: hallmark
+    rule_id: hallma-1047
+    hash: 81069bb13689
+    severity: reflex
+    text: Ensure the visual is strong and large enough that the screen still communicates the same message without it.
+    text_zh: 确保视觉元素足够强且足够大，即使没有它，屏幕仍能传达相同信息。
+ai_explanation: "Rule imagery-l1c1-scene-props-and-frames requires showing product/service/place frames on flat colour with photographs and using a single border radius 12-20px for software window photographs, while imagery-l1c2-visual-robustness-and-places requires place photographs with square corners and no border/shadow/overlay/frame. These directly contradict for place/room imagery: one mandates rounded frames and flat-colour grounds, the other mandates square corners with no frame."
+ai_explanation_zh: 规则 imagery-l1c1-scene-props-and-frames 要求在纯色背景上展示产品/服务/场所框架，并对软件窗口照片使用单一 12-20px 圆角；而 imagery-l1c2-visual-robustness-and-places 要求场所照片采用 square corners（直角）且无边框/阴影/覆盖层/框架。两者在场所/房间图像上直接冲突：一个要求圆角框架与纯色背景，另一个要求直角且无框架。
+suggestion:
+  kind: scope-split
+  note: Apply rounded frames to software windows and flat-colour grounds to product/service frames; apply square corners with no frame to place/room photographs.
+  note_zh: 对软件窗口应用圆角框架，对产品/服务框架应用纯色背景；对场所/房间照片应用直角且无框架。
+issue_url: null

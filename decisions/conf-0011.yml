@@ -1,0 +1,11 @@
+id: conf-0011
+status: active
+resolution: A
+custom: null
+reason: "auto-accepted keep-a: Rule A's absolute no-caption mandate and Rule B's required image caption are mutually exclusive for every visible image, and keeping the no-caption rule while handling placeholders via the report/photographer list resolves the contradiction cleanly."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T21:43:57.409Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

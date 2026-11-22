@@ -1,0 +1,11 @@
+id: conf-0033
+status: active
+resolution: merge
+custom: Do not apply reveal animations to the ecosystem index, feature cards, or place pages (l0c1); elsewhere, allow one staggered horizontal scroll-choreography reveal per page with content visible without it and force end states under reduced motion (l0c3).
+reason: "auto-accepted scope-split: The two rules govern different scopes — l0c1 prohibits scroll-based reveals on cards and place pages, while l0c3 permits a single horizontal scroll-choreography reveal elsewhere — and the scope-split cleanly preserves both prohibitions and allowances."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T22:36:30.071Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

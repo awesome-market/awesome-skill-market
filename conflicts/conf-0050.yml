@@ -1,0 +1,32 @@
+id: conf-0050
+status: pending
+fingerprint: 832cd86aa724
+detected_at: 2026-11-22T22:51:25.091Z
+evidence: screenshot
+sides:
+  - key: A
+    source: frontend-design
+    rule_id: fronte-013
+    hash: d775b1db8bf9
+    severity: reflex
+    text: Use non-user-triggered motion sparingly and only to draw attention, favoring a single orchestrated moment over scattered effects.
+    text_zh: A：谨慎使用非用户触发的动画，仅用于吸引注意力，优先采用单一编排时刻而非零散效果。
+  - key: B
+    source: hallmark
+    rule_id: hallma-524
+    hash: 7b9849f26169
+    severity: reflex
+    text: Permit a single character moment as the only decorative animated element.
+    text_zh: B：允许将单一角色时刻作为唯一的装饰性动画元素。
+ai_explanation: l0c1 forbids moving elements because the page scrolled and favors a single orchestrated moment, while l0c3 explicitly permits one decorative animated element per card group (up to two objects in view), which can include moving objects within a group; these conflict on whether any element may move as part of a declared character moment.
+ai_explanation_zh: l0c1 因页面已滚动而禁止移动元素，并偏好单一编排动画时刻；l0c3 则明确允许每个卡片组（最多两个可见对象）拥有一个装饰性动画元素，其中可包含组内移动对象。二者在“是否可将元素作为声明式角色时刻的一部分移动”上存在冲突。
+suggestion:
+  kind: keep-b
+  note: l0c3's single-character rule supersedes l0c1's stricter single-moment constraint by allowing up to two in-view objects within one group.
+  note_zh: l0c3 的单字符规则通过允许一个组内最多两个可见对象，覆盖了 l0c1 更严格的单一时刻约束。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png
