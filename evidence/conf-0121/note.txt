@@ -1,0 +1,1 @@
+Look for the palette swatches and the Pro tag: Option A uses only blue/green/yellow/red (no violet anywhere), while Option B uses saturated violet (#805ad5) and pink (#d53f8c) because it declares a Full/Drenched posture in the top-right badge.

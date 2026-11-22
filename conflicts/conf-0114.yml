@@ -1,0 +1,32 @@
+id: conf-0114
+status: pending
+fingerprint: 57ecbd93901d
+detected_at: 2026-11-22T18:01:36.675Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-553
+    hash: d7a407740473
+    severity: reflex
+    text: Limit photographs to at most a third of the page below the hero, up to 45 percent on photographic shapes, and never place two photograph-led sections in a row.
+    text_zh: RULE A：hero 下方的照片最多占页面的三分之一，在摄影形状上最多可达 45%，且不得连续放置两个以照片为主导的区块。
+  - key: B
+    source: hallmark
+    rule_id: hallma-747
+    hash: 538dd5247a51
+    severity: floor
+    text: Use full-bleed edge-to-edge photographs as the dominant visual element on the page.
+    text_zh: RULE B：使用全出血、边缘到边缘的照片作为页面的主导视觉元素。
+ai_explanation: l2c1-limit-photograph-share limits photographs to at most one third of the page below the hero and forbids two photograph-led sections in a row, while l2c2-full-bleed-dominant-photography makes full-bleed edge-to-edge photographs the dominant visual element. Dominant full-bleed photography would exceed the one-third share limit.
+ai_explanation_zh: l2c1-limit-photograph-share 将 hero 下方的照片占比限制为不超过三分之一，并禁止两个以照片为主导的区块相邻；l2c2-full-bleed-dominant-photography 则要求使用全出血、边缘到边缘的照片作为页面的主导视觉元素。主导性的全出血照片会超过三分之一的占比上限。
+suggestion:
+  kind: keep-b
+  note: l2c2's dominant full-bleed photography overrides the l2c1 one-third share cap.
+  note_zh: l2c2 的主导全出血照片覆盖 l2c1 的三分之一占比上限。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

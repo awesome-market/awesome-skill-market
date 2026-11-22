@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Option B</title>
+<style>
+body{margin:0;font-family:system-ui,sans-serif;background:#fff;color:#1a1a1a;}
+.frame{width:1200px;height:800px;position:relative;background:#fff;border:1px solid #ccc;overflow:hidden;}
+caption{position:absolute;left:12px;bottom:12px;background:#1a1a1a;color:#fff;padding:6px 10px;font-size:13px;letter-spacing:.3px;z-index:5;}
+header{height:64px;border-bottom:1px solid #e5e5e5;padding:0 32px;display:flex;align-items:center;font-weight:600;font-size:18px;}
+.layout{display:grid;grid-template-columns:repeat(12,1fr);gap:20px;padding:32px;}
+.photo{grid-column:span 6;background:#2a2a2a;color:#fff;border-radius:6px;padding:20px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-end;min-height:440px;}
+.photo .kicker{font-size:12px;letter-spacing:.5px;text-transform:uppercase;opacity:.8;}
+.photo h2{margin:8px 0 0;font-size:22px;}
+.photo p{margin:6px 0 0;font-size:13px;opacity:.85;line-height:1.4;}
+.thumbs{grid-column:span 6;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.thumb{background:#f4f4f4;border:1px solid #ddd;border-radius:6px;height:120px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#666;}
+.note{grid-column:span 12;font-size:13px;color:#333;max-width:760px;padding-top:8px;}
+</style></head>
+<body>
+<div class="frame">
+  <header>Field Notes — Site 7</header>
+  <div class="layout">
+    <div class="photo">
+      <div class="kicker">Photograph 1 of 3</div>
+      <h2>Canopy over the gauge</h2>
+      <p>Six-column, 440px-tall hero frame. Subject has a picture, so it gets a frame.</p>
+    </div>
+    <div class="thumbs">
+      <div class="thumb">Thumbnail A</div>
+      <div class="thumb">Thumbnail B</div>
+      <div class="thumb">Thumbnail C</div>
+    </div>
+    <div class="note">One six-column photograph runs half-width at 440px; remaining items are thumbnails treated as clip art.</div>
+  </div>
+  <div class="caption">OPTION B — six of twelve columns, 440px minimum height</div>
+</div>
+</body></html>

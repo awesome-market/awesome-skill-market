@@ -1,0 +1,32 @@
+id: conf-0106
+status: pending
+fingerprint: cab798e6c652
+detected_at: 2026-11-22T17:36:42.883Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-387
+    hash: c1f7c99e5f04
+    severity: floor
+    text: Give every interactive element a :focus-visible ring at 3:1 contrast or better, and never remove the outline without replacing it.
+    text_zh: 给每个交互元素添加对比度至少为 3:1 的 :focus-visible 环，且不得在未替换为等效可见焦点指示器的情况下移除 outline。
+  - key: B
+    source: web-design-guidelines
+    rule_id: web-de-013
+    hash: b66f218f9f6e
+    severity: floor
+    text: Interactive elements must show a visible focus ring via focus-visible ring utilities.
+    text_zh: 交互元素必须通过 focus-visible ring 工具类显示可见的焦点环。
+ai_explanation: a11y-l0c2-always-visible-focus-ring requires every interactive element to have an instantly visible :focus-visible ring and never remove an outline without replacing it with an equivalent visible focus indicator, while a11y-l0c1-focus-visible-rings shows visible focus rings via focus-visible selectors rather than focus to avoid rings on click. The first treats focus-visible as always showing a ring; the second explicitly avoids rings on click via focus-visible semantics. In the same scope of focus-ring behavior these contradict and no scope-split resolves them.
+ai_explanation_zh: a11y-l0c2-always-visible-focus-ring 要求每个交互元素都必须有即时可见的 :focus-visible 环，且不得在未用等效可见焦点指示器替换的情况下移除 outline；a11y-l0c1-focus-visible-rings 则通过 focus-visible 选择器（而非 focus）显示可见焦点环，从而避免点击时出现环。前者把 focus-visible 视为始终显示环，后者则显式通过 focus-visible 语义避免点击时出现环。在焦点环行为的同一范围内二者相互矛盾，且任何作用域拆分都无法解决。
+suggestion:
+  kind: keep-b
+  note: Use focus-visible selectors to avoid rings on click; keep the ring instant once shown.
+  note_zh: 使用 focus-visible 选择器以避免点击时出现环；一旦显示环则保持即时可见。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

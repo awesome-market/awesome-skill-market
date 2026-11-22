@@ -1,0 +1,1 @@
+Compare the nav links and card labels: Option A renders them lowercase; Option B renders them uppercase at 13-14px, which Option A forbids but Option B permits since they are at or below 15px yet not tracked past 0.03em.

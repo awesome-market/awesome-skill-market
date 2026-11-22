@@ -1,0 +1,1 @@
+Look for whether a radial spotlight (radial-gradient bloom) sits behind the hero content: Option A omits it and relies on lightness steps plus offset-blurred shadows; Option B keeps two fixed radial blooms on the design canvas behind the hero.

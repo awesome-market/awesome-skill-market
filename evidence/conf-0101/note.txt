@@ -1,0 +1,1 @@
+Look at the hero section: Option A uses a warm cream background (#f4f1ec) with high-contrast serif display (Georgia) and terracotta accents (#c0714a) as the default; Option B replaces that with a dark surface and a soft gradient-mesh/painterly ground behind the product card fragment, keeping sans-serif display and cool accents — same scaffold, only the disputed rule differs.

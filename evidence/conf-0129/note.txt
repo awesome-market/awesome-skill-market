@@ -1,0 +1,1 @@
+Look for whether voice cards show an active playing state (Option A) versus a paused state with a Play button (Option B).

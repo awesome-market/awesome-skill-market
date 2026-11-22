@@ -1,0 +1,1 @@
+At 1200x800, Option A shows every button/link with a constant gold :focus-visible ring (3:1) even at rest, plus a distinct replacement ring on active; Option B shows the same elements with NO resting ring and no ring on active/click — only a focus-visible selector would add one.

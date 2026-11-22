@@ -1,0 +1,29 @@
+id: conf-0132
+status: pending
+fingerprint: 4fd7209bb2fe
+detected_at: 2026-11-22T19:34:26.333Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--1227
+    hash: 9a77a53a7a04
+    severity: floor
+    text: Never place a caption or description under any image, render, or visual, and put licence credits in a single footer line.
+    text_zh: 规则 A：切勿在任意图像、渲染图或视觉元素下方放置标题或描述，并将授权信息（licence credits）合并到单行页脚。
+  - key: B
+    source: hallmark
+    rule_id: hallma-555
+    hash: 677ef60373c3
+    severity: reflex
+    text: Add captions as facts from the prompt beside or under each picture, never credit lines or claims that a stand-in is the user's own person, place or product.
+    text_zh: 规则 B：在每张图片旁或下方以来自 prompt 的事实形式添加标题，绝不出现署名行，也不得声称替身代表用户本人、其所在地或其产品。
+ai_explanation: l2c1 forbids placing any caption or description under an image, while l2c4 explicitly requires adding captions as facts beside or under each picture. Both govern the same image-caption relationship with no scope split possible.
+ai_explanation_zh: l2c1 禁止在图像、渲染图或任何视觉元素下方放置标题或描述，而 l2c4 明确要求在每张图片旁或下方以事实形式添加标题。两者针对同一图像-标题关系，且无法划分作用域。
+suggestion: null
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

@@ -1,0 +1,32 @@
+id: conf-0103
+status: pending
+fingerprint: a30655d73168
+detected_at: 2026-11-22T17:20:53.059Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-647
+    hash: c2c9d9901629
+    severity: floor
+    text: Use schedules only for times visitors pick or plan around, never processes or workdays.
+    text_zh: 仅对访客选择或规划的时间使用 schedules，绝不用于流程或工作日。
+  - key: B
+    source: hallmark
+    rule_id: hallma-660
+    hash: 670f9137d7ec
+    severity: reflex
+    text: Add steps only for genuine visitor processes and figures only for numbers the prompt states outright.
+    text_zh: 仅为真实访客流程添加 steps，仅为提示明确给出的数字添加 figures。
+ai_explanation: layout-l2c1-schedules-only-for-times forbids using schedules (timed grids) for processes/workdays, while layout-l2c13-steps-and-figures-when-justified explicitly adds steps for genuine visitor processes and figures for stated numbers — directly contradicting whether process-oriented time content belongs in the layout at all.
+ai_explanation_zh: layout-l2c1-schedules-only-for-times 禁止将 schedules（定时网格）用于流程/工作日，而 layout-l2c13-steps-and-figures-when-justified 明确为真实访客流程添加 steps、为提示中直接给出的数字添加 figures——两者在‘面向流程的时间内容是否应放入布局’上直接矛盾。
+suggestion:
+  kind: scope-split
+  note: Schedules are time-picking grids; steps/figures are process/number narratives — different content kinds.
+  note_zh: schedules 是时间选择网格；steps/figures 是流程/数字叙事——属于不同的内容类型。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

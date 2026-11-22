@@ -1,0 +1,1 @@
+Look for the two content sections: Option A shows static image placeholders and states no WebGL is loaded, while Option B shows poster placeholders with a status that a WebGL context will mount lazily as each section nears the viewport — the direct contradiction between forbidding and always-mounting WebGL.

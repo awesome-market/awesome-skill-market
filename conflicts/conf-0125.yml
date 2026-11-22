@@ -1,0 +1,32 @@
+id: conf-0125
+status: pending
+fingerprint: 73b897386275
+detected_at: 2026-11-22T19:05:04.161Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--1022
+    hash: f5b3a594b956
+    severity: floor
+    text: A footer-statement must contain no second big button.
+    text_zh: A footer-statement must contain no second big button.
+  - key: B
+    source: taste-skill
+    rule_id: taste--1002
+    hash: 7c9b9edb1bd2
+    severity: floor
+    text: A close must contain exactly one primary button.
+    text_zh: A close must contain exactly one primary button.
+ai_explanation: The footer-statement rule says a footer-statement must contain no second big button, while the single-primary-button-close rule requires footer.closing to carry the dealt close row plus a directory row — implying the close row itself may contain a big button. When the footer-statement and footer.closing overlap in the same footer region, one forbids a second big button while the other's close row needs one, and no pick resolves both in the same scope.
+ai_explanation_zh: footer-statement 规则要求其中不得出现第二个大按钮，而 single-primary-button-close 规则要求 footer.closing 需包含发牌后的 close 行以及一个 directory 行——这意味着 close 行本身可以包含一个大按钮。当 footer-statement 与 footer.closing 在同一 footer 区域重叠时，前者禁止第二个大按钮，后者的 close 行却需要一个大按钮，二者在同一作用域内无法同时满足。
+suggestion:
+  kind: keep-b
+  note: Treat footer-statement as a distinct non-closing statement region that never contains a big button, and reserve the single big primary button for footer.closing's close row. Keep them as separate sections so the no-second-big-button rule never applies to the close row.
+  note_zh: 将 footer-statement 视为独立且非 closing 的语句区域，其中永不出现大按钮；把唯一的大号主按钮保留给 footer.closing 的 close 行。使二者成为独立区块，这样 no-second-big-button 规则就不会作用于 close 行。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

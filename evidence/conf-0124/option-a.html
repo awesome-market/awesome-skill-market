@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=1200, initial-scale=1"><title>Option A</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#f4f2ee;color:#1a1a1a;height:800px;overflow:hidden}
+.wrap{width:1200px;height:800px;margin:0 auto;display:flex;flex-direction:column}
+header{height:80px;padding:0 64px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #d9d5cc}
+header .logo{font-weight:700;letter-spacing:.02em}
+nav a{margin-left:28px;color:#555;text-decoration:none;font-size:14px}
+main{flex:1;padding:64px;display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.card{background:#fff;border:1px solid #d9d5cc;border-radius:10px;padding:32px}
+.card h2{margin-bottom:12px;font-size:20px}
+.card p{color:#555;font-size:14px;line-height:1.5}
+.cta{margin-top:20px;display:inline-block;background:#1a1a1a;color:#fff;padding:12px 22px;border-radius:6px;font-size:14px}
+footer{height:60px;display:flex;align-items:center;justify-content:center;color:#888;font-size:13px;border-top:1px solid #d9d5cc}
+caption{position:absolute;left:16px;bottom:12px;background:#1a1a1a;color:#fff;padding:6px 12px;border-radius:4px;font-size:12px;letter-spacing:.03em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">Terra</div>
+    <nav><a href="#">Features</a><a href="#">Pricing</a><a href="#">Sign in</a></nav>
+  </header>
+  <main>
+    <div class="card">
+      <h2>Plan your garden</h2>
+      <p>Drag-and-drop beds, soil mixers, and seasonal schedules into a single layout.</p>
+      <a class="cta" href="#">Start free</a>
+    </div>
+    <div class="card">
+      <h2>Track the weather</h2>
+      <p>Local forecasts adapt to each bed so you never over- or under-water.</p>
+      <a class="cta" href="#">See demo</a>
+    </div>
+  </main>
+  <footer>© 2024 Terra Gardens — all rights reserved.</footer>
+</div>
+<div class="caption">OPTION A — limit to first viewport, no below-fold</div>
+</body>
+</html>

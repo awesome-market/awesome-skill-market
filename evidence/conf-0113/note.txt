@@ -1,0 +1,1 @@
+Look for whether the hero image stays inside a bordered frame ending above the bottom edge (A) versus extending edge-to-edge and crossing the fold (B).

@@ -1,0 +1,32 @@
+id: conf-0124
+status: pending
+fingerprint: 47feda5c1257
+detected_at: 2026-11-22T19:05:04.158Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-046
+    hash: c22aa43d206d
+    severity: reflex
+    text: Limit every comp to the first viewport at the surface's own dimensions and never compose below the fold.
+    text_zh: RULE A：每个组件仅限制在表面自身尺寸的首个视口中，绝不在折线下方构图。
+  - key: B
+    source: hallmark
+    rule_id: hallma-353
+    hash: 1fc0618402bd
+    severity: reflex
+    text: Use at least 120px between sections at 1440 (64px where the paper changes) and vary the gaps.
+    text_zh: RULE B：1440px 下 section 之间至少 120px（纸张切换处 64px），并变化间距。
+ai_explanation: "Limit-to-first-viewport forbids composing below the fold at the surface's own dimensions, while section-gap-scale mandates 120px gaps between sections at 1440px and varying gaps — which only applies to sections that exist below the fold. These directly contradict: one bans below-fold content, the other sizes below-fold sections."
+ai_explanation_zh: “仅首屏”限制要求组件仅在第一视口内、按表面自身尺寸进行布局，且不得在折线下方构图；而 section-gap-scale 要求 1440px 下各 section 之间间距至少 120px（纸张切换处为 64px）并变化间距。两者直接冲突：一个禁止折线下方的内容，另一个却为折线下方的 section 设定尺寸。
+suggestion:
+  kind: scope-split
+  note: Apply limit-to-first-viewport to the hero/surface composition only; apply section-gap-scale to body sections that legitimately sit below the fold. The two rules govern different scopes (hero vs body).
+  note_zh: 将 limit-to-first-viewport 仅应用于 hero/表面构图；将 section-gap-scale 应用于确实位于折线下方的 body section。两条规则作用于不同范围（hero 与 body）。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

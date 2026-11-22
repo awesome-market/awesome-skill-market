@@ -1,0 +1,1 @@
+Look at the footer region: Option A keeps a single ghost Dismiss with no big button; Option B adds a primary Finish button inside the close row plus a directory row, showing the conflict where the single-primary-button rule needs a big button the footer-statement rule forbids.

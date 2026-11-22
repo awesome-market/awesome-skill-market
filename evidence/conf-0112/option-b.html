@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Option B</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#f4f1ec;color:#2c2c2c;height:800px;overflow:hidden}
+header{display:flex;justify-content:space-between;align-items:center;padding:20px 32px;border-bottom:1px solid #d8d2c6}
+.logo{font-weight:700;letter-spacing:.5px}
+nav a{margin-left:20px;color:#5a5a5a;text-decoration:none;font-size:14px}
+.hero{display:flex;height:520px;border-bottom:1px solid #d8d2c6}
+.hero-landscape{flex:0 0 55%;position:relative}
+.hero-landscape::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,#7ba4c4 0%,#4a7a9e 45%,#3a5a3a 100%)}
+.hero-landscape::before{content:"";position:absolute;bottom:0;left:0;right:0;height:120px;background:linear-gradient(0deg,rgba(58,90,58,.6),transparent)}
+.hero-text{flex:1;padding:60px 48px;display:flex;flex-direction:column;justify-content:center}
+.hero-text h1{font-size:40px;line-height:1.15;margin-bottom:16px}
+.hero-text p{font-size:16px;line-height:1.6;color:#4a4a4a;max-width:380px;margin-bottom:24px}
+.cta{display:inline-block;background:#2c2c2c;color:#fff;padding:12px 24px;text-decoration:none;font-size:14px;border-radius:4px}
+.section{padding:48px 32px}
+.section h2{font-size:22px;margin-bottom:16px}
+.section p{font-size:14px;line-height:1.6;color:#4a4a4a;max-width:640px}
+.credits{position:absolute;bottom:0;left:0;background:#2c2c2c;color:#f4f1ec;padding:8px 32px;font-size:12px;letter-spacing:.3px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Haven &amp; Co.</div>
+  <nav><a href="#">Stays</a><a href="#">Experiences</a><a href="#">About</a></nav>
+</header>
+<section class="hero">
+  <div class="hero-landscape" role="img" aria-label="Landscape of the Lake District region"></div>
+  <div class="hero-text">
+    <h1>Explore the Lake District</h1>
+    <p>Rolling fells, glacial lakes, and quiet lanes. Guided walks led by local rangers who know every ridge.</p>
+    <a href="#" class="cta">Plan your route</a>
+  </div>
+</section>
+<section class="section">
+  <h2>Guided walks</h2>
+  <p>Dawn and dusk routes across the fells, sized for all levels, ending at inns chosen by the guides.</p>
+</section>
+<section class="section">
+  <h2>Where to stay</h2>
+  <p>Hand-picked rooms within walking distance of the trailheads, booked through our local partners.</p>
+</section>
+<div class="credits">Region landscape: Lake District — credited per brief</div>
+</body>
+</html>

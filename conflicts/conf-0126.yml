@@ -1,0 +1,32 @@
+id: conf-0126
+status: pending
+fingerprint: f433bcce38a3
+detected_at: 2026-11-22T19:19:50.774Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-434
+    hash: 515ede2678a1
+    severity: reflex
+    text: Attach at most one hover signal per element, keep feedback on the container, and never make non-interactive elements react to the pointer.
+    text_zh: 每个元素最多附加一个 hover 信号，反馈保持在容器上，且绝不让非交互元素响应指针。
+  - key: B
+    source: taste-skill
+    rule_id: taste--1088
+    hash: 75be39ea2a24
+    severity: floor
+    text: Buttons must step on hover and press on click via the motion layer, with no page CSS setting a button transform or transition.
+    text_zh: 按钮必须在 hover 时抬升、click 时按下，且通过 motion layer 实现，页面 CSS 不得为按钮设置 transform 或 transition。
+ai_explanation: l2c1 forbids non-interactive elements from reacting to the pointer, while l2c2 requires every button, link, linked card, and linked photograph to visibly respond to the pointer via the motion layer; these directly contradict on whether non-interactive-looking elements may react to hover.
+ai_explanation_zh: l2c1 禁止非交互元素响应指针，而 l2c2 要求每个按钮、链接、链接卡片与链接照片都通过 motion layer 对指针做出可见响应；两者在“外观上非交互的元素能否响应 hover”上直接冲突。
+suggestion:
+  kind: keep-b
+  note: l2c2 is more specific and scoped to interactive affordances; treat l2c1's rule as applying only to genuinely non-interactive elements.
+  note_zh: l2c2 更具体且限定于交互暗示；将 l2c1 视为仅适用于真正非交互的元素。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

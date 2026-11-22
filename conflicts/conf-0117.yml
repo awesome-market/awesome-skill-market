@@ -1,0 +1,32 @@
+id: conf-0117
+status: pending
+fingerprint: 81e177e2580b
+detected_at: 2026-11-22T18:13:02.712Z
+evidence: screenshot
+sides:
+  - key: A
+    source: web-design-guidelines
+    rule_id: web-de-051
+    hash: a5fd7d856b98
+    severity: floor
+    text: Never perform layout reads such as getBoundingClientRect during render.
+    text_zh: Never perform layout reads such as getBoundingClientRect during render.
+  - key: B
+    source: taste-skill
+    rule_id: taste--781
+    hash: 85c9a5d13c50
+    severity: floor
+    text: Load deferred modules, avoid scroll listeners, and never read layout in move handlers.
+    text_zh: Load deferred modules, avoid scroll listeners, and never read layout in move handlers.
+ai_explanation: Both forbid reading layout during render/move handlers, but 'deferred-and-no-layout-read' additionally requires loading deferred modules and avoiding scroll listeners — reconcilable, yet the strict 'never perform layout reads during render' conflicts with any pattern that must measure before mount. No reasonable pick resolves a case that must measure.
+ai_explanation_zh: 两条规则都禁止在 render/move 处理函数中读取布局，但 'deferred-and-no-layout-read' 额外要求加载延迟模块并避免 scroll 监听器——二者可调和，但严格的 'render 期间绝不允许读取布局' 与任何必须在挂载前测量的模式相冲突。没有任何合理选择能解决必须在挂载前测量的场景。
+suggestion:
+  kind: keep-a
+  note: Preserve the absolute no-layout-reads-during-render rule; deferred modules must not trigger synchronous layout reads during render.
+  note_zh: 保留 render 期间绝不读取布局的绝对规则；延迟模块不得在 render 期间触发同步布局读取。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

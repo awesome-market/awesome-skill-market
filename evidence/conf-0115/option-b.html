@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Option B</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#0f1115;color:#e6e6e6;height:800px;overflow:hidden}
+header{padding:24px 32px;border-bottom:1px solid #2a2d35;display:flex;justify-content:space-between;align-items:center}
+header h1{font-size:18px;font-weight:600}
+header span{font-size:12px;color:#8a8f9a}
+main{padding:32px;display:grid;grid-template-columns:1fr 1fr;gap:24px;height:calc(800px - 64px - 40px)}
+card{background:#181a20;border:1px solid #2a2d35;border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:16px}
+h2{font-size:15px}
+p{font-size:13px;color:#9a9faa;line-height:1.5}
+.badge{display:inline-block;padding:4px 10px;border-radius:999px;font-size:11px;background:#23262f;color:#7ec97e;border:1px solid #2a2d35}
+.poster{height:160px;background:#121318;border:1px solid #2a2d35;border-radius:8px;display:flex;align-items:center;justify-content:center;gap:12px;color:#5a5f6a;font-size:12px;position:relative}
+.poster .label{background:#1a1c22;padding:3px 8px;border-radius:6px;color:#7ec97e;border:1px solid #2a2d35}
+.poster .status{color:#8a8f9a}
+.webgl-badge{display:inline-block;padding:4px 10px;border-radius:999px;font-size:11px;background:#23262f;color:#6ea8ff;border:1px solid #2a2d35}
+footer{position:absolute;bottom:0;left:0;padding:10px 16px;background:#0f1115;border-top:1px solid #2a2d35;font-size:12px;color:#8a8f9a}
+</style></head>
+<body>
+<header>
+<h1>Kind Other — Product</h1>
+<span>WebGL context mounted lazily · poster shown first</span>
+</header>
+<main>
+<section>
+<h2 class="badge">Section: Overview</h2>
+<h2>Materials</h2>
+p>Recycled composite shell with a matte finish. Lightweight and durable for daily use.</p>
+<div class="poster">
+<span class="label">Poster</span>
+<span class="status">WebGL context pending — loads when section nears viewport</span>
+</div>
+</section>
+<section>
+<h2 class="webgl-badge">Section: Details</h2>
+<h2>Dimensions</h2>
+p>Length 142mm, width 68mm, weight 210g. Rounded corners for comfortable grip.</p>
+<div class="poster">
+<span class="label">Poster</span>
+<span class="status">WebGL context pending — loads when section nears viewport</span>
+</div>
+</section>
+</main>
+<footer>OPTION B — each WebGL context mounts lazily with a poster</footer>
+</body></html>

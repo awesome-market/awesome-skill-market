@@ -1,0 +1,29 @@
+id: conf-0121
+status: pending
+fingerprint: 529842767d11
+detected_at: 2026-11-22T18:31:21.320Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--1299
+    hash: 0ff9c6836641
+    severity: floor
+    text: Never use violet or lavender anywhere in the page's own design, including accents, grounds, gradients, effect colours, or tints, though real third-party logos keep their own colours.
+    text_zh: 规则 A：页面自身设计中（包括强调色、底色、渐变、效果色、色调）任何地方都不得使用紫色或薰衣草色，第三方真实 logo 保留其原有颜色除外。
+  - key: B
+    source: hallmark
+    rule_id: hallma-525
+    hash: e35321774aad
+    severity: floor
+    text: Never use saturated consumer pinks and violets without a declared posture.
+    text_zh: 规则 B：未声明设计姿态时，不得使用高饱和度消费级粉色与紫色。
+ai_explanation: color-l2c1 forbids violet/lavender anywhere in the page's own design with no exception, while color-l2c2 explicitly permits saturated violets/lavenders when a design posture is declared. These directly contradict for any page that declares a Full/Drenched posture, since one rule says never and the other says allow.
+ai_explanation_zh: color-l2c1 禁止在页面自身设计中任何位置使用紫色/薰衣草色，无任何例外；而 color-l2c2 明确允许在已声明设计姿态时使用高饱和度紫色/薰衣草色。两者对于声明了 Full/Drenched 姿态的页面直接冲突：一条规则说永不使用，另一条说允许使用。
+suggestion: null
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

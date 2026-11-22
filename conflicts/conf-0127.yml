@@ -1,0 +1,27 @@
+id: conf-0127
+status: pending
+fingerprint: 56a08002ca6e
+detected_at: 2026-11-22T19:19:50.778Z
+evidence: none
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--944
+    hash: fcf26147ae10
+    severity: floor
+    text: Reveal nothing and scrub nothing by scroll, and loop at most every other chapter in a series.
+    text_zh: Rule A：滚动时不揭示任何内容，也不清除任何内容，并在系列中最多每隔一章循环一次。
+  - key: B
+    source: hallmark
+    rule_id: hallma-812
+    hash: 026dcc4b676c
+    severity: reflex
+    text: Allow at most one horizontal reveal on the first stage when the theme permits it, or use a single scroll-choreography pinned pattern, but never both on the same page.
+    text_zh: Rule B：当主题允许时，允许在第一阶段进行最多一次水平揭示，或使用单个 scroll-choreography pinned 模式，但同一页面上二者不可同时使用。
+ai_explanation: l2c1 never moves or reveals anything by scroll, whereas l2c2 explicitly permits one horizontal reveal on the first stage or a single scroll-choreography pinned pattern; these contradict on whether scroll-driven reveal is allowed at all.
+ai_explanation_zh: l2c1 从不通过滚动移动或揭示任何内容，而 l2c2 明确允许在第一阶段进行一次水平揭示，或使用单个 scroll-choreography pinned 模式；二者在是否允许滚动驱动的揭示上相互矛盾。
+suggestion:
+  kind: keep-b
+  note: l2c2 refines l2c1 by allowing exactly one constrained scroll pattern; scope l2c1's ban to repeated or spatial reveals beyond that single pattern.
+  note_zh: l2c2 通过恰好允许一个受限的滚动模式来细化 l2c1；将 l2c1 的禁令范围限定为该单一模式之外的重复或空间揭示。
+issue_url: null

@@ -51,6 +51,16 @@ const VALID_SCOPE = new Set(DOMAINS);
 
 const CHUNK = 50;      // rules per synthesis call — bigger chunks overrun the output token budget on this model
 const CONSOLIDATE = 80; // rules fed into the merge pass
+const POOL = Number(process.env.SYNTH_POOL ?? 3); // parallel LLM calls — omlx is a single-stream local server
+
+async function pool(items, size, fn) {
+  const out = new Array(items.length);
+  let i = 0;
+  await Promise.all(Array.from({ length: Math.min(size, items.length) }, async () => {
+    while (i < items.length) { const k = i++; out[k] = await fn(items[k], k); }
+  }));
+  return out;
+}
 
 /** Consolidate one unit of rules. Returns {rules} — dilemma detection runs once per domain
  * on the FINAL synthesized set (see detectDilemmas), so cross-chunk contradictions aren't missed. */
@@ -108,7 +118,7 @@ async function synthSet(domain, input, label, depth = 0) {
     (chunks[i % nChunks] ??= []).push(r); // interleave upstreams — cross-source conflicts stay visible
   });
 
-  const partials = await Promise.all(chunks.map(async (chunk, ci) => {
+  const partials = await pool(chunks, POOL, async (chunk, ci) => {
     try {
       const out = await synthUnit(domain, chunk, new Map(chunk.map((r) => [r.id, r])), `${label}:c${ci + 1}`);
       for (const r of out.rules) r.id = `${domain}-l${depth}c${ci + 1}-${r.id ?? 'r'}`;
@@ -121,7 +131,7 @@ async function synthSet(domain, input, label, depth = 0) {
         dilemmas: [],
       };
     }
-  }));
+  });
 
   const midRules = partials.flatMap((p) => p.rules);
   const midRefs = new Map(midRules.map((r) => [r.id, r]));
@@ -189,17 +199,6 @@ export async function synthesize({ applyOnly = false, onlyDomain = null } = {}) 
 
   const inputs = canonical.filter((r) => !absorbed.has(r.hash) && !held.has(r.hash));
 
-  // incremental: re-synthesize only when inputs/decisions changed
-  const digest = sha1(JSON.stringify({
-    inputs: inputs.map((r) => r.hash).sort(),
-    overlays: overlays.map((o) => o.rule),
-    pending: conflicts.filter((c) => c.status === 'pending').map((c) => c.fingerprint).sort(),
-  }));
-  if (!applyOnly && readJSON(STATE_FILE)?.digest === digest) {
-    log('synthesize: inputs unchanged since last run, skip (work/synthesize-state.json)');
-    return;
-  }
-
   if (applyOnly) {
     writeYAML(FILES.mergedRules, { generated: new Date().toISOString(), count: inputs.length + overlays.length, rules: [...inputs, ...overlays] });
     log(`synthesize: --apply-only wrote ${inputs.length + overlays.length} rules (no LLM)`);
@@ -210,6 +209,17 @@ export async function synthesize({ applyOnly = false, onlyDomain = null } = {}) 
   const byDomain = new Map(DOMAINS.map((d) => [d, []]));
   for (const r of inputs) byDomain.get(r.scope?.[0] && byDomain.has(r.scope[0]) ? r.scope[0] : 'process').push(r);
 
+  // per-domain incremental: a new pending dilemma only holds sides in ITS domain, so unchanged
+  // domains reuse their previous synthesized rules instead of re-running ~10 LLM calls
+  const state = readJSON(STATE_FILE) ?? {};
+  const prev = readYAML(FILES.mergedRules);
+  const prevByDomain = new Map(DOMAINS.map((d) => [d, (prev?.rules ?? []).filter((r) => r.synthesizedFrom === `domain:${d}`)]));
+  const domDigest = (d) => sha1(JSON.stringify({
+    in: byDomain.get(d).map((r) => r.hash).sort(),
+    ov: overlays.filter((o) => (o.scope?.[0] ?? 'process') === d).map((o) => o.rule).sort(),
+  }));
+  const newDigests = { ...(state.domains ?? {}) };
+
   const synthRules = [];
   let dilemmaCount = 0;
 
@@ -219,7 +229,16 @@ export async function synthesize({ applyOnly = false, onlyDomain = null } = {}) 
     if (!dom.length) continue;
     const input = dom; // rule ids are already unique slugs — use them as source_ids directly
     const idToRule = new Map(input.map((r) => [r.id, r]));
+    const dg = domDigest(domain);
+
+    const reusable = prevByDomain.get(domain) ?? [];
+    if (state.domains?.[domain] === dg && reusable.length) {
+      log(`synthesize [${DOMAINS.indexOf(domain) + 1}/${DOMAINS.length}]: ${domain} — inputs unchanged, reusing ${reusable.length} rules`);
+      synthRules.push(...reusable);
+      continue;
+    }
     log(`synthesize [${DOMAINS.indexOf(domain) + 1}/${DOMAINS.length}]: ${domain} — ${input.length} input rules`);
+    newDigests[domain] = dg;
 
     const out = await synthDomain(domain, input);
 
@@ -290,16 +309,21 @@ export async function synthesize({ applyOnly = false, onlyDomain = null } = {}) 
     log(`synthesize: ${domain} -> ${out.rules.length} rules, ${dilemmas.length} dilemmas`);
   }
 
-  const prev = readYAML(FILES.mergedRules);
-  const merged = onlyDomain
+  // conflicts filed during THIS run also hold sides — refresh the set so verbatim passthrough
+  // of a just-detected dilemma's side can't leak into merged output
+  for (const c of loadConflicts()) {
+    if (c.status === 'pending') for (const s of c.sides ?? []) held.add(s.hash);
+  }
+  const merged = (onlyDomain
     ? [...(prev?.rules ?? []).filter((r) => r.synthesizedFrom !== `domain:${onlyDomain}` && !r.decidedBy), ...synthRules, ...overlays]
-    : [...synthRules, ...overlays];
+    : [...synthRules, ...overlays]
+  ).filter((r) => !held.has(r.hash)); // contested verbatim must not leak via passthrough/reuse
   writeYAML(FILES.mergedRules, {
     generated: new Date().toISOString(),
     count: merged.length,
     rules: merged.sort((a, b) => a.scope[0].localeCompare(b.scope[0])),
   });
-  writeJSON(STATE_FILE, { digest, at: new Date().toISOString() });
+  writeJSON(STATE_FILE, { domains: newDigests, at: new Date().toISOString() });
   log(`synthesize: wrote ${merged.length} merged rules; ${dilemmaCount} new dilemmas, ${held.size} held pending`);
 }
 

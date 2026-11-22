@@ -1,0 +1,32 @@
+id: conf-0123
+status: pending
+fingerprint: e95d5b5d458d
+detected_at: 2026-11-22T19:05:04.154Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--945
+    hash: 982f565ddd27
+    severity: floor
+    text: Keep chapter fragments fully opaque and upright, never let the action cover the main screen's readable rows, and never repeat a fragment that changes the template.
+    text_zh: 保持章节片段完全透明且直立，绝不让动作覆盖主屏的可读行，也绝不重复会改变模板的片段。
+  - key: B
+    source: hallmark
+    rule_id: hallma-825
+    hash: bb89f442ea04
+    severity: reflex
+    text: Implement a sticky left pane that holds the section heading while a scroll-synced right pane cycles through related captures.
+    text_zh: 实现粘性左窗格，保存章节标题，同时右侧同步滚动的窗格循环展示相关捕获。
+ai_explanation: The fragment rule forbids any action covering the main screen's readable rows and forbids repeating a fragment that changes the template, while the sticky-left-pane rule requires a sticky pane whose scroll-synced right pane cycles through related captures — inherently repeating a fragment across captures and overlapping the readable area. No scope split resolves them because both govern the same hero/section scope and both are absolute (never vs always cycle).
+ai_explanation_zh: 片段规则禁止任何动作覆盖主屏的可读行，也禁止重复会改变模板的片段；而粘性左窗格规则要求一个粘性窗格，其右侧同步滚动的窗格循环展示相关捕获——这必然在多个捕获间重复同一片段并覆盖可读区域。两者作用域相同（均为 hero/section 范围），且都是绝对约束（never 与 always cycle），无法通过作用域拆分解决。
+suggestion:
+  kind: keep-b
+  note: Resolve by treating the sticky left pane as chrome (not a repeating template-changing fragment) and cycling captures only within the right scroll-synced pane, keeping the left heading static and never covering readable rows.
+  note_zh: 将粘性左窗格视为 chrome（而非会改变模板的重复片段），仅在右侧同步滚动窗格内循环捕获，使左侧标题保持静态且不覆盖任何可读行。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

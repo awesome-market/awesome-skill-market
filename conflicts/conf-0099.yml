@@ -10,18 +10,23 @@ sides:
     hash: 160cddd52557
     severity: floor
     text: Prohibit a radial spotlight behind the hero.
-    text_zh: null
+    text_zh: 禁止在 hero 后方使用径向聚光灯。
   - key: B
     source: hallmark
     rule_id: hallma-437
     hash: d641136ebb99
     severity: reflex
     text: Allow two fixed atmospheric blooms only when the canvas is the design; elsewhere derive depth from lightness steps and offset-blurred shadows.
-    text_zh: null
+    text_zh: 仅当画布为设计本身时，允许两个固定的氛围光斑；其余情况通过明度阶梯与偏移模糊阴影来营造景深。
 ai_explanation: "EN: color-l2c1 explicitly prohibits a radial spotlight behind the hero, while color-l2c2 permits two fixed atmospheric blooms when the canvas is the design. A hero with a fixed atmospheric bloom is exactly a radial spotlight behind hero content, so the two rules directly contradict on the same hero scope."
-ai_explanation_zh: 中文：color-l2c1 明确禁止英雄区后方使用径向聚光灯，而 color-l2c2 在画布即设计时允许两个固定的大气光斑。带固定大气光斑的英雄区正是英雄内容后的径向聚光灯，两者在同一英雄范围内直接冲突。
+ai_explanation_zh: color-l2c1 明确禁止在 hero 后方使用径向聚光灯，而 color-l2c2 允许在画布为设计本身时保留两个固定的氛围光斑。hero 后方的固定氛围光斑正是 hero 内容后的径向聚光灯，因此两条规则在同一 hero 范围内直接冲突。
 suggestion:
   kind: keep-b
   note: Scope the prohibition to dynamic or accent spotlights; allow fixed atmospheric blooms per color-l2c2 when the canvas is the design.
-  note_zh: 将禁止范围限定为动态或强调色聚光灯；当画布即设计时，按 color-l2c2 允许固定大气光斑。
+  note_zh: 将禁止范围限定为动态或强调色聚光灯；当画布为设计本身时，按 color-l2c2 允许固定氛围光斑。
 issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

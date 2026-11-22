@@ -1,0 +1,32 @@
+<!doctype html>
+<html><head><meta charset=utf-8><style>
+body{margin:0;font-family:system-ui,sans-serif;background:#f4f1ec;color:#2c2c2c;height:800px}
+header{display:flex;justify-content:space-between;padding:24px 32px;border-bottom:1px solid #d8d2c8}
+h1{font-size:22px;margin:0}nav a{margin-left:18px;color:#6b5d4f;text-decoration:none;font-size:14px}
+main{display:grid;grid-template-columns:1fr 1fr;gap:0;height:calc(800px - 65px - 40px)}
+.card{padding:32px;display:flex;flex-direction:column;justify-content:space-between}
+.card h2{margin:0 0 8px;font-size:20px}.card p{margin:0 0 16px;color:#5a4d40;font-size:14px;line-height:1.5}
+.badge{display:inline-block;background:#6b5d4f;color:#f4f1ec;padding:4px 10px;font-size:12px;border-radius:3px;margin-bottom:12px;width:fit-content}
+.photo{width:100%;height:220px;background:#8a7a68;position:relative;overflow:hidden;border-radius:4px}
+.photo::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(255,255,255,.08) 0 2px,transparent 2px 6px);mix-blend-mode:overlay}
+.photo .cup{position:absolute;bottom:20px;left:28px;width:60px;height:60px;background:#f4f1ec;border-radius:50% 50% 8px 8px;box-shadow:0 4px 8px rgba(0,0,0,.2)}
+.photo .steam{position:absolute;bottom:70px;left:40px;width:8px;height:30px;background:rgba(255,255,255,.5);border-radius:4px}
+.photo .steam:nth-child(2){left:54px;height:22px}
+.caption{position:absolute;bottom:12px;right:12px;background:rgba(44,44,44,.7);color:#f4f1ec;padding:3px 8px;font-size:11px;border-radius:3px}
+footer{height:40px;display:flex;align-items:center;padding:0 32px;border-top:1px solid #d8d2c8;font-size:12px;color:#6b5d4f}
+.bar{position:fixed;left:32px;bottom:12px;background:#2c2c2c;color:#f4f1ec;padding:6px 12px;font-size:12px;border-radius:3px;letter-spacing:.3px}
+</style></head><body>
+<header><h1>Corner Brew Café</h1><nav><a href="#">Menu</a><a href="#">Our Story</a><a href="#">Visit</a></nav></header>
+<main>
+<div class="card">
+<div><span class="badge">Local Business</span><h2>Fresh beans, roasted here</h2><p>Our single-origin pour-overs are brewed daily in small batches. Walk in for a quiet corner or grab a cup to go.</p></div>
+<div class="photo"><span class="steam"></span><span class="steam"></span><span class="cup"></span><span class="caption">roasting day 12</span></div>
+</div>
+<div class="card" style="background:#ece6dc">
+<div><span class="badge">Local Business</span><h2>Guest rooms with garden view</h2><p>Six bright rooms above the café, each with hand-painted tiles and fresh linen. Breakfast included.</p></div>
+<div class="photo"><span class="cup" style="left:50%;transform:translateX(-50%)" ></span></div>
+</div>
+</main>
+<footer>© 2024 Corner Brew — printed with plain photographs on every local business page.</footer>
+<div class="bar">OPTION A — photos printed plainly on business pages</div>
+</body></html>

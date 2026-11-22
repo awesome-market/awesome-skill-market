@@ -1,0 +1,27 @@
+id: conf-0133
+status: pending
+fingerprint: b6d2e7ec5da4
+detected_at: 2026-11-22T19:40:54.747Z
+evidence: none
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--557
+    hash: b8950f4b025b
+    severity: floor
+    text: Build exactly one effect per page as either one live ground, one WebGL part, one object, or one big scene, and never place it in a fixed layer, behind body copy, or as a page-long canvas.
+    text_zh: 每页仅构建一个 effect，作为单一 live ground、单一 WebGL part、单一 object 或单一大型 scene，且不得置于固定层、正文之后或作为整页 canvas。
+  - key: B
+    source: taste-skill
+    rule_id: taste--898
+    hash: 3f8ba815ba97
+    severity: floor
+    text: Reserve the page's single effect for the hero or the one `[data-visual]` frame only.
+    text_zh: 将页面唯一的 effect 保留给 hero 或单个 [data-visual] 帧。
+ai_explanation: Both rules reserve exactly one effect per page, but code-l2c1 forbids it as a page-long canvas or behind body copy while code-l2c6 allows it on the hero or one [data-visual] frame and permits card grounds from the effect family. They contradict on whether the single effect may occupy a large/hero scope, and no scope-split cleanly separates them since both govern the same page-level effect budget.
+ai_explanation_zh: 两条规则都限定每页仅一个 effect，但 code-l2c1 禁止将其作为整页 canvas 或置于正文之后，而 code-l2c6 允许其用于 hero 或单个 [data-visual] 帧，并允许来自该 effect 系列的 card grounds。二者在单个 effect 是否可占据大尺寸/hero 范围上相互矛盾，且由于两者都管辖同一页面级 effect 预算，无法通过范围切分清晰分离。
+suggestion:
+  kind: keep-b
+  note: Prefer code-l2c6's hero/[data-visual] allowance and its card-family grounds, keeping code-l2c1's placement guards as constraints.
+  note_zh: 优先采用 code-l2c6 对 hero/[data-visual] 的允许及其 card-family grounds，同时保留 code-l2c1 的 placement guards 作为约束。
+issue_url: null

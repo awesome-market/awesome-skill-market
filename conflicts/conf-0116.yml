@@ -1,0 +1,27 @@
+id: conf-0116
+status: pending
+fingerprint: 058dcc17fff9
+detected_at: 2026-11-22T18:13:02.709Z
+evidence: none
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-232
+    hash: 66da799ee7e2
+    severity: floor
+    text: Never emit --spacing-<name> tokens because Tailwind derives w-, max-w-, p-, and gap- utilities from that namespace.
+    text_zh: 从不生成 --spacing-<name> 令牌，因为 Tailwind 从该命名空间派生出 w-、max-w-、p- 和 gap- 工具类。
+  - key: B
+    source: hallmark
+    rule_id: hallma-233
+    hash: 2a1d7711b56d
+    severity: reflex
+    text: Map the space scale directly onto Tailwind's 4px unit without a --spacing- namespace.
+    text_zh: 将间距比例直接映射到 Tailwind 的 4px 单位，不使用 --spacing- 命名空间。
+ai_explanation: "'no-spacing-tokens' never emits --spacing-<name>, yet 'space-scale-to-tailwind-unit' maps the space scale onto Tailwind's 4px unit — which, if implemented via --spacing- tokens, would violate the first rule. These contradict when the space scale is expressed through the --spacing- namespace."
+ai_explanation_zh: "'no-spacing-tokens' 从不生成 --spacing-<name> 令牌，而 'space-scale-to-tailwind-unit' 将间距比例直接映射到 Tailwind 的 4px 单位——若通过 --spacing- 令牌实现，则违反第一条规则。当间距比例通过 --spacing- 命名空间表达时，二者相互矛盾。"
+suggestion:
+  kind: scope-split
+  note: Implement the space scale via Tailwind utilities (w-/p-/gap-) directly, never through --spacing- tokens, satisfying both rules.
+  note_zh: 直接通过 Tailwind 工具类（w-/p-/gap-）实现间距比例，绝不通过 --spacing- 令牌，从而同时满足两条规则。
+issue_url: null

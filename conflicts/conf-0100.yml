@@ -10,18 +10,18 @@ sides:
     hash: cce7140c8d17
     severity: floor
     text: Use at most two type families, with a single third family restricted to exactly one role.
-    text_zh: null
+    text_zh: 最多使用两个字体族，第三个族仅限恰好一个角色。
   - key: B
     source: hallmark
     rule_id: hallma-306
     hash: 9d26c1f9a84e
     severity: floor
     text: Use exactly one display face and one body face, or a single family for both, plus at most one outlier that serves exactly one role.
-    text_zh: null
+    text_zh: 恰好使用一个展示面和一个正文面，或两个面共用一个族，外加最多一个仅服务于单一角色的异常。
 ai_explanation: "EN: Both rules cap type families, but l2c1 allows 'at most two type families plus one outlier role' while l2c2 demands 'exactly one display face and one body face, or a single family for both, plus at most one outlier'. l2c1's two-family allowance directly contradicts l2c2's exactly-one-or-single constraint in the same scope of family count."
-ai_explanation_zh: 中文：两条规则都限制字体家族数量，但 l2c1 允许'最多两个家族加一个例外角色'，而 l2c2 要求'恰好一个显示字体加一个正文字体，或单一家族，外加最多一个例外'。l2c1 的两家族授权与 l2c2 的恰好一个/单一家族约束在同一范围内直接矛盾。
+ai_explanation_zh: 两条规则都对字体族数量设限，但 l2c1 允许‘最多两个字体族加一个异常角色’，而 l2c2 要求‘恰好一个展示面和一个正文面，或两个面共用一个族，外加最多一个仅服务于单一角色的异常’。l2c1 的两个族额度与 l2c2 的‘恰好一个或单一’约束在同一族数量范围内直接冲突。
 suggestion:
   kind: scope-split
   note: l2c1 targets level-1 pages with two-family flexibility; l2c2 targets level-2 pages with stricter single-family preference. Scope by level.
-  note_zh: l2c1 面向需要两家族灵活性的 1 级页面；l2c2 面向更严格的单家族优先的 2 级页面。按层级划分范围。
+  note_zh: l2c1 面向一级页面，允许两个族的灵活性；l2c2 面向二级页面，偏好更严格的单一族。按页面层级限定适用范围。
 issue_url: null

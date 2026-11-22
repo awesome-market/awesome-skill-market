@@ -1,0 +1,32 @@
+id: conf-0102
+status: pending
+fingerprint: f4fea7726b9b
+detected_at: 2026-11-22T16:52:15.968Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-2501
+    hash: fb0a9538495f
+    severity: floor
+    text: Never use an eyebrow and never set labels, captions, table heads, tags or nav links in tracked capitals or small caps; render them in the body or theme label face one step smaller in sentence or lower case without tracking.
+    text_zh: 规则 A：禁止使用字距调整，也禁止将标签、说明文字、表头、标签或导航链接设为追踪字母或小型大写字母；应以正文或主题标签字体、比其小一号、使用句首字母或小写字母且不做字距调整来呈现。
+  - key: B
+    source: hallmark
+    rule_id: hallma-501
+    hash: 5df7bed1d49f
+    severity: reflex
+    text: Set large display typography with tight letter spacing.
+    text_zh: 规则 B：大型展示排版应使用紧凑字距。
+ai_explanation: type-l2c1 forbids tracking on labels/captions/nav, while type-l2c3 mandates tight letter-spacing on large display typography. These targets differ (labels vs. display), so a scope-split resolves them cleanly rather than treating them as a contradiction.
+ai_explanation_zh: type-l2c1 禁止对标签/说明文字/导航使用字距调整，而 type-l2c3 要求大型展示排版使用紧凑字距。两者目标不同（标签 vs. 展示），因此通过作用域拆分即可清晰解决，而非视为冲突。
+suggestion:
+  kind: scope-split
+  note: Labels and captions must remain untracked; tight tracking applies only to large display headings.
+  note_zh: 标签和说明文字必须保持无字距调整；紧凑字距仅适用于大型展示标题。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

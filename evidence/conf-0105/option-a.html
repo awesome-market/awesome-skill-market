@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Option A</title>
+<style>
+body{margin:0;font-family:system-ui,sans-serif;background:#f4f4f4;color:#1a1a1a;height:800px}
+.frame{width:1200px;height:800px;margin:0 auto;background:#fff;box-shadow:0 0 0 1px #ccc;position:relative;overflow:hidden}
+.topbar{height:64px;border-bottom:1px solid #e0e0e0;display:flex;align-items:center;padding:0 32px;gap:24px}
+.brand{font-weight:700;font-size:18px}
+.nav{display:flex;gap:24px;font-size:14px;color:#555}
+.main{padding:48px 64px}
+h1{font-size:28px;margin:0 0 8px}
+p{color:#444;max-width:640px;line-height:1.6;margin:0 0 40px}
+.card{max-width:640px;border:1px solid #e0e0e0;border-radius:8px;padding:32px;background:#fafafa}
+.field{margin-bottom:24px}
+label{display:block;font-size:13px;font-weight:600;margin-bottom:8px;color:#333}
+input[type=text]{width:100%;max-width:400px;padding:12px 14px;font-size:15px;border:1px solid #bbb;border-radius:6px;background:#fff;box-sizing:border-box}
+/* OPTION A: instant focus ring, always visible, 2px off, action color */
+input[type=text]:focus{outline:none;box-shadow:0 0 0 2px #0a6cff}
+.btn{display:inline-flex;align-items:center;padding:12px 28px;font-size:15px;font-weight:600;color:#fff;background:#0a6cff;border:none;border-radius:6px;cursor:pointer;box-shadow:0 0 0 2px #0a6cff}
+.caption{position:absolute;left:16px;bottom:16px;background:#1a1a1a;color:#fff;padding:8px 14px;border-radius:4px;font-size:13px;font-weight:600;letter-spacing:.3px}
+</style></head>
+<body>
+<div class="frame">
+  <div class="topbar">
+    <div class="brand">Acme</div>
+    <div class="nav"><span>Dashboard</span><span>Settings</span><span>Help</span></div>
+  </div>
+  <div class="main">
+    <h1>Create your workspace</h1>
+    <p>Enter a name for your team. The field below shows an instant focus ring with no fade-in, kept 2px off the control in the action color.</p>
+    <div class="card">
+      <div class="field">
+        <label for="name">Workspace name</label>
+        <input id="name" type="text" value="Acme Labs" autofocus>
+      </div>
+      <button class="btn">Continue</button>
+    </div>
+  </div>
+  <div class="caption">OPTION A — instant focus ring, always visible</div>
+</div>
+</body></html>

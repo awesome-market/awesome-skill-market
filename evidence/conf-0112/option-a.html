@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Option A</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#f4f1ec;color:#2c2c2c;height:800px;overflow:hidden}
+header{display:flex;justify-content:space-between;align-items:center;padding:20px 32px;border-bottom:1px solid #d8d2c6}
+.logo{font-weight:700;letter-spacing:.5px}
+nav a{margin-left:20px;color:#5a5a5a;text-decoration:none;font-size:14px}
+.hero{display:flex;height:520px;border-bottom:1px solid #d8d2c6}
+.hero-img{flex:0 0 55%;background:#8fa67a;position:relative}
+.hero-img::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,#a3b88f,#6f8a5c)}
+.hero-text{flex:1;padding:60px 48px;display:flex;flex-direction:column;justify-content:center}
+.hero-text h1{font-size:40px;line-height:1.15;margin-bottom:16px}
+.hero-text p{font-size:16px;line-height:1.6;color:#4a4a4a;max-width:380px;margin-bottom:24px}
+.cta{display:inline-block;background:#2c2c2c;color:#fff;padding:12px 24px;text-decoration:none;font-size:14px;border-radius:4px}
+.section{padding:48px 32px}
+.section h2{font-size:22px;margin-bottom:16px}
+.section p{font-size:14px;line-height:1.6;color:#4a4a4a;max-width:640px}
+.credits{position:absolute;bottom:0;left:0;background:#2c2c2c;color:#f4f1ec;padding:8px 32px;font-size:12px;letter-spacing:.3px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Haven &amp; Co.</div>
+  <nav><a href="#">Stays</a><a href="#">Experiences</a><a href="#">About</a></nav>
+</header>
+<section class="hero">
+  <div class="hero-img" role="img" aria-label="Photograph of the client's own property interior"></div>
+  <div class="hero-text">
+    <h1>Stay at the Rivermill House</h1>
+    <p>A restored 1920s mill by the water, run by the family who lives here. Book directly and meet the hosts.</p>
+    <a href="#" class="cta">Check availability</a>
+  </div>
+</section>
+<section class="section">
+  <h2>The rooms</h2>
+  <p>Three bedrooms, each named after the family. Linen is washed on-site and replaced weekly by the same housekeeping team.</p>
+</section>
+<section class="section">
+  <h2>Breakfast</h2>
+  <p>Seasonal produce from the garden out back, plus eggs from the chickens the family keeps by the fence.</p>
+</section>
+<div class="credits">Photo: Rivermill House family — used with permission</div>
+</body>
+</html>

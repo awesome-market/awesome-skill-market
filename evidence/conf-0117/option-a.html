@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Option A</title>
+<style>
+  body{margin:0;font-family:system-ui,sans-serif;background:#f4f5f7;color:#1a1a1a;height:800px;overflow:hidden}
+  .app{display:flex;flex-direction:column;height:100%}
+  header{background:#1a1a1a;color:#fff;padding:16px 24px;font-size:14px;letter-spacing:.3px;display:flex;justify-content:space-between;align-items:center}
+  header .brand{font-weight:700}
+  header .meta{opacity:.7;font-size:12px}
+  main{flex:1;padding:32px;overflow:auto}
+  h1{margin:0 0 8px;font-size:28px}
+  p.lead{margin:0 0 32px;color:#555;max-width:640px;line-height:1.5}
+  .card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .card{background:#fff;border:1px solid #e0e0e0;border-radius:10px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  .card h3{margin:0 0 8px;font-size:16px}
+  .card p{margin:0;color:#666;font-size:13px;line-height:1.4}
+  .tag{display:inline-block;background:#e8f0fe;color:#3a6ea5;font-size:11px;padding:3px 8px;border-radius:20px;margin-top:12px}
+  .measure-box{background:#fffbe6;border:1px dashed #d6b65b;border-radius:8px;padding:16px;margin-top:40px;max-width:640px}
+  .measure-box .label{font-size:12px;color:#8a6d1b;font-weight:600;letter-spacing:.4px}
+  .measure-box .value{font-size:22px;font-weight:700;margin-top:6px}
+  .note{margin-top:10px;font-size:12px;color:#777}
+  .caption{position:fixed;left:16px;bottom:16px;background:#1a1a1a;color:#fff;padding:8px 14px;border-radius:6px;font-size:12px;letter-spacing:.3px;z-index:10}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <span class="brand">Fieldwise</span>
+    <span class="meta">Layout read during render — Option A</span>
+  </header>
+  <main>
+    <h1>Measure before mount</h1>
+    <p class="lead">A component must know its own pixel width before it can lay out children. The rule forbids reading layout during render, so this measurement is shown as a frozen result rather than computed live.</p>
+    <div class="card-grid">
+      <div class="card"><h3>Panel 1</h3><p>Content flows into a fixed column grid.</p><span class="tag">deferred</span></div>
+      <div class="card"><h3>Panel 2</h3><p>Same width constraint applied statically.</p><span class="tag">deferred</span></div>
+      <div class="card"><h3>Panel 3</h3><p>Third column mirrors the first.</p><span class="tag">deferred</span></div>
+    </div>
+    <div class="measure-box">
+      <div class="label">Frozen measured width (getBoundingClientRect)</div>
+      <div class="value">640px</div>
+      <div class="note">Value captured before mount; render uses the stored number instead of reading layout live.</div>
+    </div>
+  </main>
+</div>
+<div class="caption">OPTION A — layout read during render</div>
+</body>
+</html>

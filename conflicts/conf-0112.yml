@@ -1,0 +1,32 @@
+id: conf-0112
+status: pending
+fingerprint: 2267e347e23e
+detected_at: 2026-11-22T18:01:36.672Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--900
+    hash: a0aa95be2f5c
+    severity: reflex
+    text: Lead every main section of a product, place, or service page with the client's own photograph, else one chosen via `photos.mjs`, shown plain and credited in a single footer line.
+    text_zh: RULE A：每个产品、place 或服务页面的主区块，均以客户自己的照片开头，否则通过 `photos.mjs` 选取，并plain 展示、在单行 footer 中署名。
+  - key: B
+    source: taste-skill
+    rule_id: taste--1108
+    hash: 1f4e52de57ed
+    severity: reflex
+    text: For remote places whose brief names a region, lead the hero with that region's landscape.
+    text_zh: RULE B：对于 brief 名称为某个区域的 remote places，hero 以该区域的 landscape 开头。
+ai_explanation: l2c1-lead-sections-with-client-photographs leads every main section with the client's own photograph, while l2c2-lead-hero-with-briefed-region-landscape leads the hero with the region's landscape when the brief names a region. For a place page, the hero should be the region landscape, not necessarily the client's own photograph, contradicting the client-photograph lead requirement.
+ai_explanation_zh: l2c1-lead-sections-with-client-photographs 要求每个主区块都以客户自己的照片开头；l2c2-lead-hero-with-briefed-region-landscape 要求当 brief 命名了某个区域时，hero 以该区域的景观开头。对于 place 页面，hero 应是区域景观，而非客户自己的照片，这与 client-photograph lead 要求相矛盾。
+suggestion:
+  kind: keep-b
+  note: l2c2 overrides the client-photograph lead for region-named place pages.
+  note_zh: l2c2 覆盖 region-named place 页面的 client-photograph lead。
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png
