@@ -1,9 +1,9 @@
 {
-  "name": "skill-fusion",
+  "name": "deslop-fusion",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Continuous-merge pipeline that distills multiple agent design skills into one arbitrated skill.",
+  "description": "Deslop AI-generated UI: merge pipeline that distills top agent design skills into one arbitrated skill.",
   "scripts": {
     "daemon": "node pipeline/daemon.js",
     "once": "node pipeline/daemon.js --once",

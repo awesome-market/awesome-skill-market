@@ -1,8 +1,8 @@
-# skill-fusion — agent notes
+# deslop-fusion — agent notes
 
 ## What this repo is
 
-A pipeline that merges several agent design skills into one arbitrated skill (`skill/`). LLM work happens ONLY in the local daemon against an OpenAI-compatible endpoint (`OMLX_BASE_URL`); CI must stay deterministic — never call the model from `.github/workflows`.
+A pipeline that merges several agent design skills into one arbitrated anti-AI-slop skill (`skill/`). LLM work happens ONLY in the local daemon against an OpenAI-compatible endpoint (`OMLX_BASE_URL`); CI must stay deterministic — never call the model from `.github/workflows`.
 
 ## Invariants
 
