@@ -340,8 +340,6 @@
 - **(reflex)** Only add numbered markers such as 01/02/03 when the content is genuinely a sequence like a process or timeline.
 - **(reflex)** Treat empty screens as invitations to act rather than as mood.
 - **(reflex)** Spend boldness in one place, keeping everything else quiet and disciplined, and cut decoration that does not serve the brief.
-- **(reflex)** Do not default to a warm cream background with high-contrast serif display and terracotta or warm-clay accents unless the brief explicitly requests that direction.
-- **(reflex)** Do not default to a near-black background with a single bright acid-green or vermilion accent unless the brief explicitly requests that direction.
 - **(reflex)** Do not default to a broadsheet layout with hairline rules, zero border-radius, and dense newspaper columns unless the brief explicitly requests that direction.
 - **(reflex)** Do not default to identical rounded cards sharing one border-radius, a uniform soft grey shadow, and gradient washes as decoration unless the brief explicitly requests that direction.
 - **(reflex)** Do not apply template chrome such as tracked-out ALL-CAPS eyebrows above every heading, middle-dot meta strings, spaced-em-dash labels, tinted near-black stand-in blacks, monospace data labels, or trailing arrows on links and buttons unless the brief explicitly requests them.
@@ -449,7 +447,6 @@
 - **(reflex)** When the prompt names one element, is short, targets one file, or says 'just the X', treat it as component scope.
 - **(reflex)** When a request is ambiguous like 'a pricing section', ask once whether it is one card or the whole page, defaulting to one card.
 - **(reflex)** Build one prompt in one theme twice to produce two distinct pages and never let two prompts converge on the same combination.
-- **(reflex)** Write a hero headline of seven words or fewer and one sentence of twelve words or fewer with one or two actions.
 - **(reflex)** Build six to nine sections including hero and footer with at most 450 visible words and give each section a composition with mass.
 - **(reflex)** Use one primary button style, one container width, one column gap below the hero, one radius per nesting level and never more centred heading groups than left-aligned ones.
 - **(reflex)** Limit pictures below the hero to at most a third of the page and never place two photograph-led sections in a row.
@@ -571,7 +568,6 @@
 - **(reflex)** Let the page job decide anatomy and let the theme dress it rather than replace it.
 - **(reflex)** Order sections by the argument the shape makes, never by a fixed hero-features-cta-footer pattern.
 - **(reflex)** Add steps only for genuine visitor processes and figures only for numbers the prompt states outright.
-- **(reflex)** Use photographs for a quarter to a third of the page below the hero and never lead two sections in a row.
 - **(reflex)** Follow dense sections with quiet ones and end the page on a real close.
 - **(reflex)** Close the page with the visitor's job, not a generic form.
 - **(reflex)** Make footers 200 to 400px with wordmark or closing line, real links, and a legal line.
@@ -694,7 +690,6 @@
 - **(reflex)** Use a typographic CTA with a Specimen page rather than an oversized solid button.
 - **(reflex)** When the prompt names no shape, choose three shapes from different families that fit the domain and never three near-twins.
 - **(reflex)** Fade the backdrop and scale the panel from 0.96 to 1 over the long duration on open, closing at about 65% on the ease-in.
-- **(reflex)** Move the tab indicator by transform only, never width, and animate height changes via grid-template-rows.
 - **(reflex)** Render photographs as 4:5 aspect-ratio slots with a 440px minimum height and card-radius corners.
 - **(reflex)** Use the same slot for product samples without an img element, built at full size.
 - **(reflex)** Build horizontal rails with grid auto-flow column, scroll-snap mandatory, inline gutters, and focus-visible outlines.
@@ -738,7 +733,6 @@
 - **(reflex)** Size the frame so the product fills its share of the frame.
 - **(reflex)** Fill the place's share of the frame according to data-product-place (hero 0.88, stage 0.86, tile 0.84, card 0.9).
 - **(reflex)** On a place page allow at most two moments on a long page.
-- **(reflex)** A full place page uses 12 to 20 photographs at 2 to 3 per screen and at most 6 screens.
 - **(reflex)** On pages over six screens drop the place section but never the booking.
 - **(reflex)** A compact place page uses 8 to 12 photographs across 4 or 5 screens.
 - **(reflex)** A short place page uses under 8 usable photographs, three screens and at most 2700px at 1440 with `<html data-page-mode="short">`.
@@ -798,7 +792,6 @@
 - **(reflex)** Use more and better real photographs where they fit, with nicer backgrounds, stronger heroes, layouts, and fonts.
 - **(reflex)** For place pages, lead with photographs, size them 12 to 20 on the full page, 8 to 12 compact, or under 8 on a three-screen short page, and deal the palette by trade.
 - **(reflex)** On tech pages, lead with the client's own subject at true size, show software UI as live HTML in one app-frame, use real icons and pulsing diagrams for cards, and keep hardware to its photographs or stand-ins with renders only on a 3D ask.
-- **(reflex)** Let the product or hero object lead the hero and at most two more sections, while another visual kind carries the rest of the page.
 - **(reflex)** Plan the page as screens with the kind on line one, the deal and palette reasoning on line two, and one line per section describing its id, idea, picture, kind, screen count, moment, and reason for motion.
 - **(reflex)** Use the deal commands to choose heroes, palettes, pairings, and moments from history, taking the first printed result unless it clashes with the client's logo or photographs, and never use violet.
 - **(reflex)** No single action may repeat more than once per screen.
@@ -898,7 +891,6 @@
 - **(reflex)** Moment text must sit in a .container or .wrap and end on the page's left and right edges like every other section.
 - **(reflex)** A transition's cover must be an inset panel with an even gutter on every side, keeping all content whole and never touching the section edges.
 - **(reflex)** A dealt moment may pin its section with position:sticky only inside its own data-moment box.
-- **(reflex)** Animate only transform, opacity and colours, never height, padding or layout.
 - **(reflex)** Keep median layout shift under 0.25.
 - **(reflex)** Place a sold item's name and price inside its card padding rather than as a line under a bare picture.
 - **(reflex)** Give cards with panels the full row from 640 to 1023 and two-up span-4 panels from 1024 to 1279 so no span-4 panel is under 304px wide.

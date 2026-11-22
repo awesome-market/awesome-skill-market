@@ -1,9 +1,9 @@
-generated_at: 2026-11-22T12:48:39.785Z
+generated_at: 2026-11-22T13:21:34.105Z
 counts:
   extracted: 2570
   canonical: 2570
-  merged: 2549
-  pendingHeld: 6
+  merged: 2535
+  pendingHeld: 20
 rules:
   - id: fronte-001
     rule: Identify the product, audience, and primary job from the brief or memory before designing, and confirm them with the client if the brief omits them.
@@ -1292,31 +1292,6 @@ rules:
     sources:
       - source: hallmark
         id: hallma-194
-  - id: hallma-201
-    rule: Never ship cream, off-white, or beige paper with a high-contrast serif and a clay accent.
-    severity: floor
-    scope:
-      - color
-      - type
-    evidence: screenshot
-    mechanizable: true
-    hash: ada8f57d0229
-    source: hallmark
-    sources:
-      - source: hallmark
-        id: hallma-201
-  - id: hallma-202
-    rule: Never ship a near-black page with a single neon accent.
-    severity: floor
-    scope:
-      - color
-    evidence: screenshot
-    mechanizable: true
-    hash: cee9d87fc79c
-    source: hallmark
-    sources:
-      - source: hallmark
-        id: hallma-202
   - id: hallma-203
     rule: Never ship a pale ground with a single timid accent.
     severity: floor
@@ -10726,19 +10701,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--715
-  - id: taste--716
-    rule: "Every page must include exactly three motion layers: the hero entrance, one dealt moment per section (two on long pages), and the hover/press layer."
-    severity: floor
-    scope:
-      - motion
-      - process
-    evidence: screenshot
-    mechanizable: true
-    hash: 2cc20bba6bc6
-    source: taste-skill
-    sources:
-      - source: taste-skill
-        id: taste--716
   - id: taste--717
     rule: Nothing outside the dealt moment's section and the tech big scene may animate on scroll, including reveals, parallax, scroll-snap, progress lines, scroll-spy markers or counts on view.
     severity: floor
@@ -13298,33 +13260,6 @@ rules:
     sources:
       - source: frontend-design
         id: fronte-022
-  - id: fronte-025
-    rule: Do not default to a warm cream background with high-contrast serif display and terracotta or warm-clay accents unless the brief explicitly requests that direction.
-    severity: reflex
-    scope:
-      - color
-      - type
-      - layout
-    evidence: screenshot
-    mechanizable: false
-    hash: 33da6f2ba9d4
-    source: frontend-design
-    sources:
-      - source: frontend-design
-        id: fronte-025
-  - id: fronte-026
-    rule: Do not default to a near-black background with a single bright acid-green or vermilion accent unless the brief explicitly requests that direction.
-    severity: reflex
-    scope:
-      - color
-      - layout
-    evidence: screenshot
-    mechanizable: false
-    hash: db63ac473722
-    source: frontend-design
-    sources:
-      - source: frontend-design
-        id: fronte-026
   - id: fronte-027
     rule: Do not default to a broadsheet layout with hairline rules, zero border-radius, and dense newspaper columns unless the brief explicitly requests that direction.
     severity: reflex
@@ -14224,19 +14159,6 @@ rules:
     sources:
       - source: hallmark
         id: hallma-094
-  - id: hallma-097
-    rule: Animate only transform and opacity, allowing blur, clip-path, masks and shadows only when smooth on the element alone.
-    severity: reflex
-    scope:
-      - motion
-      - code
-    evidence: recording
-    mechanizable: true
-    hash: ee3f350a47b1
-    source: hallmark
-    sources:
-      - source: hallmark
-        id: hallma-097
   - id: hallma-098
     rule: Use named easings and duration tokens, exit at 60 to 75% of enter and stagger within bounded ranges.
     severity: reflex
@@ -16279,19 +16201,6 @@ rules:
     sources:
       - source: hallmark
         id: hallma-2511
-  - id: hallma-2512
-    rule: Write a hero headline of seven words or fewer and one sentence of twelve words or fewer with one or two actions.
-    severity: reflex
-    scope:
-      - copy
-      - layout
-    evidence: screenshot
-    mechanizable: true
-    hash: 2c3d13700880
-    source: hallmark
-    sources:
-      - source: hallmark
-        id: hallma-2512
   - id: hallma-2513
     rule: Build six to nine sections including hero and footer with at most 450 visible words and give each section a composition with mass.
     severity: reflex
@@ -19415,19 +19324,6 @@ rules:
     sources:
       - source: hallmark
         id: hallma-660
-  - id: hallma-662
-    rule: Use photographs for a quarter to a third of the page below the hero and never lead two sections in a row.
-    severity: reflex
-    scope:
-      - imagery
-      - layout
-    evidence: screenshot
-    mechanizable: true
-    hash: a78d863d275e
-    source: hallmark
-    sources:
-      - source: hallmark
-        id: hallma-662
   - id: hallma-663
     rule: Follow dense sections with quiet ones and end the page on a real close.
     severity: reflex
@@ -21563,18 +21459,6 @@ rules:
     sources:
       - source: hallmark
         id: hallma-920
-  - id: hallma-927
-    rule: Use at most three motion primitives per page, counting reveals, hover signals, and one functional loop each.
-    severity: reflex
-    scope:
-      - motion
-    evidence: screenshot
-    mechanizable: false
-    hash: 4f3222faac09
-    source: hallmark
-    sources:
-      - source: hallmark
-        id: hallma-927
   - id: hallma-928
     rule: Signal hover with a color change and press with a 1px drop released on pointer up, and never animate the focus ring.
     severity: reflex
@@ -21641,20 +21525,6 @@ rules:
     sources:
       - source: hallmark
         id: hallma-936
-  - id: hallma-937
-    rule: Move the tab indicator by transform only, never width, and animate height changes via grid-template-rows.
-    severity: reflex
-    scope:
-      - motion
-      - layout
-      - code
-    evidence: screenshot
-    mechanizable: true
-    hash: 8ce310908db6
-    source: hallmark
-    sources:
-      - source: hallmark
-        id: hallma-937
   - id: hallma-938
     rule: Count real figures from the previous value over 400 to 800ms, format with Intl.NumberFormat, and announce only the final value.
     severity: reflex
@@ -23126,19 +22996,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--1102
-  - id: taste--1103
-    rule: A full place page uses 12 to 20 photographs at 2 to 3 per screen and at most 6 screens.
-    severity: reflex
-    scope:
-      - layout
-      - process
-    evidence: screenshot
-    mechanizable: false
-    hash: d68e836a4535
-    source: taste-skill
-    sources:
-      - source: taste-skill
-        id: taste--1103
   - id: taste--1104
     rule: On pages over six screens drop the place section but never the booking.
     severity: reflex
@@ -24504,19 +24361,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--1244
-  - id: taste--1246
-    rule: Let the product or hero object lead the hero and at most two more sections, while another visual kind carries the rest of the page.
-    severity: reflex
-    scope:
-      - layout
-      - imagery
-    evidence: screenshot
-    mechanizable: false
-    hash: 64dbc24f741c
-    source: taste-skill
-    sources:
-      - source: taste-skill
-        id: taste--1246
   - id: taste--1247
     rule: Give named client assets such as trailers, key art, screenshots, CAD renders, or motion videos their own frames that read finished now, named in a comment for the client's file, and never leave them empty.
     severity: reflex
@@ -27037,18 +26881,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--402
-  - id: taste--404
-    rule: Write the hero sub-line in fifteen to thirty words as one to two sentences describing how it works and the main benefit.
-    severity: reflex
-    scope:
-      - copy
-    evidence: screenshot
-    mechanizable: true
-    hash: 5429b92ac0ac
-    source: taste-skill
-    sources:
-      - source: taste-skill
-        id: taste--404
   - id: taste--405
     rule: For a place, keep the hero sub-line to eighty characters stating the fact and today's hours.
     severity: reflex
@@ -29605,19 +29437,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--777
-  - id: taste--780
-    severity: reflex
-    scope:
-      - motion
-      - layout
-    evidence: screenshot
-    mechanizable: false
-    rule: Animate only transform, opacity and colours, never height, padding or layout.
-    hash: cde37874f5f6
-    source: taste-skill
-    sources:
-      - source: taste-skill
-        id: taste--780
   - id: taste--784
     severity: reflex
     scope:

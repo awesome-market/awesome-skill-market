@@ -292,7 +292,6 @@
 - **(reflex)** Replace Shape and Theme with Idea and Look in the picks block, and state what was decided in every other row.
 - **(reflex)** Use the stamp format theme: custom with a one-sentence idea, a 4 to 8 word vibe, the paper accent and faces, hero in own words, and posture and axes values.
 - **(reflex)** Ask once about material, audience, use and tone before building, then infer skipped fields and state the inferences.
-- **(reflex)** Write a hero headline of seven words or fewer and one sentence of twelve words or fewer with one or two actions.
 - **(reflex)** Build six to nine sections including hero and footer with at most 450 visible words and give each section a composition with mass.
 - **(reflex)** Never use a stock-site URL, a drawn illustration, an empty wash, a row of counting marks or an invented figure.
 - **(reflex)** Deliver the product's signature object, such as the ledger, timeline, or queue, rather than a greeting above stat cards.
@@ -505,7 +504,6 @@
 - **(reflex)** Show at most two actions in the hero, with one on a place.
 - **(reflex)** Use at most ten different button labels across a page.
 - **(reflex)** Name the main transaction the same way in the nav, hero, close, and phone bar, and nowhere else.
-- **(reflex)** Write the hero sub-line in fifteen to thirty words as one to two sentences describing how it works and the main benefit.
 - **(reflex)** For a place, keep the hero sub-line to eighty characters stating the fact and today's hours.
 - **(reflex)** Make section headings a noun phrase or short plain claim of one to six words in at most two lines.
 - **(reflex)** Never use a bare command, question, colon heading, or context-only line as a section heading.

@@ -309,7 +309,6 @@
 - **(reflex)** In a showcase place one full-width visual at 16:9 to 21:9 and at most two smaller visuals beneath it.
 - **(reflex)** Make at least two bento tiles visual and one clearly the lead.
 - **(reflex)** Make hero visuals six or seven columns wide and 60 percent of the screen tall, or portrait objects 75 percent tall on four or five columns.
-- **(reflex)** Use photographs for a quarter to a third of the page below the hero and never lead two sections in a row.
 - **(reflex)** Use negative space as the only divider between sections, allowing at most one centered ornament for emphasis.
 - **(reflex)** Size inline images to the body measure and never render them full-bleed.
 - **(reflex)** Keep the fold free of images unless using a single full-bleed photograph as the background.
@@ -376,7 +375,6 @@
 - **(reflex)** For place pages, lead with photographs, size them 12 to 20 on the full page, 8 to 12 compact, or under 8 on a three-screen short page, and deal the palette by trade.
 - **(reflex)** For product and service pages, lead with photographs of the product, people, rooms, or work, use real icons for tools, allow at most one still diagram, and avoid shaders, prints, grain, gradients, scenes, loops, and WebGL except for a 3D render the brief explicitly asks for.
 - **(reflex)** On tech pages, lead with the client's own subject at true size, show software UI as live HTML in one app-frame, use real icons and pulsing diagrams for cards, and keep hardware to its photographs or stand-ins with renders only on a 3D ask.
-- **(reflex)** Let the product or hero object lead the hero and at most two more sections, while another visual kind carries the rest of the page.
 - **(reflex)** Give named client assets such as trailers, key art, screenshots, CAD renders, or motion videos their own frames that read finished now, named in a comment for the client's file, and never leave them empty.
 - **(reflex)** Mount effects, objects, moments, and scenes exactly as their references specify, copy moments from the correct demo files, use the starter's booking-form for forms, and derive credits from the single footer line once photographs are used.
 - **(reflex)** A place must deal two different compositions and one type moment.

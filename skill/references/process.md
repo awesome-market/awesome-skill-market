@@ -237,7 +237,6 @@
 - **(floor)** A hover or liquid moment forbids fx-button, fx-spotlight, and pointer-tracking objects, and pick must never deal two of them.
 - **(floor)** Keep the global micro-interaction layer (html[data-motion], motion.css after cards.css, motion.js after system.js) on every page and never remove, skip or override it.
 - **(floor)** When a linter complains about the motion layer, fix the markup instead of the layer.
-- **(floor)** Every page must include exactly three motion layers: the hero entrance, one dealt moment per section (two on long pages), and the hover/press layer.
 - **(floor)** Keep shaders and WebGL effects off place, product and service pages; those pages get photographs only.
 - **(floor)** Never hide text a visitor may already be reading during the entrance or behind a loader, gate or delay.
 - **(floor)** Never emit a second hero entrance or an entrance longer than about 1.1s.
@@ -458,7 +457,6 @@
 - **(reflex)** The report must name every stand-in and the art to replace it.
 - **(reflex)** The report must list every stand-in and the shots to take when no photographs exist.
 - **(reflex)** When a recipe and this section disagree on a place, this section wins.
-- **(reflex)** A full place page uses 12 to 20 photographs at 2 to 3 per screen and at most 6 screens.
 - **(reflex)** On pages over six screens drop the place section but never the booking.
 - **(reflex)** A compact place page uses 8 to 12 photographs across 4 or 5 screens.
 - **(reflex)** A short place page uses under 8 usable photographs, three screens and at most 2700px at 1440 with `<html data-page-mode="short">`.

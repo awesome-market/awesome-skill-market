@@ -6,7 +6,7 @@ import { DIRS, FILES } from './lib/env.js';
 import { log, readYAML, writeYAML, listYAMLFiles, tokens, jaccard, sha1, nextId } from './lib/util.js';
 import { chatJSON } from './lib/llm.js';
 
-const SIM_THRESHOLD = 0.08;
+const SIM_THRESHOLD = 0.15; // all 26 observed conflict pairs score >= 0.182; scope-admission alone was 97% noise
 const MAX_PAIRS_PER_RUN = 80;
 const JUDGE_POOL = 4; // concurrent judge calls — omlx handles a few fine; thinking calls are the bottleneck
 const CACHE_FILE = path.join(DIRS.work, 'judge-cache.jsonl'); // verdict replay cache — survives Ctrl-C
@@ -138,7 +138,7 @@ export async function merge({ applyOnly = false, limit = MAX_PAIRS_PER_RUN } = {
       if (sameSrc) continue;
       const sim = jaccard(tok[i], tok[j]);
       const sharedScope = canonical[i].scope?.some((s) => canonical[j].scope?.includes(s));
-      if (sim >= SIM_THRESHOLD || sharedScope) pairs.push([i, j, sim + (sharedScope ? 0.05 : 0)]);
+      if (sim >= SIM_THRESHOLD) pairs.push([i, j, sim + (sharedScope ? 0.05 : 0)]);
     }
   }
   pairs.sort((a, b) => b[2] - a[2]);

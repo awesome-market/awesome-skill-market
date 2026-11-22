@@ -1,7 +1,7 @@
 ---
 name: deslop
 description: "Anti-AI-slop design skill. Use when building, redesigning, reviewing, or auditing web/app UI. Distilled from multiple upstream design skills with human-arbitrated conflict resolution; covers aesthetic direction, hard floor rules, motion/a11y craft details."
-version: "0.8.15"
+version: "0.9.15"
 ---
 
 # Deslop
@@ -110,8 +110,6 @@ Rules distilled from upstream design skills by the deslop-fusion pipeline. **Do 
 - Only enter a custom run when the user explicitly requests it, such as by saying custom, bespoke, no theme, or a world of its own.
 - On a custom run make every design decision for this client instead of dealing or prescribing a theme, shape, section list, component, palette recipe, or draw.
 - Build a whole site of usually six to nine sections from the first screen to the footer, each section built around something worth looking at.
-- Never ship cream, off-white, or beige paper with a high-contrast serif and a clay accent.
-- Never ship a near-black page with a single neon accent.
 - Never ship a pale ground with a single timid accent.
 - Never ship purple transitioning into blue.
 - Never pick a hue for the category, such as blue for software or green for health.
@@ -835,7 +833,6 @@ Rules distilled from upstream design skills by the deslop-fusion pipeline. **Do 
 - Wrap every leading photograph in an <a class="m-zoom"> around its <img>, or place img.frame__img inside a linked frame.
 - Mark every interactive button with the .btn class and every running-text link with .link.
 - At 1440px width a hovered card must lift 2px and a hovered photograph must scale to 1.02–1.03.
-- Every page must include exactly three motion layers: the hero entrance, one dealt moment per section (two on long pages), and the hover/press layer.
 - Nothing outside the dealt moment's section and the tech big scene may animate on scroll, including reveals, parallax, scroll-snap, progress lines, scroll-spy markers or counts on view.
 - Keep shaders and WebGL effects off place, product and service pages; those pages get photographs only.
 - Never reveal cards, rows or tiles by fade, rise, stagger or mask wipe as the page scrolls.
@@ -1034,8 +1031,6 @@ Rules distilled from upstream design skills by the deslop-fusion pipeline. **Do 
 - Treat empty screens as invitations to act rather than as mood.
 - Keep copy conversational with plain verbs, sentence case, no filler, and a tone matched to the brand and audience.
 - Spend boldness in one place, keeping everything else quiet and disciplined, and cut decoration that does not serve the brief.
-- Do not default to a warm cream background with high-contrast serif display and terracotta or warm-clay accents unless the brief explicitly requests that direction.
-- Do not default to a near-black background with a single bright acid-green or vermilion accent unless the brief explicitly requests that direction.
 - Do not default to a broadsheet layout with hairline rules, zero border-radius, and dense newspaper columns unless the brief explicitly requests that direction.
 - Do not default to identical rounded cards sharing one border-radius, a uniform soft grey shadow, and gradient washes as decoration unless the brief explicitly requests that direction.
 - Do not apply template chrome such as tracked-out ALL-CAPS eyebrows above every heading, middle-dot meta strings, spaced-em-dash labels, tinted near-black stand-in blacks, monospace data labels, or trailing arrows on links and buttons unless the brief explicitly requests them.
@@ -1097,8 +1092,10 @@ Rules distilled from upstream design skills by the deslop-fusion pipeline. **Do 
 - Set labels, captions and meta to the body face in sentence case and untracked, reserving monospace for code and measured figures.
 - Build paper, ink, five to nine neutrals and one accent with tinted values, plus a focus colour on the accent hue.
 - Keep the accent under 5% of viewport area under the default Restrained posture, using it only as a signal.
+- Declare colour posture in the stamp and honour its surface and accent footprint rules.
+- Treat dark mode as opt-in and derived, never as an inversion of light mode.
 
-_…and 1379 more reflex rules in references/ — load the scope file you're working in._
+_…and 1368 more reflex rules in references/ — load the scope file you're working in._
 
 ## Finish & Direction
 
@@ -1106,15 +1103,15 @@ _…and 1379 more reflex rules in references/ — load the scope file you're wor
 
 ## References — load on demand for the scope you're working in
 
-- `references/color.md` — 302 rules on color
-- `references/type.md` — 279 rules on type
-- `references/layout.md` — 986 rules on layout
-- `references/motion.md` — 326 rules on motion
+- `references/color.md` — 298 rules on color
+- `references/type.md` — 277 rules on type
+- `references/layout.md` — 978 rules on layout
+- `references/motion.md` — 321 rules on motion
 - `references/a11y.md` — 272 rules on a11y
-- `references/copy.md` — 630 rules on copy
-- `references/imagery.md` — 477 rules on imagery
-- `references/code.md` — 1064 rules on code
-- `references/process.md` — 658 rules on process
+- `references/copy.md` — 628 rules on copy
+- `references/imagery.md` — 475 rules on imagery
+- `references/code.md` — 1062 rules on code
+- `references/process.md` — 656 rules on process
 
 ## Lint
 

@@ -15,7 +15,6 @@
 - **(floor)** Reference tokens.css as the source of truth and list every role declared in its :root block.
 - **(floor)** Include a Controls section specifying Primary fill, radius, and height and Secondary outline-or-text with matching radius and height.
 - **(floor)** On a custom run make every design decision for this client instead of dealing or prescribing a theme, shape, section list, component, palette recipe, or draw.
-- **(floor)** Never ship cream, off-white, or beige paper with a high-contrast serif and a clay accent.
 - **(floor)** Never use faces from fonts.md banned or saturated lists, or any face a catalog theme sets.
 - **(floor)** Never use an eyebrow, tracked capitals, mono labels, one colored word in a head, or middle-dot strings.
 - **(floor)** Avoid two clipped fragments in a row for the headline, since that is the shape every model reaches for.
@@ -102,7 +101,6 @@
 - **(reflex)** Use structural devices such as outlines, borders, numbering, dividers, and labels only when they encode real information about the content.
 - **(reflex)** Only add numbered markers such as 01/02/03 when the content is genuinely a sequence like a process or timeline.
 - **(reflex)** Spend boldness in one place, keeping everything else quiet and disciplined, and cut decoration that does not serve the brief.
-- **(reflex)** Do not default to a warm cream background with high-contrast serif display and terracotta or warm-clay accents unless the brief explicitly requests that direction.
 - **(reflex)** Do not default to a broadsheet layout with hairline rules, zero border-radius, and dense newspaper columns unless the brief explicitly requests that direction.
 - **(reflex)** Do not default to identical rounded cards sharing one border-radius, a uniform soft grey shadow, and gradient washes as decoration unless the brief explicitly requests that direction.
 - **(reflex)** Do not apply template chrome such as tracked-out ALL-CAPS eyebrows above every heading, middle-dot meta strings, spaced-em-dash labels, tinted near-black stand-in blacks, monospace data labels, or trailing arrows on links and buttons unless the brief explicitly requests them.

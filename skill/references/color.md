@@ -25,8 +25,6 @@
 - **(floor)** Remove mark shadows, 3D effects, and gradients from marks except the sparkline fade-fill.
 - **(floor)** Reference tokens.css as the source of truth and list every role declared in its :root block.
 - **(floor)** On a custom run make every design decision for this client instead of dealing or prescribing a theme, shape, section list, component, palette recipe, or draw.
-- **(floor)** Never ship cream, off-white, or beige paper with a high-contrast serif and a clay accent.
-- **(floor)** Never ship a near-black page with a single neon accent.
 - **(floor)** Never ship a pale ground with a single timid accent.
 - **(floor)** Never ship purple transitioning into blue.
 - **(floor)** Never pick a hue for the category, such as blue for software or green for health.
@@ -129,8 +127,6 @@
 - **(floor)** Do not rely on color alone to convey information or state.
 - **(floor)** Provide visible focus indicators for all interactive elements.
 - **(reflex)** Spend boldness in one place, keeping everything else quiet and disciplined, and cut decoration that does not serve the brief.
-- **(reflex)** Do not default to a warm cream background with high-contrast serif display and terracotta or warm-clay accents unless the brief explicitly requests that direction.
-- **(reflex)** Do not default to a near-black background with a single bright acid-green or vermilion accent unless the brief explicitly requests that direction.
 - **(reflex)** Do not default to identical rounded cards sharing one border-radius, a uniform soft grey shadow, and gradient washes as decoration unless the brief explicitly requests that direction.
 - **(reflex)** Do not apply template chrome such as tracked-out ALL-CAPS eyebrows above every heading, middle-dot meta strings, spaced-em-dash labels, tinted near-black stand-in blacks, monospace data labels, or trailing arrows on links and buttons unless the brief explicitly requests them.
 - **(reflex)** When the brief pins a visual direction, follow it exactly, including when it requests one of the generic default looks.

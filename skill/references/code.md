@@ -445,7 +445,6 @@
 - **(reflex)** Use spacing tokens for all gaps and allow at most three small optical nudges off the scale.
 - **(reflex)** Use CSS Grid for pages and Flexbox inside components, shrinking flex children with min-width zero and locking icons and images.
 - **(reflex)** Use overflow-x clip to keep sticky and fixed positioning working where hidden breaks them, and keep overflow visible on sections with deliberate overflow.
-- **(reflex)** Animate only transform and opacity, allowing blur, clip-path, masks and shadows only when smooth on the element alone.
 - **(reflex)** Use named easings and duration tokens, exit at 60 to 75% of enter and stagger within bounded ranges.
 - **(reflex)** Use IntersectionObserver for reveals and a passive, throttled scroll listener only where direction matters.
 - **(reflex)** Use clamp() for sizes that change continuously and media queries for layouts that change discretely, detecting capabilities with hover and pointer queries rather than width.
@@ -627,7 +626,6 @@
 - **(reflex)** Choose exactly one button voice from solid, outlined, unstyled link, oversized solid, typographic only, or form as CTA.
 - **(reflex)** Keep the six fingerprint choices coherent, drawn from the same design world.
 - **(reflex)** Use the Popover API with CSS anchor positioning that flips within 16px of an edge and close at about 65% on the ease-in.
-- **(reflex)** Move the tab indicator by transform only, never width, and animate height changes via grid-template-rows.
 - **(reflex)** Count real figures from the previous value over 400 to 800ms, format with Intl.NumberFormat, and announce only the final value.
 - **(reflex)** Swap the copy button label to Copied for 2.5s instead of showing a toast.
 - **(reflex)** Reveal the drag handle on hover and focus, use grab/grabbing cursors, mark the drop target, and reorder rows with arrow keys while announcing moves.

@@ -1,0 +1,27 @@
+id: conf-0026
+status: pending
+fingerprint: abd0e40a4f62
+detected_at: 2026-11-22T13:20:43.253Z
+evidence: screenshot
+sides:
+  - key: A
+    source: frontend-design
+    rule_id: fronte-026
+    hash: db63ac473722
+    severity: reflex
+    text: Do not default to a near-black background with a single bright acid-green or vermilion accent unless the brief explicitly requests that direction.
+    text_zh: 除非简报明确要求该方向，否则不要默认使用近黑色背景搭配单一亮酸绿或朱红强调色。
+  - key: B
+    source: hallmark
+    rule_id: hallma-202
+    hash: cee9d87fc79c
+    severity: floor
+    text: Never ship a near-black page with a single neon accent.
+    text_zh: 永远不要交付近黑色页面搭配单一霓虹强调色。
+ai_explanation: Both rules target near-black backgrounds with a single neon/acid accent, but A permits it when the brief explicitly requests that direction while B says 'Never' with no exception — a direct contradiction on the exception case.
+ai_explanation_zh: 两条规则都针对近黑色背景搭配单一霓虹/酸色强调色，但A在简报明确要求该方向时允许，而B声明'永远不要'且无例外，在例外情况下形成直接矛盾。
+suggestion:
+  kind: scope-split
+  note: when the brief explicitly requests the near-black + single neon/acid accent direction, A's exception applies (allow it); otherwise B's prohibition applies (never ship it).
+  note_zh: 当简报明确要求近黑色背景搭配单一霓虹/酸色强调色时，适用A的例外（允许）；否则适用B的禁止（不要交付）。
+issue_url: null

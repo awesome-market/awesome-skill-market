@@ -1,0 +1,27 @@
+id: conf-0022
+status: pending
+fingerprint: 5f900a75b0a7
+detected_at: 2026-11-22T13:00:06.232Z
+evidence: recording
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-097
+    hash: ee3f350a47b1
+    severity: reflex
+    text: Animate only transform and opacity, allowing blur, clip-path, masks and shadows only when smooth on the element alone.
+    text_zh: 仅动画化 transform 和 opacity，仅在模糊、clip-path、遮罩和阴影在元素本身流畅时允许。
+  - key: B
+    source: taste-skill
+    rule_id: taste--780
+    hash: cde37874f5f6
+    severity: reflex
+    text: Animate only transform, opacity and colours, never height, padding or layout.
+    text_zh: 仅动画化 transform、opacity 和颜色，永不动画化高度、内边距或布局。
+ai_explanation: Rule A conditionally permits blur, clip-path, masks, and shadows, while Rule B's exclusive 'only transform, opacity and colours' list excludes those same properties — a direct contradiction on what may be animated.
+ai_explanation_zh: 规则A有条件地允许模糊、clip-path、遮罩和阴影，而规则B的'仅 transform、opacity 和颜色'列表排除了这些属性——在可动画化属性上存在直接矛盾。
+suggestion:
+  kind: merge
+  note: Animate only transform, opacity, and colours; allow blur, clip-path, masks, and shadows only when smooth on the element alone; never animate height, padding, or layout.
+  note_zh: 仅动画化 transform、opacity 和颜色；仅在模糊、clip-path、遮罩和阴影在元素本身流畅时允许；永不动画化高度、内边距或布局。
+issue_url: null

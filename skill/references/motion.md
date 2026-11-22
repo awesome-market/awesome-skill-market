@@ -98,7 +98,6 @@
 - **(floor)** Use only full-bleed stills, whole products on stages, inset frames, or statements followed by work in heroes, and never sliders, crossfades, entry gates, loaders, or entrance animations that hide words.
 - **(floor)** Scroll moments must be scrubbed to the scrollbar within their own one- or two-screen section and show a finished state at the top and bottom.
 - **(floor)** At 1440px width a hovered card must lift 2px and a hovered photograph must scale to 1.02–1.03.
-- **(floor)** Every page must include exactly three motion layers: the hero entrance, one dealt moment per section (two on long pages), and the hover/press layer.
 - **(floor)** Nothing outside the dealt moment's section and the tech big scene may animate on scroll, including reveals, parallax, scroll-snap, progress lines, scroll-spy markers or counts on view.
 - **(floor)** Never reveal cards, rows or tiles by fade, rise, stagger or mask wipe as the page scrolls.
 - **(floor)** Never move text at a speed different from the page (no parallax on text).
@@ -145,7 +144,6 @@
 - **(reflex)** Open the page with the single most characteristic element of the subject in the most appropriate form, rather than the default big-number-and-gradient treatment.
 - **(reflex)** Use non-user-triggered motion sparingly and only to draw attention, favoring a single orchestrated moment over scattered effects.
 - **(reflex)** Animate transitions that answer a user action, showing what changed, rather than generic fade-and-slide-up section entrances and per-card hover effects.
-- **(reflex)** Animate only transform and opacity, allowing blur, clip-path, masks and shadows only when smooth on the element alone.
 - **(reflex)** Use named easings and duration tokens, exit at 60 to 75% of enter and stagger within bounded ranges.
 - **(reflex)** Allow one staggered reveal per page with content visible without it, and force end states under reduced motion.
 - **(reflex)** Use IntersectionObserver for reveals and a passive, throttled scroll listener only where direction matters.
@@ -204,12 +202,10 @@
 - **(reflex)** Choose exactly one reveal pattern from fade-up stagger, horizontal sweep, type-unmask, number-tick, typewriter, or none.
 - **(reflex)** Keep the six fingerprint choices coherent, drawn from the same design world.
 - **(reflex)** A None on Image or Reveal that the theme or material forces does not count as a shared choice for the anti-repetition rule.
-- **(reflex)** Use at most three motion primitives per page, counting reveals, hover signals, and one functional loop each.
 - **(reflex)** Signal hover with a color change and press with a 1px drop released on pointer up, and never animate the focus ring.
 - **(reflex)** Fade the backdrop and scale the panel from 0.96 to 1 over the long duration on open, closing at about 65% on the ease-in.
 - **(reflex)** Use the Popover API with CSS anchor positioning that flips within 16px of an edge and close at about 65% on the ease-in.
 - **(reflex)** Delay hover tooltips 800 to 1000ms, show focused tooltips immediately, and keep them visible while the pointer moves onto them.
-- **(reflex)** Move the tab indicator by transform only, never width, and animate height changes via grid-template-rows.
 - **(reflex)** Count real figures from the previous value over 400 to 800ms, format with Intl.NumberFormat, and announce only the final value.
 - **(reflex)** Swap the copy button label to Copied for 2.5s instead of showing a toast.
 - **(reflex)** Reveal the drag handle on hover and focus, use grab/grabbing cursors, mark the drop target, and reorder rows with arrow keys while announcing moves.
@@ -300,7 +296,6 @@
 - **(reflex)** Render noise, particles and ray marching at half resolution and 30fps or less.
 - **(reflex)** Drop the pixel ratio when frames take over 21 to 24ms.
 - **(reflex)** Draw moving-free grounds once, keep them as pictures, and release their contexts.
-- **(reflex)** Animate only transform, opacity and colours, never height, padding or layout.
 - **(reflex)** Keep WebGL contexts made over the whole scroll under 24.
 - **(reflex)** Keep median layout shift under 0.25.
 - **(reflex)** Zoom a linked-card photograph to 1.03 over 600ms inside an overflow-hidden mask without growing or moving the frame.

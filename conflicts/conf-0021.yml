@@ -1,0 +1,27 @@
+id: conf-0021
+status: pending
+fingerprint: 15e66139e2db
+detected_at: 2026-11-22T12:59:01.943Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-2512
+    hash: 2c3d13700880
+    severity: reflex
+    text: Write a hero headline of seven words or fewer and one sentence of twelve words or fewer with one or two actions.
+    text_zh: 写一个7词以内的hero headline，以及一句12词以内、含1–2个动作的句子。
+  - key: B
+    source: taste-skill
+    rule_id: taste--404
+    hash: 5429b92ac0ac
+    severity: reflex
+    text: Write the hero sub-line in fifteen to thirty words as one to two sentences describing how it works and the main benefit.
+    text_zh: 用15–30词、1–2句写hero sub-line，描述如何运作及主要好处。
+ai_explanation: Rule A caps the hero sub-line at twelve words or fewer, while Rule B requires 15–30 words; these ranges are mutually exclusive, so an agent cannot satisfy both for the same hero sub-line.
+ai_explanation_zh: 规则A把hero sub-line限制在12词以内，而规则B要求15–30词，两者范围互斥，agent无法对同一个hero sub-line同时满足。
+suggestion:
+  kind: merge
+  note: Write a hero headline of seven words or fewer and a hero sub-line of 12–30 words as one to two sentences describing how it works and the main benefit, with one or two actions.
+  note_zh: 写一个7词以内的hero headline，以及一句12–30词、1–2句的hero sub-line，描述如何运作及主要好处，含1–2个动作。
+issue_url: null
