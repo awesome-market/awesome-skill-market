@@ -2,7 +2,7 @@ id: conf-0116
 status: pending
 fingerprint: 058dcc17fff9
 detected_at: 2026-11-22T18:13:02.709Z
-evidence: none
+evidence: screenshot
 sides:
   - key: A
     source: hallmark
@@ -25,3 +25,8 @@ suggestion:
   note: Implement the space scale via Tailwind utilities (w-/p-/gap-) directly, never through --spacing- tokens, satisfying both rules.
   note_zh: 直接通过 Tailwind 工具类（w-/p-/gap-）实现间距比例，绝不通过 --spacing- 令牌，从而同时满足两条规则。
 issue_url: https://github.com/terry2010/deslop-fusion/issues/36
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

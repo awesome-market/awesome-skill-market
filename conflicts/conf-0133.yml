@@ -2,7 +2,7 @@ id: conf-0133
 status: pending
 fingerprint: b6d2e7ec5da4
 detected_at: 2026-11-22T19:40:54.747Z
-evidence: none
+evidence: screenshot
 sides:
   - key: A
     source: taste-skill
@@ -25,3 +25,8 @@ suggestion:
   note: Prefer code-l2c6's hero/[data-visual] allowance and its card-family grounds, keeping code-l2c1's placement guards as constraints.
   note_zh: 优先采用 code-l2c6 对 hero/[data-visual] 的允许及其 card-family grounds，同时保留 code-l2c1 的 placement guards 作为约束。
 issue_url: https://github.com/terry2010/deslop-fusion/issues/53
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

@@ -2,7 +2,7 @@ id: conf-0100
 status: pending
 fingerprint: ff4f10b2a1de
 detected_at: 2026-11-22T16:11:20.797Z
-evidence: none
+evidence: screenshot
 sides:
   - key: A
     source: hallmark
@@ -25,3 +25,8 @@ suggestion:
   note: l2c1 targets level-1 pages with two-family flexibility; l2c2 targets level-2 pages with stricter single-family preference. Scope by level.
   note_zh: l2c1 面向一级页面，允许两个族的灵活性；l2c2 面向二级页面，偏好更严格的单一族。按页面层级限定适用范围。
 issue_url: https://github.com/terry2010/deslop-fusion/issues/20
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

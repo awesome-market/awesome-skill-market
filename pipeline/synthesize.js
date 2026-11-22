@@ -295,7 +295,7 @@ export async function synthesize({ applyOnly = false, onlyDomain = null } = {}) 
         status: 'pending',
         fingerprint: fp,
         detected_at: new Date().toISOString(),
-        evidence: [ra.evidence, rb.evidence].includes('screenshot') ? 'screenshot' : 'none',
+        evidence: 'screenshot', // non-visual pairs degrade to 'inconclusive' at render, never blank issues
         sides: [
           { key: 'A', source: ra.sources[0]?.source ?? ra.source, rule_id: ra.id, hash: ra.hash, severity: ra.severity, text: ra.rule, text_zh: null },
           { key: 'B', source: rb.sources[0]?.source ?? rb.source, rule_id: rb.id, hash: rb.hash, severity: rb.severity, text: rb.rule, text_zh: null },

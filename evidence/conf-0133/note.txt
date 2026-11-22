@@ -1,0 +1,1 @@
+Both files share the identical scaffold; the visible difference is scope: Option A shows the single live ground as a page-level hero ground, while Option B keeps that same single effect strictly inside the hero [data-visual] frame with body copy on plain white — illustrating the A-vs-B conflict over whether one effect may occupy hero/large scope.
