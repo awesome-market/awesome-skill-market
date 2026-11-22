@@ -1,0 +1,11 @@
+id: conf-0067
+status: active
+resolution: merge
+custom: Make scenes move only under the pointer or touch, never while the page scrolls, except on tech pages where scroll-driven motion is restricted to one- or two-screen sections scrubbed to the scrollbar and showing a finished state at the top and bottom.
+reason: "auto-accepted scope-split: l0c2 and l0c4 genuinely conflict, and the scope-split resolves it by confining l0c4's scroll-driven motion to tech pages within single/two-screen sections while preserving l0c2's prohibition elsewhere."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T23:54:49.916Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

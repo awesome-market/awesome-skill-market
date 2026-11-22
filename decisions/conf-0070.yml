@@ -1,0 +1,11 @@
+id: conf-0070
+status: active
+resolution: B
+custom: null
+reason: "auto-accepted keep-b: The suggestion correctly resolves the contradiction by treating the review as a round, keeping the no-fixes-during-review rule scoped to the review pass while allowing fixes during rounds."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T23:54:53.316Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

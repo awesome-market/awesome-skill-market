@@ -1,0 +1,29 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0068.yml
+id: conf-0068
+status: dismissed
+fingerprint: a016c951246c
+detected_at: 2026-11-22T23:48:15.635Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--433
+    hash: b58e226257fa
+    severity: floor
+    text: Never print an email address, domain, or social handle, and keep socials empty unless the brief gives accounts.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--277
+    hash: 587b5cdccc18
+    severity: reflex
+    text: State how to reach them with the form, street and hours.
+    text_zh: null
+ai_explanation: "copy-l2c1 forbids printing any email, domain, or social handle ever, while copy-l2c2 requires stating how to reach them via the form and street in the footer, including printing contact details the brief gives. These directly contradict for the same footer scope: one says never print contact info, the other says print the contact info the brief provides."
+ai_explanation_zh: copy-l2c1 永远禁止打印任何邮箱、域名或社交账号，而 copy-l2c2 要求在页脚打印简介提供的联系方式（表单、街道、小时）。两者在同一页脚范围内直接矛盾：一个说永不打印联系信息，另一个说打印简介提供的联系信息。
+suggestion:
+  kind: keep-b
+  note: Resolve by treating copy-l2c1's 'no printed contact' as applying only to email/domain/social handles not supplied in the brief, while copy-l2c2's requirement to print street/hours and form-based contact governs when the brief supplies them.
+  note_zh: 通过将 copy-l2c1 的 '不打印联系信息' 限定为仅适用于简介未提供的邮箱/域名/社交账号，而 copy-l2c2 在简介提供时要求打印街道/小时和基于表单的联系方式，从而解决。
+issue_url: null
+dismiss_reason: copy-l2c1 already permits printing contact details the brief supplies, so it does not contradict copy-l2c2's requirement to print form/street/hours contact info when the brief provides it.

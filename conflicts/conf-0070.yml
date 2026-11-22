@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0070.yml
+id: conf-0070
+status: decided
+fingerprint: 09bd213402f6
+detected_at: 2026-11-22T23:54:15.259Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-1039
+    hash: 3f974bc6fbbe
+    severity: floor
+    text: Do not fix anything during the review.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--613
+    hash: a0c4791d1225
+    severity: floor
+    text: Never declare a page good enough on your own; use the rounds to fix remaining FAILs.
+    text_zh: null
+ai_explanation: process-l2c1-no-fixes-during-review forbids fixing anything during the review, while process-l2c3-never-self-declare-good-use-rounds requires using rounds to fix remaining FAILs; both govern the review/round phase and one says never fix, the other says always fix remaining FAILs, with no scope-split that keeps both intact.
+ai_explanation_zh: process-l2c1-no-fixes-during-review 禁止在评审期间修复任何内容，而 process-l2c3-never-self-declare-good-use-rounds 要求用轮次修复剩余 FAIL；两者都覆盖评审/轮次阶段，一个说绝不修复，另一个说必须修复剩余 FAIL，无法通过拆分范围同时保留。
+suggestion:
+  kind: keep-b
+  note: "Resolve by treating the review as a round: fixes happen as rounds, not inside the review itself; the no-fixes rule applies only to the review pass."
+  note_zh: 通过将修复视为轮次而非评审内操作来解决：修复发生在轮次中，no-fixes 规则仅适用于评审阶段。
+issue_url: null

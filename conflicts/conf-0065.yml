@@ -25,3 +25,8 @@ suggestion:
   note: Prefer l0c2's disable/minimize approach; keep functional state changes but drop the crossfade as optional.
   note_zh: 优先采用 l0c2 的禁用/最小化方案；保留功能性状态变化，将交叉淡入淡出作为可选。
 issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

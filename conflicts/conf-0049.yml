@@ -1,5 +1,6 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0049.yml
 id: conf-0049
-status: pending
+status: dismissed
 fingerprint: 6cb6f224ed62
 detected_at: 2026-11-22T22:50:47.343Z
 evidence: screenshot
@@ -30,3 +31,4 @@ evidence_files:
   - option-b.png
   - option-a-mobile.png
   - option-b-mobile.png
+dismiss_reason: Both rules prohibit the same warm-cream-and-serif aesthetic—l0c1 conditionally and l0c2 absolutely—so they are compatible restatements rather than contradictory rules.

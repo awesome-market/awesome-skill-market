@@ -1,0 +1,11 @@
+id: conf-0064
+status: active
+resolution: merge
+custom: Apply the fade-up staggered page-load reveal (via IntersectionObserver) only on non-index pages; on the first/index page omit all entrance reveals and keep the hero fold static.
+reason: "auto-accepted scope-split: The two rules genuinely conflict on index pages, and the scope-split cleanly resolves it by applying the staggered reveal only to non-index pages while preserving the static hero on the first page."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T23:54:46.278Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

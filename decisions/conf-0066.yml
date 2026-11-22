@@ -1,0 +1,11 @@
+id: conf-0066
+status: active
+resolution: B
+custom: null
+reason: "auto-accepted keep-b: l0c2's pause-and-control requirement genuinely overrides l0c1's permissive loop allowance, and the merged rule correctly requires both a bounded duration and an explicit pause control."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T23:54:48.612Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

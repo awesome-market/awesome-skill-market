@@ -1,0 +1,11 @@
+id: conf-0069
+status: active
+resolution: merge
+custom: Apply l1c1's density caps (max 4 slots/row, ≤1/3 of page below hero, ≤3 sections per product) to the overall page budget and row counts, and apply l1c2's large-coverage requirement (at least half a tile, 50/50 split, or whole-screen layer) only to hero and primary product sections.
+reason: "auto-accepted scope-split: The two rules govern different scopes — overall page density versus per-image prominence — and the suggestion correctly assigns density caps to the whole page while reserving large-coverage requirements for hero and primary product sections."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-22T23:54:52.335Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

@@ -25,3 +25,8 @@ suggestion:
   note: "l1c1's blooms are flat, fixed, non-animated radial tokens; l1c2's ban targets glossy 3D blobs and non-canvas ambient effects. Resolve by scope-splitting: allow l1c1's two fixed radial blooms only when the canvas itself is the design, and apply l1c2's ban elsewhere."
   note_zh: l1c1 的光斑是扁平、固定、非动画的径向 token；l1c2 的禁令针对光泽3D blob和非画布环境效果。按作用域拆分解决：仅当画布本身是设计时允许 l1c1 的两个固定径向光斑，其余场景应用 l1c2 的禁令。
 issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png
