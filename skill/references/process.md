@@ -87,6 +87,7 @@
 - **(floor)** Roll back optimistic rows over the short duration on failure and surface a persistent error toast with a retry action.
 - **(floor)** Make tab switchers keyboard-operable with aria-selected, tabindex management, and aria-controls linking tabs to panels.
 - **(floor)** Mark forms with novalidate and data-endpoint, wire aria-live polite help text, and toggle aria-invalid on validation failure.
+- **(floor)** Maintain hierarchical h1 through h6 headings and include an absolute-positioned skip-to-content link that becomes visible on focus.
 - **(floor)** Do not delete a file, remove a route, or replace a component tree without an approved file-level plan, and never edit tests to make the redesign pass.
 - **(floor)** Do not blend depths; a polish that finds the concept wrong must say so and recommend the full run.
 - **(floor)** An audit must change no project files and only report findings by tier with file:line references.
@@ -180,7 +181,7 @@
 - **(floor)** Use the lit ground only on tech pages, behind UI, in closing bands and footer-statement.
 - **(floor)** Never use gradients, hard-stop two-tones, grain, paper, halo, texture, pattern, glass, contour, canvas, backdrop-filter, gradient masks or interface shadows on non-tech pages.
 - **(floor)** Limit grain to a single tile made at load, never animated and never over UI, text or photographs.
-- **(floor)** Stop loops off screen and hold them still under reduced motion with no buttons; muted decorative loops must stop under prefers-reduced-motion.
+- **(floor)** Stop loops off-screen and hold them still under reduced motion with no buttons; muted decorative loops must stop under prefers-reduced-motion.
 - **(floor)** Never include a sample, example, or to follow note anywhere, even one line in the footer.
 - **(floor)** Invent no fact, figure, name, price, hour, or detail that the brief or client files do not supply, and leave the corresponding section empty or shrink it when a field is missing.
 - **(floor)** Use a node-and-line diagram only to show how things connect, and never to depict a screen or UI fragment.
@@ -284,6 +285,7 @@
 - **(floor)** Inputs with value must include onChange or use defaultValue for uncontrolled inputs.
 - **(floor)** Implement custom widgets with appropriate ARIA roles, states, and properties.
 - **(floor)** Ensure all functionality is operable via keyboard without a mouse.
+- **(reflex)** Write interface copy in active voice by default; reserve passive voice only when it is clearly clearer to the user.
 - **(reflex)** Keep an action's name identical across the entire flow, so the button label matches the resulting status or toast.
 - **(reflex)** When the brief pins a visual direction, follow it exactly, including when it requests one of the generic default looks.
 - **(reflex)** Work in two passes: first produce a compact design plan covering color, type, layout, and principles, then review it against the brief before writing code.
@@ -576,6 +578,7 @@
 - **(reflex)** Checkbox and radio labels plus controls must share a single hit target without dead zones.
 - **(reflex)** Keep the submit button enabled until the request starts and show a spinner during the request.
 - **(reflex)** Show errors inline next to fields and focus the first error on submit.
+- **(reflex)** Placeholders must end with an ellipsis and show an example pattern.
 - **(reflex)** Set autocomplete off on non-auth fields to avoid password manager triggers.
 - **(reflex)** Animations must remain interruptible and respond to user input mid-animation.
 - **(reflex)** Use a single ellipsis character instead of three dots.
@@ -601,6 +604,7 @@
 - **(reflex)** Suppress page rubber-band with overscroll-behavior none on html inside fine-pointer media while keeping coarse-pointer defaults.
 - **(reflex)** Disable text selection and mark dragged elements inert during drag operations.
 - **(reflex)** Use autoFocus only on desktop for a single primary input and avoid it on mobile.
+- **(reflex)** Full-bleed layouts must apply env safe-area-inset values for notches.
 - **(reflex)** Prevent unwanted scrollbars by clipping overflow on containers and fixing content overflow.
 - **(reflex)** Use flex and grid for layout instead of JavaScript measurement.
 - **(reflex)** Set color-scheme dark on html for dark themes to fix scrollbars and inputs.

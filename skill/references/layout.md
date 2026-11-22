@@ -79,7 +79,7 @@
 - **(floor)** Never use a masthead or a blurred pill, as they fight the playful register.
 - **(floor)** Every stateful control must implement all eight states: default, hover, focus, active, disabled, loading, error, and success.
 - **(floor)** Anything reachable by touch must have a 44x44 CSS pixel hit target, expanding small controls without changing their appearance.
-- **(floor)** Every field must have a visible label above it; never rely on placeholder or aria-label alone.
+- **(floor)** Every field must have a visible label above it; never rely on placeholder or aria-label alone as the label.
 - **(floor)** State changes must never alter border width, padding, height, or animate the ring; reserve a transparent outline at rest so the ring appears without shifting.
 - **(floor)** Modals must use native dialog with showModal, providing focus trap, Escape handling, and ::backdrop for free.
 - **(floor)** Overlays must mark the page behind as inert, close on Escape and backdrop click, include a visible close control, and move first focus to the first interactive element.
@@ -144,6 +144,7 @@
 - **(floor)** Open a dialog with showModal(), inert the page behind it, and move first focus to the first interactive element.
 - **(floor)** Implement every button with all eight states (default, hover, active, focus-visible, disabled, aria-disabled, busy, quiet) using the provided CSS variables and transitions.
 - **(floor)** Keep segmented radio inputs at 1px in the flow while the label carries the checked state and focus ring in body face sentence case.
+- **(floor)** Maintain hierarchical h1 through h6 headings and include an absolute-positioned skip-to-content link that becomes visible on focus.
 - **(floor)** Keep every link, form, field, handler, route, id, key, type, href, data-testid, script, data call, and analytics call, editing markup only inside the component that owns it.
 - **(floor)** Sweep the redesign against the before record and restore or record anything the page had and no longer has.
 - **(floor)** Ensure every page renders correctly across all widths from 320 to 1920 CSS pixels without relying on desktop-only interactions.
@@ -330,7 +331,7 @@
 - **(floor)** Do not use eyebrow text (small uppercase labels above headings).
 - **(floor)** Make interactive targets at least 44x44 CSS pixels with sufficient spacing.
 - **(reflex)** Open the page with the single most characteristic element of the subject in the most appropriate form, rather than the default big-number-and-gradient treatment.
-- **(reflex)** Treat type — its treatment and chosen typeface — as an active, primary design element rather than a neutral carrier or afterthought, especially when it functions as a headline or visual element.
+- **(reflex)** When type functions as a headline or visual element, treat the chosen typeface and its treatment as the primary, active design element rather than a neutral carrier or afterthought.
 - **(reflex)** Do not add typographic labels above content unless they carry meaning.
 - **(reflex)** Use structural devices such as outlines, borders, numbering, dividers, and labels only when they encode real information about the content.
 - **(reflex)** Only add numbered markers such as 01/02/03 when the content is genuinely a sequence like a process or timeline.
@@ -354,7 +355,6 @@
 - **(reflex)** A book page must end with hours, address, and the booking again.
 - **(reflex)** For a visit job, place today's hours and address in the nav or hero, and add tickets or donate only if the prompt includes them.
 - **(reflex)** A visit page must end with visit information and address, or a mailing list for what is on next.
-- **(reflex)** For attend jobs, place tickets in the nav from the first screen and surface one hard fact (a number, place, price, or date) as the headline on the first screen.
 - **(reflex)** An attend page must end with tickets again, the questions, or a mailing list for the next edition.
 - **(reflex)** For a buy job, show the product with its price and options as the hero or an Offer, and place a buy action after the sections that earn it or in a sticky bar.
 - **(reflex)** For a try job, place store or download buttons directly under the heading, one per platform the prompt names.
@@ -383,7 +383,7 @@
 - **(reflex)** Use clamp() for sizes that change continuously and media queries for layouts that change discretely, detecting capabilities with hover and pointer queries rather than width.
 - **(reflex)** Make body-adjacent UI such as meta, nav links, and controls larger on phones and tighten them at 60rem.
 - **(reflex)** When clickable text must wrap, first shorten the label, then apply white-space nowrap to the control, and finally collapse the row rather than the labels.
-- **(reflex)** Full-bleed / viewport-fit=cover layouts must apply env(safe-area-inset-*) values (via max() when computing gutter tokens) to account for notches.
+- **(reflex)** With viewport-fit cover, fold the safe area into the gutter token using max with env safe-area-inset values.
 - **(reflex)** On phones, keep the row-naming column and the action column visible by restacking each row as a labelled block or pinning the first column, treating many columns as a redesign rather than a squeeze.
 - **(reflex)** Use logical properties for spacing, allow room for 30 to 40 percent longer strings, and avoid hard-coded date or number formats.
 - **(reflex)** Treat the column beside a later screen as the pin when a pinned pane appears once in a full-page shot.
@@ -446,7 +446,7 @@
 - **(reflex)** When the prompt names one element, is short, targets one file, or says 'just the X', treat it as component scope.
 - **(reflex)** When a request is ambiguous like 'a pricing section', ask once whether it is one card or the whole page, defaulting to one card.
 - **(reflex)** Build one prompt in one theme twice to produce two distinct pages and never let two prompts converge on the same combination.
-- **(reflex)** Write a hero headline of seven words or fewer and one sentence of twelve words or fewer with one or two actions; show at most two actions in the hero, with one on a place.
+- **(reflex)** Write a hero headline of seven words or fewer and one sentence of twelve words or fewer with one or two actions.
 - **(reflex)** Build six to nine sections including hero and footer with at most 450 visible words and give each section a composition with mass.
 - **(reflex)** Use one primary button style, one container width, one column gap below the hero, one radius per nesting level and never more centred heading groups than left-aligned ones.
 - **(reflex)** Limit pictures below the hero to at most a third of the page and never place two photograph-led sections in a row.
@@ -939,6 +939,7 @@
 - **(reflex)** Anticipate short, average, and very long user-generated inputs when building containers.
 - **(reflex)** Sync stateful UI to the URL when state drives behavior.
 - **(reflex)** Apply overscroll-behavior contain inside modals, drawers, and sheets.
+- **(reflex)** Full-bleed layouts must apply env safe-area-inset values for notches.
 - **(reflex)** Prevent unwanted scrollbars by clipping overflow on containers and fixing content overflow.
 - **(reflex)** Use flex and grid for layout instead of JavaScript measurement.
 - **(reflex)** Design layouts that adapt across breakpoints without horizontal overflow.

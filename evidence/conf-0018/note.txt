@@ -1,0 +1,1 @@
+Both fixtures share the same Lumen scaffold, top nav, hero layout, and detail card. Option A makes the headline show BOTH date and place (Rule A). Option B makes the headline show only ONE hard fact — remaining seats (Rule B). The detail card below keeps date/venue/price identical in both, so the only first-screen difference is how many facts sit in the headline.

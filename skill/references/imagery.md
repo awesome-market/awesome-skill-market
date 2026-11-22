@@ -29,7 +29,6 @@
 - **(floor)** Never use Comic-style faces.
 - **(floor)** Keep numbers, names and claims in type and never let a photograph stand in for a fact, customer, teammate or testimonial.
 - **(floor)** Use only photographs printed by the library script or supplied by the user, never memory-derived URLs or stock-site images.
-- **(floor)** Set width and height or aspect-ratio on every image; for srcset images, preserve the printed srcset, set sizes to the layout width, and crop with aspect-ratio, object-fit cover, and the printed object-position.
 - **(floor)** Ensure every slot shows the user's image, a library photograph, or the fully built product, never only its wash.
 - **(floor)** Never show visible placeholder labels, ratio notes or sample chips; carry that information in data-alt and the handoff.
 - **(floor)** Never build a mock of a product the build could have captured.
@@ -235,7 +234,7 @@
 - **(floor)** When the brief does not ask for 3D, never emit a data-product-fill over 1 or a 3D render.
 - **(floor)** Every img must have alt text or alt empty string for decorative images.
 - **(reflex)** Open the page with the single most characteristic element of the subject in the most appropriate form, rather than the default big-number-and-gradient treatment.
-- **(reflex)** Treat type — its treatment and chosen typeface — as an active, primary design element rather than a neutral carrier or afterthought, especially when it functions as a headline or visual element.
+- **(reflex)** When type functions as a headline or visual element, treat the chosen typeface and its treatment as the primary, active design element rather than a neutral carrier or afterthought.
 - **(reflex)** Show the actual product or offering in the hero (the room, cover, dates, or screen) rather than a generic element.
 - **(reflex)** When the prompt gives no content for a section, build it as a clearly marked sample the user replaces, showing the shape of the real thing.
 - **(reflex)** For a try job, show features as named moments captured from the product, not icon tiles.
@@ -281,6 +280,7 @@
 - **(reflex)** Permit a single character moment as the only decorative animated element.
 - **(reflex)** Prefer the user's own media, then real product screenshots, then the built product, then library photographs, then generated stills, then full-scale type, in that order.
 - **(reflex)** Make the hero photograph the largest element on the first screen, either full-bleed behind the headline or beside it at 60 to 75 percent of screen height.
+- **(reflex)** Preserve the printed srcset, set sizes to the layout width, and crop with aspect-ratio, object-fit cover and the printed object-position.
 - **(reflex)** Mark the hero photograph as the LCP with fetchpriority high and never loading lazy, while lazy-loading every other image.
 - **(reflex)** Use a hero or full-bleed photograph at least 2400px on its long side, and treat smaller ones as soft past 1920px.
 - **(reflex)** Give every swappable image a data-slot, a data-alt describing the user's intended picture, and a real size.

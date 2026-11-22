@@ -1,7 +1,7 @@
 ---
 name: deslop
 description: "Anti-AI-slop design skill. Use when building, redesigning, reviewing, or auditing web/app UI. Distilled from multiple upstream design skills with human-arbitrated conflict resolution; covers aesthetic direction, hard floor rules, motion/a11y craft details."
-version: "0.6.11"
+version: "0.7.15"
 ---
 
 # Deslop
@@ -12,7 +12,7 @@ Rules distilled from upstream design skills by the deslop-fusion pipeline. **Do 
 
 - Identify the product, audience, and primary job from the brief or memory before designing, and confirm them with the client if the brief omits them.
 - Do not accent a single word or phrase within a headline using italic, bold, or a different color.
-- Do not render labels in all caps.
+- Do not render text in all caps (including labels and body text).
 - Write errors that explain what went wrong and how to fix them in the interface's voice without apologizing or being vague.
 - Ship responsive down to mobile, visible keyboard focus, reduced-motion respect, visual accessibility, and harmonious color palettes.
 - Read the single job named in the prompt before choosing the page shape, because it determines where the action lives, which sections belong to the category, and how the page ends.
@@ -40,7 +40,7 @@ Rules distilled from upstream design skills by the deslop-fusion pipeline. **Do 
 - Use at most two type families, with a single third family restricted to exactly one role.
 - Keep body copy at 16px minimum with 1.5 to 1.65 line-height and 45 to 75ch measure, never all caps or unhyphenated justified text.
 - Enable font-display swap, font-synthesis none, tabular-nums for comparing figures, balance on heads and pretty on body, with correct punctuation and non-breaking spaces.
-- Define all colours in OKLCH.
+- Define all colours in OKLCH; when mixing, keep ground chroma under 0.12.
 - Never use pure absolute colours as surfaces or improvised values; always tint greys toward the anchor hue.
 - Meet 4.5:1 contrast for body text and 3:1 for icons, focus rings and field edges, swapping text colour with every dark surface.
 - Avoid gradients past three stops, purple-blue, purple-pink or cyan-on-dark, glow shadows, chromatic halos, spotlights and alpha-defined colours.
@@ -103,7 +103,7 @@ Rules distilled from upstream design skills by the deslop-fusion pipeline. **Do 
 - Reference tokens.css as the source of truth and list every role declared in its :root block.
 - Include a Controls section specifying Primary fill, radius, and height and Secondary outline-or-text with matching radius and height.
 - Allow at most one reveal animation.
-- Under prefers-reduced-motion, all motion must resolve instantly and present a single still frame instead of animated motion; liquid must pause and hold still.
+- Under prefers-reduced-motion, all motion must resolve instantly and everything must rest; show a single still frame instead of animated motion, liquid and similar animated elements should pause and hold still, and nothing may remain hidden.
 - Include an Exports section that lists tokens.css and any requested Tailwind, DTCG, or shadcn blocks.
 - When design.md exists, every subsequent pick must defer to it instead of redefining it.
 - A page needing something outside the system must add a Variants section to design.md instead of overriding locally.
@@ -176,7 +176,7 @@ Rules distilled from upstream design skills by the deslop-fusion pipeline. **Do 
 - Set font-synthesis: none and load the actual italic face when a heading uses italics; never synthesise bold or italic.
 - Never use purple-to-blue, purple-to-pink, or cyan-on-dark gradients, background-clip:text, or any gradient text unless it is a single-hue ramp with both stops as tokens.
 - Never emit #000, #fff, oklch(0%), or oklch(100%) as a colour outside the token block, and never resolve a surface token to a pure absolute unless the stamp declares surface:absolute.
-- Use one family or a display plus text face with fixed jobs, at most four font files, and never Inter, Roboto, Open Sans, Poppins, Lato, Montserrat, Space Grotesk, Plus Jakarta Sans, or the system look; always choose the display face from the theme or fonts.md.
+- Use one family or a display plus text face with fixed jobs, at most four font files, and never Inter, Roboto, Open Sans, Poppins, Lato, Montserrat, Space Grotesk, Plus Jakarta Sans, or the system look; always use a display face from the theme or fonts.md.
 - Never place one italic word inside an otherwise roman heading; use a line break or set the whole heading one way.
 - Never allow an uppercase display head to wrap with line-height under 1.0; use at least 1.0 and ideally 1.02 to 1.08.
 - Never emit a tracked-caps label: any label, caption, table head, nav link, tag, chip, or text at 15px or under set uppercase, small caps, or letter-spaced past 0.03em.
@@ -213,7 +213,7 @@ Rules distilled from upstream design skills by the deslop-fusion pipeline. **Do 
 - Move every colour and font-family literal into the token block instead of writing raw values.
 - Keep button labels and primary nav links from wrapping between 320px and 1920px widths by shortening them or applying white-space:nowrap.
 - Never use fake-human avatar hotlinks or person-keyword stock URLs.
-- lang, title, description, and share tags must all be set on every document.
+- Set lang, a title element, a meta description, and share tags on every document.
 - Until a form endpoint exists, validate without posting and plainly state that nothing was sent.
 - Never ship with an open FAIL or REFLEX; fix floors, fix or waive reflexes, and read and answer finish findings.
 - Use exactly one accent hue applied only to the canvas treatment, focus rings, and small tags, never to display text unless the theme's type names an accented word.
@@ -251,7 +251,6 @@ Rules distilled from upstream design skills by the deslop-fusion pipeline. **Do 
 - Never use a masthead or a blurred pill, as they fight the playful register.
 - Keep numbers, names and claims in type and never let a photograph stand in for a fact, customer, teammate or testimonial.
 - Use only photographs printed by the library script or supplied by the user, never memory-derived URLs or stock-site images.
-- Set width and height or aspect-ratio on every image; for srcset images, preserve the printed srcset, set sizes to the layout width, and crop with aspect-ratio, object-fit cover, and the printed object-position.
 - Ensure every slot shows the user's image, a library photograph, or the fully built product, never only its wash.
 - Never show visible placeholder labels, ratio notes or sample chips; carry that information in data-alt and the handoff.
 - Never build a mock of a product the build could have captured.
@@ -260,14 +259,14 @@ Rules distilled from upstream design skills by the deslop-fusion pipeline. **Do 
 - Never use rows or grids of identical marks to represent quantities; set the number in type instead.
 - Never use illustration packs, mascots, 3D blobs, isometric scenes, mesh orbs, auroras behind text, stock faces as proof, invented logo walls, hover zoom or rotation, baked text in images, or photos of other interfaces.
 - Every stateful control must implement all eight states: default, hover, focus, active, disabled, loading, error, and success.
-- Interactive elements must show a visible focus ring via :focus-visible, rendered as a 2px solid focus-colour ring with 2px offset (inset on inputs via negative offset).
+- Interactive elements must show a visible focus ring via focus-visible ring utilities: a 2px solid focus-colour ring with 2px offset (inset on inputs via negative offset), shown only via :focus-visible.
 - Never apply outline: none (or outline: 0) without replacing it with an equivalent visible focus indicator / focus-visible style.
 - The focus ring must maintain at least 3:1 contrast against both the element and the page background.
 - Disabled controls must combine opacity 0.55, cursor not-allowed, and the native disabled attribute or aria-disabled, keeping focusability via aria-disabled when needed.
 - Error state must apply the error colour to the border, message, and aria-invalid, never relying on colour alone.
 - Success state must derive from the server response, use at most one icon from the page set, never a toast, and must not exist where no request was made.
 - Anything reachable by touch must have a 44x44 CSS pixel hit target, expanding small controls without changing their appearance.
-- Every field must have a visible label above it; never rely on placeholder or aria-label alone.
+- Every field must have a visible label above it; never rely on placeholder or aria-label alone as the label.
 - Error messages must describe what broke, why, and what to do in one sentence, tied to the field via aria-describedby and aria-invalid true.
 - Required fields must carry aria-required and a visible word, never colour alone.
 - Submit must be disabled only while a request is in flight, never at rest.
@@ -305,7 +304,7 @@ Rules distilled from upstream design skills by the deslop-fusion pipeline. **Do 
 - Do not invent or fabricate any numeric figure on the page.
 - Until the user supplies a real capture, render the product built via a data-slot as specified in imagery.md section 4.
 - Exclude all browser and device chrome from captures.
-- Make each FAQ section heading a short direct question ending in a question mark; never use a question as a heading outside the FAQ.
+- Make each FAQ section heading a short direct question ending in a question mark, and never use a question as a heading outside the FAQ.
 - Do not reveal FAQ answers on page load.
 - Derive emphasis in manifesto headings exclusively from line breaks, never from coloured or italicised words.
 - Separate manifesto sections by changes of paper or the theme's own rules, never by cards.
@@ -382,8 +381,8 @@ Rules distilled from upstream design skills by the deslop-fusion pipeline. **Do 
 - Mark forms with novalidate and data-endpoint, wire aria-live polite help text, and toggle aria-invalid on validation failure.
 - Display a clear message when a form has no connected endpoint instead of attempting a fetch.
 - Keep reveal targets visible at their end state when scripting is off and under reduced motion.
-- Pause any content moving longer than five seconds (including autoplaying motion alongside other content) until script runs, off-screen, under reduced motion, on hover/focus, and expose visible pause, stop, or hide controls.
-- Include an absolute-positioned skip-to-content link that becomes visible on focus, and maintain hierarchical h1 through h6 headings.
+- Pause any content moving longer than five seconds (until script runs, off-screen, under reduced motion, on hover/focus) and expose visible pause, stop, or hide controls.
+- Maintain hierarchical h1 through h6 headings and include an absolute-positioned skip-to-content link that becomes visible on focus.
 - Carry over every fact, claim, name, price, date, quote, figure, and logo from the existing page exactly as found, adding nothing the page did not already state.
 - Keep every link, form, field, handler, route, id, key, type, href, data-testid, script, data call, and analytics call, editing markup only inside the component that owns it.
 - Never move logic, rename a prop, or drop any attribute that a script or test reads, and never build state the existing screen has no logic for.
@@ -592,7 +591,6 @@ Rules distilled from upstream design skills by the deslop-fusion pipeline. **Do 
 - Every button, link, linked card, and linked photograph must visibly respond to the pointer, and nothing may tilt.
 - A still must render once, keep an img, free its context, and remove its canvases.
 - Nothing may move because the page scrolled except a dealt moment inside its own section or the big scene for tech.
-- Under reduced motion, everything must rest and nothing may stay hidden.
 - At most four live WebGL contexts may be active.
 - Contacts must include street number, postcode, coordinates, company number, and phone number as specified in rule 9.
 - Get directions requires a street, See the area requires a district, and no map link may use a town only.
@@ -648,7 +646,7 @@ Rules distilled from upstream design skills by the deslop-fusion pipeline. **Do 
 - Keep the point of a fragment above 100% minus --fade-h and only fade context.
 - Place a soft field such as painterly-landscape, grain-gradient, gradient-mesh, or silk-folds behind a fragment, and never a pattern that fights the UI.
 - Keep grounds to calm hues of their own and never use violet or lavender.
-- Stop loops off screen and hold them still under reduced motion with no buttons; muted decorative loops must stop under prefers-reduced-motion.
+- Stop loops off-screen and hold them still under reduced motion with no buttons; muted decorative loops must stop under prefers-reduced-motion.
 - Never place a big fragment dead centre with even ground all round, nor a dialog alone on a ground.
 - Never build three levels of boxes: a card, a patterned panel, and a white card on it.
 - Never put a pattern behind a window or a list.
@@ -1005,7 +1003,7 @@ Rules distilled from upstream design skills by the deslop-fusion pipeline. **Do 
 
 - Open the page with the single most characteristic element of the subject in the most appropriate form, rather than the default big-number-and-gradient treatment.
 - Choose non-default typefaces and set a clear type scale with intentional weights, widths, and spacing.
-- Treat type — its treatment and chosen typeface — as an active, primary design element rather than a neutral carrier or afterthought, especially when it functions as a headline or visual element.
+- When type functions as a headline or visual element, treat the chosen typeface and its treatment as the primary, active design element rather than a neutral carrier or afterthought.
 - Keep body line lengths under 80 characters, allowing slightly longer lines for serif body text.
 - Give serif body text slightly more line-height than sans-serif body text.
 - Do not add typographic labels above content unless they carry meaning.
@@ -1015,7 +1013,7 @@ Rules distilled from upstream design skills by the deslop-fusion pipeline. **Do 
 - Animate transitions that answer a user action, showing what changed, rather than generic fade-and-slide-up section entrances and per-card hover effects.
 - Treat copy as design content and write it with the same intentionality and minimalism applied to spacing and color.
 - Name things by what users understand in plain language rather than by how the system is built.
-- Write interface copy in active voice by default; reserve passive voice only when it is genuinely clearer.
+- Write interface copy in active voice by default; reserve passive voice only when it is clearly clearer to the user.
 - Keep an action's name identical across the entire flow, so the button label matches the resulting status or toast.
 - Treat empty screens as invitations to act rather than as mood.
 - Keep copy conversational with plain verbs, sentence case, no filler, and a tone matched to the brand and audience.
@@ -1041,7 +1039,6 @@ Rules distilled from upstream design skills by the deslop-fusion pipeline. **Do 
 - A book page must end with hours, address, and the booking again.
 - For a visit job, place today's hours and address in the nav or hero, and add tickets or donate only if the prompt includes them.
 - A visit page must end with visit information and address, or a mailing list for what is on next.
-- For attend jobs, place tickets in the nav from the first screen and surface one hard fact (a number, place, price, or date) as the headline on the first screen.
 - An attend page must end with tickets again, the questions, or a mailing list for the next edition.
 - For a buy job, show the product with its price and options as the hero or an Offer, and place a buy action after the sections that earn it or in a sticky bar.
 - For a try job, place store or download buttons directly under the heading, one per platform the prompt names.
@@ -1079,10 +1076,11 @@ Rules distilled from upstream design skills by the deslop-fusion pipeline. **Do 
 - Set display line-height between 1.0 and 1.15, tightening as size grows, and never below 1.0 for wrappable uppercase heads.
 - Keep each display head to one weight, one style and one colour, deriving stress from breaks or size rather than styling.
 - Size and wrap headings by their rendered character count, splitting long heads at sense breaks and rewriting heads over 90 characters.
-- Apply text-wrap balance to headings and text-pretty to body copy to prevent widows and ensure no heading or paragraph ends on a single stub word.
+- Apply text-wrap balance to headings and text-pretty to body copy to prevent widows and single stub words at the end of headings or paragraphs.
 - Constrain headings by their own element width in ch, not by their wrapper.
 - Set labels, captions and meta to the body face in sentence case and untracked, reserving monospace for code and measured figures.
 - Build paper, ink, five to nine neutrals and one accent with tinted values, plus a focus colour on the accent hue.
+- Keep the accent under 5% of viewport area under the default Restrained posture, using it only as a signal.
 
 _…and 1364 more reflex rules in references/ — load the scope file you're working in._
 
@@ -1092,15 +1090,15 @@ _…and 1364 more reflex rules in references/ — load the scope file you're wor
 
 ## References — load on demand for the scope you're working in
 
-- `references/color.md` — 300 rules on color
-- `references/type.md` — 266 rules on type
-- `references/layout.md` — 978 rules on layout
+- `references/color.md` — 299 rules on color
+- `references/type.md` — 264 rules on type
+- `references/layout.md` — 979 rules on layout
 - `references/motion.md` — 320 rules on motion
 - `references/a11y.md` — 257 rules on a11y
 - `references/copy.md` — 619 rules on copy
 - `references/imagery.md` — 475 rules on imagery
-- `references/code.md` — 1044 rules on code
-- `references/process.md` — 644 rules on process
+- `references/code.md` — 1050 rules on code
+- `references/process.md` — 648 rules on process
 
 ## Lint
 

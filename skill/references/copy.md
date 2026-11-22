@@ -1,7 +1,6 @@
 # copy
 
 - **(floor)** Identify the product, audience, and primary job from the brief or memory before designing, and confirm them with the client if the brief omits them.
-- **(floor)** Do not render labels in all caps.
 - **(floor)** Write errors that explain what went wrong and how to fix them in the interface's voice without apologizing or being vague.
 - **(floor)** A sample section must never state a fact a visitor could take as true, such as a price, date, person's name, count, or review.
 - **(floor)** A buy page must never use an email field as its close; place it in the footer instead.
@@ -43,7 +42,7 @@
 - **(floor)** Never use illustration packs, mascots, 3D blobs, isometric scenes, mesh orbs, auroras behind text, stock faces as proof, invented logo walls, hover zoom or rotation, baked text in images, or photos of other interfaces.
 - **(floor)** Error state must apply the error colour to the border, message, and aria-invalid, never relying on colour alone.
 - **(floor)** Success state must derive from the server response, use at most one icon from the page set, never a toast, and must not exist where no request was made.
-- **(floor)** Every field must have a visible label above it; never rely on placeholder or aria-label alone.
+- **(floor)** Every field must have a visible label above it; never rely on placeholder or aria-label alone as the label.
 - **(floor)** Error messages must describe what broke, why, and what to do in one sentence, tied to the field via aria-describedby and aria-invalid true.
 - **(floor)** Required fields must carry aria-required and a visible word, never colour alone.
 - **(floor)** Never leave empty grid frames, stock faces for people, or icon tiles over headings.
@@ -226,6 +225,7 @@
 - **(floor)** Every interactive element must have an accessible name via label, aria-label, or visible text.
 - **(reflex)** Treat copy as design content and write it with the same intentionality and minimalism applied to spacing and color.
 - **(reflex)** Name things by what users understand in plain language rather than by how the system is built.
+- **(reflex)** Write interface copy in active voice by default; reserve passive voice only when it is clearly clearer to the user.
 - **(reflex)** Keep an action's name identical across the entire flow, so the button label matches the resulting status or toast.
 - **(reflex)** Treat empty screens as invitations to act rather than as mood.
 - **(reflex)** Keep copy conversational with plain verbs, sentence case, no filler, and a tone matched to the brand and audience.
@@ -240,7 +240,6 @@
 - **(reflex)** A book page must end with hours, address, and the booking again.
 - **(reflex)** For a visit job, place today's hours and address in the nav or hero, and add tickets or donate only if the prompt includes them.
 - **(reflex)** A visit page must end with visit information and address, or a mailing list for what is on next.
-- **(reflex)** For attend jobs, place tickets in the nav from the first screen and surface one hard fact (a number, place, price, or date) as the headline on the first screen.
 - **(reflex)** An attend page must end with tickets again, the questions, or a mailing list for the next edition.
 - **(reflex)** For a sign-up job, place start free in the nav and hero with its terms in one line under it.
 - **(reflex)** For a hire job, use a plain contact (email, phone, or Talk to us) in the nav and once more after the work, with no form.
@@ -289,7 +288,7 @@
 - **(reflex)** Replace Shape and Theme with Idea and Look in the picks block, and state what was decided in every other row.
 - **(reflex)** Use the stamp format theme: custom with a one-sentence idea, a 4 to 8 word vibe, the paper accent and faces, hero in own words, and posture and axes values.
 - **(reflex)** Ask once about material, audience, use and tone before building, then infer skipped fields and state the inferences.
-- **(reflex)** Write a hero headline of seven words or fewer and one sentence of twelve words or fewer with one or two actions; show at most two actions in the hero, with one on a place.
+- **(reflex)** Write a hero headline of seven words or fewer and one sentence of twelve words or fewer with one or two actions.
 - **(reflex)** Build six to nine sections including hero and footer with at most 450 visible words and give each section a composition with mass.
 - **(reflex)** Never use a stock-site URL, a drawn illustration, an empty wash, a row of counting marks or an invented figure.
 - **(reflex)** Deliver the product's signature object, such as the ledger, timeline, or queue, rather than a greeting above stat cards.
@@ -315,6 +314,7 @@
 - **(reflex)** Write warm, direct, specific copy and avoid quirk for its own sake.
 - **(reflex)** Add captions as facts from the prompt beside or under each picture, never credit lines or claims that a stand-in is the user's own person, place or product.
 - **(reflex)** Display only the user's own logos, monochrome and one treatment per row, sized 32 to 48px tall, plus Simple Icons only for named platforms or brands.
+- **(reflex)** Placeholders must show a format example, never an instruction.
 - **(reflex)** Labels sit 4 to 8px above fields, helpers sit about 4px below at label size with min-height 1lh, and errors replace helpers in that line without adding a second.
 - **(reflex)** Reversible actions must run immediately and offer Undo for 5 to 10 seconds; irreversible actions must keep confirm with the user typing the name of the thing being destroyed.
 - **(reflex)** Empty states must state what is empty, why it matters, and one action, never a bare No results.
@@ -574,6 +574,7 @@
 - **(reflex)** The every-plan inclusion list must not be repeated inside the individual cards.
 - **(reflex)** FAQ questions must be phrased in the buyer's words and stay at most 60 characters.
 - **(reflex)** FAQ answers must start with the answer and stay under 50 words.
+- **(reflex)** Placeholders must end with an ellipsis and show an example pattern.
 - **(reflex)** Use a single ellipsis character instead of three dots.
 - **(reflex)** Use curly quotes instead of straight quotes for typography.
 - **(reflex)** Use non-breaking spaces between units, modifiers, and brand names.
@@ -585,7 +586,6 @@
 - **(reflex)** Use ampersand instead of and where space is constrained.
 - **(reflex)** Do not use emoji as substitutes for icons or decorative elements in interface copy.
 - **(reflex)** Write copy in clear, plain language avoiding jargon and abbreviations.
-- **(reflex)** Do not render body text in all caps.
 - **(finish)** Permit a filled primary button paired with an outlined or text action that navigates elsewhere, and permit a sample of the built product placed in a slot.
 - **(finish)** On redesigns, treat content below the first screen as the unbuilt old page and do not flag it.
 - **(finish)** Balance paragraphs to avoid orphaned last-line words and balance heads of two or three lines ending on a stub at 375px and 1280px.

@@ -1,7 +1,6 @@
 # type
 
 - **(floor)** Do not accent a single word or phrase within a headline using italic, bold, or a different color.
-- **(floor)** Do not render labels in all caps.
 - **(floor)** Never derive brand colours or fonts from model memory; treat any recalled hex as a named failure.
 - **(floor)** When fetching is impossible, ask once for the primary hex and fonts or to build free, and never guess brand colours from memory.
 - **(floor)** Use a comp only for its composition, never as evidence that a design gate has been satisfied.
@@ -32,7 +31,7 @@
 - **(floor)** Load only the weights the page uses, using one link per source with display=swap and a preconnect to the host first.
 - **(floor)** For self-hosted faces, set font-display: swap and provide a metric-matched fallback using size-adjust and ascent/descent/line-gap overrides to prevent layout reflow during swap.
 - **(floor)** Set font-synthesis: none and load the actual italic face when a heading uses italics; never synthesise bold or italic.
-- **(floor)** Use one family or a display plus text face with fixed jobs, at most four font files, and never Inter, Roboto, Open Sans, Poppins, Lato, Montserrat, Space Grotesk, Plus Jakarta Sans, or the system look; always choose the display face from the theme or fonts.md.
+- **(floor)** Use one family or a display plus text face with fixed jobs, at most four font files, and never Inter, Roboto, Open Sans, Poppins, Lato, Montserrat, Space Grotesk, Plus Jakarta Sans, or the system look; always use a display face from the theme or fonts.md.
 - **(floor)** Never place one italic word inside an otherwise roman heading; use a line break or set the whole heading one way.
 - **(floor)** Never allow an uppercase display head to wrap with line-height under 1.0; use at least 1.0 and ideally 1.02 to 1.08.
 - **(floor)** Never emit a tracked-caps label: any label, caption, table head, nav link, tag, chip, or text at 15px or under set uppercase, small caps, or letter-spaced past 0.03em.
@@ -46,7 +45,6 @@
 - **(floor)** Do not use a code or terminal register as decoration unless the product is a developer tool.
 - **(floor)** Never use a monospace label voice.
 - **(floor)** Every stateful control must implement all eight states: default, hover, focus, active, disabled, loading, error, and success.
-- **(floor)** Interactive elements must show a visible focus ring via :focus-visible, rendered as a 2px solid focus-colour ring with 2px offset (inset on inputs via negative offset).
 - **(floor)** Disabled controls must combine opacity 0.55, cursor not-allowed, and the native disabled attribute or aria-disabled, keeping focusability via aria-disabled when needed.
 - **(floor)** Error state must apply the error colour to the border, message, and aria-invalid, never relying on colour alone.
 - **(floor)** Success state must derive from the server response, use at most one icon from the page set, never a toast, and must not exist where no request was made.
@@ -93,7 +91,7 @@
 - **(floor)** Set headlines at --display-weight with size and tight tracking, use text 400 and 500 only, keep sizes per level with at least 1.3x scaling from 1024, and never use weights 700 or 800 except the letters moment.
 - **(floor)** Do not use eyebrow text (small uppercase labels above headings).
 - **(reflex)** Choose non-default typefaces and set a clear type scale with intentional weights, widths, and spacing.
-- **(reflex)** Treat type — its treatment and chosen typeface — as an active, primary design element rather than a neutral carrier or afterthought, especially when it functions as a headline or visual element.
+- **(reflex)** When type functions as a headline or visual element, treat the chosen typeface and its treatment as the primary, active design element rather than a neutral carrier or afterthought.
 - **(reflex)** Keep body line lengths under 80 characters, allowing slightly longer lines for serif body text.
 - **(reflex)** Give serif body text slightly more line-height than sans-serif body text.
 - **(reflex)** Do not add typographic labels above content unless they carry meaning.
@@ -164,6 +162,7 @@
 - **(reflex)** Hover state must communicate through exactly one visual signal such as a colour step, a 1px lift, or a border step.
 - **(reflex)** Active state must show a 1px drop or one colour step darker during press.
 - **(reflex)** Loading state must show inline progress while keeping the label readable and the control width unchanged.
+- **(reflex)** Placeholders must show a format example, never an instruction.
 - **(reflex)** Validation must occur on blur once a field is touched, then on every subsequent input.
 - **(reflex)** Input height must match the adjacent button height, between 44 and 52px on marketing pages, with vertical padding computed as (height - line-height) / 2.
 - **(reflex)** Reserve about 24px in the right-edge slot for clear buttons, error glyphs, or spinners so content never reflows when one appears.
@@ -252,7 +251,6 @@
 - **(reflex)** Use font-display: swap and request only used weights.
 - **(reflex)** Keep font families under 3, files under 6, and font bytes under 320 KiB.
 - **(reflex)** Use the native system font stack instead of custom web fonts for body text.
-- **(reflex)** Do not render body text in all caps.
 - **(reflex)** Use a base font size of at least 16px for readable body text.
 - **(reflex)** Maintain consistent visual variants across reused components.
 - **(reflex)** Do not underline links by default; use color and spacing to distinguish them.
