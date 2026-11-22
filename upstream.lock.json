@@ -1,0 +1,40 @@
+{
+  "upstreams": [
+    {
+      "name": "frontend-design",
+      "repo": "anthropics/skills",
+      "sha": "e4bb5d960d87126ff3b3a8af1a104b7db67560ba",
+      "includePaths": [
+        "skills/frontend-design"
+      ],
+      "syncedAt": "2026-11-22T09:02:28.793Z"
+    },
+    {
+      "name": "hallmark",
+      "repo": "Nutlope/hallmark",
+      "sha": "04977e15f3dfd6ee4b74c887dac3eb52665d6c92",
+      "includePaths": [
+        "skills/hallmark"
+      ],
+      "syncedAt": "2026-11-22T09:02:25.877Z"
+    },
+    {
+      "name": "taste-skill",
+      "repo": "Leonxlnx/taste-skill",
+      "sha": "f6b76575f949707b4e3c37cd86cb44b0b98643e8",
+      "includePaths": [
+        "skills/taste-skill"
+      ],
+      "syncedAt": "2026-11-22T09:02:19.536Z"
+    },
+    {
+      "name": "web-design-guidelines",
+      "repo": "vercel-labs/agent-skills",
+      "sha": "5a37a6329fbad3666c3207392a6a7c0110e92efb",
+      "includePaths": [
+        "skills/web-design-guidelines"
+      ],
+      "syncedAt": "2026-11-22T09:02:31.618Z"
+    }
+  ]
+}

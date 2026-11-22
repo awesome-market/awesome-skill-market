@@ -1,0 +1,64 @@
+[
+  {
+    "id": "no-transition-all",
+    "files": ["css", "html", "js"],
+    "pattern": "transition(-\\w+)?\\s*:\\s*[^;]*\\ball\\b",
+    "message": "Never `transition: all` — animate explicit properties."
+  },
+  {
+    "id": "no-animate-layout-props",
+    "files": ["css", "html"],
+    "pattern": "transition[^;{}]*(width|height|top|left|right|bottom)\\b",
+    "message": "Don't animate layout properties — use transform/opacity."
+  },
+  {
+    "id": "no-linear-gradient",
+    "files": ["css", "html"],
+    "pattern": "(linear|radial|conic)-gradient\\s*\\(",
+    "message": "Gradients default-banned (AI-slop tell) unless a decided rule allows them."
+  },
+  {
+    "id": "no-100vw-body",
+    "files": ["css"],
+    "pattern": "(html|body)[^}]*100vw",
+    "message": "Never 100vw on html/body — causes horizontal overflow."
+  },
+  {
+    "id": "no-outline-none-bare",
+    "files": ["css", "html"],
+    "pattern": "outline\\s*:\\s*(none|0)",
+    "allow": "focus-visible|outline-offset|box-shadow",
+    "message": "outline:none needs a visible :focus-visible replacement."
+  },
+  {
+    "id": "keyframes-need-reduced-motion",
+    "files": ["css"],
+    "pattern": "@keyframes",
+    "message": "Keyframes present — verify a prefers-reduced-motion fallback exists in this file."
+  },
+  {
+    "id": "no-inter-default",
+    "files": ["css", "html"],
+    "pattern": "font-family[^;{}]*\\bInter\\b[^;{}]*(sans-serif|!default|$)",
+    "message": "Inter as the default face is an AI-slop tell — pick a face for this product."
+  },
+  {
+    "id": "icon-button-aria",
+    "files": ["html", "js"],
+    "pattern": "<button[^>]*>\\s*<(svg|i\\b|span[^>]*class=[\"'][^\"']*(icon|material))",
+    "allow": "aria-label|aria-labelledby|sr-only|visually-hidden",
+    "message": "Icon-only button needs aria-label (or equivalent accessible name)."
+  },
+  {
+    "id": "img-needs-alt",
+    "files": ["html", "js"],
+    "pattern": "<img\\b(?![^>]*\\balt=)[^>]*>",
+    "message": "<img> missing alt attribute (alt=\"\" if decorative)."
+  },
+  {
+    "id": "no-emoji-as-icon",
+    "files": ["html", "js"],
+    "pattern": "<(button|a|span|div)[^>]*(class=[\"'][^\"']*icon|role=[\"']img)[^>]*>[^<]*[\\u{1F300}-\\u{1FAFF}\\u{2600}-\\u{27BF}]",
+    "message": "Emoji used as icon — use a real icon set."
+  }
+]

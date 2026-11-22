@@ -1,0 +1,22 @@
+[
+  {
+    "name": "taste-skill",
+    "repo": "Leonxlnx/taste-skill",
+    "includePaths": ["skills/taste-skill"]
+  },
+  {
+    "name": "hallmark",
+    "repo": "Nutlope/hallmark",
+    "includePaths": ["skills/hallmark"]
+  },
+  {
+    "name": "frontend-design",
+    "repo": "anthropics/skills",
+    "includePaths": ["skills/frontend-design"]
+  },
+  {
+    "name": "web-design-guidelines",
+    "repo": "vercel-labs/agent-skills",
+    "includePaths": ["skills/web-design-guidelines"]
+  }
+]

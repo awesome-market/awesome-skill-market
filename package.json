@@ -1,0 +1,30 @@
+{
+  "name": "skill-fusion",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Continuous-merge pipeline that distills multiple agent design skills into one arbitrated skill.",
+  "scripts": {
+    "daemon": "node pipeline/daemon.js",
+    "once": "node pipeline/daemon.js --once",
+    "sync": "node pipeline/sync.js",
+    "extract": "node pipeline/extract.js",
+    "merge": "node pipeline/merge.js",
+    "evidence": "node pipeline/evidence.js",
+    "issues": "node pipeline/issues.js",
+    "build": "node pipeline/build.js",
+    "decide": "node pipeline/decide.js",
+    "validate": "node pipeline/validate.js",
+    "setup": "npm install && npx playwright install chromium",
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "yaml": "^2.6.1"
+  },
+  "devDependencies": {
+    "playwright": "^1.49.0"
+  }
+}
