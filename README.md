@@ -28,16 +28,42 @@ It doesn't add another opinion. It **referees** the existing ones:
 
 Pending conflicts hold **both** sides out of the merged output — contradictions never silently ship.
 
-## Quickstart
+## Quickstart — two ways in
+
+### A) Just use the merged skill (most people)
+
+No model, no pipeline, no keys. `skill/` is the finished product:
+
+```bash
+git clone https://github.com/terry2010/deslop-fusion
+# drop it wherever your agent reads skills:
+cp -r deslop-fusion/skill ~/.config/devin/skills/deslop   # Devin
+cp -r deslop-fusion/skill ~/.claude/skills/deslop         # Claude Code
+npx skills add terry2010/deslop-fusion                    # skills CLI
+```
+
+`git pull` + copy again to update. The generated skill carries `sources` provenance on every rule.
+
+### B) Run the pipeline yourself (self-host)
 
 ```bash
 git clone https://github.com/terry2010/deslop-fusion && cd deslop-fusion
 npm run setup            # deps + Playwright chromium
-cp .env.example .env     # point at any OpenAI-compatible endpoint (local or hosted)
-npm run daemon           # foreground loop: sync→extract→merge→evidence→issues→build→push
+cp .env.example .env     # configure below
+gh auth login            # needs issue + push access
+npm run daemon           # foreground loop: sync→extract→merge→evidence→issues→poll→build→push
 ```
 
-Or just take the already-merged output: `skill/SKILL.md` + `skill/references/` drops into any agent that reads skills (`.claude/skills/`, `.agents/skills/`, `npx skills add`).
+`.env` knobs:
+
+| Var | What |
+|---|---|
+| `OMLX_BASE_URL` / `OMLX_API_KEY` / `OMLX_MODEL` | Any OpenAI-compatible chat endpoint — local (omlx, llama.cpp, vLLM, Ollama) or hosted |
+| `GITHUB_REPO` | **Your own repo** (`you/deslop-fusion`) — conflict issues get filed here |
+| `GITHUB_BRANCH` | `main` |
+| `DAEMON_INTERVAL_MIN` | Cycle interval, default 30 |
+
+Loop variants: `npm run once` (single cycle) · `npm run once -- --no-llm` (skip model steps; still harvests issue votes and rebuilds). Track different upstreams by editing `config/upstreams.json`.
 
 ## How is this different from installing taste-skill / Impeccable / Hallmark directly?
 
