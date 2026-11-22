@@ -21,7 +21,7 @@ sides:
 ai_explanation: copy-l2c1-no-fabricated-content forbids shipping any content not explicitly supplied by the brief and requires leaving fields empty when data is missing, while copy-l2c2-quotes-and-testimonials-from-brief instructs using hero quotes exactly as supplied with attribution and showing testimonials with real avatars or company logos — both operate in the same scope (hero/close copy) and directly contradict when the brief supplies a quote but omits its attribution or avatar, since one rule says ship only fully-supplied facts and leave the rest empty while the other says render the quote with attribution and a portrait.
 ai_explanation_zh: copy-l2c1-no-fabricated-content 禁止交付任何 brief 未明确提供的素材，数据缺失时须留空；copy-l2c2-quotes-and-testimonials-from-brief 要求按 brief 提供的 hero 引用原文并附归属，且展示 testimonials 时需使用真实头像或公司 logo。两者同处 hero/近首屏文案作用域，当 brief 提供了引用但省略归属或头像时直接冲突：一条要求只交付完整提供的信息、其余留空，另一条要求渲染引用并附归属与肖像。
 suggestion: null
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/66
 evidence_files:
   - option-a.png
   - option-b.png

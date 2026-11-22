@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: l0c2 pause requirement overrides the phone slow-turn exception.
   note_zh: l0c2 的暂停要求覆盖手机端慢速轮播例外。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/61
 evidence_files:
   - option-a.png
   - option-b.png

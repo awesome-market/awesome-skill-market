@@ -24,7 +24,7 @@ suggestion:
   kind: scope-split
   note: l1c1 governs hero/hero-photography scale thresholds; l1c2 governs section-level row/bleed layout. Apply 2400px long-side only to the hero frame ending by H-24, and apply tight-in-block cropping to non-hero section rows.
   note_zh: l1c1 管理 hero/hero 照片的缩放阈值；l1c2 管理区块级行/出血布局。仅对截至 H-24 的 hero 帧应用 2400px 长边，对非 hero 区块行应用区块内紧密裁切。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/67
 evidence_files:
   - option-a.png
   - option-b.png

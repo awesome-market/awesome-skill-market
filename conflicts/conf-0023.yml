@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: l0c2 hold-and-play model supersedes the phone slow-turn exception.
   note_zh: l0c2 的按住并播放模型取代了手机端慢速旋转的例外。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/62
 evidence_files:
   - option-a.png
   - option-b.png

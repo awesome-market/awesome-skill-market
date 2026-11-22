@@ -24,7 +24,7 @@ suggestion:
   kind: keep-a
   note: Deterministic history-first selection conflicts with weighted randomized selection when the first history entry is among the last three history entries.
   note_zh: 当首个历史条目落在最近三条历史条目范围内时，确定性的历史优先选取与按权重的随机选取会发生冲突。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/76
 evidence_files:
   - option-a.png
   - option-b.png

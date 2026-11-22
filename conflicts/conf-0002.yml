@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: Resolve by treating the salutation as the single allowed display moment and folding the hero into body/lead sizes.
   note_zh: 将称呼语作为唯一允许的 display 时刻，并把 hero 折叠为正文/lead 大小。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/56
 evidence_files:
   - option-a.png
   - option-b.png

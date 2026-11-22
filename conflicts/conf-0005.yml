@@ -24,7 +24,7 @@ suggestion:
   kind: scope-split
   note: Resolve by treating color-l2c1 as applying only to non-tinted-declared palettes and color-l2c2 as governing OKLCH-based Full-palette/Drenched postures.
   note_zh: 通过将 color-l2c1 仅应用于未声明带色调的调色板、并将 color-l2c2 作为 OKLCH 基础的 Full-palette/Drenched 后处理方式的规范，来解决该冲突。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/57
 evidence_files:
   - option-a.png
   - option-b.png

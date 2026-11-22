@@ -100,6 +100,7 @@ export function build({ check = false } = {}) {
     }
   }
 
+  fs.mkdirSync(DIRS.skill, { recursive: true });
   for (const f of fs.readdirSync(DIRS.skill).filter((f) => f !== 'lint')) {
     fs.rmSync(path.join(DIRS.skill, f), { recursive: true, force: true });
   }

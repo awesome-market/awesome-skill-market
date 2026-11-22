@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: l1c2's single near-black ink and 90-95% neutral mandate overrides l1c1's paired-ink-token emission and per-surface ink swapping.
   note_zh: l1c2 的单近黑 ink 与 90-95% 中性要求覆盖 l1c1 的成对 ink token 发出与按表面切换 ink。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/71
 evidence_files:
   - option-a.png
   - option-b.png

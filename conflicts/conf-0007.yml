@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: "Resolution: prioritize pointer-reactive ambient cycles over static-content stillness for interactive elements; keep non-interactive content fully static."
   note_zh: 解决方案：对交互元素优先采用指针响应的环境循环，而非静态内容的静止；对非交互内容保持完全静止。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/59
 evidence_files:
   - option-a.png
   - option-b.png

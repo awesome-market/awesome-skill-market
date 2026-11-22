@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: Prefer l1c2's allowance for small diagrams and 3D when the product is 3D/interactive with a still fallback, while keeping l1c1's ban on large illustrated products/places; treat 'small diagram visuals' as the reconciling boundary.
   note_zh: 当产品为 3D/交互式时，优先采用 l1c2 对小型图表和 3D 的允许，同时保留 l1c1 对大型插图化产品/地点的禁止，将'小型图表视觉'作为调和边界。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/73
 evidence_files:
   - option-a.png
   - option-b.png

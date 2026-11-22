@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: "Scope-split by section: lead sections objective, body first-person; but both rules apply to the same page-level voice, so this is a genuine dilemma."
   note_zh: 按版块划分范围：lead 部分采用客观语气，正文部分采用第一人称；但由于两条规则均作用于同一页面级语气，因此这是真正的两难。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/63
 evidence_files:
   - option-a.png
   - option-b.png

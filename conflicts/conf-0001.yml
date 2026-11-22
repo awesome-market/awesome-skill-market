@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: l2c3 is the newer, more specific spec; prefer its pure-white/zero-chroma path.
   note_zh: l2c3 是更新、更具体的规范；优先采用其纯白/零 chroma 方案。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/55
 evidence_files:
   - option-a.png
   - option-b.png

@@ -21,7 +21,7 @@ sides:
 ai_explanation: "l2c1 forbids opening the macrostructure catalogue before designing and requires matching the prompt to a shape via the index and domain-to-trio table before opening only the landed file. l2c4 permits describing the shape as a fingerprint and giving it a short name when no macrostructure fits. These directly contradict on whether the catalogue/index may be consulted before design: l2c1 says never open it first, l2c4 says open and name it when nothing fits. Scope-splitting is not viable because both govern the same design-time decision of whether to consult the macrostructure."
 ai_explanation_zh: l2c1 禁止在 designing 之前打开 macrostructure 目录，并要求在仅打开已 landing 的文件前，通过 index 与 domain-to-trio 表将 prompt 匹配到对应 shape。l2c4 则允许在没有任何 macrostructure 匹配时，把 shape 描述为 fingerprint 并赋予短名以用于 stamp 与 log。两者在是否可在设计前查阅目录/索引上直接冲突：l2c1 规定绝不先打开，l2c4 规定当无匹配时打开并命名。由于二者都管辖同一设计时决策——是否查阅 macrostructure——因此无法通过 scope-splitting 解决。
 suggestion: null
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/70
 evidence_files:
   - option-a.png
   - option-b.png

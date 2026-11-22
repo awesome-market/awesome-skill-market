@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: Signature device explicitly permits reuse once per page; no-repetition is stricter. Keep signature device for its narrow allowance.
   note_zh: 签名设备明确允许每页重复一次；无重复规则更严格。保留签名设备的窄允许。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/72
 evidence_files:
   - option-a.png
   - option-b.png

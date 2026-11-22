@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: Prefer motion-l0c4-motion-entrance (below-fold, no scroll-choreography combination) as the more restrictive and self-consistent constraint; drop hero-only entrances.
   note_zh: 优先采用更严格且自洽的 motion-l0c4-motion-entrance（首屏下方、不与滚动编排组合），并移除仅 hero 的入场。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/65
 evidence_files:
   - option-a.png
   - option-b.png

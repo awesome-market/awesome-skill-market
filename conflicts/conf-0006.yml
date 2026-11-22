@@ -21,7 +21,7 @@ sides:
 ai_explanation: Both rules govern display-face selection in the same scope (choosing a display face). Rule a forbids Inter/Roboto/Open Sans/Poppins/Lato/system faces as display; rule b forbids Inter/Roboto/Open Sans/Lato/Poppins/system-ui/Arial/Helvetica/Merriweather/Lora/Georgia/Courier New/system mono as default. They directly contradict on system-ui (a bans it as 'system face'; b bans it as 'system-ui' default), on Lora/Merriweather (a permits theme faces; b forbids them), and on Montserrat/Raleway/Work Sans/DM Sans/Plus Jakarta Sans (a silent; b explicit). No pick satisfies both.
 ai_explanation_zh: 两条规则均约束 display 字体选择。Rule A 禁止将 Inter/Roboto/Open Sans/Poppins/Lato/系统字体用作 display；Rule B 禁止将 Inter/Roboto/Open Sans/Lato/Poppins/system-ui/Arial/Helvetica/Merriweather/Lora/Georgia/Courier New/系统等宽字体设为默认。二者在 system-ui（A 以‘系统字体’禁止，B 以‘system-ui’默认禁止）、Lora/Merriweather（A 允许主题字体，B 禁止）以及 Montserrat/Raleway/Work Sans/DM Sans/Plus Jakarta Sans（A 未提及，B 明确禁止）上直接冲突，没有选择能同时满足两者。
 suggestion: null
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/58
 evidence_files:
   - option-a.png
   - option-b.png

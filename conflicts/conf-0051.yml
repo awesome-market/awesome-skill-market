@@ -24,7 +24,7 @@ suggestion:
   kind: keep-a
   note: Prefer sentence case per l2c1's explicit 'sentence case' directive; treat l2c3's title-case rule as applying only where the brief's house style or trade explicitly requires it.
   note_zh: 按 l2c1 的明确「句子首字母大写」指令优先；将 l2c3 的标题大小写规则视为仅在简报的出版风格或行业惯例明确要求时才适用。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/68
 evidence_files:
   - option-a.png
   - option-b.png

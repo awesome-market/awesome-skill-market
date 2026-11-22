@@ -24,7 +24,7 @@ suggestion:
   kind: scope-split
   note: Apply the full-bleed allowance only to the hero/full-bleed photograph (l1c2), and keep the 'never full-bleed' rule for all non-hero images (l1c1).
   note_zh: 仅对英雄图/全出血照片应用全出血允许（l1c2），并对所有非英雄图片保留'禁止全出血'规则（l1c1）。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/69
 evidence_files:
   - option-a.png
   - option-b.png

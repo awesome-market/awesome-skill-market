@@ -21,7 +21,7 @@ sides:
 ai_explanation: process-l2c1 caps narration at three lines and skips the Finish tier in fast mode, while process-l2c2 requires always keeping the stamp, tokens.css, the log, and contrast checks in fast mode. The cap directly limits how much can be narrated/recorded, yet the kept-essentials rule demands specific high-value outputs (stamp, log, contrast checks) that inherently require narration/record beyond three lines — no pick or scope-split honors both.
 ai_explanation_zh: process-l2c1 在快速模式下将叙述限制为三行并跳过 Finish 层级，而 process-l2c2 要求快速模式下始终保留 Floor、stamp、tokens.css、log 与对比度检查。行数上限直接限制了可叙述/记录的内容量，而保留核心项规则却要求输出特定高价值内容（stamp、log、对比度检查），这些必然需要超出三行的叙述/记录——因此无论选择哪一方或拆分范围，都无法同时满足两条规则。
 suggestion: null
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/60
 evidence_files:
   - option-a.png
   - option-b.png

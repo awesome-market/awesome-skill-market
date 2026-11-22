@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: l2c3 is the more specific and later rule for credit content; it overrides l2c1's photographer-in-line requirement.
   note_zh: l2c3 是针对署名内容的更具体且更晚的规则，覆盖 l2c1 的“摄影师入行”要求。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/64
 evidence_files:
   - option-a.png
   - option-b.png

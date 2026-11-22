@@ -13,7 +13,7 @@ const STATE_FILE = path.join(DIRS.work, 'synthesize-state.json'); // input diges
 const SYSTEM = `You synthesize one canonical UI-design rule set per domain from rules collected across several upstream skills — the "aggregate the strengths" step.
 
 Rules:
-- CONSOLIDATE AGGRESSIVELY: emit at most ~80 rules, merging rules that say the same thing differently into the single strongest statement — union of allowances, strictest compatible constraint. Expect to fold 2-5 inputs into each output rule.
+- CONSOLIDATE AGGRESSIVELY: emit strictly FEWER rules than the input count — fold 2-5 inputs into each output by merging rules that say the same thing differently into the single strongest statement (union of allowances, strictest compatible constraint). Splitting one input into several outputs is forbidden.
 - Where variants differ only in degree (thresholds, counts), pick the most defensible or write a scope-split ("for X ..., for Y ...").
 - Rewrite in your own words (license hygiene). Keep each rule self-contained and actionable.
 - Every output rule carries "source_ids" listing the input rule ids it was synthesized from. Do NOT emit severity/scope/evidence — those are derived downstream.
@@ -71,6 +71,7 @@ async function synthUnit(domain, rules, refs, label) {
     label, system: SYSTEM, user, shapeDesc: RULES_SHAPE,
     validate: (o) => {
       if (!Array.isArray(o?.rules)) return 'missing rules[]';
+      if (o.rules.length > rules.length) return `must not emit more than ${rules.length} rules (got ${o.rules.length}) — splitting is forbidden`;
       let orphaned = 0;
       for (const r of o.rules) {
         if (!r.rule || !Array.isArray(r.source_ids)) return `bad rule: ${JSON.stringify(r).slice(0, 120)}`;
