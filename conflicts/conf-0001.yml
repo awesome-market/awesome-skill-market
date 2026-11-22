@@ -10,19 +10,23 @@ sides:
     hash: cde37874f5f6
     severity: reflex
     text: Animate only transform, opacity and colours, never height, padding or layout.
+    text_zh: 仅动画化 transform、opacity 与 colours，绝不动画化 height、padding 或 layout。
   - key: B
     source: web-design-guidelines
     rule_id: web-de-030
     hash: 823f98374dde
     severity: floor
     text: Animate only transform and opacity properties.
+    text_zh: 仅动画化 transform 与 opacity 属性。
 ai_explanation: "Rule A explicitly permits animating colours, while Rule B restricts animations to only transform and opacity — which excludes colours. An agent cannot obey both in the same scope: A allows what B implicitly prohibits."
 suggestion:
   kind: merge
   note: Animate only transform, opacity, and colours; never height, padding, or layout.
+  note_zh: 仅动画化 transform、opacity 与 colours；绝不动画化 height、padding 或 layout。
 issue_url: https://github.com/terry2010/skill-fusion/issues/1
 evidence_files:
   - option-a.png
   - option-b.png
   - option-a-mobile.png
   - option-b-mobile.png
+ai_explanation_zh: 规则 A 明确允许动画化 colours（颜色），而规则 B 将动画限制为仅 transform 和 opacity，从而排除了 colours。在同一作用域内，智能体无法同时满足两者：A 允许的内容被 B 隐式禁止。

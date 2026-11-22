@@ -7,6 +7,7 @@ import { extract } from './extract.js';
 import { merge } from './merge.js';
 import { evidence } from './evidence.js';
 import { issues } from './issues.js';
+import { translateConflicts } from './translate.js';
 import { poll } from './poll.js';
 import { build } from './build.js';
 
@@ -39,6 +40,7 @@ async function cycle() {
 
   if (!skipLLM) {
     await merge();
+    await translateConflicts(); // backfill zh fields the judge missed
     await evidence();
     await issues();
     await poll(); // harvest a/b votes from issue comments

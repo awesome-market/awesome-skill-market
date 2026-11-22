@@ -10,19 +10,23 @@ sides:
     hash: 5cfd098bbd4c
     severity: reflex
     text: Keep captions as factual text outside the image frame and place credits (including licence credits) in a single footer line — the footer's Photographs line.
+    text_zh: 保持说明文字为图像框架外的事实性文本，并将署名（含授权署名）统一放入页脚的Photographs行。
   - key: B
     source: taste-skill
     rule_id: taste--096
     hash: e9cbe8381d1a
     severity: floor
     text: Place all credits in the footer's single credits line, never under the print, and mark printed photographs as adapted.
+    text_zh: 将所有署名放入页脚的单一credits行，不得置于印刷图下方，并将已印刷的摄影作品标注为已改编。
 ai_explanation: Both rules govern where credits live in the footer, but A requires them in the footer's 'Photographs' line while B requires them in the footer's single 'credits' line — these are different named lines, so an agent cannot satisfy both simultaneously.
 suggestion:
   kind: scope-split
   note: A applies to photography/licence credits → footer's Photographs line; B applies to all other credits → footer's single credits line, never under the print.
+  note_zh: A适用于摄影/授权署名，归入页脚的Photographs行；B适用于其余所有署名，归入页脚的单一credits行，且不得置于印刷图下方。
 issue_url: https://github.com/terry2010/skill-fusion/issues/11
 evidence_files:
   - option-a.png
   - option-b.png
   - option-a-mobile.png
   - option-b-mobile.png
+ai_explanation_zh: 两条规则都规范页脚中署名信息的存放位置，但A要求将其放在页脚的“Photographs”行，B要求将其放在页脚的单一“credits”行——二者是不同的命名行，因此智能体无法同时满足。

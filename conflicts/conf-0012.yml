@@ -10,19 +10,23 @@ sides:
     hash: 6dab3f14ed76
     severity: reflex
     text: Keep hero text to seven words or fewer in the head, one lead sentence, and one or two actions.
+    text_zh: 规则 A：head 中 hero 文本保持在 7 个词或更少，一句 lead sentence，以及一到两个 action。
   - key: B
     source: taste-skill
     rule_id: taste--265
     hash: 155a9f6ef496
     severity: floor
     text: Keep the hero h1 to two to nine words in a single clause.
+    text_zh: 规则 B：hero h1 保持在 2 到 9 个词的单句。
 ai_explanation: Rule A caps hero text at ≤7 words while Rule B permits the hero h1 at 2–9 words; an 8–9 word h1 satisfies B but violates A's reflex cap.
 suggestion:
   kind: scope-split
   note: A governs the overall hero text/head (≤7 words, one lead sentence, 1–2 actions); B governs the hero h1 specifically (2–9 words, single clause). When the h1 alone exceeds 7 words, A's reflex constraint wins and it should be trimmed.
+  note_zh: A 管辖整体 hero 文本/head（≤7 个词、一句 lead sentence、1–2 个 action）；B 仅管辖 hero h1（2–9 个词、单句）。当 h1 本身超过 7 个词时，A 的 reflex 约束优先，应进行裁剪。
 issue_url: https://github.com/terry2010/skill-fusion/issues/12
 evidence_files:
   - option-a.png
   - option-b.png
   - option-a-mobile.png
   - option-b-mobile.png
+ai_explanation_zh: 规则 A 将 hero 文本限制为 ≤7 个词、一句 lead sentence、1–2 个 action；规则 B 允许 hero h1 为 2–9 个词。一个 8–9 词的 h1 满足 B，但违反 A 的 reflex 上限。

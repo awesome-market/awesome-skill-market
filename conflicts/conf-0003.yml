@@ -10,19 +10,23 @@ sides:
     hash: 8c3533ae8df8
     severity: floor
     text: Credit every library photograph in a footer marked data-credits with each printed credit line.
+    text_zh: 规则A
   - key: B
     source: taste-skill
     rule_id: taste--530
     hash: 49cc417fba00
     severity: reflex
     text: Put photograph credits for any print or scene into the footer's single credit line, and never credit a render.
+    text_zh: 规则B
 ai_explanation: Rule A requires each library photograph to receive its own printed credit line (multiple lines), while Rule B requires all photograph credits to go into a single credit line — a direct contradiction on footer structure.
 suggestion:
   kind: scope-split
   note: A applies to library photographs (each gets its own printed credit line); B applies to renders (single credit line, never credit renders).
+  note_zh: 规则A适用于图库照片（每张照片各占一行打印credit）；规则B适用于渲染图（单行credit，且永不给渲染图署名）。
 issue_url: https://github.com/terry2010/skill-fusion/issues/3
 evidence_files:
   - option-a.png
   - option-b.png
   - option-a-mobile.png
   - option-b-mobile.png
+ai_explanation_zh: 规则A要求每张图库照片在footer中各占一行打印的credit（多行），而规则B要求所有照片credit合并到footer的唯一一行credit中，二者在footer结构上直接冲突。

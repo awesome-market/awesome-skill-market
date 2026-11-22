@@ -16,44 +16,54 @@ const LABELS = [
 function issueBody(conf) {
   const [A, B] = conf.sides;
   const img = (p) => `![](${rawURL(p)})`;
+  const side = (s) => `${s.text}${s.text_zh ? `<br>${s.text_zh}` : ''}`;
   const sug = conf.suggestion
-    ? `\`${conf.suggestion.kind}\`${conf.suggestion.note ? ` — ${conf.suggestion.note}` : ''}`
-    : '_none_';
+    ? `\`${conf.suggestion.kind}\`${conf.suggestion.note ? ` — ${conf.suggestion.note}` : ''}${conf.suggestion.note_zh ? `<br>${conf.suggestion.note_zh}` : ''}`
+    : '_none_ / 无_';
+  const explanation = [
+    conf.ai_explanation || '—',
+    conf.ai_explanation_zh ? `<br>${conf.ai_explanation_zh}` : '',
+  ].join('');
   const evSection = conf.evidence_files?.length
-    ? `### 证据对比（左 A / 右 B）
+    ? `### 证据对比 Evidence — 左 A / 右 B (left A / right B)
 
 | OPTION A — ${A.source} | OPTION B — ${B.source} |
 |---|---|
 | ${img(`evidence/${conf.id}/option-a.png`)} | ${img(`evidence/${conf.id}/option-b.png`)} |
 | ${img(`evidence/${conf.id}/option-a-mobile.png`)} | ${img(`evidence/${conf.id}/option-b-mobile.png`)} |
 
-> 图是 AI 对规则的"理解产物"。若图误导了判断，评论 \`/reshoot\` + 说明，重新出图。
+> 图是 AI 对规则的理解产物；若误导判断，评论 \`/reshoot\` + 说明重新出图。
+> Screenshots are the AI's interpretation of each rule. If they mislead, comment \`/reshoot\` plus a note to regenerate.
 `
-    : `### 证据
+    : `### 证据 Evidence
 
-${conf.evidence_inconclusive ? '两次生成对比图渲染结果一致——此分歧可能需交互才可见，或并非纯视觉差异，请直接按规则文本裁决。' : `此冲突类型为 \`${conf.evidence}\`，暂无自动截图。`}
+${conf.evidence_inconclusive ? '两次生成对比图渲染结果一致——此分歧可能需交互才可见，或并非纯视觉差异，请直接按规则文本裁决。<br>Two render attempts produced identical screenshots — arbitrate on the rule text.' : `此冲突类型为 \`${conf.evidence}\`，暂无自动截图。<br>Evidence type \`${conf.evidence}\` — no auto screenshot.`}
 `;
-  return `## 规则冲突 \`${conf.id}\`
+  return `## 规则冲突 Rule conflict \`${conf.id}\`
 
-| | 规则 | 来源 | 级别 |
+| | 规则 Rule | 来源 Source | 级别 Severity |
 |---|---|---|---|
-| **A** | ${A.text} | \`${A.source}\` | ${A.severity} |
-| **B** | ${B.text} | \`${B.source}\` | ${B.severity} |
+| **A** | ${side(A)} | \`${A.source}\` | ${A.severity} |
+| **B** | ${side(B)} | \`${B.source}\` | ${B.severity} |
 
-**AI 说明**：${conf.ai_explanation || '—'}
+**AI 说明 Explanation**：${explanation}
 
-**AI 建议**：${sug}
+**AI 建议 Suggestion**：${sug}
 
 ${evSection}
-### 裁决方式 — 直接回复本 issue
+### 裁决方式 How to decide — 直接回复本 issue / just reply
 
-| 回复 | 效果 |
+| 回复 Reply | 效果 Effect |
 |---|---|
-| \`a\` 或 \`b\` | 选该侧规则入库（可加 \`- 理由\`） |
-| \`merge 合并后的规则文本\` | 用你给的合并文本入库 |
-| \`custom 规则文本\` | 完全自定义 |
+| \`a\` 或 \`b\` | 选该侧规则入库（可加 \`- 理由\`）<br>Ship that side (\`a - reason\` adds a reason) |
+| \`merge 合并后的规则文本\` | 用你给的合并文本入库<br>Ship your merged rule text |
+| \`custom 规则文本\` | 完全自定义<br>Fully custom rule |
 
-仅 repo owner/collaborator 的回复生效；pipeline 每轮循环扫描评论，裁决后自动记录 \`decisions/${conf.id}.yml\`、回复确认并关闭 issue。推翻：reopen 本 issue 再回复一次，或运行 \`npm run decide -- ${conf.id} --resolution A --reason "..."\`。
+仅 repo owner/collaborator 的回复生效。Pipeline 每轮扫描评论，裁决后自动写入 \`decisions/${conf.id}.yml\`、回复确认并关闭 issue。
+Only owner/collaborator replies count. Each daemon cycle harvests votes, writes \`decisions/${conf.id}.yml\`, confirms and closes this issue.
+
+推翻 Overturn：reopen 本 issue 再回复一次，或 \`npm run decide -- ${conf.id} --resolution A --reason "..."\`。
+To overturn: reopen this issue and reply again, or run \`npm run decide\`.
 
 _fingerprint: \`${conf.fingerprint}\` · evidence: \`${conf.evidence}\` · detected: ${conf.detected_at}_`;
 }

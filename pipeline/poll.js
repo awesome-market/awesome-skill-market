@@ -80,7 +80,7 @@ export async function poll() {
 
       await commentIssue(
         CFG.githubRepo, issue.number,
-        `✅ 裁决已记录：**${vote.resolution.toUpperCase()}**${vote.custom ? ` — ${vote.custom}` : ''}\n\nby @${c.user.login} · 下一次 pipeline 循环将按此重建 skill。如需推翻，reopen 本 issue 再回复，或直接改 \`decisions/${id}.yml\`。`,
+        `✅ 裁决已记录 Decision recorded：**${vote.resolution.toUpperCase()}**${vote.custom ? ` — ${vote.custom}` : ''}\n\nby @${c.user.login} · 下一次 pipeline 循环将按此重建 skill。The next pipeline cycle rebuilds the skill accordingly.\n推翻 Overturn：reopen 本 issue 再回复一次，或直接改 \`decisions/${id}.yml\`。Reopen and reply again, or edit the decision file.`,
       );
       closeIssue(CFG.githubRepo, issue.number);
       log(`poll: ${id} decided via issue #${issue.number} -> ${vote.resolution}`);

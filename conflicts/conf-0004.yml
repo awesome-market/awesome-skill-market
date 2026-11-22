@@ -10,19 +10,23 @@ sides:
     hash: 2da155f51e20
     severity: reflex
     text: Use one typeface family, or at most two that are clearly distinct, and never a separate display face from the body face.
+    text_zh: 使用一个字体系列，最多两个明显不同的系列，且绝不在正文面之外使用独立的显示面。
   - key: B
     source: hallmark
     rule_id: hallma-306
     hash: 9d26c1f9a84e
     severity: floor
     text: Use exactly one display face and one body face, or a single family for both, plus at most one outlier that serves exactly one role.
+    text_zh: 恰好使用一个显示面和一个正文面，或两者共用单一字体系列，外加最多一个仅承担单一角色的例外字体。
 ai_explanation: RULE A explicitly forbids 'a separate display face from the body face,' while RULE B explicitly permits/defaults to 'exactly one display face and one body face' (i.e., separate display and body faces). These directly contradict on whether display and body may differ.
 suggestion:
   kind: scope-split
   note: RULE A (frontend-design · reflex) governs frontend design contexts and forbids separate display/body faces; RULE B (hallmark · floor) governs hallmark contexts and permits a separate display face plus body face.
+  note_zh: RULE A（frontend-design · reflex）适用于前端设计语境，禁止使用独立的显示面/正文面；RULE B（hallmark · floor）适用于 hallmark 语境，允许使用独立的显示面加正文面。
 issue_url: https://github.com/terry2010/skill-fusion/issues/4
 evidence_files:
   - option-a.png
   - option-b.png
   - option-a-mobile.png
   - option-b-mobile.png
+ai_explanation_zh: RULE A 明确禁止‘与正文面不同的独立显示面’，而 RULE B 明确允许/默认为‘恰好一个显示面加一个正文面’（即显示面与正文面不同）。两者在显示面与正文面是否可以不同这一点上直接矛盾。

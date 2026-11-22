@@ -10,19 +10,23 @@ sides:
     hash: 8ce310908db6
     severity: reflex
     text: Move the tab indicator by transform only, never width, and animate height changes via grid-template-rows.
+    text_zh: 仅通过 transform 移动标签指示器，绝不使用 width，并通过 grid-template-rows 动画化高度变化。
   - key: B
     source: taste-skill
     rule_id: taste--736
     hash: 39539a2d0525
     severity: reflex
     text: The tab indicator must move by transform alone and panels must have one fixed height.
+    text_zh: 标签指示器必须仅通过 transform 移动，且面板必须具有单一固定高度。
 ai_explanation: "Both rules agree the tab indicator must move by transform alone, but they directly contradict on height: Rule A requires animating height changes via grid-template-rows (implying variable heights), while Rule B requires panels to have one fixed height (no height changes)."
 suggestion:
   kind: scope-split
   note: Rule A applies when panels have variable/dynamic heights (animate transitions via grid-template-rows); Rule B applies when panels use a single fixed height (no height animation needed).
+  note_zh: 当面板为可变/动态高度时适用 Rule A（通过 grid-template-rows 动画化过渡）；当面板使用单一固定高度时适用 Rule B（无需高度动画）。
 issue_url: https://github.com/terry2010/skill-fusion/issues/10
 evidence_files:
   - option-a.png
   - option-b.png
   - option-a-mobile.png
   - option-b-mobile.png
+ai_explanation_zh: 两条规则都同意标签指示器必须仅通过 transform 移动，但在高度上直接矛盾：Rule A 要求通过 grid-template-rows 动画化高度变化（暗示可变高度），而 Rule B 要求面板使用单一固定高度（不产生高度变化）。

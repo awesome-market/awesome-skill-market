@@ -43,9 +43,11 @@ const JUDGE_SYSTEM = `You adjudicate pairs of UI-design rules for a merge pipeli
 When genuinely unsure, prefer "conflict" — false conflicts are cheap (a human arbitrates), missed conflicts are not.
 
 If "conflict", propose the most defensible resolution as "suggestion": one of {"kind":"keep-a"} | {"kind":"keep-b"} | {"kind":"scope-split","note":"when each applies"} | {"kind":"merge","note":"reconciled rule text"}.
-If "overlap", provide "merged" — a single consolidated rule (severity, scope array, evidence, mechanizable).`;
+If "overlap", provide "merged" — a single consolidated rule (severity, scope array, evidence, mechanizable).
 
-const JUDGE_SHAPE = `{"relationship":"conflict|overlap|distinct","explanation":"1-2 sentences","suggestion":{"kind":"keep-a|keep-b|scope-split|merge","note":"..."},"merged":{"rule":"...","severity":"floor|reflex|finish|guidance","scope":["..."],"evidence":"screenshot|recording|audit|none","mechanizable":true}}`;
+Every human-facing string ships bilingual: provide "explanation_zh" (Chinese translation of explanation), "suggestion.note_zh", and "sides_zh" (Chinese translations of rules A and B). English remains canonical; Chinese is a faithful translation.`;
+
+const JUDGE_SHAPE = `{"relationship":"conflict|overlap|distinct","explanation":"1-2 sentences","explanation_zh":"中文翻译","suggestion":{"kind":"keep-a|keep-b|scope-split|merge","note":"...","note_zh":"中文"},"sides_zh":{"A":"规则A的中文翻译","B":"规则B的中文翻译"},"merged":{"rule":"...","severity":"floor|reflex|finish|guidance","scope":["..."],"evidence":"screenshot|recording|audit|none","mechanizable":true}}`;
 
 async function judgePair(a, b) {
   return chatJSON({
@@ -172,10 +174,11 @@ export async function merge() {
         detected_at: new Date().toISOString(),
         evidence: ev,
         sides: [
-          { key: 'A', source: a.source, rule_id: a.id, hash: a.hash, severity: a.severity, text: a.rule },
-          { key: 'B', source: b.source, rule_id: b.id, hash: b.hash, severity: b.severity, text: b.rule },
+          { key: 'A', source: a.source, rule_id: a.id, hash: a.hash, severity: a.severity, text: a.rule, text_zh: verdict.sides_zh?.A ?? null },
+          { key: 'B', source: b.source, rule_id: b.id, hash: b.hash, severity: b.severity, text: b.rule, text_zh: verdict.sides_zh?.B ?? null },
         ],
         ai_explanation: verdict.explanation ?? '',
+        ai_explanation_zh: verdict.explanation_zh ?? null,
         suggestion: verdict.suggestion ?? null,
         issue_url: null,
       });

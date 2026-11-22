@@ -10,19 +10,23 @@ sides:
     hash: 27e79e6b580a
     severity: floor
     text: Animate only transform and opacity properties. Explicitly list these properties in transition (never use transition:all), and never animate width, height, top, or left.
+    text_zh: 仅动画化 transform 与 opacity 属性。在 transition 中显式列出这些属性（切勿使用 transition:all），并且不要动画化 width、height、top 或 left。
   - key: B
     source: taste-skill
     rule_id: taste--780
     hash: cde37874f5f6
     severity: reflex
     text: Animate only transform, opacity and colours, never height, padding or layout.
+    text_zh: 仅动画化 transform、opacity 与 colours，切勿动画化 height、padding 或布局。
 ai_explanation: Rule A permits only transform and opacity (excluding colours), while Rule B explicitly permits colours as an animatable property — a direct contradiction on whether colour transitions are allowed.
 suggestion:
   kind: merge
   note: Allow transform, opacity and colours; never animate width, height, top, left, padding, or layout properties.
+  note_zh: 允许动画化 transform、opacity 与 colours；绝不要动画化 width、height、top、left、padding 或 layout 相关属性。
 issue_url: https://github.com/terry2010/skill-fusion/issues/7
 evidence_files:
   - option-a.png
   - option-b.png
   - option-a-mobile.png
   - option-b-mobile.png
+ai_explanation_zh: 规则 A 仅允许动画化 transform 与 opacity（不含颜色），而规则 B 明确将 colours 列为可动画属性，二者在是否允许颜色过渡上存在直接冲突。
