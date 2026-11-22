@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: l2c1's 'must show photographs plainly' directly contradicts l2c2's 'never print ... a photograph on a page' for local business pages.
   note_zh: l2c1 的“must show photographs plainly”与 l2c2 的“never print ... a photograph on a page”在本地商家页面上直接矛盾。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/40
 evidence_files:
   - option-a.png
   - option-b.png

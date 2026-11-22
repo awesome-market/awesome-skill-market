@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: "Scope-split by kind: keep the no-WebGL rule for kind-other pages; apply lazy WebGL+poster only where kind is not other."
   note_zh: 按 kind 拆分作用域：对 kind-other 页面保留不加载 WebGL 的规则；仅对 kind 非 other 处应用 lazy WebGL + poster。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/35
 evidence_files:
   - option-a.png
   - option-b.png

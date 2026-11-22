@@ -24,7 +24,7 @@ suggestion:
   kind: scope-split
   note: Schedules are time-picking grids; steps/figures are process/number narratives — different content kinds.
   note_zh: schedules 是时间选择网格；steps/figures 是流程/数字叙事——属于不同的内容类型。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/23
 evidence_files:
   - option-a.png
   - option-b.png

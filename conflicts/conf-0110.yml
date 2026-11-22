@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: l2c2 explicitly overrides hero imagery for list pages.
   note_zh: l2c2 明确覆盖列表页面的 hero 图像。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/30
 evidence_files:
   - option-a.png
   - option-b.png

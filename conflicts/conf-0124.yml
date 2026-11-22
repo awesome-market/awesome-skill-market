@@ -24,7 +24,7 @@ suggestion:
   kind: scope-split
   note: Apply limit-to-first-viewport to the hero/surface composition only; apply section-gap-scale to body sections that legitimately sit below the fold. The two rules govern different scopes (hero vs body).
   note_zh: 将 limit-to-first-viewport 仅应用于 hero/表面构图；将 section-gap-scale 应用于确实位于折线下方的 body section。两条规则作用于不同范围（hero 与 body）。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/44
 evidence_files:
   - option-a.png
   - option-b.png

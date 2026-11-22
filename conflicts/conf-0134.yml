@@ -24,4 +24,4 @@ suggestion:
   kind: keep-a
   note: Redundant restatement across versions; both mean the same thing.
   note_zh: 跨版本冗余重复表述，二者含义相同。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/54

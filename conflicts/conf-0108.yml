@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: l2c2 is the more recent tier; its full-bleed mandate overrides the l2c1 body-measure cap.
   note_zh: l2c2 是更新的层级；其满版要求覆盖 l2c1 的正文宽度上限。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/28
 evidence_files:
   - option-a.png
   - option-b.png

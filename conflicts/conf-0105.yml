@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: Prefer focus-visible semantics to avoid rings on click; keep instant rendering once visible.
   note_zh: 优先采用 focus-visible 语义以避免点击时出现焦点环；一旦显示则保持即时渲染。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/25
 evidence_files:
   - option-a.png
   - option-b.png

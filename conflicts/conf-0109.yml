@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: l2c2's six-column grid layout supersedes the l2c1 four-slot row cap.
   note_zh: l2c2 的六列网格布局优先于 l2c1 的四插槽行上限。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/29
 evidence_files:
   - option-a.png
   - option-b.png

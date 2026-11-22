@@ -1,279 +1,207 @@
 # type
 
-- **(floor)** Do not accent a single word or phrase within a headline using italic, bold, or a different color.
-- **(floor)** Do not render labels in all caps.
-- **(floor)** Never derive brand colours or fonts from model memory; treat any recalled hex as a named failure.
-- **(floor)** When fetching is impossible, ask once for the primary hex and fonts or to build free, and never guess brand colours from memory.
-- **(floor)** Use a comp only for its composition, never as evidence that a design gate has been satisfied.
-- **(floor)** Use at most two type families, with a single third family restricted to exactly one role.
-- **(floor)** Keep body copy at 16px minimum with 1.5 to 1.65 line-height and 45 to 75ch measure, never all caps or unhyphenated justified text.
-- **(floor)** Enable font-display swap, font-synthesis none, tabular-nums for comparing figures, balance on heads and pretty on body, with correct punctuation and non-breaking spaces.
-- **(floor)** Place halftone dot fields only on plate fills and section bands, never under or overlapping type.
-- **(floor)** Limit chromatic misregistration to one focal word in the hero per page and never apply it to every heading.
-- **(floor)** Choose the chart form from the number of values: one value becomes a stat tile, two-to-five values become a stat row or horizontal bars, a time series becomes a line or sparkline, more than seven categories becomes a table, and parts of a whole become a stacked horizontal bar.
-- **(floor)** Include a System section listing Genre, first-page Shape, Theme, and Axes with posture.
-- **(floor)** Reference tokens.css as the source of truth and list every role declared in its :root block.
-- **(floor)** Include a Controls section specifying Primary fill, radius, and height and Secondary outline-or-text with matching radius and height.
-- **(floor)** On a custom run make every design decision for this client instead of dealing or prescribing a theme, shape, section list, component, palette recipe, or draw.
-- **(floor)** Never use faces from fonts.md banned or saturated lists, or any face a catalog theme sets.
-- **(floor)** Never use an eyebrow, tracked capitals, mono labels, one colored word in a head, or middle-dot strings.
-- **(floor)** Avoid two clipped fragments in a row for the headline, since that is the shape every model reaches for.
-- **(floor)** Route every colour and font-family through a token declared at :root or a declared theme block; never emit literal colours or font-family values outside the token block.
-- **(floor)** Never place a single italic word inside a roman (non-italic) heading.
-- **(floor)** Use minmax(0, 1fr) for image-bearing grid tracks and apply overflow-wrap: break-word with min-width: 0 to display heads.
-- **(floor)** Never use an eyebrow and never set labels, captions, table heads, tags or nav links in tracked capitals or small caps; render them in the body or theme label face one step smaller in sentence or lower case without tracking.
-- **(floor)** Every interactive component must ship all eight states: default, hover, focus-visible, active, disabled, loading, error, and success.
-- **(floor)** A polish fixes only the material half: tokens, colour, type, motion, states, contrast, and single elements.
-- **(floor)** Never ship a tight grotesk at 600 on near-white with one blue accent and a 1px border under a soft shadow.
-- **(floor)** Use exactly one display face and one body face, or a single family for both, plus at most one outlier that serves exactly one role.
-- **(floor)** Do not use Inter, Roboto, Open Sans, Lato, Poppins, Source Sans, Nunito, Montserrat, Raleway, Work Sans, DM Sans, Plus Jakarta Sans, system-ui, Arial, Helvetica, Merriweather, Lora, Georgia, Courier New, or the system mono as the default display or body face unless the user explicitly requests it or the pre-flight confirms it exists in the project.
-- **(floor)** Before writing a display token, run the theme check command to confirm the face is not already used by the active catalog theme.
-- **(floor)** Load only the weights the page uses, using one link per source with display=swap and a preconnect to the host first.
-- **(floor)** For self-hosted faces, set font-display: swap and provide a metric-matched fallback using size-adjust and ascent/descent/line-gap overrides to prevent layout reflow during swap.
-- **(floor)** Set font-synthesis: none and load the actual italic face when a heading uses italics; never synthesise bold or italic.
-- **(floor)** Never place one italic word inside an otherwise roman heading; use a line break or set the whole heading one way.
-- **(floor)** Never allow an uppercase display head to wrap with line-height under 1.0; use at least 1.0 and ideally 1.02 to 1.08.
-- **(floor)** Never emit a tracked-caps label: any label, caption, table head, nav link, tag, chip, or text at 15px or under set uppercase, small caps, or letter-spaced past 0.03em.
-- **(floor)** Never join meta strings with middle dots, glue arrows to link or button text, add decorative status dots before labels, or emit WORD - fragment labels.
-- **(floor)** Move every colour and font-family literal into the token block instead of writing raw values.
-- **(floor)** Keep button labels and primary nav links from wrapping between 320px and 1920px widths by shortening them or applying white-space:nowrap.
-- **(floor)** Cap display type at 6rem.
-- **(floor)** Prohibit gradient text.
-- **(floor)** Never use an italic serif body type.
-- **(floor)** Do not use asymmetric prose columns.
-- **(floor)** Never use gradient text.
-- **(floor)** Do not use a code or terminal register as decoration unless the product is a developer tool.
-- **(floor)** Never use a monospace label voice.
-- **(floor)** Every stateful control must implement all eight states: default, hover, focus, active, disabled, loading, error, and success.
-- **(floor)** Focus must render a 2px solid focus-colour ring with 2px offset, inset on inputs via negative offset, and only show via :focus-visible.
-- **(floor)** Disabled controls must combine opacity 0.55, cursor not-allowed, and the native disabled attribute or aria-disabled, keeping focusability via aria-disabled when needed.
-- **(floor)** Error state must apply the error colour to the border, message, and aria-invalid, never relying on colour alone.
-- **(floor)** Success state must derive from the server response, use at most one icon from the page set, never a toast, and must not exist where no request was made.
-- **(floor)** Anything reachable by touch must have a 44x44 CSS pixel hit target, expanding small controls without changing their appearance.
-- **(floor)** Every field must have a visible label above it, never using placeholder as the label.
-- **(floor)** Error messages must describe what broke, why, and what to do in one sentence, tied to the field via aria-describedby and aria-invalid true.
-- **(floor)** Required fields must carry aria-required and a visible word, never colour alone.
-- **(floor)** Submit must be disabled only while a request is in flight, never at rest.
-- **(floor)** State changes must never alter border width, padding, height, or animate the ring; reserve a transparent outline at rest so the ring appears without shifting.
-- **(floor)** Modals must use native dialog with showModal, providing focus trap, Escape handling, and ::backdrop for free.
-- **(floor)** Overlays must mark the page behind as inert, close on Escape and backdrop click, include a visible close control, and move first focus to the first interactive element.
-- **(floor)** Apply the type scale exactly: display 84px, display-s 60px, section 52px, title 25px, lead 21px, body 16px, small 14px.
-- **(floor)** Never render a section head below 40px at 1440px width.
-- **(floor)** Make the hero figure the largest element on the page and always pair it with a worded headline that explains its meaning rather than treating it as a bare label.
-- **(floor)** Display the numeric figure at graphic scale next to or beneath a real headline that reads as a complete statement together with the number.
-- **(floor)** Derive emphasis in manifesto headings exclusively from line breaks, never from coloured or italicised words.
-- **(floor)** Keep all text small and subordinate to the photographs rather than using large display typography.
-- **(floor)** Never center display typography over photographs.
-- **(floor)** Render the call-to-action as a typographic link carrying a verb with no box, no fill, and no arrow.
-- **(floor)** Show a specimen thumbnail or colour swatch per card when images exist, otherwise a library photograph or a type-set card with the name, one fact, price, and colour swatch, never empty frames.
-- **(floor)** Use a figcaption below each specimen as the divider and never place a label above the specimen.
-- **(floor)** Do not use an eyebrow label above a specimen.
-- **(floor)** Do not use the Type Specimen pattern when the brand uses an off-the-shelf typeface.
-- **(floor)** Keep the ecosystem section heading as a prompt positioning line only and never render it as a display element.
-- **(floor)** Open each content rail with its own h2 element instead of a label band.
-- **(floor)** Render each category as a real h2 element using the display face in sentence case instead of a styled label band.
-- **(floor)** Use monospace type only inside code blocks and keep tab labels and captions in the body face.
-- **(floor)** Never render a narrow auto-centred heading over full-width left-flush content, which reads as a mistake.
-- **(floor)** Do not place a label beside a heading in the margin; that reads as an eyebrow.
-- **(floor)** Use the Specimen shape only for prompts about type, publishing or writing, not for the editorial genre alone.
-- **(floor)** Validate after blur once the field is touched and on each input afterward, never on the first keystroke.
-- **(floor)** Set aria-invalid and aria-describedby on the field and swap the helper line for the error in the reserved space.
-- **(floor)** Implement every button with all eight states (default, hover, active, focus-visible, disabled, aria-disabled, busy, quiet) using the provided CSS variables and transitions.
-- **(floor)** Keep segmented radio inputs at 1px in the flow while the label carries the checked state and focus ring in body face sentence case.
-- **(floor)** Keep the project's chosen brand at every depth, reading its values from project files rather than memory.
-- **(floor)** On a place page never use effects, WebGL, canvas, CSS gradients, grain, glass, print, scenes, loops, counts, UI fragments, diagrams, feature or plan cards, tabs, accordions, switches, logo rows, timelines, fact strips, calendar cards, maps of streets not given by the brief, ratings, reviews, figures or quotes not given by the brief, words on photographs, rounded or filtered photographs, see-through or blurred navigation, outline/pale/blurred/rotated display type, SaaS furniture, or dark sections except the single brand band.
-- **(floor)** Make readable text 16px or larger with 1.5 to 1.8 line height and --ink at 7:1 contrast.
-- **(floor)** Use --muted only for labels, dates, meta and heading grey runs and keep large text at 4.5:1 and brand-band words at 7:1.
-- **(floor)** Highlight by contrast only and never use marker highlights, coloured bars, violet or lavender anywhere.
-- **(floor)** Step headings down one level at a time in main and use h3 for footer column heads.
-- **(floor)** Use one button pair, one card style, one radius scale, one link look, at most two boxes deep, one heading scale with its faces loaded, and sufficient text contrast.
-- **(floor)** Fill letters and digits with silk-folds or aurora-curtains on dark and colour pages, a plain ink fade on light pages, and never fluted-glass, caustics, halftone-screen, or line-engraving in type.
-- **(floor)** On non-tech pages, ban canvas, WebGL, autoplay video, CSS gradients, SVG pattern or texture grounds, backdrop-filter, filter, mix-blend-mode, mask-image, glass, grain, halftone, dither, duotone, print, all data-fx/data-print/data-scene/data-big-scene/data-ui-loop/data-m-* attributes, SVG animation, GIFs, Lottie, custom cursors, and any scroll or animation library.
-- **(floor)** Take the first dealt Google pairing from start.mjs, keep library/type.json as the single source, and load faces from Google Fonts with display=swap.
-- **(floor)** Use one family or a display plus text face with fixed jobs, at most four font files, and never Inter, Roboto, Open Sans, Lato, Montserrat, Poppins, Space Grotesk, Plus Jakarta Sans, or the system look.
-- **(floor)** Set headlines at --display-weight with size and tight tracking, use text 400 and 500 only, keep sizes per level with at least 1.3x scaling from 1024, and never use weights 700 or 800 except the letters moment.
-- **(floor)** Do not use eyebrow text (small uppercase labels above headings).
-- **(reflex)** Choose non-default typefaces and set a clear type scale with intentional weights, widths, and spacing.
-- **(reflex)** When type functions as a headline or visual element, treat the type treatment itself as an active design element rather than a neutral carrier.
-- **(reflex)** Keep body line lengths under 80 characters, allowing slightly longer lines for serif body text.
-- **(reflex)** Give serif body text slightly more line-height than sans-serif body text.
-- **(reflex)** Do not add typographic labels above content unless they carry meaning.
-- **(reflex)** Use structural devices such as outlines, borders, numbering, dividers, and labels only when they encode real information about the content.
-- **(reflex)** Only add numbered markers such as 01/02/03 when the content is genuinely a sequence like a process or timeline.
-- **(reflex)** Spend boldness in one place, keeping everything else quiet and disciplined, and cut decoration that does not serve the brief.
-- **(reflex)** Do not default to a broadsheet layout with hairline rules, zero border-radius, and dense newspaper columns unless the brief explicitly requests that direction.
-- **(reflex)** Do not default to identical rounded cards sharing one border-radius, a uniform soft grey shadow, and gradient washes as decoration unless the brief explicitly requests that direction.
-- **(reflex)** Do not apply template chrome such as tracked-out ALL-CAPS eyebrows above every heading, middle-dot meta strings, spaced-em-dash labels, tinted near-black stand-in blacks, monospace data labels, or trailing arrows on links and buttons unless the brief explicitly requests them.
-- **(reflex)** When the brief pins a visual direction, follow it exactly, including when it requests one of the generic default looks.
-- **(reflex)** Record font-family declarations and font-service family names only, never fetching binaries.
-- **(reflex)** Anchor the accent conversion and page colours on the recorded spec primary rather than memory.
-- **(reflex)** Order the comp prompt as first-viewport layout, idea, ground and accent colour words, display class, macrostructure, then a negative clause describing the category default.
-- **(reflex)** Use at most three font weights across the page, chosen as paired extremes.
-- **(reflex)** Apply negative tracking to display faces and never let two letters touch on condensed or heavy faces.
-- **(reflex)** Set display line-height between 1.0 and 1.15, tightening as size grows, and never below 1.0 for wrappable uppercase heads.
-- **(reflex)** Keep each display head to one weight, one style and one colour, deriving stress from breaks or size rather than styling.
-- **(reflex)** Size and wrap headings by their rendered character count, splitting long heads at sense breaks and rewriting heads over 90 characters.
-- **(reflex)** Apply text-wrap balance to headings and pretty to body copy so no head or paragraph ends on a single stub word.
-- **(reflex)** Constrain headings by their own element width in ch, not by their wrapper.
-- **(reflex)** Set labels, captions and meta to the body face in sentence case and untracked, reserving monospace for code and measured figures.
-- **(reflex)** Use clamp() for sizes that change continuously and media queries for layouts that change discretely, detecting capabilities with hover and pointer queries rather than width.
-- **(reflex)** Make body-adjacent UI such as meta, nav links, and controls larger on phones and tighten them at 60rem.
-- **(reflex)** Use logical properties for spacing, allow room for 30 to 40 percent longer strings, and avoid hard-coded date or number formats.
-- **(reflex)** Flag any section head smaller than 40px as a layout defect.
-- **(reflex)** When the hero layout places no image in the fold, make the type itself fill the screen.
-- **(reflex)** Ensure the type carries the theme at the current size.
-- **(reflex)** Handle missing display faces with a font slot, a same-build stand-in and a handoff request rather than an invented face.
-- **(reflex)** Set prose line-height to 1.65 to 1.75 with 60 to 75ch measure, keep stat titles unwrapped without icons and mark features as definition lists.
-- **(reflex)** Reduce body font-weight by 50 units (400 to 350) in dark mode.
-- **(reflex)** Render all headings in --color-ink and avoid per-heading color variety in dark mode.
-- **(reflex)** Render all numerals on numeric surfaces as tabular figures.
-- **(reflex)** Do not redefine the spacing scale, type scale, easings, or durations inside design.md; they live in tokens.css.
-- **(reflex)** Make every large decision specific to this client, including its subject, place, materials, numbers, and the way its people talk.
-- **(reflex)** Build a visible system with a few widely spaced type sizes, one spacing rhythm, aligned edges, and one strong element per screen, removing anything that is not doing a job.
-- **(reflex)** Keep every road open on a custom page, including dark or light postures, one or many colors, type as picture or edge-to-edge photographs, and non-template structures.
-- **(reflex)** Grow the entire page from one client-specific idea that decides type, color, structure, motion, product presentation, and interaction from top to bottom.
-- **(reflex)** Set the sizes, spacing, widths, and gaps the design needs and keep the names, treating the written scale as a start rather than a style.
-- **(reflex)** Use one family or two, or three with an outlier carrying one role, keeping free faces unless the user confirms a license.
-- **(reflex)** Choose a display face that no catalog theme sets and verify it with theme.mjs check --face.
+- **(floor)** Maintain sequential heading levels without skips, using h3 for footer column heads and stepping down one level at a time in main content.
+- **(floor)** Error messages must describe what broke, why, and what to do in one sentence, tied to the field via aria-describedby and aria-invalid true, shown inline next to fields with focus moved to the first failed field on submit.
+- **(floor)** Overlays and dialogs must mark the page behind as inert, close on Escape and backdrop click, include a visible close control, and move first focus to the first interactive element; open dialogs with showModal().
+- **(floor)** Mark required fields with aria-required and a visible word — never colour alone — and label every form control via a label element or aria-label.
+- **(floor)** Set aria-invalid and aria-describedby on fields, swap the helper line for the error in reserved space, toggle aria-invalid on validation failure, and run forms with novalidate and data-endpoint.
 - **(reflex)** For Tailwind v4, put every color, font, text, tracking, radius, shadow, and ease token into a @theme static block so each becomes a utility and a usable CSS variable.
+- **(floor)** Load only the font weights the page uses, using one link per source with display=swap and a preconnect to the host first.
+- **(floor)** For self-hosted faces, set font-display: swap and provide a metric-matched fallback using size-adjust and ascent/descent/line-gap overrides to prevent layout reflow during swap.
+- **(reflex)** Prefer variable fonts when the family ships them, since they load once and provide every weight.
+- **(reflex)** Set sizes, spacing, widths, and gaps to match the design; keep the names and treat the written scale as a starting point rather than a fixed style.
+- **(floor)** Fill letters and digits with silk-folds or aurora-curtains on dark and colour pages, and a plain ink fade on light pages, never fluted-glass, caustics, halftone-screen, or line-engraving in type.
+- **(reflex)** At restyle and full build stages, build from the scaffold using the depth in the stamp, with tokens filled from the pre-flight palette and faces.
+- **(floor)** Set font-synthesis: none and load the actual italic face when a heading uses italics; never synthesise bold or italic.
 - **(reflex)** Replace Tailwind's own text-size and ease tokens in @theme, or remove those nine from @theme and declare them on a single page's root when other pages must not change.
-- **(reflex)** When a theme and a shape, genre or craft file disagree on material, controls or motion, let the theme win while keeping the Floor and the user's words.
-- **(reflex)** Use at most two type families plus one outlier role, keep body at 16px or more, give heads one weight and one colour, keep labels off mono unless mono is the material and apply only transform and opacity with at most one reveal.
-- **(reflex)** Treat Playfair Display, Cormorant Garamond, DM Serif Display, Fraunces, Instrument Serif, Recoleta, Space Grotesk, Hubot Sans, Bebas Neue, Unbounded, Geist, Instrument Sans, and Mona Sans as saturated defaults that require an explicit argument rather than being chosen automatically.
-- **(reflex)** Prefer free fonts served from Google Fonts or Fontshare, prefer variable fonts when available, and only use paid foundries after the user confirms the licence.
-- **(reflex)** Select faces by their shape and colour on the page, not by their name, reputation, or subject association.
-- **(reflex)** Allow the wordmark to use a different face than the body, especially on tone-rich pages, and collapse to one family only when the body voice is the brand.
-- **(reflex)** Do not render a product page wordmark as the body face at weight 600, as that is the un-designed default.
-- **(reflex)** Prefer variable fonts where the family ships them, since they load once and provide every weight.
-- **(reflex)** When using Bespoke Slab as display, place figures in the body face because its old-style figures ignore lining-nums.
-- **(reflex)** Only use Nunito Sans at weight 700 when there is an explicit argument for it.
-- **(reflex)** Never use Inter, Roboto, Open Sans, Poppins, Lato, or a system face as the display; use a display face from the theme or fonts.md.
-- **(reflex)** Keep running prose max-width between 45 and 75ch, never render lines of about 88 characters or more over three lines, and cap lede/caption widths at 28ch for two-sentence-or-fewer copy.
-- **(reflex)** Use at most three font families, and only declare a font-slot stand-in waiver on the record.
-- **(reflex)** Do not build an italic display system unless --font-display and every head at that level use true italics with font-synthesis:none; otherwise use a roman display.
-- **(reflex)** Do not set one word or phrase apart in a heading by colour, weight, highlight, or underline unless the theme names it as its signature and it appears once in the hero.
-- **(reflex)** Do not use monospace as costume on labels, captions, meta rows, table heads, or small type unless the display or body is mono or the content is code, a figure, or a measurement.
-- **(reflex)** Never render running text under 12px, functional text under 11px, or multi-line prose leaded under 1.3.
-- **(reflex)** Render median h2s below the hero at --text-section and item titles at --text-title.
-- **(reflex)** Use exactly one icon library, a custom SVG, or typography for icons rather than mixing multiple icon libraries on a page.
-- **(reflex)** Allow a second icon source only when it is a brand or platform mark used in at most two slots.
-- **(reflex)** Place one accented word in bold or on a highlighter band once in the hero, keeping heads to a single weight, style, and colour.
-- **(reflex)** Treat a figure as a headline only when the page is built around it and it carries its unit and source.
-- **(reflex)** Keep small eyebrow type only when it carries a fact, destination, or identifier the reader would otherwise lack, and never delete it bare.
-- **(reflex)** Remove tracking and transform from small uppercase labels, keeping capitals only for wordmarks and display voices of themes built on them.
-- **(reflex)** Set type large enough to occupy the screen without crowding.
-- **(reflex)** Set large display typography with tight letter spacing.
-- **(reflex)** Hover state must communicate through exactly one visual signal such as a colour step, a 1px lift, or a border step.
-- **(reflex)** Active state must show a 1px drop or one colour step darker during press.
-- **(reflex)** Loading state must show inline progress while keeping the label readable and the control width unchanged.
-- **(reflex)** Placeholders must show a format example, never an instruction.
-- **(reflex)** Validation must occur on blur once a field is touched, then on every subsequent input.
-- **(reflex)** Input height must match the adjacent button height, between 44 and 52px on marketing pages, with vertical padding computed as (height - line-height) / 2.
-- **(reflex)** Reserve about 24px in the right-edge slot for clear buttons, error glyphs, or spinners so content never reflows when one appears.
-- **(reflex)** Labels sit 4 to 8px above fields, helpers sit about 4px below at label size with min-height 1lh, and errors replace helpers in that line without adding a second.
-- **(reflex)** Textareas must allow vertical resize with min-height 6rem.
-- **(reflex)** Selects must be native with a custom chevron on the wrapper, and fully custom selects are only allowed when they preserve native keyboard and screen-reader behaviour.
-- **(reflex)** Checkboxes and radios must be native with accent-color for the correct version, styled by state in CSS, never toggled by script.
-- **(reflex)** A switch must be a checkbox with the same contract as native checkboxes and radios.
-- **(reflex)** Range thumbs must take focus and provide a 44px hit target.
-- **(reflex)** File inputs must use a styled label as the interactive surface.
-- **(reflex)** Comboboxes must position the listbox below without pushing content, mirror aria-expanded, cycle with arrows, select with Enter, and close with Escape.
-- **(reflex)** Custom-positioned modals must use position fixed, inset 0, margin auto, height fit-content, and max-height min(80dvh, 40rem) to prevent corner snapping.
-- **(reflex)** Popovers and menus must use the Popover API for light-dismiss, stacking, and Escape, with CSS anchor positioning or fixed positioning plus getBoundingClientRect, flipping near viewport edges, and never inside overflow hidden ancestors.
-- **(reflex)** Reversible actions must run immediately and offer Undo for 5 to 10 seconds; irreversible actions must keep confirm with the user typing the name of the thing being destroyed.
-- **(reflex)** Use skeletons where content shape is known, and spinners only inside buttons replacing the label.
-- **(reflex)** Empty states must state what is empty, why it matters, and one action, never a bare No results.
-- **(reflex)** A disabled control near the user's attention must explain why it is disabled.
-- **(reflex)** Keep section heads to six words or fewer at --text-section and at most one lead line beneath.
-- **(reflex)** Build tables with four or five rows of 56 to 72px and tabular numerals.
-- **(reflex)** Fill eight to ten columns with a single statement spanning two or three lines from section to display size.
-- **(reflex)** Without a hero visual grow the head to --text-display across eight to twelve columns or start the first section by 640px.
-- **(reflex)** Place a display heading over the first row of the grid.
-- **(reflex)** Emerge section headings from the paragraph flow as short bold phrases inline with the body rather than as standalone block headings.
-- **(reflex)** Keep the body to a single column with line-height of at least 1.65 and a measure of 60 to 65 characters.
-- **(reflex)** Set the hero heading to clamp(4rem, 10vw, 9rem) and hug the container edges.
-- **(reflex)** Give uppercase wrapping hero headings a line-height of 1.0 or greater.
-- **(reflex)** Insert hairline rules between figure blocks and apply tabular numerals throughout.
-- **(reflex)** Apply tabular-nums to all numeric text on the page.
-- **(reflex)** Keep the section heading plain and functional at section size so the captures carry the content.
-- **(reflex)** Apply exactly one type-unmask reveal to the first caption only.
-- **(reflex)** Make each FAQ section heading a short direct question ending in a question mark.
-- **(reflex)** Set manifesto headings as uppercase display type, tilted between -2deg and -4deg or left straight, using exactly one weight and one colour throughout.
-- **(reflex)** Use a line-height of 1.0 or greater on manifesto headings whenever the text wraps.
-- **(reflex)** When a theme's signature is an accented word, place it exactly once in the hero and record that placement as the single 38iii waiver.
-- **(reflex)** Write manifesto body copy as short paragraphs where each paragraph is a single assertion sized to read across the room.
-- **(reflex)** Place the headline and its single sentence on a plate at the image base and put captions near a corner in body type.
-- **(reflex)** Apply the italic display type setting to the entire hero quote rather than to a single word.
-- **(reflex)** Render the attribution below the quote in the body face on a single quiet line.
-- **(reflex)** Use a large serif display phrase as the standalone heading.
-- **(reflex)** Generate an ordinal figure on the heading via an ordered list with counter() only when the run is genuinely ordinal.
-- **(reflex)** Treat a number typed beside or above the heading as an eyebrow rather than an ordinal counter.
-- **(reflex)** Render the letter's salutation as display italic at 1.5 to 2 times body size as a single unified style.
-- **(reflex)** Set letter body prose to a single column with a 50ch measure.
-- **(reflex)** Use paragraph spacing alone for dividers and reserve asterisk separators for occasional use only.
-- **(reflex)** Present the body as a vertical list of categorized links rather than a sidebar.
-- **(reflex)** Treat the chosen typeface as the primary design element rather than an afterthought.
-- **(reflex)** Show the typeface at multiple sizes in the specimen heading to demonstrate its behavior.
-- **(reflex)** Progressively demonstrate the typeface through display size, body size, italic, language coverage, and OpenType features.
-- **(reflex)** Apply exactly one type-unmask reveal on the first specimen as it paints and leave the rest static.
-- **(reflex)** Write foundry-voice copy that names the face, its weights, and its use in short phrases.
-- **(reflex)** Keep the grid heading to a short line placed above the grid and never use display typography for it.
-- **(reflex)** Choose exactly one heading placement from marginalia, hanging, centred display, bottom-aligned, overlapping, sticky or pinned, numbered by structure, or inline with the body.
-- **(reflex)** Choose exactly one body composition from single column, two-column asymmetric, multi-column justified with hyphenation, marginalia, three equal columns, full-bleed with margin reset, or asymmetric spans.
-- **(reflex)** Keep the six fingerprint choices coherent, drawn from the same design world.
-- **(reflex)** Use a typographic CTA with a Specimen page rather than an oversized solid button.
-- **(reflex)** Show the inset outline immediately on focus and never change the border width, keeping floating labels as placeholders at rest.
-- **(reflex)** Set form inputs to 48px minimum height with focus-visible outlines and error border colors.
-- **(reflex)** Lay out comparison stats in a three-column grid that collapses to a single column with top borders under 60rem.
-- **(reflex)** Render stat figures with tabular-nums and block display for the numeric value.
-- **(reflex)** Treat framework defaults and gate-named looks as non-brand and restyle or fully replace them.
-- **(reflex)** Never delete an eyebrow alone; where its heading is figurative, promote the plain label to the heading.
-- **(reflex)** At restyle and full, build from the scaffold using the depth in the stamp and tokens filled from the pre-flight palette and faces.
+- **(reflex)** For Tailwind v4, place every color, font, text, tracking, radius, shadow, and ease token into a single @theme static block so each becomes both a utility and a usable CSS variable.
 - **(reflex)** When restyling or redesigning more than one page, lock the system once the scaffold has run so pages share theme, type, and accent and differ only in shape.
-- **(reflex)** Fix plain defects such as misalignment, broken glyphs, and lying labels at any depth.
-- **(reflex)** Define exactly two shared page-level breakpoints in rem units, with the layout breakpoint at 60rem and the type breakpoint at 40rem, adding a third only when content itself breaks.
-- **(reflex)** At widths under 40rem, step down display sizes, move margin captions inline, and consolidate annotations.
-- **(reflex)** Use exactly one display-type moment per page.
-- **(reflex)** When the moment is `address`, set the street and district large under the visit h2, never invent a street.
-- **(reflex)** When the moment is `name`, cap the footer name at 12vw or omit it.
-- **(reflex)** Give group labels 13px weight 500 ink with 12px of air below and no rule.
-- **(reflex)** Choose the type pairing printed by `start.mjs deal` for the trade.
-- **(reflex)** Keep list text at 16px and use 13px only for group labels.
-- **(reflex)** Use the dealt type tokens --t-h1 through --t-stat and keep one size per element kind across the page.
-- **(reflex)** Limit the hero to at most one quieter level of small text.
-- **(reflex)** Write sentence case with curly quotes, keep numbers attached to units and cap lines at 62 characters with nothing below 13px.
-- **(reflex)** Make .btn elements 44px high with 16px labels, 24px side padding and at most two per .btn-row and full width on phones.
-- **(reflex)** A heading's grey half must form its own complete sentence.
-- **(reflex)** Render the title one line at the card-title token with weight 500, keep running card text at 16/24 in --c-text ink, cap text at 46ch, and reserve muted small text for labels only.
-- **(reflex)** Hold card lines 2px apart from 1024px via .card--row so titles and panels align across a row.
-- **(reflex)** Render the product's real UI as live HTML at 13px text, 12px meta, never under 11px, with weights 400 and 500, and respect each fragment's minimum width.
-- **(reflex)** Render card body text at 16px in the default ink color.
-- **(reflex)** Render small grey card text at 15px in a muted color.
-- **(reflex)** Avoid two-fragment headings like 'Twelve rooms. Three ways to stay.'; use a name with a claim, a verb and thing, or a plain sentence.
-- **(reflex)** Avoid number-pair headings like 'Four projects, four very different problems.'; state what the section holds.
-- **(reflex)** After removing banned habits, use colons, brackets, and semicolons naturally; avoid comma splices and fragment drumbeats.
 - **(reflex)** Use fx-headline for the hero or closing line filling two to three words, never for body text or two filled lines on a page.
-- **(reflex)** On non-tech pages, allow only the hero entrance, one or two photo- or type-led moments, fx-map as a baked still, fx-photo as a plain photograph, real icons, still diagrams, and physical-product 3D renders when the brief explicitly asks.
-- **(reflex)** Top-align all section content with the single h2 as first content at --padt under the section top, and never centre content vertically or use a second h2.
-- **(reflex)** Use at most four font files and preload only the regular and display weights.
-- **(reflex)** Use font-display: swap and request only used weights.
-- **(reflex)** Keep font families under 3, files under 6, and font bytes under 320 KiB.
-- **(reflex)** Use tabular-nums for number columns and numeric comparisons.
-- **(reflex)** Apply text-wrap balance or text-pretty to headings to prevent widows.
-- **(reflex)** Use the native system font stack instead of custom web fonts for body text.
-- **(reflex)** Set line height to at least 1.5 for body text.
-- **(reflex)** Do not render body text in all caps.
-- **(reflex)** Use a base font size of at least 16px for readable body text.
-- **(reflex)** Maintain consistent visual variants across reused components.
-- **(reflex)** Do not underline links by default; use color and spacing to distinguish them.
-- **(finish)** Do not place an icon inside a coloured coin.
-- **(finish)** Apply tabular numerals to display-size figures.
-- **(finish)** Position highlighter bands behind the x-height, keep underlines at or below 2px thickness, and limit underline offset to 0.25em.
-- **(finish)** Assign only one role to the outlier face.
-- **(finish)** Use no more than three font weights across running, display, and body text together.
-- **(finish)** Apply hyphens:auto to justified text.
-- **(finish)** Balance paragraphs to avoid orphaned last-line words and balance heads of two or three lines ending on a stub at 375px and 1280px.
-- **(finish)** Permit hairline rules, fleurons, drop caps, double rules, and italic text inside running body copy.
-- **(finish)** Permit a masthead, quiet edge-aligned bar, colophon, and letter close.
+- **(floor)** Define all colours in OKLCH and anchor accent and page colours on the recorded spec primary rather than memory.
+- **(reflex)** A hover state must communicate through exactly one visual signal, such as a colour step, a 1px lift, or a border step.
+- **(floor)** Apply error colour to the border, message, and aria-invalid state; never rely on colour alone to convey error.
+- **(floor)** Implement every button with all eight states (default, hover, active, focus-visible, disabled, aria-disabled, busy, quiet) using the provided CSS variables and transitions.
+- **(reflex)** Render small grey card text at 15px in a muted colour.
+- **(reflex)** Never use a framework default palette as a token or utility; mix a colour for the page in OKLCH.
+- **(floor)** Reference tokens.css as the source of truth and list every role declared in its :root block.
+- **(floor)** When fetching is impossible, ask once for the primary hex and fonts or build free; never guess brand colours from memory.
+- **(floor)** Derive the focus ring from the accent colour as a 2px solid stroke with a 2px offset, applied via :focus-visible only, and keep at least 3:1 contrast against every paper level.
+- **(floor)** Use exactly one accent hue, routed through tokens and consistent with the declared posture, applied only to the canvas treatment, focus rings, small tags, and a single data series — never to body text unless the theme names an accented word.
+- **(reflex)** When the brief pins a colour direction, follow it exactly, including generic default looks, without overriding it.
+- **(floor)** Read brand colours from project files rather than memory, and never ship a palette close enough to a real competitor brand.
+- **(reflex)** Render all headings in --color-ink and avoid per-heading colour variety, especially in dark mode.
+- **(floor)** Implement every button with all eight states using CSS variables and transitions.
+- **(floor)** Never rely on colour alone to convey information or state, and maintain consistent visual variants across reused components.
+- **(floor)** A polish fixes only the material half: tokens, colour, type, motion, states, contrast, and single elements.
+- **(reflex)** Treat framework defaults and gate-named looks as non-brand and restyle or fully replace them.
+- **(floor)** Disabled controls must combine opacity 0.55, cursor not-allowed, and the native disabled attribute or aria-disabled, keeping focusability via aria-disabled when needed, and indicate disabled state through both color and another visual cue.
+- **(floor)** Prohibit gradient text and mesh gradients; treat a single bloom as the only gradient licence.
+- **(floor)** Move every colour and font-family literal into the token block instead of writing raw values.
+- **(floor)** Route every colour and font-family through tokens declared at :root or a theme block, and never emit literal colours or font-family values outside the token block.
+- **(floor)** Implement every button with all eight states using CSS variables and transitions.
+- **(floor)** Highlight by contrast only; never use marker highlights, coloured bars, or violet or lavender anywhere.
+- **(floor)** On non-tech pages, ban gradients, hard-stop two-tones, grain, paper, halos, texture, pattern, glass, contour, backdrop-filter, interface shadows, print, dither, duotone, and animated media.
+- **(reflex)** Write manifesto body copy as short paragraphs where each paragraph is a single assertion sized to read across the room.
+- **(reflex)** After removing banned habits, use colons, brackets, and semicolons naturally; avoid comma splices and fragment drumbeats.
+- **(reflex)** Keep small eyebrow type only when it carries a fact, destination, or identifier the reader would otherwise lack, and never delete it bare.
+- **(reflex)** Write sentence case with curly quotes, keep numbers attached to units, cap lines at 62 characters, and nothing below 13px.
+- **(reflex)** Write subheads under twelve words stating what, for whom, and the difference; make section and card heads state what the visitor sees or use a verb-led title with real words rather than category labels.
+- **(reflex)** Make every large decision specific to this client, including its subject, place, materials, numbers, and the way its people talk.
+- **(reflex)** Use one or two eyebrow labels per page and none when the heading already names the thing.
+- **(reflex)** A heading's grey half must form its own complete sentence.
+- **(reflex)** Never delete an eyebrow alone; where its heading is figurative, promote the plain label to the heading.
+- **(reflex)** Avoid number-pair headings like 'Four projects, four very different problems.'; state what the section holds.
+- **(reflex)** Write foundry-voice copy that names the face, its weights, and its use in short phrases.
+- **(floor)** Avoid two clipped fragments in a row for the headline; use a name with a claim, a verb and thing, or a plain sentence.
+- **(floor)** Never join meta strings with middle dots, glue arrows to link or button text, add decorative status dots before labels, or emit WORD - fragment labels.
+- **(floor)** When images exist, show a specimen thumbnail or colour swatch per card; otherwise use a type-set card with the name, one fact, price, and colour swatch, never empty frames.
 - **(finish)** Use a small mark beside each entry and at most one photograph of the collection itself.
-- **(finish)** Do not use italic type for body copy.
+- **(floor)** Do not use asymmetric prose columns.
+- **(reflex)** Build tables with four or five rows of 56 to 72px and tabular numerals.
+- **(reflex)** Present the body as a vertical list of categorized links rather than a sidebar.
+- **(reflex)** Place the headline and its single sentence on a plate at the image base, and position captions near a corner in body type.
+- **(reflex)** Flag any section head smaller than 40px as a layout defect.
+- **(floor)** Choose the chart form from the number of values: one value becomes a stat tile, two-to-five values become a stat row or horizontal bars, a time series becomes a line or sparkline, more than seven categories becomes a table, and parts of a whole become a stacked horizontal bar.
+- **(reflex)** Fill eight to ten columns with a single statement spanning two or three lines from section to display size.
+- **(floor)** Use outlines, borders, dividers, numbering, and labels only when they encode real information about the content, and reserve negative space as the only section divider (allowing at most one centered ornament).
+- **(reflex)** Grow the entire page from one client-specific idea that decides type, color, structure, motion, product presentation, and interaction from top to bottom.
+- **(reflex)** Report layout gates as notes and print them with the depth that would settle them without rebuilding them, reserving asterisk separators for occasional use only.
+- **(floor)** Make the hero figure the largest element on the page and always pair it with a worded headline that explains its meaning rather than treating it as a bare label.
+- **(reflex)** Make .btn elements 44px high with 16px labels and 24px side padding, allow at most two per .btn-row, and make them full width on phones.
+- **(reflex)** When the hero layout places no image in the fold, make the type itself fill the screen.
+- **(floor)** Never center display typography over photographs.
+- **(reflex)** Lay out comparison stats in a three-column grid that collapses to a single column with top borders under 60rem.
+- **(reflex)** Top-align all section content with the single h2 as first content at --padt under the section top, never centre content vertically, and never use a second h2.
+- **(floor)** Use spacing tokens for all gaps, allow at most three small optical nudges off the scale, and reserve asterisk separators for occasional use while relying on paragraph spacing for dividers.
+- **(floor)** Cap the container width between 1360 and 1520px at 1920x1080 resolution.
+- **(reflex)** Keep the six fingerprint choices coherent, drawn from the same design world.
+- **(reflex)** Emit numbered markers (01/02/03) only when the content is genuinely sequential, such as a process or timeline.
+- **(floor)** Display numeric figures at graphic scale next to or beneath a real headline that reads as a complete statement together with the number.
+- **(floor)** Center head blocks only over symmetric bodies and never outnumber left-aligned head blocks, and never render a narrow auto-centred heading over full-width left-flush content.
+- **(reflex)** Hold card lines 2px apart from 1024px via .card--row so titles and panels align across a row.
+- **(reflex)** Spend visual boldness in exactly one place, keep everything else quiet and disciplined, and remove decoration that does not serve the brief.
+- **(reflex)** Choose exactly one body composition from single column, two-column asymmetric, multi-column justified with hyphenation, marginalia, three equal columns, full-bleed with margin reset, or asymmetric spans.
+- **(reflex)** Define exactly two shared page-level breakpoints in rem units, with the layout breakpoint at 60rem and the type breakpoint at 40rem, adding a third only when content itself breaks.
+- **(reflex)** Build a bento grid of four to six tiles spanning six or twelve columns in mixed spans, place a display heading over the first row, use figures for the supporting row, and use rows for qualifiers.
+- **(reflex)** Without a hero visual, grow the head to --text-display across eight to twelve columns, or start the first section at 640px.
+- **(reflex)** Do not default to a broadsheet layout with hairline rules, zero border-radius, and dense newspaper columns unless the brief explicitly requests that direction.
+- **(reflex)** Insert hairline rules between figure blocks and apply tabular numerals throughout.
+- **(reflex)** Do not default to identical rounded cards sharing one border-radius, a uniform soft grey shadow, and gradient washes as decoration unless the brief explicitly requests that direction.
+- **(floor)** Place halftone dot fields only on plate fills and section bands, never under or overlapping type, and mark every frame holding a visual or UI with .frame or [data-visual] so it never counts as a band.
+- **(reflex)** Build 2x2 feature cards two boxes deep with .card--open on light pages or .panel--flush on dark pages, keep panels at the recipe height, and build a visible system using a few widely spaced type sizes, one spacing rhythm, aligned edges, and one strong element per screen, removing anything not doing a job.
+- **(reflex)** Order the comp prompt as first-viewport layout, idea, ground and accent colour words, display class, macrostructure, then a negative clause describing the category default.
+- **(reflex)** Apply exactly one type-unmask reveal on the first specimen as it paints and leave the rest static.
+- **(floor)** Apply exactly one type-unmask reveal to the first caption only, and use the typewriter reveal only inside a terminal with the caret inside a typed command.
+- **(floor)** Only enter a custom run when the user explicitly requests it, such as by saying custom, bespoke, no theme, or a world of its own.
+- **(floor)** Do not use the Type Specimen pattern when the brand uses an off-the-shelf typeface.
+- **(floor)** Use a comp only for its composition, never as evidence that a design gate has been satisfied.
+- **(floor)** Only apply Specimen when the prompt concerns type, publishing, or writing, or the user names it.
+- **(reflex)** When a theme and a shape, genre or craft file disagree on material, controls or motion, let the theme win while keeping the Floor and the user's words.
+- **(reflex)** Prefer free fonts served from Google Fonts or Fontshare and prefer variable fonts when available; use paid foundries only after the user confirms the licence.
+- **(reflex)** Use exactly one display-type moment per page and limit the hero to at most one quieter level of small text.
+- **(floor)** Emerge section headings from the paragraph flow as short bold phrases inline with the body rather than as standalone block headings, and render each category as a real h2 element using the display face in sentence case instead of a styled label band.
+- **(reflex)** Reduce body font-weight by 50 units (400 to 350) in dark mode.
+- **(reflex)** Remove tracking and transform from small uppercase labels, keeping capitals only for wordmarks and display voices of themes built on them.
+- **(reflex)** Keep the grid heading to a short line placed above the grid and never use display typography for it.
+- **(reflex)** Keep body line lengths under 80 characters, allowing slightly longer lines for serif body text.
+- **(reflex)** Only use Nunito Sans at weight 700 when there is an explicit argument for it.
+- **(reflex)** Set the hero heading to clamp(4rem, 10vw, 9rem) and hug the container edges.
+- **(reflex)** Constrain headings by their own element width in ch, not by their wrapper.
+- **(finish)** Assign only one role to the outlier face.
+- **(reflex)** Empty states must state what is empty, why it matters, and one action, never a bare No results.
+- **(floor)** Use one family or a display plus text face with fixed jobs, at most four font files, and never Inter, Roboto, Open Sans, Lato, Montserrat, Poppins, Space Grotesk, Plus Jakarta Sans, or the system look.
+- **(reflex)** Use the native system font stack instead of custom web fonts for body text only when building for a context where system fonts are appropriate.
+- **(reflex)** Set prose line-height to 1.65 to 1.75 with 60 to 75ch measure, keep stat titles unwrapped without icons, mark features as definition lists, and never render multi-line prose leaded under 1.3.
+- **(finish)** Permit hairline rules, fleurons, drop caps, double rules, and italic text inside running body copy.
+- **(floor)** Include a Controls section specifying Primary fill, radius, and height and Secondary outline-or-text with matching radius and height.
+- **(reflex)** Reserve about 24px in the right-edge slot for clear buttons, error glyphs, or spinners so content never reflows when one appears.
+- **(floor)** Render the call-to-action as a typographic link carrying a verb with no box, no fill, and no arrow.
+- **(reflex)** Do not underline links by default; use color and spacing to distinguish them.
+- **(reflex)** Use skeletons where content shape is known, and spinners only inside buttons replacing the label.
+- **(reflex)** Choose exactly one heading placement from marginalia, hanging, centred display, bottom-aligned, overlapping, sticky or pinned, numbered by structure, or inline with the body.
+- **(reflex)** Handle missing display faces with a font slot, a same-build stand-in and a handoff request rather than an invented face.
+- **(reflex)** Generate an ordinal figure on the heading via an ordered list with counter() only when the run is genuinely ordinal.
+- **(reflex)** Never render running text under 12px or functional text under 11px.
+- **(reflex)** Keep each display head to one weight, one style and one colour, deriving stress from breaks or size rather than styling.
+- **(reflex)** Apply tabular-nums to all numeric text on the page.
+- **(floor)** Never allow an uppercase display head to wrap with line-height under 1.0; use at least 1.0 and ideally 1.02 to 1.08.
+- **(reflex)** Checkboxes and radios must be native with accent-color for the correct version, styled by state in CSS, never toggled by script.
+- **(reflex)** Show the typeface at multiple sizes in the specimen heading to demonstrate its behavior.
+- **(reflex)** Set line height to at least 1.5 for body text.
+- **(finish)** Balance paragraphs to avoid orphaned last-line words and balance heads of two or three lines ending on a stub at 375px and 1280px.
+- **(reflex)** When a theme's signature is an accented word, place it exactly once in the hero and record that placement as the single 38iii waiver.
+- **(floor)** Include a System section listing Genre, first-page Shape, Theme, and Axes with posture.
+- **(reflex)** Set type large enough to occupy the screen without crowding.
+- **(reflex)** Give group labels 13px weight 500 ink with 12px of air below and no rule.
+- **(reflex)** Record only font-family declarations and font-service family names; never fetch or embed font binaries.
+- **(floor)** Keep body copy at 16px minimum with 1.5 to 1.65 line-height and 45 to 75ch measure; never use all caps, unhyphenated justified text, or italic type for body copy.
+- **(reflex)** Use a typographic CTA with a Specimen page instead of an oversized solid button.
+- **(reflex)** When using Bespoke Slab as display, place figures in the body face because its old-style figures ignore lining-nums.
+- **(reflex)** Keep body copy to a single column with line-height of at least 1.65 and a measure of 60 to 65 characters.
+- **(reflex)** Render stat figures with tabular-nums and block display for the numeric value.
+- **(reflex)** Apply text-wrap balance to headings and pretty to body copy so no head or paragraph ends on a single stub word.
+- **(reflex)** Use exactly one icon library, a custom SVG, or typography for icons rather than mixing multiple icon libraries on a page.
+- **(floor)** Take the first dealt Google pairing from start.mjs, keep library/type.json as the single source, and load faces from Google Fonts with display=swap.
+- **(reflex)** Treat Playfair Display, Cormorant Garamond, DM Serif Display, Fraunces, Instrument Serif, Recoleta, Space Grotesk, Hubot Sans, Bebas Neue, Unbounded, Geist, Instrument Sans, and Mona Sans as saturated defaults that require an explicit argument rather than being chosen automatically.
+- **(floor)** Never use a monospace label voice.
+- **(floor)** Keep all text small and subordinate to the photographs rather than using large display typography.
+- **(floor)** Make readable text 16px or larger with 1.5 to 1.8 line height and --ink at 7:1 contrast.
+- **(floor)** Set headlines at --display-weight with size and tight tracking, use text 400 and 500 weights only, keep sizes per level with at least 1.3x scaling from 1024px, and never use weights 700 or 800 except during the letters moment.
+- **(floor)** Never emit a tracked-caps label: any label, caption, table head, nav link, tag, chip, or text at 15px or under must not be set uppercase, small caps, or letter-spaced past 0.03em.
+- **(reflex)** When type functions as a headline or visual element, treat the type treatment itself as an active design element rather than a neutral carrier, and ensure the type carries the theme at the current size.
+- **(floor)** Apply tabular numerals to display-size figures and to figures being compared, using font-display swap and font-synthesis none.
+- **(reflex)** Reversible actions must run immediately and offer Undo for 5 to 10 seconds; irreversible actions must keep confirm with the user typing the name of the thing being destroyed.
+- **(floor)** Use monospace type only inside code blocks and keep tab labels and captions in the body face, and do not use a code or terminal register as decoration unless the product is a developer tool.
+- **(finish)** Position highlighter bands behind the x-height, keep underlines at or below 2px thickness, and limit underline offset to 0.25em.
+- **(reflex)** Make each FAQ section heading a short direct question ending in a question mark.
+- **(reflex)** When the moment is name, cap the footer name at 12vw or omit it.
+- **(reflex)** Allow the wordmark to use a different face than the body, especially on tone-rich pages, and collapse to one family only when the body voice is the brand.
+- **(floor)** Open each content rail with its own h2 element instead of a label band.
+- **(reflex)** Do not render a product page wordmark as the body face at weight 600, since that is the un-designed default.
+- **(floor)** Derive emphasis in manifesto headings exclusively from line breaks, and apply the italic display type setting to the entire hero quote rather than to a single word.
+- **(floor)** Treat a number typed beside or above the heading as an eyebrow rather than an ordinal counter, and treat a figure as a headline only when the page is built around it and it carries its unit and source.
+- **(reflex)** Set labels, captions and meta to the body face in sentence case and untracked, reserving monospace for code and measured figures.
+- **(finish)** Apply hyphens:auto to justified text.
+- **(floor)** Apply the type scale exactly: display 84px, display-s 60px, section 52px, title 25px, lead 21px, body 16px, small 14px.
+- **(floor)** Show the inset outline immediately on focus and never change the border width, keeping floating labels as placeholders at rest.
+- **(reflex)** Apply negative tracking to display faces and never let two letters touch on condensed or heavy faces.
+- **(floor)** Anything reachable by touch must have a 44x44 CSS pixel hit target, expanding small controls without changing their appearance.
+- **(floor)** Validate after blur once the field is touched and on each input afterward, never on the first keystroke.
+- **(floor)** Never use Inter, Roboto, Open Sans, Poppins, Lato, or a system face as the display; use a display face from the theme or fonts.md.
+- **(reflex)** Custom-positioned modals must use position fixed, inset 0, margin auto, height fit-content, and max-height min(80dvh, 40rem) to prevent corner snapping.
+- **(reflex)** Use at most three font weights across running, display, and body text together, chosen as paired extremes.
+- **(reflex)** Render card body text at 16px in the default ink color.
+- **(reflex)** Do not redefine the spacing scale, type scale, easings, or durations inside design.md; they live in tokens.css.
+- **(reflex)** Render median h2s below the hero at --text-section and item titles at --text-title.
+- **(reflex)** Render the attribution below the quote in the body face on a single quiet line.
+- **(reflex)** Use at most four font files and preload only the regular and display weights.
+- **(floor)** Never use faces from fonts.md banned or saturated lists, or any face a catalog theme sets.
+- **(floor)** Cap display type at 6rem.
+- **(reflex)** Give serif body text slightly more line-height than sans-serif body text.
+- **(reflex)** Do not build an italic display system unless --font-display and every head at that level use true italics with font-synthesis:none; otherwise use a roman display.
+- **(reflex)** Textareas must allow vertical resize with min-height 6rem.
+- **(floor)** Use a figcaption below each specimen as the divider and never place a label above the specimen.
+- **(reflex)** Use at most three font families, reserving a third only for one outlier role, and treat the chosen typeface as the primary design element rather than an afterthought.
+- **(floor)** Do not accent a single word or phrase within a headline using italic, bold, colour, highlight, or underline, and never place a single italic word inside a roman (non-italic) heading; use a line break or set the whole heading one way.
+- **(floor)** Do not use an eyebrow label above a specimen, and do not add typographic labels above content unless they carry meaning.
+- **(reflex)** Size and wrap headings by their rendered character count, splitting long heads at sense breaks and rewriting heads over 90 characters, keeping section heads to six words or fewer at --text-section with at most one lead line beneath.
+- **(floor)** Never use an italic serif body type.
+- **(reflex)** Keep the section heading plain and functional at section size so the captures carry the content.
+- **(reflex)** Use logical properties for spacing, allow room for 30 to 40 percent longer strings, avoid hard-coded date or number formats, and detect capabilities with hover and pointer queries rather than width.
+- **(floor)** Labels sit 4 to 8px above fields, helpers sit about 4px below at label size with min-height 1lh, errors replace helpers in that line without adding a second, every field must have a visible label above it (never using placeholder as the label), and range thumbs must take focus and provide a 44px hit target.
+- **(reflex)** Render the letter's salutation as display italic at 1.5 to 2 times body size as a single unified style.
+- **(floor)** Do not apply template chrome such as tracked-out ALL-CAPS eyebrows above every heading, middle-dot meta strings, spaced-em-dash labels, tinted near-black stand-in blacks, monospace data labels, or trailing arrows on links and buttons unless the brief explicitly requests them.
+- **(reflex)** Place one accented word in bold or on a highlighter band once in the hero, keeping heads to a single weight, style, and colour.
+- **(floor)** Do not use Inter, Roboto, Open Sans, Lato, Poppins, Source Sans, Nunito, Montserrat, Raleway, Work Sans, DM Sans, Plus Jakarta Sans, system-ui, Arial, Helvetica, Merriweather, Lora, Georgia, Courier New, or the system mono as the default display or body face unless the user explicitly requests it or the pre-flight confirms it exists in the project.
+- **(reflex)** Choose the type pairing printed by `start.mjs deal` for the trade.
+- **(reflex)** Keep running prose max-width between 45 and 75ch, never render lines of about 88 characters or more over three lines, and cap lede/caption widths at 28ch for two-sentence-or-fewer copy.
+- **(finish)** Do not place an icon inside a coloured coin.
+- **(floor)** Before writing a display token, run the theme check command to confirm the face is not already used by the active catalog theme.
+- **(floor)** Success state must derive from the server response, use at most one icon from the page set, never a toast, and must not exist where no request was made.
+- **(reflex)** Use a line-height of 1.0 or greater on manifesto headings whenever the text wraps.
+- **(reflex)** Use at most two type families plus one outlier role, keep body at 16px or more, give heads one weight and one colour, keep labels off mono unless mono is the material and apply only transform and opacity with at most one reveal.
+- **(reflex)** Select faces by their shape and colour on the page, not by their name, reputation, or subject association.
+- **(floor)** Never render a section head below 40px at 1440px width.
+- **(reflex)** Render the title one line at the card-title token with weight 500, keep running card text at 16/24 in --c-text ink, cap text at 46ch, and reserve muted small text for labels only.
+- **(reflex)** Allow a second icon source only when it is a brand or platform mark used in at most two slots.
+- **(reflex)** Render the product's real UI as live HTML at 13px text, 12px meta, never under 11px, with weights 400 and 500, and respect each fragment's minimum width.

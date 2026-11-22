@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: Use focus-visible selectors to avoid rings on click; keep the ring instant once shown.
   note_zh: 使用 focus-visible 选择器以避免点击时出现环；一旦显示环则保持即时可见。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/26
 evidence_files:
   - option-a.png
   - option-b.png

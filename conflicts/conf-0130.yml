@@ -24,7 +24,7 @@ suggestion:
   kind: scope-split
   note: Both rules target tooltips but l0c1 sets fixed delays while l0c2 emphasizes dynamic visibility behavior.
   note_zh: 两条规则均针对 tooltip，但 l0c1 设置固定延迟，而 l0c2 强调动态可见性行为。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/50
 evidence_files:
   - option-a.png
   - option-b.png

@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: l2c2's hero settle is a single load-time transition; honor it as the reduced-motion fallback while keeping everything else static per l2c1.
   note_zh: l2c2 的英雄图缩放是一次加载时过渡；将其作为 reduced-motion 的降级方案予以保留，其余元素按 l2c1 保持静态。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/48
 evidence_files:
   - option-a.png
   - option-b.png

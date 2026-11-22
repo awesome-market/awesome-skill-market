@@ -21,7 +21,7 @@ sides:
 ai_explanation: color-l2c1 forbids violet/lavender anywhere in the page's own design with no exception, while color-l2c2 explicitly permits saturated violets/lavenders when a design posture is declared. These directly contradict for any page that declares a Full/Drenched posture, since one rule says never and the other says allow.
 ai_explanation_zh: color-l2c1 禁止在页面自身设计中任何位置使用紫色/薰衣草色，无任何例外；而 color-l2c2 明确允许在已声明设计姿态时使用高饱和度紫色/薰衣草色。两者对于声明了 Full/Drenched 姿态的页面直接冲突：一条规则说永不使用，另一条说允许使用。
 suggestion: null
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/41
 evidence_files:
   - option-a.png
   - option-b.png

@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: l2c2's full-bleed hero mandate overrides the l2c1 keep-inside-frame rule.
   note_zh: l2c2 的全出血英雄图要求覆盖 l2c1 的保持图片在框架内的规则。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/33
 evidence_files:
   - option-a.png
   - option-b.png

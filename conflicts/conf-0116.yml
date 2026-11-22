@@ -24,4 +24,4 @@ suggestion:
   kind: scope-split
   note: Implement the space scale via Tailwind utilities (w-/p-/gap-) directly, never through --spacing- tokens, satisfying both rules.
   note_zh: 直接通过 Tailwind 工具类（w-/p-/gap-）实现间距比例，绝不通过 --spacing- 令牌，从而同时满足两条规则。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/36

@@ -21,7 +21,7 @@ sides:
 ai_explanation: l2c1 forbids placing any caption or description under an image, while l2c4 explicitly requires adding captions as facts beside or under each picture. Both govern the same image-caption relationship with no scope split possible.
 ai_explanation_zh: l2c1 禁止在图像、渲染图或任何视觉元素下方放置标题或描述，而 l2c4 明确要求在每张图片旁或下方以事实形式添加标题。两者针对同一图像-标题关系，且无法划分作用域。
 suggestion: null
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/52
 evidence_files:
   - option-a.png
   - option-b.png

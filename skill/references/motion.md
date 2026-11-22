@@ -1,323 +1,222 @@
 # motion
 
-- **(floor)** Avoid gradients past three stops, purple-blue, purple-pink or cyan-on-dark, glow shadows, chromatic halos, spotlights and alpha-defined colours.
-- **(floor)** Give the hero a single entrance of 0.4 to 0.8s from an already-visible default and never combine fade, sweep and scale or use bounce, starfields, parallax or auto-carousels.
-- **(floor)** Ship the hero visual as the real thing, keep its accent footprint small, stay under 2 MB and provide a reduced-motion fallback.
-- **(floor)** Avoid parallax, custom cursors, cursor followers, unpauseable marquees, will-change on whole classes, pulsing dots, over-five-beat carets, infinite loops beyond loaders and unpauseable loops over 5 seconds.
-- **(floor)** Use at most one scroll-choreography pattern family per page.
-- **(floor)** Apply scroll choreography only to structural elements, never to prose.
-- **(floor)** Keep the page-load reveal from craft.md section 5 and never combine it with scroll choreography on the same element.
-- **(floor)** Limit scrub-linked effects to a single display element per page and never apply them to the hero h1.
-- **(floor)** Keep every texture static with no drifting grain, pulsing dots, or looping motion.
-- **(floor)** Ship every texture identical under prefers-reduced-motion: reduce because nothing animates.
-- **(floor)** Allow at most one reveal animation.
-- **(floor)** Under reduced motion, all motion must resolve instantly.
-- **(floor)** Never ship purple transitioning into blue.
-- **(floor)** Never use transition: all and never animate width, height, top or left.
-- **(floor)** Provide a prefers-reduced-motion: reduce fallback for every animation and keep content visible with scripting disabled.
-- **(floor)** Never join metadata with middle dots, glue arrows to link text or use decorative status dots.
-- **(floor)** For app screens, skip all marketing rules: no shape, no hero, no fold, no screen word budget, no section rhythm, no stand-in photographs, and no reveal on load.
-- **(floor)** A polish fixes only the material half: tokens, colour, type, motion, states, contrast, and single elements.
-- **(floor)** Size heroes with dvh or svh, never vh.
-- **(floor)** Pause auto-rotating content on hover and focus, and add a visible pause control for anything moving past 5 seconds.
-- **(floor)** Add a prefers-reduced-motion:reduce fallback to every keyframe or transform transition, including transition:all over a hover transform.
-- **(floor)** Restrict motion to fades and let the atmosphere carry the effect.
-- **(floor)** Allow at most two fixed radial blooms on the body, each sized 20 to 30 percent of the canvas and never animated.
-- **(floor)** Prohibit coloured glow shadows.
-- **(floor)** Use minimal motion with reveals off and overshoot easing disabled.
-- **(floor)** Only apply a spring animation under a declared spring posture, and only on the primary CTA and one character moment.
-- **(floor)** Never apply bounce animation outside the declared spring moments.
-- **(floor)** Never use illustration packs, mascots, 3D blobs, isometric scenes, mesh orbs, auroras behind text, stock faces as proof, invented logo walls, hover zoom or rotation, baked text in images, or photos of other interfaces.
-- **(floor)** State changes must never alter border width, padding, height, or animate the ring; reserve a transparent outline at rest so the ring appears without shifting.
-- **(floor)** Allow horizontal scrolling only for rails or tables that explicitly request it.
-- **(floor)** Do not reveal FAQ answers on page load.
-- **(floor)** Disable reveal animations on catalogue pages.
-- **(floor)** Disable scroll reveal animations on letter compositions.
-- **(floor)** Disable reveal animations on the index-first page.
-- **(floor)** Do not use fade reveals; rely on sticky scroll synchronization as the only motion.
-- **(floor)** Do not apply reveal animations to the ecosystem index.
-- **(floor)** Use number-tick reveals only on real figures the user supplied.
-- **(floor)** Use the typewriter reveal only inside a terminal with the caret inside a typed command.
-- **(floor)** Remove any animation whose removal would lose clarity, guidance, or confirmation of state.
-- **(floor)** Omit toasts when the result is already visible on the page; reserve toasts for failures and invisible effects.
-- **(floor)** Update the interface immediately, fire the request behind it, and roll back with a retry path on failure.
-- **(floor)** Collapse spatial motion to a 150ms opacity crossfade under reduced motion while keeping functional state changes intact.
-- **(floor)** Give every hover affordance a focus equivalent; never make an interaction hover-only.
-- **(floor)** Show toasts only for failures and invisible effects, pin them to one corner, and keep error toasts retryable until acted on.
-- **(floor)** Roll back optimistic rows over the short duration on failure and surface a persistent error toast with a retry action.
-- **(floor)** Implement every button with all eight states (default, hover, active, focus-visible, disabled, aria-disabled, busy, quiet) using the provided CSS variables and transitions.
-- **(floor)** Keep reveal targets visible at their end state when scripting is off and under reduced motion.
-- **(floor)** Pause any content moving longer than five seconds until script runs, off-screen, under reduced motion, on hover/focus, and expose a visible pause control.
-- **(floor)** Under prefers-reduced-motion show a single still frame instead of animated motion.
-- **(floor)** Allow at most one object per card group to turn by itself, at most two objects in view, and never over a moving ground.
-- **(floor)** When an object sits in a panel, keep the ground still by setting speed and grainMotion to zero.
-- **(floor)** Never animate objects by scroll; they move only through their own slow turn, the pointer, or a click.
-- **(floor)** Always show a poster (the object drawn ahead of time) before the live picture fades in, never an empty ground.
-- **(floor)** Under prefers-reduced-motion, show one still frame kept as a picture, free the context immediately, and skip hover, pause buttons, and slow turns.
-- **(floor)** Make scenes move only under the pointer or touch, never while the page scrolls.
-- **(floor)** The print must be present from the first frame with no entry animation, dissolve, or resting movement.
-- **(floor)** Buttons must step on hover and press on click via the motion layer, with no page CSS setting a button transform or transition.
-- **(floor)** On a place page never use effects, WebGL, canvas, CSS gradients, grain, glass, print, scenes, loops, counts, UI fragments, diagrams, feature or plan cards, tabs, accordions, switches, logo rows, timelines, fact strips, calendar cards, maps of streets not given by the brief, ratings, reviews, figures or quotes not given by the brief, words on photographs, rounded or filtered photographs, see-through or blurred navigation, outline/pale/blurred/rotated display type, SaaS furniture, or dark sections except the single brand band.
-- **(floor)** Choose the light or evening grade once on load or by click and never by scrolling.
-- **(floor)** Keep header.nav fixed, full width, opaque, --nav tall with a 1px hairline from first paint and z-index:10 with nothing else sticky.
-- **(floor)** Show the 2px action focus ring immediately without animation and never hide a focused control under the fixed header.
-- **(floor)** Reserve big award-site scenes, creative moments, shader effects, scenes, loops, counts, CSS grounds, dark pages, and dark heroes for tech pages only, while giving non-tech pages photographs, flat color, type, real icons, the hero entrance, and dealt moments.
-- **(floor)** Under prefers-reduced-motion and on phones, show one sharp still frame and free the context.
-- **(floor)** Keep place pages effect-free with flat grounds, square photographs, one button style, a phone bar, list text at 16px, and no diagrams, grounds, loops, fragments, or tabs.
-- **(floor)** On every product page, show the product big where it stands whole, use a different picture in each section, picture every headline promise, change the swatch to change the picture, show every color once, never repeat a fact, and make buttons step and press.
-- **(floor)** On tech pages, use exactly one effect and one or two moments in their own sections, allow at most four live WebGL contexts, and never move cards with scroll.
-- **(floor)** Every visual must render correctly at 1440, 1024, 768 and 390, with refused effects showing their static fallback.
-- **(floor)** Effects must match the project kind: outside tech, use only dealt photo- or type-led moments, and reserve WebGL for a product render the brief explicitly asked for.
-- **(floor)** Every button, link, linked card, and linked photograph must visibly respond to the pointer, and nothing may tilt.
-- **(floor)** Nothing may move because the page scrolled except a dealt moment inside its own section or the big scene for tech.
-- **(floor)** Anything moving past 5 seconds must have a pause button.
-- **(floor)** Under reduced motion, everything must rest and nothing may stay hidden.
-- **(floor)** At most four live WebGL contexts may be active.
-- **(floor)** Never fade a card, row, or tile in on scroll, never fade in every section, never apply parallax to text, never use scroll-jacking, and never add random blinking.
-- **(floor)** Treat a ground with grain, dither, texture or motion as the page's single effect, and deal another effect without them afterward.
-- **(floor)** Limit grain to a single tile made at load, never animated and never over UI, text or photographs.
-- **(floor)** Never tilt or carousel cards; show whole cards in rows and stack press quotes.
-- **(floor)** Never run a loop over 5 seconds with no pause button, nor show a spinner, caret, or pulse running in a still picture.
-- **(floor)** Never move a card or panel with scroll or light it up when it scrolls into view.
-- **(floor)** Fit every diagram's program to exactly one pulse cycle between 2.5 and 4 seconds, with d.T always in that range.
-- **(floor)** On screens under 640px or under reduced motion, hold one still frame, using pulse none or data-dg-still to freeze it.
-- **(floor)** Never start a diagram loop on scroll and keep the card itself stationary.
-- **(floor)** On the single still diagram of a product or service page, set ground none and motion pulse none.
-- **(floor)** Allow only one pointer-driven interaction per page, chosen from fx-button, fx-spotlight, a turning object, or a hover/liquid moment.
-- **(floor)** Pause every effect off-screen and in hidden tabs, and add a pause button to any loop that runs independently for more than about five seconds.
-- **(floor)** Give fx-photo an empty effects list and ignore data-cx-effect, and disable its zoom under reduced motion.
-- **(floor)** Build exactly one effect per page as either one live ground, one WebGL part, one object, or one big scene, and never place it in a fixed layer, behind body copy, or as a page-long canvas.
-- **(floor)** Deal at most two section moments per page, each in its own section, with at most one non-scroll moment in the hero or data-visual window, and never inside or beside the scene's section.
-- **(floor)** Allow only one pointer effect per page, such as a hover, liquid moment, fx-button, fx-spotlight, or pointer-tracking object, and never a replaced cursor or magnetic button.
-- **(floor)** Keep at most four live WebGL contexts on a page, counting the effect plus each moment's own canvas, and fail the build above that number.
-- **(floor)** Never place a live effect or moving canvas inside a card, and never animate a card on scroll.
-- **(floor)** Never add a caption explaining a visual, use blinking or random effects, or use violet or lavender, and keep credits to the single footer line.
-- **(floor)** Fail when the hero lacks data-enter or the head line setting html.m-enter is missing.
-- **(floor)** Never animate icons.
-- **(floor)** Disable scroll-snap, scroll-jacking, and smooth-scroll libraries, and keep everything except big scenes and moments within their own 1H or 2H sections.
-- **(floor)** Use only full-bleed stills, whole products on stages, inset frames, or statements followed by work in heroes, and never sliders, crossfades, entry gates, loaders, or entrance animations that hide words.
-- **(floor)** Scroll moments must be scrubbed to the scrollbar within their own one- or two-screen section and show a finished state at the top and bottom.
-- **(floor)** At 1440px width a hovered card must lift 2px and a hovered photograph must scale to 1.02–1.03.
-- **(floor)** Nothing outside the dealt moment's section and the tech big scene may animate on scroll, including reveals, parallax, scroll-snap, progress lines, scroll-spy markers or counts on view.
-- **(floor)** Never reveal cards, rows or tiles by fade, rise, stagger or mask wipe as the page scrolls.
-- **(floor)** Never move text at a speed different from the page (no parallax on text).
-- **(floor)** Never hold or steer the page with script, smooth-scroll libraries or scroll-snap.
-- **(floor)** Never hide text a visitor may already be reading during the entrance or behind a loader, gate or delay.
-- **(floor)** Never animate width, height, top, left, margin or padding in motion.
-- **(floor)** Never use rotate, skew, glow, shine sweep, chip glide, tilt, flip, pointer-follow, magnetic button or pointer simulation.
-- **(floor)** No hover may resize or push a neighbour, and no hover may exceed its token duration.
-- **(floor)** Never animate height, max-height or padding, including in accordions and panels.
-- **(floor)** Never place two self-moving elements inside one 900px window or two loops inside one panel.
-- **(floor)** Without script, under reduced motion, in print and with data-motion="off" the hero must stand as written.
-- **(floor)** Never emit a second hero entrance or an entrance longer than about 1.1s.
-- **(floor)** Never blink, twinkle, glitter, flicker, cycle hue or scramble text; every change must show a state, step or real data.
-- **(floor)** Never use a carousel, self-advancing slider, timed tabs or rotating notice.
-- **(floor)** Never show a lone pulsing dot, typing dots or a block cursor after a headline.
-- **(floor)** Keep at most four live WebGL contexts per page.
-- **(floor)** Never exceed the hard cap of four live WebGL contexts.
-- **(floor)** Use IntersectionObserver only to mount, never to start or stop visible motion.
-- **(floor)** Reserve space for images, nav and counters to keep CLS under 0.1.
-- **(floor)** Every photograph must be visible from the first paint, never hidden behind opacity 0, scroll reveals, print styles, or load-time dissolves, masks, or clips.
-- **(floor)** Apply no tilt, rotation, Ken Burns effect at rest, or opacity change to a place photograph.
-- **(floor)** Mark script early and load both stylesheets in head so the composition is styled without script and nothing jumps when the scene mounts.
-- **(floor)** Keep the stage sticky for hold screens and never capture the wheel for scene motion.
-- **(floor)** For reduced motion, no script, or a failed module, render the finished composition, which is also the hold's end, and mount no WebGL in the object scenes.
-- **(floor)** Use at most one WebGL context per scene from the shared budget, mount it only while the section is live and within a screen of the viewport, destroy it on leave, and keep a still picture whenever WebGL or the shader fails.
-- **(floor)** Keep nothing moving from crossing text being read and place statements over a flat band or the photograph's calm dark part at 4.5:1, or 3:1 for display text, never over a scrim or gradient.
-- **(floor)** Omit captions explaining the scene and never fly card chrome, chips, or labels with the scroll.
-- **(floor)** Carry exactly one loop per card group, split, or wide frame via `data-ui-loop` with its pause button, and never run two loops on one screen below the hero.
-- **(floor)** Never move anything because the page scrolled.
-- **(floor)** Never move a feature card on scroll and keep linked cards lifting only 2px.
-- **(floor)** Run exactly one loop per bento, with the wide card looping and the small cards holding still.
-- **(floor)** Make tabs clickable only, never timed, and never place a tabs tour on a product, service, or place page.
-- **(floor)** Reveal nothing and scrub nothing by scroll, and loop at most every other chapter in a series.
-- **(floor)** Use steps only with three real steps, each card showing its result, with no arrows, stair-stepping, huge numerals, or mismatched panel heights.
-- **(floor)** Provide a real or absent play control, a stand-in poster that reads as the film's first frame, and no dead control bar or missing source.
-- **(floor)** A play button must trigger a real action.
-- **(floor)** Pricing cards must not change height when the billing switch toggles.
-- **(floor)** A comparison table must never use a sticky header.
-- **(floor)** Honor prefers-reduced-motion by providing a reduced variant or disabling motion.
-- **(floor)** Never use transition all; list target properties explicitly.
-- **(floor)** Muted decorative loops must stop under prefers-reduced-motion.
-- **(floor)** Honor prefers-reduced-motion by disabling or minimizing non-essential animations.
-- **(floor)** Do not autoplay audio or video without user interaction.
-- **(reflex)** Open the page with the single most characteristic element of the subject in the most appropriate form, rather than the default big-number-and-gradient treatment.
-- **(reflex)** Use non-user-triggered motion sparingly and only to draw attention, favoring a single orchestrated moment over scattered effects.
-- **(reflex)** Animate transitions that answer a user action, showing what changed, rather than generic fade-and-slide-up section entrances and per-card hover effects.
-- **(reflex)** Use named easings and duration tokens, exit at 60 to 75% of enter and stagger within bounded ranges.
-- **(reflex)** Allow one staggered reveal per page with content visible without it, and force end states under reduced motion.
-- **(reflex)** Use IntersectionObserver for reveals and a passive, throttled scroll listener only where direction matters.
-- **(reflex)** Treat hover as one contrast-raising signal and never animate focus rings.
-- **(reflex)** Declare animation-timeline and animation-range after the animation shorthand because the shorthand resets them.
-- **(reflex)** Use linear timing for scroll choreography so scroll distance maps one-to-one to progress.
-- **(reflex)** Drive pinned-chapter step reveals from a named view-timeline on the track rather than from elements inside the pinned pane.
-- **(reflex)** Make the progress spine use linear timing because it is a functional indicator.
-- **(reflex)** Keep the pinned diptych side fixed from one diptych to the next while only the scrolling figures fade in on their own view timelines.
-- **(reflex)** Allow misregistration to settle once over --dur-long at most, remain static under reduced motion, and never loop.
-- **(reflex)** Do not redefine the spacing scale, type scale, easings, or durations inside design.md; they live in tokens.css.
-- **(reflex)** Set Motion character to exactly one of still, severe, brisk, or calm.
-- **(reflex)** Keep every road open on a custom page, including dark or light postures, one or many colors, type as picture or edge-to-edge photographs, and non-template structures.
-- **(reflex)** Grow the entire page from one client-specific idea that decides type, color, structure, motion, product presentation, and interaction from top to bottom.
-- **(reflex)** For Tailwind v4, put every color, font, text, tracking, radius, shadow, and ease token into a @theme static block so each becomes a utility and a usable CSS variable.
-- **(reflex)** Keep every non-static token, including the space scale, in a :root block.
-- **(reflex)** Replace Tailwind's own text-size and ease tokens in @theme, or remove those nine from @theme and declare them on a single page's root when other pages must not change.
-- **(reflex)** Export a fluid size as its maximum value and keep the clamp() in CSS.
-- **(reflex)** When a theme and a shape, genre or craft file disagree on material, controls or motion, let the theme win while keeping the Floor and the user's words.
-- **(reflex)** Use at most two type families plus one outlier role, keep body at 16px or more, give heads one weight and one colour, keep labels off mono unless mono is the material and apply only transform and opacity with at most one reveal.
-- **(reflex)** Use only --dur-micro and --dur-short motion in app screens, treating motion as state rather than decoration.
-- **(reflex)** Do not transition margin or padding unless the morph keeps outer height invariant; otherwise use transform.
-- **(reflex)** Apply one signal per element on the container, not the image, and never multiple effects on one element or hover states on non-interactive elements.
-- **(reflex)** Use exponential ease-out for UI state transitions; reserve bounce or overshoot for declared spring postures on the primary action and one character moment.
-- **(reflex)** Keep success silent; never show a celebratory toast for an effect the user already sees.
-- **(reflex)** Attach at most one hover signal per element, keep feedback on the container, and never make non-interactive elements react to the pointer.
-- **(reflex)** Show toasts only for failures and invisible effects, never when the effect is already visible.
-- **(reflex)** Ensure reveal patterns remain visible with scripting disabled via opacity-0-with-class, visible CSS animations collapsing under reduced motion, or @starting-style.
-- **(reflex)** Implement a single, quiet orchestrated entrance animation.
-- **(reflex)** Prohibit marquee footers and floating blur pills.
-- **(reflex)** Keep motion minimal and treats the page as a composed layout rather than an animated reveal.
-- **(reflex)** Make motion responsive to the pointer with a single small entrance reveal on the page.
-- **(reflex)** Limit the page to one small entrance reveal rather than multiple staggered animations.
-- **(reflex)** Permit a single character moment as the only decorative animated element.
-- **(reflex)** Use user recordings or footage with autoplay muted loop playsinline and a poster, prefer AV1 or VP9 WebM then H.264 MP4, keep clips under 2 MB for ten seconds, add pause controls on long loops and captions when speaking.
-- **(reflex)** Hover state must communicate through exactly one visual signal such as a colour step, a 1px lift, or a border step.
-- **(reflex)** Active state must show a 1px drop or one colour step darker during press.
-- **(reflex)** Make rails hold five or more items with the next cut by the edge and scroll by touch and keyboard.
-- **(reflex)** Use no reveal animation or at most one one-shot fade as the grid enters the viewport.
-- **(reflex)** Omit reveal animations so the page presents itself statically.
-- **(reflex)** Keep the hero fold static and allow below-fold content to sweep in horizontally.
-- **(reflex)** Animate the hero figure with a number tick from zero to the target over the long duration only when the figure is real, and keep the final figure present in the markup so it renders with scripting off and under reduced motion.
-- **(reflex)** Apply exactly one type-unmask reveal to the first caption only.
-- **(reflex)** Load the captures instantly and leave the remaining content statically present.
-- **(reflex)** Open FAQ answers as disclosable sections that expand over --dur-long with --ease-out on grid-template-rows from 0fr to 1fr.
-- **(reflex)** Trigger a single horizontal reveal sweep on the first claim below the fold and leave all remaining content static.
-- **(reflex)** Omit reveal motion in the fold; stagger below-the-fold content only.
-- **(reflex)** Apply a fade-up stagger animation on first load.
-- **(reflex)** Allow at most one horizontal reveal on the first stage when the theme permits it, or use a single scroll-choreography pinned pattern, but never both on the same page.
-- **(reflex)** Fade in the hero's two halves once, 60 to 100ms apart, and leave the rows below simply present.
-- **(reflex)** Implement a sticky left pane that holds the section heading while a scroll-synced right pane cycles through related captures.
-- **(reflex)** Apply exactly one type-unmask reveal on the first specimen as it paints and leave the rest static.
-- **(reflex)** Draw the map as SVG derived from real places or the real system, including hover states.
-- **(reflex)** Reveal nodes one by one as the map enters the viewport, capping the animation at five nodes and running it once.
-- **(reflex)** Omit reveal animations on the playground.
-- **(reflex)** Choose exactly one reveal pattern from fade-up stagger, horizontal sweep, type-unmask, number-tick, typewriter, or none.
-- **(reflex)** Keep the six fingerprint choices coherent, drawn from the same design world.
-- **(reflex)** A None on Image or Reveal that the theme or material forces does not count as a shared choice for the anti-repetition rule.
-- **(reflex)** Signal hover with a color change and press with a 1px drop released on pointer up, and never animate the focus ring.
-- **(reflex)** Fade the backdrop and scale the panel from 0.96 to 1 over the long duration on open, closing at about 65% on the ease-in.
-- **(reflex)** Use the Popover API with CSS anchor positioning that flips within 16px of an edge and close at about 65% on the ease-in.
-- **(reflex)** Delay hover tooltips 800 to 1000ms, show focused tooltips immediately, and keep them visible while the pointer moves onto them.
-- **(reflex)** Count real figures from the previous value over 400 to 800ms, format with Intl.NumberFormat, and announce only the final value.
-- **(reflex)** Swap the copy button label to Copied for 2.5s instead of showing a toast.
-- **(reflex)** Reveal the drag handle on hover and focus, use grab/grabbing cursors, mark the drop target, and reorder rows with arrow keys while announcing moves.
-- **(reflex)** Debounce search input by 250ms, signal waiting with a deeper border, and announce the result count once after settling.
+- **(floor)** Ship responsive layouts down to mobile, respect reduced-motion preferences, and ensure visual accessibility with harmonious color palettes.
+- **(floor)** Give every hover affordance a focus equivalent; never make an interaction hover-only, and make hover and liquid moments do nothing on touch screens.
 - **(reflex)** Open the command palette immediately on the keyboard shortcut, keep focus throughout, and move the highlight by transform without moving rows.
-- **(reflex)** Run a single staggered page-load reveal once via IntersectionObserver, skipping it entirely on still themes.
-- **(reflex)** Build horizontal rails with grid auto-flow column, scroll-snap mandatory, inline gutters, and focus-visible outlines.
-- **(reflex)** Apply staggered transition delays scaled by index for reveal animations only where the theme permits motion.
-- **(reflex)** At widths under 60rem, collapse multi-column grids to one column, remove tilts and clip effects, unstick sticky panes, and collapse hero postures to content height unless a poster stays full-bleed.
-- **(reflex)** Stop drawing an effect when it leaves the viewport or the tab is hidden.
-- **(reflex)** Draw a still or reduced-motion frame once at up to one texel per canvas pixel, never as a loop.
-- **(reflex)** Draw split-reveal, dot-object and exploded-layers once at rest and only redraw while the pointer moves them.
-- **(reflex)** Let product-turntable and dither-sequence draw only while they step or wipe, at most 30 frames per second, and nothing while they hold.
-- **(reflex)** Under reduced motion show one still frame with no pause disc while still allowing pointer interaction.
-- **(reflex)** In a section or scene group allow only one self-moving scene, holding the others still until the pointer reaches them.
-- **(reflex)** The FAQ must merge into the section above below 495px.
-- **(reflex)** The footer must contain no effects.
-- **(reflex)** A footer-statement must contain no effect.
-- **(reflex)** Every linked place photograph must zoom 1.03 under the pointer.
-- **(reflex)** A place page must contain no effect.
+- **(floor)** Ensure every panel remains visible in order when scripting is absent, provide prefers-reduced-motion fallbacks for every animation, and keep content visible with scripting disabled.
+- **(floor)** Draw a 2px action-color focus ring 2px off the control with no transition, shown immediately without animation, and never hide a focused control under the fixed header.
+- **(floor)** Pause auto-rotating or moving content on hover and focus, and expose a visible pause control for anything moving longer than five seconds.
+- **(floor)** Provide a prefers-reduced-motion: reduce fallback for every animation, keyframe, or transform transition — including transition:all on hover — and ship all motion-free states identically.
+- **(reflex)** Delay hover tooltips 800–1000ms, show focused tooltips immediately, and keep them visible while the pointer moves onto them.
+- **(floor)** Keep all copy in its finished place so content is readable without motion and never hide a headline on load; content must be fully readable at rest without script and under reduced motion.
+- **(reflex)** For Tailwind v4, put every color, font, text, tracking, radius, shadow, and ease token into a @theme static block so each becomes a utility and a usable CSS variable.
+- **(reflex)** Declare animation-timeline and animation-range after the animation shorthand because the shorthand resets them.
 - **(reflex)** Choose buttons from solid, pill, tonal, arrow, or block on html data-buttons.
-- **(reflex)** A feature card that leads somewhere must lift 2px and zoom its picture 1.03 on hover.
-- **(reflex)** On a place page allow at most two moments on a long page.
-- **(reflex)** Make every photograph that leads somewhere a link that zooms 1.03 inside its frame while its card lifts 2px.
+- **(floor)** Limit grain to a single tile made at load, never animated and never over UI, text or photographs.
+- **(reflex)** Keep every non-static token, including the space scale, in a :root block.
+- **(reflex)** Drive pinned-chapter step reveals from a named view-timeline on the track rather than from elements inside the pinned pane.
+- **(reflex)** Stop drawing an effect when it leaves the viewport or the tab is hidden.
 - **(reflex)** Carry the arrow on the head row's link.
-- **(reflex)** Draw the navigation underline on hover.
-- **(reflex)** Keep the phone bar off the phone's first screen until the hero button has scrolled away.
-- **(reflex)** Render notice lines as still 14px lines and never rotate them.
-- **(reflex)** Restrict motion to the hover layer and the hero load entry.
-- **(reflex)** Add data-moment="picture-develops" to the section's figure when the section contains a photograph and the moment fits the section.
-- **(reflex)** Implement the motion layer so linked cards lift 2px, photos zoom 1.02-1.03 within their frame, buttons step on hover and press on click, underlines draw, and card loops cycle in 2.5-4 seconds and restart on hover, without adding tilt, carousels, or timed tabs.
-- **(reflex)** Make every hero enter exactly once on load via data-enter and give every page one dealt moment, or two on a long page.
-- **(reflex)** For product and service pages, lead with photographs of the product, people, rooms, or work, use real icons for tools, allow at most one still diagram, and avoid shaders, prints, grain, gradients, scenes, loops, and WebGL except for a 3D render the brief explicitly asks for.
-- **(reflex)** The hero must enter exactly once on load.
-- **(reflex)** Card loops must cycle in 2.5 to 4 seconds.
-- **(reflex)** Make liquid pause under reduced motion and hold still when motion is reduced.
-- **(reflex)** Ensure no ground changes a section's height, fade soft grounds over 120px, and keep hard grounds' colour across the whole box.
-- **(reflex)** Cross-fade product-colour washes on click, never on scroll.
-- **(reflex)** Lift a linkable card 2px on hover with a soft shadow shown only on hover, and add .m-nolift to cards without links.
-- **(reflex)** Dissolve the last --fade-h (64px, or 40px on short panels) into the ground via .stage--fade-b, --fade-r, and --fade-br.
-- **(reflex)** Hold every card ground still with speed 0 or drift 0 and grainMotion 0 on grain-gradient, and calm the fade area with calmY near 1.
-- **(reflex)** Put data-ui-loop on the group's one loop and mark every other fragment data-ui-still.
-- **(reflex)** Always run voice as its group's loop, since a held voice loses its orb.
-- **(reflex)** Keep two loops off the same screen below the hero, so a group next to a looping one holds still.
-- **(reflex)** Add a solid 32px pause disc beside the card title at the right of the text column, keeping 44px clear, or 12px from the bottom-right corner outside a card.
-- **(reflex)** Give a place that already holds a .loop-pause no second pause button.
-- **(reflex)** Play a held fragment's cycle once on keyboard focus and only repeat it while a pointer rests on the card.
-- **(reflex)** Call ui.pausable(panel, ctrl) for anything that moves on its own for more than 5 seconds, where ctrl exposes pause() and resume().
-- **(reflex)** Start loops on the finished picture, never an empty window or greyed text, and hold the finished text for the rest of the cycle.
-- **(reflex)** Stop loops off screen and hold them still under reduced motion with no buttons.
-- **(reflex)** Use one cycle of 2.5 to 4 seconds that repeats and restarts on pointer or focus entry, and never move the card itself by itself.
-- **(reflex)** Call ui.restart(el) to restart every fragment in el, and fire a bubbling ui-cycle event as each cycle starts.
-- **(reflex)** Make a slider with drive.param grain the group's loop and use compact:true to keep it small enough for .at-center on a focal tile.
-- **(reflex)** Mount orb-sphere as the voice orb on dark surfaces and draw a CSS pearl with accent and ink turning inside on light surfaces, with the accent as only the thin ring.
-- **(reflex)** Add data-glow edge-glow to the one featured object with its own quiet accent hairline, running a light round the edge on hover or focus for about 4.6s and then fading.
-- **(reflex)** Apply tech and gaming presets with motion on gaming and tech pages, and apply at most one still diagram on product or service pages.
-- **(reflex)** Give each diagram card its own pulse loop rather than one loop per card group.
-- **(reflex)** Stagger each spoke, branch, or route by 0.24 to 0.5 seconds and then fit the whole program to a single cycle while lines fade in the remainder.
-- **(reflex)** Restart the pulse from its first beat when the pointer enters the card or keyboard focus moves into it.
-- **(reflex)** Restrict accent colour to the light and what it reaches, use hairline lines, and make the core an ink tile.
-- **(reflex)** Draw feature-card inset panels as still pictures with an 8px margin and card-radius-minus-margin corner radius, running at most two short pointer demos per row.
-- **(reflex)** Under reduced motion render the dither object as one still picture with no context and no pause button, and without WebGL as a line drawing with its accent part filled.
-- **(reflex)** Give a button's fill an even, low-contrast grain that moves only while pointed at, with no blobs that settle at one end.
-- **(reflex)** Only animate on scroll inside the dealt big scene, elsewhere limiting motion to the object's own slow turn, the pointer and a click.
-- **(reflex)** Play video only in the tech hero or data-visual window, keep it muted with a poster first, a 6 to 12 second loop or a single play that holds its last frame, a pause button, and separate phone and desktop files.
-- **(reflex)** Make effects react to pointer or time, hold at rest with ambient cycles of 4 seconds or longer, show a poster and still fallback under reduced motion, and disable pointer play on touch.
 - **(reflex)** Draw effects 20 to 25 pixels larger than their box and clip them, sample at one per CSS pixel or less, cap pixel ratio at 1.5, and render noise, particles, and ray marching at half resolution and 30 frames per second or less.
-- **(reflex)** Avoid blinking, bouncing, or overshooting; use ease-out timing, 600-1000ms reveals, 1.6-1.8s photo development, and loops that rest or pause.
-- **(reflex)** A dealt moment may pin its section with position:sticky only inside its own data-moment box.
-- **(reflex)** Run the hero entrance once on load, about 1.1s, using transform, scale and opacity only, then leave it static.
-- **(reflex)** Use --m-ease-enter (cubic-bezier(.22,1,.36,1)) for hero, moment and digit-roll entrances and never overshoot the curve.
-- **(reflex)** The hero picture must never be hidden or fade; it settles from 1.05 to 1 over 1.1s inside its frame.
-- **(reflex)** The motion layer must animate only transform, scale and opacity, plus a few named cheap properties inside dealt moments.
-- **(reflex)** Apply hover motion only to fine pointers, while keeping identical tap and keyboard focus states everywhere.
-- **(reflex)** Draw a 2px action-colour focus ring 2px off the control with no transition.
-- **(reflex)** Use exactly one underline style per page for links and nav words.
-- **(reflex)** Nav words use the drawn underline, never a gliding pill.
-- **(reflex)** A linked card lifts 2px on hover with a darkened border and an optional soft shadow capped at 24px blur and 10% ink.
-- **(reflex)** A card that contains a link must lift; only truly unlinked cards use .m-nolift with no motion.
-- **(reflex)** A linked photograph scales 1.02–1.03 inside its hidden-overflow frame without dimming, fading or overlaying.
-- **(reflex)** A tech page allows at most one timed loop in the hero or [data-visual] frame, plus at most one effect.
-- **(reflex)** A count appears once per page via data-m-count or the counter-rolls moment, never both, and its final figure must render without script.
-- **(reflex)** Anything still moving five seconds after first sight gets one 32px pause button 12px from the bottom-right of its panel or card.
-- **(reflex)** Timed loops start on load, never on scroll, and an IntersectionObserver only mounts lazily.
-- **(reflex)** Under reduced motion colours and menus still move, presses show as deeper tones, and every loop, effect, moment and scene shows its finished frame with pause buttons hidden.
-- **(reflex)** A product render is a still by default and live only with data-product-mode="live", at most one live context with a pause button and a still on phone and reduced motion.
-- **(reflex)** Mount each WebGL context at load or lazily as its section nears the screen, always showing a poster first.
-- **(reflex)** Render noise, particles and ray marching at half resolution and 30fps or less.
-- **(reflex)** Drop the pixel ratio when frames take over 21 to 24ms.
+- **(reflex)** Mount orb-sphere as the voice orb on dark surfaces and draw a CSS pearl with accent and ink turning inside on light surfaces, with the accent as only the thin ring.
+- **(floor)** Cap the fx library at 3 live contexts and the page at 4 live contexts, never run two live contexts on one page, and never exceed the hard cap of four live WebGL contexts.
+- **(floor)** Keep at most four live WebGL contexts per page (counting scenes with grounds and effects) and at most one per product page; keep shaders and WebGL effects off place, product, and service pages, which get photographs only.
+- **(reflex)** Under reduced motion render the dither object as one still picture with no context and no pause button, and without WebGL as a line drawing with its accent part filled.
+- **(floor)** Use IntersectionObserver only to mount, never to start or stop visible motion.
+- **(reflex)** Build sliders whose drive.param grain drives the group loop; keep them compact via compact:true so they fit .at-center on a focal tile.
+- **(reflex)** Give buttons an even, low-contrast grain that moves only on hover and never settles into blobs at one end.
 - **(reflex)** Draw moving-free grounds once, keep them as pictures, and release their contexts.
-- **(reflex)** Keep WebGL contexts made over the whole scroll under 24.
-- **(reflex)** Keep median layout shift under 0.25.
-- **(reflex)** Zoom a linked-card photograph to 1.03 over 600ms inside an overflow-hidden mask without growing or moving the frame.
-- **(reflex)** Leave photographs outside linked cards with no hover effect.
-- **(reflex)** Lift a linked card by 2px on hover.
-- **(reflex)** Limit scene motion to transform, opacity, and clip-path on fixed-size layers and never repaint width, height, or an SVG clip every frame.
-- **(reflex)** Open the nav panel after 150ms of hover with a fade and a 6px drop, and let a click on the word navigate to its section without `preventDefault`.
-- **(reflex)** Never turn a stat into a count-up or a slogan, and keep quote cards out of customer-proof rows.
-- **(reflex)** Show four dated moments on one rail with equal-height panels, at most one loop in the newest panel, and never zig-zag points or pulse dots.
-- **(reflex)** Set the correct transform-origin for animated elements.
-- **(reflex)** Apply SVG transforms to a g wrapper with transform-box fill-box and transform-origin center.
-- **(reflex)** Animations must remain interruptible and respond to user input mid-animation.
-- **(finish)** Use only one scroll-choreography pattern per page.
-- **(finish)** Use CSS or SVG instead of Lottie whenever the animation can be achieved that way.
-- **(finish)** Permit soft drop shadows with offset and hover lifts on cards.
-- **(finish)** Do not use spatial reveal motion for photographs; let the images carry the emphasis.
-- **(finish)** Fade each card in when the active filter changes.
+- **(floor)** Provide a real or absent play control, a stand-in poster that reads as the film's first frame, and avoid a dead control bar or missing source.
+- **(floor)** Keep at most four live WebGL contexts on a page, counting each effect plus its own canvas, and fail the build above that number.
+- **(floor)** Never place a live effect or moving canvas inside a card, and never animate a card on scroll.
+- **(reflex)** Export a fluid size as its maximum value and keep the clamp() call in CSS.
+- **(floor)** Allow only one pointer-driven interaction per page, chosen from fx-button, fx-spotlight, a turning object, or a hover/liquid moment.
+- **(floor)** Always show a poster (the object drawn ahead of time) before the live picture fades in, never an empty ground.
+- **(floor)** Give fx-photo an empty effects list and ignore data-cx-effect, and disable its zoom under reduced motion.
+- **(reflex)** Render noise, particles, and ray marching at half resolution and 30fps or less.
+- **(reflex)** Replace Tailwind's own text-size and ease tokens in @theme, or remove those nine from @theme and declare them on a single page's root when other pages must not change.
+- **(floor)** Hero images must use sizes="100vw", fetchpriority="high", and eager loading, with a 4:5 phone crop in a picture element, never a vh term.
+- **(reflex)** Drop the pixel ratio when frames take over 21 to 24ms.
+- **(reflex)** Apply SVG transforms to a g wrapper using transform-box: fill-box and transform-origin: center.
+- **(reflex)** Make a slider with drive.param grain the group's loop and use compact:true to keep it small enough for .at-center on a focal tile.
+- **(floor)** Hold at most four live WebGL contexts per page, pausing and releasing off-screen prints and waiting for a free context before rendering a fourth.
+- **(reflex)** Apply SVG transforms to a g wrapper with transform-box: fill-box and transform-origin: center.
+- **(floor)** Pause every effect off-screen and in hidden tabs, and add a pause button to any loop that runs independently for more than about five seconds.
+- **(reflex)** Add data-glow edge-glow to the one featured object with its own quiet accent hairline, running a light round the edge on hover or focus for about 4.6s and then fading.
+- **(reflex)** Add data-moment="picture-develops" to the section's figure when the section contains a photograph and the moment fits the section.
+- **(reflex)** For Tailwind v4, place every color, font, text, tracking, radius, shadow, and ease token into a single @theme static block so each becomes both a utility and a usable CSS variable.
+- **(reflex)** Give a button's fill an even, low-contrast grain that moves only while pointed at, with no blobs that settle at one end.
+- **(reflex)** Keep the phone bar off the phone's first screen until the hero button has scrolled away.
+- **(floor)** Keep at most four live WebGL contexts on a page, counting the effect plus each moment's own canvas, and fail the build above that number.
+- **(reflex)** Draw a still or reduced-motion frame once at up to one texel per canvas pixel, never as a loop.
+- **(reflex)** Limit scene motion to transform, opacity, and clip-path on fixed-size layers, and never repaint width, height, or an SVG clip every frame.
+- **(floor)** Render every ground, panel, and region as a single flat CSS colour via tokens; never assign gradients, layered backgrounds, glass, or coloured glow shadows to material, grain, photography, or depth surfaces.
+- **(reflex)** A hover state must communicate through exactly one visual signal, such as a colour step, a 1px lift, or a border step.
+- **(floor)** Implement every button with all eight states (default, hover, active, focus-visible, disabled, aria-disabled, busy, quiet) using the provided CSS variables and transitions.
+- **(floor)** Implement every button with all eight states using CSS variables and transitions.
+- **(floor)** Allow at most two fixed, non-animated radial blooms sized 20–30% of the canvas, plus grain at 0.08 opacity or below on at most one plate.
+- **(floor)** A polish fixes only the material half: tokens, colour, type, motion, states, contrast, and single elements.
+- **(floor)** Treat dark mode as opt-in and derived, choosing the light or evening grade once on load or by click and never by scrolling.
+- **(floor)** Implement every button with all eight states using CSS variables and transitions.
+- **(floor)** Prohibit coloured glow shadows.
+- **(floor)** Prohibit purple-to-blue, purple-to-pink, cyan-on-dark, gradient text, background-clip text, aurora, mesh blobs, blurred orbs, chromatic radial halos, spotlights, and coloured zero-offset glow shadows behind text.
+- **(floor)** Give every heading its concrete noun and keep it readable when a rival's name or another town's trade is substituted into it.
+- **(floor)** Show toasts only for failures and invisible effects, pin them to one corner, and keep error toasts retryable until acted on.
+- **(floor)** Omit captions explaining the scene and never fly card chrome, chips, or labels with the scroll.
+- **(reflex)** Swap the copy button label to Copied for 2.5s instead of showing a toast.
 - **(finish)** An open-now line may fill once at load but the panel must read correctly without it.
-- **(finish)** Slide the tab indicator on click and loop only the shown screen, per motion.md.
-- **(finish)** Loop only the open item via data-ui-loop and keep the list still, with nothing scrolling inside the window.
-- **(finish)** Loop only the first step card and keep the others still, never chaining or staggering the animation.
+- **(reflex)** Use exactly one underline style per page for links and nav words.
+- **(floor)** Omit toasts when the result is already visible on the page; reserve toasts for failures and invisible effects.
+- **(floor)** Never add a caption explaining a visual, use blinking or random effects, or use violet or lavender, and keep credits to the single footer line.
+- **(floor)** Do not add a caption under an object or words calling it a render, drawing, illustration, model, sample, or stand-in.
+- **(reflex)** Render notice lines as still 14px lines and never rotate them.
+- **(floor)** Avoid the middle dot, arrow suffix, and coloured dot as universal separators, allowing them only as a single byline dot, a marquee separator, or a live-state dot.
+- **(floor)** Use only full-bleed stills, whole products on stages, inset frames, or statements followed by work in heroes; never use sliders, crossfades, entry gates, loaders, or entrance animations that hide words.
+- **(floor)** Library photographs must never exceed one third of the page's total pictures unless the draft path explicitly lifts the cap; below the hero they count at most a third of the page with no two photograph-led sections in a row.
+- **(reflex)** Show a real capture of the running product rather than a built mock or drawn interface where a screenshot belonged, framing it in the theme.
+- **(floor)** Delete every image that carries no fact; mood-only pictures, mood stock, code grounds, drawings, empty boxes, note imagery, illustration packs, mascots, 3D blobs, isometric scenes, mesh orbs, auroras behind text, stock faces as proof, invented logo walls, hover zoom or rotation, baked text in images, and photos of other interfaces must never appear.
+- **(reflex)** Draw maps as SVG derived from real places or the real system, including hover states.
+- **(reflex)** For video, use user recordings or footage with autoplay muted loop playsinline and a poster, prefer AV1/VP9 WebM then H.264 MP4, keep clips under 2 MB for ten seconds, add pause controls on long loops and captions when speaking.
+- **(floor)** Open the page with the single most characteristic element of the subject in its most appropriate form instead of a default big-number-and-gradient treatment.
+- **(reflex)** Dissolve the last --fade-h (64px, or 40px on short panels) into the ground via .stage--fade-b, --fade-r, and --fade-br.
+- **(reflex)** Keep median layout shift under 0.25.
+- **(reflex)** Show four dated moments on one rail with equal-height panels, at most one loop in the newest panel, and never zig-zag points or pulse dots.
+- **(floor)** Never tilt or carousel cards; show whole cards in rows and stack press quotes.
+- **(floor)** Keep nothing moving from crossing text being read, and place statements over a flat band or the photograph's calm dark part at 4.5:1 (or 3:1 for display text), never over a scrim or gradient.
+- **(floor)** Render the complete base layout with logical CSS properties so reduced motion, small screens, and unsupported browsers always show the finished page, and measure at 1440, 1024, 768, and 390px with 16px fragment insets on both sides, cutting only at the bottom on phones.
+- **(floor)** Apply scroll choreography only to structural elements, never to prose.
+- **(reflex)** Grow the entire page from one client-specific idea that decides type, color, structure, motion, product presentation, and interaction from top to bottom.
+- **(floor)** Prohibit marquee footers and floating blur pills.
+- **(floor)** Disable scroll-snap, scroll-jacking, and smooth-scroll libraries, and keep everything except big scenes and moments within their own 1H or 2H sections.
+- **(reflex)** Keep the six fingerprint choices coherent, drawn from the same design world.
+- **(floor)** Keep place pages effect-free with flat grounds, square photographs, one button style, a phone bar, list text at 16px, and no diagrams, grounds, loops, fragments, or tabs.
+- **(reflex)** The FAQ must merge into the section above below 495px.
+- **(reflex)** Keep the pinned diptych side fixed across consecutive diptychs while only the scrolling figures fade in on their own view timelines.
+- **(reflex)** At widths under 60rem, collapse multi-column grids to one column, remove tilts and clip effects, unstick sticky panes, and collapse hero postures to content height unless a poster stays full-bleed.
+- **(reflex)** On a place page allow at most two moments on a long page.
+- **(reflex)** Make rails hold five or more items with the next cut by the edge and scroll by touch and keyboard.
+- **(reflex)** Ensure no ground changes a section's height, fade soft grounds over 120px, and keep hard grounds' colour across the whole box.
+- **(floor)** For app screens, skip all marketing rules: no shape, no hero, no fold, no screen word budget, no section rhythm, no stand-in photographs, and no reveal on load.
+- **(reflex)** Build horizontal rails with grid auto-flow column, scroll-snap mandatory, inline gutters, and focus-visible outlines.
+- **(reflex)** Let the chosen shape determine how each deck card is rendered instead of applying a fixed layout, and render feature-card inset panels as still pictures with an 8px margin and a corner radius of card-radius minus margin, allowing at most two short pointer demos per row.
+- **(finish)** Permit soft drop shadows with offset and hover lifts on cards.
+- **(floor)** Reserve space for images, navigation, and counters to keep cumulative layout shift under 0.1.
+- **(floor)** With viewport-fit cover, fold safe area into the gutter token using max with env safe-area-inset values, size heroes with dvh or svh (never vh), and keep every section and footer at height calc(var(--h,1) * 100svh) with --h of 1 or 2.
+- **(reflex)** Never let non-interactive elements react to the pointer, and attach at most one hover signal per element with feedback on the container.
+- **(floor)** Treat a textured or motion ground as the page's single effect and deal no other effect afterward; reserve big scenes, shader effects, loops, counts, CSS grounds, dark pages, and dark heroes for tech pages only.
+- **(floor)** Use only one scroll-choreography pattern per page and rely on sticky scroll synchronization as the only motion, omitting fade reveals.
+- **(floor)** Limit scrub-linked effects to a single display element per page and never apply them to the hero h1.
+- **(floor)** A feature card that leads somewhere must lift 2px and zoom its picture 1.03 on hover.
+- **(reflex)** Give a place that already holds a .loop-pause no second pause button.
+- **(reflex)** Debounce search input by 250ms, signal waiting with a deeper border, and announce the result count once after settling.
+- **(finish)** Use CSS or SVG instead of Lottie whenever the animation can be achieved that way.
+- **(reflex)** Trigger a single horizontal reveal sweep on the first claim below the fold and leave all remaining content static.
+- **(floor)** Under reduced motion, everything must rest and nothing may stay hidden; show one still frame with no pause disc while still allowing pointer interaction.
+- **(floor)** Keep reveal targets visible at their end state when scripting is off and under reduced motion, and render the finished composition — which is also the hold's end — for reduced motion, no script, or a failed module without mounting WebGL in object scenes.
+- **(floor)** Disable scroll reveal animations on letter compositions.
+- **(reflex)** Call ui.restart(el) to restart every fragment in el, and fire a bubbling ui-cycle event as each cycle starts.
+- **(reflex)** Never turn a stat into a count-up or a slogan, and keep quote cards out of customer-proof rows.
+- **(reflex)** Ensure reveal patterns remain visible with scripting disabled through opacity-0-with-class, CSS animations that collapse under reduced motion, or @starting-style.
+- **(floor)** Allow at most one object per card group to turn by itself, at most two objects in view, and never over a moving ground.
+- **(reflex)** A card that contains a link must lift; only truly unlinked cards use .m-nolift with no motion.
+- **(reflex)** Apply a fade-up stagger animation on first load.
+- **(floor)** A play button must trigger a real action.
+- **(floor)** Under reduced motion, collapse spatial motion to a 150ms opacity crossfade while keeping functional state changes intact.
+- **(reflex)** Declare exactly one motion character (still, severe, brisk, or calm) per system and scale all durations to match it.
+- **(floor)** Allow at most one staggered reveal per page, and only when the content stays visible without it.
+- **(floor)** Reveal nothing and scrub nothing by scroll, never move a card, panel, or feature card on scroll, and never use spatial reveal motion for photographs.
+- **(floor)** Never use rotate, skew, glow, shine sweep, chip glide, tilt, flip, pointer-follow, magnetic button, pointer simulation, parallax, custom cursors, cursor followers, unpauseable marquees, pulsing dots, over-five-beat carets, infinite loops beyond loaders, unpauseable loops longer than five seconds, Ken Burns, or opacity changes to place photographs.
+- **(reflex)** Let product-turntable and dither-sequence draw only while they step or wipe, at most 30 frames per second, and nothing while they hold.
+- **(reflex)** Fade in the hero's two halves once, 60 to 100ms apart, and leave the rows below simply present.
+- **(reflex)** A place page must contain no effect.
+- **(reflex)** Move the tab indicator by transform only, never width, and animate height changes via grid-template-rows.
+- **(reflex)** Open the nav panel after 150ms of hover with a fade and a 6px drop, and let a click on the word navigate to its section without preventDefault.
+- **(reflex)** Use IntersectionObserver for scroll reveals and a passive, throttled scroll listener only where scroll direction matters.
+- **(reflex)** Keep every card ground still with zero speed, drift, and grain motion, and calm the fade area with calmY near 1.
+- **(reflex)** Restrict motion to --dur-micro and --dur-short durations, treating motion as state rather than decoration.
+- **(reflex)** Apply staggered transition delays scaled by index for reveal animations only where the theme permits motion.
+- **(floor)** Pricing cards must not change height when the billing switch toggles.
+- **(reflex)** Use non-user-triggered motion sparingly and only to draw attention, favoring a single orchestrated moment over scattered effects.
+- **(floor)** Carry exactly one loop per card group, split, wide frame, or bento (wide card loops, small cards still), place at most one self-moving element per 900px window or one loop per panel, cycle card loops in 2.5-4s, loop only the open item via data-ui-loop with the list still and nothing scrolling inside the window, pause and expose resume() for anything moving beyond 5 seconds, restart pulse on pointer enter or keyboard focus, hold effects at rest with ambient cycles of 4s or longer, disable pointer play on touch, and honor prefers-reduced-motion by providing a reduced variant, disabling, or minimizing non-essential animations and always showing a poster and still fallback.
+- **(floor)** Never reveal cards, rows, tiles, or sections by fade, rise, stagger, mask wipe, or parallax as the page scrolls, never fade in every section, never use scroll-jacking, and disable reveal animations on catalogue pages and the ecosystem index.
+- **(floor)** Treat a ground with grain, dither, texture, or motion as the page's single effect and deal another effect without them afterward; on the single still diagram of a product or service page, set ground none and motion pulse none.
+- **(floor)** Buttons must step on hover and press on click via the motion layer, with no page CSS setting a button transform or transition, and every button, link, linked card, and linked photograph must visibly respond to the pointer without tilting.
+- **(reflex)** Timed loops start on the finished picture, never an empty window or greyed text, and hold the finished text for the rest of the cycle; an IntersectionObserver only mounts lazily and loops start on load, never on scroll.
+- **(floor)** Keep every texture static with no drifting grain, pulsing dots, or looping motion.
+- **(reflex)** Load captures instantly and leave the remaining content statically present.
+- **(reflex)** Keep success feedback silent and never show a celebratory toast for an effect the user already sees visually.
+- **(reflex)** Apply tech and gaming presets with motion on gaming and tech pages, and apply at most one still diagram on product or service pages.
+- **(floor)** Every page includes exactly one hero entrance that fires once on load via data-enter, plus one dealt moment per section (two on long pages), with the hero entering exactly once and never emitting a second or longer-than-1.1s entrance, entry animation, dissolve, or resting movement.
+- **(reflex)** Use named easing and duration tokens for all motion, with exit durations at 60-75% of enter durations and stagger bounded to small ranges.
+- **(reflex)** Count real figures from the previous value over 400-800ms, format with Intl.NumberFormat, and announce only the final value.
+- **(floor)** Animate transitions that answer a user action and reveal what changed, instead of generic fade-and-slide-up entrances or per-card hover effects, and ensure every change shows state, steps, or real data rather than blinking, twinking, glittering, flickering, cycling hue, or scrambling text.
+- **(reflex)** Stagger each spoke, branch, or route by 0.24-0.5 seconds and then fit the whole program to a single cycle while lines fade in the remainder.
+- **(reflex)** Treat hover as one contrast-raising signal and never animate focus rings.
+- **(reflex)** A product render is a still by default and live only with data-product-mode="live", at most one live context with a pause button and a still on phone and reduced motion.
+- **(floor)** Ship the hero visual as the real thing with a small accent footprint, keep it under 2 MB, and always provide a reduced-motion fallback.
+- **(reflex)** Make the progress spine use linear timing because it is a functional indicator.
+- **(reflex)** Set the correct transform-origin for animated elements.
+- **(reflex)** Apply exactly one type-unmask reveal on the first specimen as it paints and leave the rest static.
+- **(reflex)** Keep the hero fold static and allow below-fold content to sweep in horizontally.
+- **(floor)** Never hold or steer the page with script, smooth-scroll libraries, or scroll-snap.
+- **(floor)** Allow at most one horizontal reveal on the first stage when the theme permits it, or a single scroll-choreography pinned pattern, but never both on the same page, and use at most one scroll-choreography pattern family per page.
 - **(guidance)** Prefer CSS and @property for motion, use Motion for orchestrated React entrances, and use GSAP only when a timeline is the product.
-- **(guidance)** Declare one motion character per system and scale durations accordingly, defaulting to still when motion adds nothing.
+- **(reflex)** Every linked place photograph must zoom 1.03 under the pointer.
+- **(reflex)** Avoid blinking, bouncing, or overshooting; use ease-out timing, 600-1000ms reveals, 1.6-1.8s photo development, and loops that rest or pause.
+- **(reflex)** Restrict motion to the hover layer and the hero load entry.
+- **(reflex)** Animations must remain interruptible and respond to user input mid-animation.
+- **(floor)** Treat a ground with grain, dither, texture, or motion as the page's single effect and deal another effect without them afterward; on the single still diagram of a product or service page, set ground none and motion pulse none.
+- **(reflex)** Use at most three motion primitives per page, counting reveals, hover signals, and one functional loop each.
+- **(floor)** Allow only one pointer effect per page, such as a hover, liquid moment, fx-button, fx-spotlight, or pointer-tracking object, and never a replaced cursor or magnetic button.
+- **(floor)** Apply exactly one type-unmask reveal to the first caption only, and use the typewriter reveal only inside a terminal with the caret inside a typed command.
+- **(reflex)** Draw the navigation underline on hover, using the drawn underline rather than a gliding pill.
+- **(reflex)** Add a solid 32px pause disc beside the card title at the right of the text column, keeping 44px clear, or 12px from the bottom-right corner outside a card.
+- **(floor)** Update the interface immediately, fire the request behind it, and roll back with a retry path on failure.
+- **(floor)** Make tabs clickable only, never timed, and never place a tabs tour on a product, service, or place page.
+- **(floor)** Never move text at a speed different from the page; there is no parallax on text.
+- **(finish)** Fade each card in when the active filter changes.
+- **(reflex)** Allow misregistration to settle once over --dur-long at most, remain static under reduced motion, and never loop.
+- **(floor)** Effects must match the project kind: outside tech, use only dealt photo- or type-led moments, and reserve WebGL for a product render the brief explicitly asked for.
+- **(reflex)** Show toasts only for failures and invisible effects, never when the effect is already visible.
+- **(floor)** Keep the stage sticky for hold screens and never capture the wheel for scene motion.
+- **(floor)** Use minimal motion with reveals off and overshoot easing disabled.
+- **(floor)** Move scenes only under the pointer or touch, never while the page scrolls.
+- **(floor)** Use number-tick reveals only on real figures the user supplied, keep the final figure present in markup so it renders with scripting off and under reduced motion, and run the hero entrance once on load using transform, scale and opacity only before leaving it static.
+- **(floor)** Give the hero a single entrance lasting 0.4-0.8s from an already-visible default state, and never combine fade, sweep, and scale or use bounce, starfields, parallax, or auto-carousels.
+- **(reflex)** Fade the backdrop and scale the panel from 0.96 to 1 over the long duration on open, closing at about 65% on the ease-in.
+- **(floor)** Scroll moments must be scrubbed to the scrollbar within their own one- or two-screen section and show a finished state at the top and bottom.
+- **(floor)** Restrict motion to fades and let the atmosphere carry the effect.
+- **(reflex)** Cross-fade product-colour washes on click, never on scroll.
+- **(floor)** Never show a lone pulsing dot, typing dots or a block cursor after a headline.
+- **(reflex)** Animate only transform and opacity; allow blur, clip-path, masks, and shadows only when they remain smooth on the element alone.
+- **(floor)** Use one cycle of 2.5-4 seconds that repeats and restarts on pointer or focus entry, and never move the card itself by itself.
+- **(reflex)** Implement the motion layer so linked cards lift 2px, photos zoom 1.02-1.03 within their frame, buttons step on hover and press on click, underlines draw, and card loops cycle in 2.5-4 seconds and restart on hover, without adding tilt, carousels, or timed tabs.
+- **(reflex)** Permit at most one decorative animated character moment on the page, and leave everything else static.
+- **(reflex)** In a section or scene group allow only one self-moving scene, holding the others still until the pointer reaches them.
+- **(floor)** Never use transition: all, and never animate width, height, top, left, margin, padding, or icons.
+- **(reflex)** A count appears once per page via data-m-count or the counter-rolls moment, never both, and its final figure must render without script.
+- **(reflex)** Give each diagram card its own pulse loop rather than one loop per card group.
+- **(floor)** Apply a spring animation only under a declared spring posture, and only on the primary CTA and one character moment.
+- **(reflex)** Play video only in the tech hero or data-visual window, keep it muted with a poster first, a 6 to 12 second loop or a single play that holds its last frame, a pause button, and separate phone and desktop files.
+- **(reflex)** Open FAQ answers as disclosable sections expanding over --dur-long with --ease-out on grid-template-rows from 0fr to 1fr.
+- **(floor)** No hover may resize or push a neighbour, and no hover may exceed its token duration.
+- **(reflex)** A dealt moment may pin its section with position:sticky only inside its own data-moment box.
+- **(floor)** Roll back optimistic rows over the short duration on failure and surface a persistent error toast with a retry action.
+- **(floor)** Choose exactly one reveal pattern from fade-up stagger, horizontal sweep, type-unmask, number-tick, typewriter, or none, and never combine page-load reveals with scroll choreography on the same element.
+- **(floor)** Animate only transform, scale, opacity, and a few named cheap properties within declared moments; never animate height, max-height, padding, margin, or layout.
+- **(floor)** Use exponential ease-out for UI state transitions, reserving bounce or overshoot only for declared spring postures on the primary action and a single character moment.
+- **(reflex)** Reveal the drag handle on hover and focus, use grab/grabbing cursors, mark the drop target, and reorder rows with arrow keys while announcing moves.
+- **(reflex)** Reveal nodes one by one as the map enters the viewport, capping the animation at five nodes and running it once.
+- **(reflex)** Use --m-ease-enter (cubic-bezier(.22,1,.36,1)) for hero, moment, and digit-roll entrances and never overshoot the curve.
+- **(floor)** Never use transition all; list target properties explicitly.
+- **(floor)** When an object sits in a panel, keep the ground still by setting speed and grainMotion to zero.
+- **(reflex)** A linked photograph scales 1.02-1.03 inside its hidden-overflow frame without dimming, fading, or overlaying.
+- **(reflex)** Use the Popover API with CSS anchor positioning that flips within 16px of an edge and closes at about 65% on the ease-in.
+- **(reflex)** Lift a linkable card 2px on hover with a soft shadow shown only on hover, and add .m-nolift to cards without links.
 - **(guidance)** Every motion must have a one-line stated purpose; a motion with no purpose is cut.
-- **(guidance)** Content must be fully readable at rest, without script and under reduced motion, since motion only adds to an already whole page.
+- **(reflex)** A None on Image or Reveal that the theme or material forces does not count as a shared choice for the anti-repetition rule.
+- **(reflex)** When a theme and a shape, genre or craft file disagree on material, controls or motion, let the theme win while keeping the Floor and the user's words.
+- **(reflex)** Keep each display head to one weight, one style and one colour, deriving stress from breaks or size rather than styling.
+- **(floor)** Show the inset outline immediately on focus and never change the border width, keeping floating labels as placeholders at rest.
+- **(reflex)** Do not redefine the spacing scale, type scale, easings, or durations inside design.md; they live in tokens.css.
+- **(reflex)** Use at most two type families plus one outlier role, keep body at 16px or more, give heads one weight and one colour, keep labels off mono unless mono is the material and apply only transform and opacity with at most one reveal.

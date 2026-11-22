@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: Prefer present-tense operational status (open-now) when hours are supplied, since it is verifiable and actionable; treat dated-moment narrative as a later section rather than the hero opening.
   note_zh: 当提供 hours 时，优先采用现在时运营状态（open-now），因其可验证且可操作；将带日期时刻的叙事作为后续章节，而非 hero 的开启内容。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/51
 evidence_files:
   - option-a.png
   - option-b.png

@@ -21,7 +21,7 @@ sides:
 ai_explanation: "Both rules forbid uppercase labels, but type-l2c1 forbids ALL-CAPS labels globally while type-l2c2 forbids only tracked caps at 15px and under, explicitly permitting uppercase above that threshold. This creates a contradiction for uppercase labels sized above 15px: l2c1 says never render them, l2c2 says they are allowed as long as they are not tracked past 0.03em."
 ai_explanation_zh: 两条规则都禁止大写标签，但 type-l2c1 全局禁止全大写（ALL-CAPS）标签，而 type-l2c2 仅禁止 15px 及以下、且字距超过 0.03em 的追踪式大写（tracked caps），并明确允许超过该阈值的大写。这导致对大于 15px 的大写标签产生矛盾：l2c1 要求永不渲染，l2c2 则允许，只要其字距不超过 0.03em。
 suggestion: null
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/42
 evidence_files:
   - option-a.png
   - option-b.png

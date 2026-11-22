@@ -24,4 +24,4 @@ suggestion:
   kind: keep-b
   note: Prefer code-l2c6's hero/[data-visual] allowance and its card-family grounds, keeping code-l2c1's placement guards as constraints.
   note_zh: 优先采用 code-l2c6 对 hero/[data-visual] 的允许及其 card-family grounds，同时保留 code-l2c1 的 placement guards 作为约束。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/53

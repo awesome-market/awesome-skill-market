@@ -24,7 +24,7 @@ suggestion:
   kind: scope-split
   note: Labels and captions must remain untracked; tight tracking applies only to large display headings.
   note_zh: 标签和说明文字必须保持无字距调整；紧凑字距仅适用于大型展示标题。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/22
 evidence_files:
   - option-a.png
   - option-b.png

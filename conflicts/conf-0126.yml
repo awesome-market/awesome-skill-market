@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: l2c2 is more specific and scoped to interactive affordances; treat l2c1's rule as applying only to genuinely non-interactive elements.
   note_zh: l2c2 更具体且限定于交互暗示；将 l2c1 视为仅适用于真正非交互的元素。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/46
 evidence_files:
   - option-a.png
   - option-b.png

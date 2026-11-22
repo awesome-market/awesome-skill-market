@@ -24,7 +24,7 @@ suggestion:
   kind: merge
   note: Reconcile by allowing charts/data viz to satisfy headline promises where no photograph fits, per l2c2.
   note_zh: 按 l2c2 协调：当没有合适的照片时，允许用图表/数据可视化来满足标题承诺。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/31
 evidence_files:
   - option-a.png
   - option-b.png

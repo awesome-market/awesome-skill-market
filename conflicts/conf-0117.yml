@@ -24,7 +24,7 @@ suggestion:
   kind: keep-a
   note: Preserve the absolute no-layout-reads-during-render rule; deferred modules must not trigger synchronous layout reads during render.
   note_zh: 保留 render 期间绝不读取布局的绝对规则；延迟模块不得在 render 期间触发同步布局读取。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/37
 evidence_files:
   - option-a.png
   - option-b.png

@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: l2c2 overrides the client-photograph lead for region-named place pages.
   note_zh: l2c2 覆盖 region-named place 页面的 client-photograph lead。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/32
 evidence_files:
   - option-a.png
   - option-b.png

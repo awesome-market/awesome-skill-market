@@ -24,7 +24,7 @@ suggestion:
   kind: scope-split
   note: Keep no-unused-entry-modules for entry modules that never mount; allow head-loaded stylesheets/early scripts that are consumed by the composition even if they do not themselves mount.
   note_zh: 保留 no-unused-entry-modules 以处理永远不会挂载的入口模块；允许 head 中加载、被组件消费但自身不挂载的样式表/早期脚本。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/39
 evidence_files:
   - option-a.png
   - option-b.png

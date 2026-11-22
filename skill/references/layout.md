@@ -1,980 +1,859 @@
 # layout
 
-- **(floor)** Ship responsive down to mobile, visible keyboard focus, reduced-motion respect, visual accessibility, and harmonious color palettes.
-- **(floor)** Read the single job named in the prompt before choosing the page shape, because it determines where the action lives, which sections belong to the category, and how the page ends.
-- **(floor)** A buy page must never use an email field as its close; place it in the footer instead.
-- **(floor)** A sign-up page must never end with a newsletter.
-- **(floor)** A mailing list must never be the default close; it is one close in five.
-- **(floor)** Use a comp only for its composition, never as evidence that a design gate has been satisfied.
-- **(floor)** Screenshot the built page at exactly the comp's dimensions before building below the fold.
-- **(floor)** Name the largest divergence and fix it, or state in one line why the build is right and the comp was wrong.
-- **(floor)** Give the hero a single entrance of 0.4 to 0.8s from an already-visible default and never combine fade, sweep and scale or use bounce, starfields, parallax or auto-carousels.
-- **(floor)** Keep buttons, primary nav links, CTAs, footer links, tabs, and breadcrumbs single-line across all widths unless a phrase cannot realistically be shortened.
-- **(floor)** Use dvh or svh for heights that meet mobile browser chrome and never use vh on a hero.
-- **(floor)** Set width to 100% and never 100vw to avoid horizontal overflow.
-- **(floor)** Never use device sniffing instead of feature queries, rely on hover-only interactions, or define breakpoints in px.
-- **(floor)** Avoid template signatures such as centered stacks, pills or labels above the headline, gradient blobs, empty colored boxes, drawn illustrations, counting marks, two filled buttons side by side, grey bars, or outline cards inside slots.
-- **(floor)** Apply scroll choreography only to structural elements, never to prose.
-- **(floor)** Make the base CSS render the complete layout so reduced motion, small screens, and unsupported browsers always show the finished page.
-- **(floor)** Limit scrub-linked effects to a single display element per page and never apply them to the hero h1.
-- **(floor)** Place halftone dot fields only on plate fills and section bands, never under or overlapping type.
-- **(floor)** Limit chromatic misregistration to one focal word in the hero per page and never apply it to every heading.
-- **(floor)** Never apply a texture a theme does not name, grain on a modern-minimal page, two artifact families on one page, or texture as ambient fill over an entire page.
-- **(floor)** Disable drop shadows in dark mode and express elevation through lightness or an inset hairline ring.
-- **(floor)** Choose the chart form from the number of values: one value becomes a stat tile, two-to-five values become a stat row or horizontal bars, a time series becomes a line or sparkline, more than seven categories becomes a table, and parts of a whole become a stacked horizontal bar.
-- **(floor)** Never render a single-bar chart for a lone value; use a stat tile instead.
-- **(floor)** Never render pie, donut, or gauge charts; represent parts of a whole with a stacked horizontal bar.
-- **(floor)** Use one y-axis per chart and never dual axes; split two differently-unit series into small multiples.
-- **(floor)** Start bars at zero and annotate any zoomed axis explicitly, such as by stating the starting value.
-- **(floor)** Include a System section listing Genre, first-page Shape, Theme, and Axes with posture.
-- **(floor)** Include a Controls section specifying Primary fill, radius, and height and Secondary outline-or-text with matching radius and height.
-- **(floor)** On a custom run make every design decision for this client instead of dealing or prescribing a theme, shape, section list, component, palette recipe, or draw.
-- **(floor)** Build a whole site of usually six to nine sections from the first screen to the footer, each section built around something worth looking at.
-- **(floor)** Never ship a centered head over three cards, the run of hero features call to action and footer, or a stock second action.
-- **(floor)** Never paint the subject on with paper, grain, a stamp, a dial, a knob, bevels, an engraving, or a drawing of the thing.
-- **(floor)** Never emit --spacing-<name> tokens because Tailwind derives w-, max-w-, p-, and gap- utilities from that namespace.
-- **(floor)** Ship base.css inside the base layer with layer(base) so its element rules land after Preflight and below utilities.
-- **(floor)** Build the page in the current folder, never inside the product's own repository, unless the user explicitly asks otherwise.
-- **(floor)** Apply overflow-x: clip to both html and body, never use overflow: hidden and never use 100vw.
-- **(floor)** Use minmax(0, 1fr) for image-bearing grid tracks and apply overflow-wrap: break-word with min-width: 0 to display heads.
-- **(floor)** Never use an eyebrow and never set labels, captions, table heads, tags or nav links in tracked capitals or small caps; render them in the body or theme label face one step smaller in sentence or lower case without tracking.
-- **(floor)** Keep the hero headline, one sentence and primary action visible at 1280 x 800 without scrolling.
-- **(floor)** Keep roughly 80 words per screen and make the hero text only the headline, one sentence and its actions.
-- **(floor)** Cap and centre the container so gutters grow at 1920 while the measure and grids stay fixed.
-- **(floor)** Every interactive component must ship all eight states: default, hover, focus-visible, active, disabled, loading, error, and success.
-- **(floor)** For app screens, skip all marketing rules: no shape, no hero, no fold, no screen word budget, no section rhythm, no stand-in photographs, and no reveal on load.
-- **(floor)** Every region that loads data must implement four states: loading, empty, error, and full.
-- **(floor)** Never restructure during a polish: no moving sections, no re-picking a system, and no swapping a nav.
-- **(floor)** Never ship outline-only filler cards; climb the surface ladder instead.
-- **(floor)** Never use repeated stripe or grid backgrounds with nothing under them.
-- **(floor)** Never use emoji as list bullets.
-- **(floor)** Never ship a tight grotesk at 600 on near-white with one blue accent and a 1px border under a soft shadow.
-- **(floor)** Never let a first viewport commit and then quietly become a card grid on white in a later section.
-- **(floor)** For self-hosted faces, set font-display: swap and provide a metric-matched fallback using size-adjust and ascent/descent/line-gap overrides to prevent layout reflow during swap.
-- **(floor)** Allow only one containment layer; never place a card inside a card.
-- **(floor)** Size heroes with dvh or svh, never vh.
-- **(floor)** Never emit raw padding, margin, or gap lengths where a --space-* token exists; use the token.
-- **(floor)** Prevent horizontal scroll at any width from 320 to 1920 by setting overflow-x:clip on html and body, width:100%, and never 100vw widths.
-- **(floor)** Ensure headline, lede, primary action, and the visual focal point are all visible at 1280x800 without scrolling.
-- **(floor)** At 1920x1080 cap the container between 1360 and 1520 and centre it, hold column counts, and cap vw visuals.
-- **(floor)** Use minmax(0,1fr) for image-bearing grid tracks, and give display heads overflow-wrap:break-word with min-width:0.
-- **(floor)** Never stack two position:sticky;top:0 elements; offset the second with top:var(--banner-height) and place --z-sticky-nav above --z-sticky.
-- **(floor)** Keep fewer than about 80 words in any 900px window at 1440 and never put more than two text blocks before actions in a hero.
-- **(floor)** Never emit short inert type before a heading that announces it in any geometry, except figcaption, th, label, nav/tab label, byline, time, unit after figure, real filename, live status chip, or one linked announcement going somewhere real.
-- **(floor)** Keep text clear of opaque boxes, images, or other text runs unless it lives in sticky or fixed chrome.
-- **(floor)** Keep button labels and primary nav links from wrapping between 320px and 1920px widths by shortening them or applying white-space:nowrap.
-- **(floor)** Use exactly one accent hue applied only to the canvas treatment, focus rings, and small tags, never to display text unless the theme's type names an accented word.
-- **(floor)** Prohibit a radial spotlight behind the hero.
-- **(floor)** Prohibit light sections within a dark build.
-- **(floor)** Prohibit glass panels or cards.
-- **(floor)** Prohibit gradient-filled pills.
-- **(floor)** Prohibit a centered-everything hero unless the theme material is a centered bill.
-- **(floor)** Prohibit glass effects because the medium is paper.
-- **(floor)** Avoid applying hairlines across all elements.
-- **(floor)** Do not use asymmetric prose columns.
-- **(floor)** Exclude drop caps, fleurons, and ornament.
-- **(floor)** Exclude glass effects.
-- **(floor)** Never use glass effects.
-- **(floor)** Never stamp decorative status dots or sticker-style pills on every element.
-- **(floor)** Never use a masthead or a blurred pill, as they fight the playful register.
-- **(floor)** Every stateful control must implement all eight states: default, hover, focus, active, disabled, loading, error, and success.
-- **(floor)** Anything reachable by touch must have a 44x44 CSS pixel hit target, expanding small controls without changing their appearance.
-- **(floor)** Every field must have a visible label above it, never using placeholder as the label.
-- **(floor)** State changes must never alter border width, padding, height, or animate the ring; reserve a transparent outline at rest so the ring appears without shifting.
-- **(floor)** Modals must use native dialog with showModal, providing focus trap, Escape handling, and ::backdrop for free.
-- **(floor)** Overlays must mark the page behind as inert, close on Escape and backdrop click, include a visible close control, and move first focus to the first interactive element.
-- **(floor)** Wrap every page in a single centred .container capped at 1440px with 64px gutters so content stays 1312px wide from 1440 up to 1920.
-- **(floor)** Place all section content on a 12-column grid with 32px column gaps and 80px base column width so left edges align from nav to footer.
-- **(floor)** Give each section's outer element the background and block padding while its inner .container sets only padding-inline, never a padding shorthand that zeroes rhythm.
-- **(floor)** Never render a section head below 40px at 1440px width.
-- **(floor)** Give every body visual mass: a 360px-tall-or-greater visual, three-to-four across items, three-plus-row list or table, working control, or a statement at section size or larger.
-- **(floor)** A head plus a paragraph is only a head block, never a full section.
-- **(floor)** Never place two neighbouring sections with the same skeleton on one page.
-- **(floor)** Never leave empty grid frames, stock faces for people, or icon tiles over headings.
-- **(floor)** Only display figures the prompt explicitly provides.
-- **(floor)** Render steps as a real ordered list with numerals, never a 01 label over a head.
-- **(floor)** Never default to an email field in a band.
-- **(floor)** Make the first switcher state visible without JavaScript.
-- **(floor)** Use schedules only for times visitors pick or plan around, never processes or workdays.
-- **(floor)** Allow horizontal scrolling only for rails or tables that explicitly request it.
-- **(floor)** Reserve the hero for the first screen only.
-- **(floor)** Never repeat the same composition in neighbouring sections and mirror a split at most once.
-- **(floor)** Close with an email field only when the job natively calls for a mailing list or the user asked.
-- **(floor)** Keep the hero to one screen and start the bento grid inside or immediately below it, never leaving a tall empty band between them.
-- **(floor)** Only include a block holding a figure or quote when the user explicitly supplied that content.
-- **(floor)** Express the single visible action as a typographic link inside a paragraph carrying a verb, never as a separate block button.
-- **(floor)** Do not use the long-document pattern when there is one decisive action to take, since it hides actions inside sentences.
-- **(floor)** Make the hero figure the largest element on the page and always pair it with a worded headline that explains its meaning rather than treating it as a bare label.
-- **(floor)** Display the numeric figure at graphic scale next to or beneath a real headline that reads as a complete statement together with the number.
-- **(floor)** Never ship a large number without an accompanying worded line that states what it means.
-- **(floor)** Separate manifesto sections by changes of paper or the theme's own rules, never by cards.
-- **(floor)** Do not use the manifesto structure for checkout, pricing, or product tour pages.
-- **(floor)** Use full-bleed edge-to-edge photographs as the dominant visual element on the page.
-- **(floor)** Keep all text small and subordinate to the photographs rather than using large display typography.
-- **(floor)** Never center display typography over photographs.
-- **(floor)** Never let two consecutive sections both lead with photographs.
-- **(floor)** Use the hero quote exactly as the user supplied it, including its attribution, and never invent or paraphrase a quote.
-- **(floor)** Render the call-to-action as a typographic link carrying a verb with no box, no fill, and no arrow.
-- **(floor)** Do not use Specimen for product pages that require a demo.
-- **(floor)** Keep the catalogue heading to a single line at display scale so it never pushes the first row of cards below the fold.
-- **(floor)** Place a single link to the detail page inside each card and omit any global call-to-action.
-- **(floor)** Ensure the only visible action above the fold is the first card's detail link.
-- **(floor)** Omit buttons and place the sole visible fold action as a verb-bearing link in the first paragraph.
-- **(floor)** Do not apply the letter structure to transactional commerce pages.
-- **(floor)** Place a hero-sized heading naming the index with a single supporting line at the top of the page so the index begins on the first screen.
-- **(floor)** Omit hero images and narrative flow, treating the page as a pure list of links.
-- **(floor)** Place the stage number inside each section heading via <h2> or an <ol> with counter(), never as a separate label beside the heading.
-- **(floor)** Include one real capture per stage inside a <figure> or slot, and never use a slot per stage when there is one screen or none.
-- **(floor)** Do not use the narrative workflow for tools that operate in a single moment; reserve it for products with an explicit multi-stage sequence.
-- **(floor)** Divide every major block into two halves with text on one side and proof on the other.
-- **(floor)** Keep the proof on the same side throughout the page, allowing at most one mirror and never a zigzag.
-- **(floor)** Separate the two halves with a clear gutter and never use rules.
-- **(floor)** Use a figcaption below each specimen as the divider and never place a label above the specimen.
-- **(floor)** Do not use an eyebrow label above a specimen.
-- **(floor)** Place a case-study link inside each card and never add a global call-to-action button.
-- **(floor)** Do not insert a divider inside the map; treat the diagram as one continuous composition.
-- **(floor)** Place the page's single action with the orientation phrase inside the fold, never beneath the map.
-- **(floor)** Under 60rem, make the map scroll horizontally inside a wrapper or collapse it into an ordered list of its nodes.
-- **(floor)** Keep the ecosystem section heading as a prompt positioning line only and never render it as a display element.
-- **(floor)** Open each content rail with its own h2 element instead of a label band.
-- **(floor)** Do not use the ecosystem index pattern on single-product pages.
-- **(floor)** Render each category as a real h2 element using the display face in sentence case instead of a styled label band.
-- **(floor)** A deal keeping fewer than five cards is a landing strip, not a landing page; re-add cards or switch shape.
-- **(floor)** Never render a narrow auto-centred heading over full-width left-flush content, which reads as a mistake.
-- **(floor)** Do not place a label beside a heading in the margin; that reads as an eyebrow.
-- **(floor)** Open a dialog with showModal(), inert the page behind it, and move first focus to the first interactive element.
-- **(floor)** Implement every button with all eight states (default, hover, active, focus-visible, disabled, aria-disabled, busy, quiet) using the provided CSS variables and transitions.
-- **(floor)** Keep segmented radio inputs at 1px in the flow while the label carries the checked state and focus ring in body face sentence case.
-- **(floor)** Include an absolute-positioned skip-to-content link that becomes visible on focus.
-- **(floor)** Keep every link, form, field, handler, route, id, key, type, href, data-testid, script, data call, and analytics call, editing markup only inside the component that owns it.
-- **(floor)** Sweep the redesign against the before record and restore or record anything the page had and no longer has.
-- **(floor)** Ensure every page renders correctly across all widths from 320 to 1920 CSS pixels without relying on desktop-only interactions.
-- **(floor)** Give every effect host element an explicit size and a data-fx id before mounting it via fx.mountAll.
-- **(floor)** Only place an object of the product's own kind on a product page, never an object of another kind or a whole product when only a part is shown.
-- **(floor)** Never show an object of a different kind than the product on a product page.
-- **(floor)** On a product page, compose the product itself from a spec of its parts with product-render instead of using hero-product without the product's picture.
-- **(floor)** On a product page, do not use an object of its own kind as the picture; instead compose the product from its parts.
-- **(floor)** Only use prints (halftone, engraving, dither, type) on software, tech, AI, and games pages, and always show the render on product pages.
-- **(floor)** Do not place objects on place pages (cafes, shops, hotels, studios) or beside the client's own photographs.
-- **(floor)** Always position objects using the place presets (card, tile, hero, none) instead of centering dead in a panel with even ground around it.
-- **(floor)** In a card, place the card's text above the panel, never over the object.
-- **(floor)** Allow at most one object per card group to turn by itself, at most two objects in view, and never over a moving ground.
-- **(floor)** When an object sits in a panel, keep the ground still by setting speed and grainMotion to zero.
-- **(floor)** Always let the client's own photographs and screenshots lead; an object never takes their place.
-- **(floor)** Do not place any UI fragment over an object or add a second effect beside it.
-- **(floor)** Only place a scene on software, tech, AI, developer-tool or games pages, never on place, service or local-business pages.
-- **(floor)** Do not use a scene on product pages; show the product's own photographs plainly or use a print object render instead.
-- **(floor)** Do not use a scene on place, service or local-business pages; show their photographs plainly.
-- **(floor)** Use at most one scene per screen and at most two scenes per page, counting every other WebGL effect toward the same limit.
-- **(floor)** Place text above or beside the scene panel, never over the scene, and never add a caption or chip that explains the effect.
-- **(floor)** Limit every page to a single photo print unless the page is explicitly about prints, in which case a row of three is permitted.
-- **(floor)** Never place a photo print over the hero photograph or any section's main photograph.
-- **(floor)** Never add a caption under a print that explains the effect, and never reveal that the image is a print.
-- **(floor)** Every print frame must define an explicit size via aspect-ratio or height so the print fills it.
-- **(floor)** Never place text over a print, and only allow a small UI card on a corner of the frame without covering the subject.
-- **(floor)** A close must contain exactly one primary button.
-- **(floor)** The big close button must not appear anywhere else on the page.
-- **(floor)** A close must not place a ground behind its main button.
-- **(floor)** A close-photo must never place words over its photograph.
-- **(floor)** A close-photo must not extend as a band out to the viewport.
-- **(floor)** A footer-visit must not embed a map.
-- **(floor)** A footer-statement must contain no second big button.
-- **(floor)** A gaming page must never show UI fragments, dashboards, or widgets.
-- **(floor)** Do not place a product render on a place page.
-- **(floor)** Never add a caption beneath a product render.
-- **(floor)** Allow a picture-less section only for a price list, FAQ, specs table, booking form, or a single dealt statement moment, and never place two picture-less sections as neighbours.
-- **(floor)** A quote must show a face or merge into the section above it.
-- **(floor)** A picture must occupy at least half a tile, a 50/50 split, or a whole screen layer.
-- **(floor)** The close must be its own picture, a photograph, the big button, or the name set wide.
-- **(floor)** Each section must hold one idea, one h2, and at most one action besides the main action.
-- **(floor)** Show at most one product render per page.
-- **(floor)** The main action must read identically in the nav, hero, close or booking, and phone bar, and appear nowhere else as a filled button.
-- **(floor)** Merge short blocks that would hold under 495px into the section above as their last element with no own heading or ground.
-- **(floor)** An FAQ that reaches 495px with answers open becomes its own section.
-- **(floor)** A card layout may appear at most twice per page, neighbours must never share a layout, and a calm section must follow at most two visual ones on software, product, and service.
-- **(floor)** The back third of the page must be calm before the close.
-- **(floor)** Keep nesting to at most two boxes deep, dropping a card's box or running a panel flush when a panel holds UI.
-- **(floor)** At 390 the page must keep the desktop grounds, photographs, and order, with each photograph after its text.
-- **(floor)** At 768 and 820 plan each section's stacked content within its screens, writing the tablet count on the plan line when it differs.
-- **(floor)** Redeal a part only when its recipe's use does not fit, drawing from its own list without photographs.
-- **(floor)** Key art, key frames, and in-engine shots must appear full bleed in the hero and world sections under one grade.
-- **(floor)** The world and crew carry the page, with the hero object whole in the hero and two more sections at most.
-- **(floor)** Render the product with transparent surroundings and no panel or grey box.
-- **(floor)** The product must be the hero, not every frame, filling its frame at large scale in the hero and at least one more section.
-- **(floor)** Deal each product picture section's composition from bleed, pair, trio, strip, tall-small, or split, keeping neighbours distinct.
-- **(floor)** Never repeat a fact: each stat, spec, and figure appears once with one wording.
-- **(floor)** A product page must be the full product page, with the hero first and the order card last.
-- **(floor)** Never use tabs.
-- **(floor)** On a place page never use effects, WebGL, canvas, CSS gradients, grain, glass, print, scenes, loops, counts, UI fragments, diagrams, feature or plan cards, tabs, accordions, switches, logo rows, timelines, fact strips, calendar cards, maps of streets not given by the brief, ratings, reviews, figures or quotes not given by the brief, words on photographs, rounded or filtered photographs, see-through or blurred navigation, outline/pale/blurred/rotated display type, SaaS furniture, or dark sections except the single brand band.
-- **(floor)** Never build two sections around a single photograph.
-- **(floor)** Place the visit section as screen two directly after the hero with `data-place="visit"` and `id="visit"`.
-- **(floor)** Keep hours, address and directions out of the footer only.
-- **(floor)** Always include the required phone bar.
-- **(floor)** Never hard-cut inside a close-up frame.
-- **(floor)** Use only the classes and tokens from assets/system.css and system.js and never introduce a second grid, spacing scale, type scale, radius family, button shape, card recipe, hairline, corner-control size, link style or fade.
-- **(floor)** Put a .skip-link as the first child of the header .wrap pointing to main#top and keep it off layout until first Tab.
-- **(floor)** Put words on photographs only in the hero and one closing band on allowed pages over a calm dark crop or solid box without a scrim.
-- **(floor)** Mark exactly one main action with a filled primary button and never add slanted, gradient, ghost or shadowed buttons.
-- **(floor)** Keep header.nav fixed, full width, opaque, --nav tall with a 1px hairline from first paint and z-index:10 with nothing else sticky.
-- **(floor)** Add nav.actionbar fixed at the foot on places with one main action or two half-width buttons and let system.js show it only after the hero button scrolls off.
-- **(floor)** Ensure every visual renders fully, with no empty ground, across 1440, 1024, 768, and 390 pixel widths.
-- **(floor)** Keep each section to one or two screens tall at 1440x900, with the hero alone on the first screen and no second section heading peeking in, except a live photo-chapters section spanning three or four screens.
-- **(floor)** Reserve big award-site scenes, creative moments, shader effects, scenes, loops, counts, CSS grounds, dark pages, and dark heroes for tech pages only, while giving non-tech pages photographs, flat color, type, real icons, the hero entrance, and dealt moments.
-- **(floor)** Keep place pages effect-free with flat grounds, square photographs, one button style, a phone bar, list text at 16px, and no diagrams, grounds, loops, fragments, or tabs.
-- **(floor)** On every product page, show the product big where it stands whole, use a different picture in each section, picture every headline promise, change the swatch to change the picture, show every color once, never repeat a fact, and make buttons step and press.
-- **(floor)** On tech pages, use exactly one effect and one or two moments in their own sections, allow at most four live WebGL contexts, and never move cards with scroll.
-- **(floor)** The first screen must state what is sold, who it is for or where it applies, and include one hard fact, with the hero filling the screen alone at every width and its main button inside it.
-- **(floor)** Each section must span one or two screens, start with its top-aligned h2, and never contain a neighbour's heading or picture.
-- **(floor)** No section may be half empty or sparse, and no section may sit half empty.
-- **(floor)** Every block must align to the wrap lines or grid columns, with no sideways scroll and nothing bleeding to one side.
-- **(floor)** Every visual must render correctly at 1440, 1024, 768 and 390, with refused effects showing their static fallback.
-- **(floor)** The product must be shown big and whole across at most three sections, with a new picture each, and every named asset must occupy its own slot.
-- **(floor)** Use one button pair, one card style, one radius scale, one link look, at most two boxes deep, one heading scale with its faces loaded, and sufficient text contrast.
-- **(floor)** On phones, each section must be at least its screens tall and grow with its content so nothing overlaps or sits under a fixed bar.
-- **(floor)** Every link and control outside running text must be at least 44px tall, and targets under 8px apart must not both be targets.
-- **(floor)** Nothing may extend past the screen at 320px, and nothing may overlap anything else there.
-- **(floor)** The first screen must end whole or on a clear bleed, with splits stacking text first and no row half empty.
-- **(floor)** At 390px use one column, full-width buttons, and a full-screen menu with the place action bar.
-- **(floor)** Use only the three ground tokens --g-main, --g-alt and --g-dark for every section and panel ground, keeping them in the same order down the page.
-- **(floor)** Change grounds only at section edges, never inside .wrap, wrappers, bands, or inset coloured boxes.
-- **(floor)** Deal at most two grounds beyond the tokens, each once, never on a card, never as neighbours, and never two that list each other in avoids.
-- **(floor)** Set the card fill to --card one clear step off the page, apply a 1px border at 8-14% ink with a 1px inner top highlight, and never use a blurred shadow at rest.
-- **(floor)** Never tilt or carousel cards; show whole cards in rows and stack press quotes.
-- **(floor)** Structure content as card > panel > fragment and never nest a patterned panel with a white UI card, a card inside a card for text, or glass.
-- **(floor)** Keep the point of a fragment above 100% minus --fade-h and only fade context.
-- **(floor)** Never place a big fragment dead centre with even ground all round, nor a dialog alone on a ground.
-- **(floor)** Never build three levels of boxes: a card, a patterned panel, and a white card on it.
-- **(floor)** Never put a pattern behind a window or a list.
-- **(floor)** Never fade over the point of a fragment, and never leave a sliver of 1-23px at any edge.
-- **(floor)** Never move a card or panel with scroll or light it up when it scrolls into view.
-- **(floor)** Name the category in the hero h1 using one of the allowed forms and never stack two adjectives.
-- **(floor)** Make the h1 name the product category rather than a vague benefit.
-- **(floor)** Use a node-and-line diagram only to show how things connect, and never to depict a screen or UI fragment.
-- **(floor)** Render at most one diagram per section and at most two per page, keeping product and service pages to a single still diagram and place pages to none.
-- **(floor)** Limit every page to a single WebGL effect, placed in the hero or one [data-visual] frame, and never place it beside a live hero ground.
-- **(floor)** Bake street maps once at build time via bake.mjs and inline or reference the resulting JSON, never fetching streets in the browser.
-- **(floor)** Place the map pin on a street line, never on a building, and only draw a map for a street the brief provides.
-- **(floor)** Use fx-progress only inside a product window as its own import or setup step, never as a standalone card, visual, or page loader.
-- **(floor)** Use at most one strong object, print or scene moment per page and never place it beside a second effect or over a moving ground.
-- **(floor)** Never use a split hero holding only an order form or an effect in place of the product.
-- **(floor)** Never place an effect over the hero photograph or in place of the client's photographs.
-- **(floor)** On non-tech pages, ban canvas, WebGL, autoplay video, CSS gradients, SVG pattern or texture grounds, backdrop-filter, filter, mix-blend-mode, mask-image, glass, grain, halftone, dither, duotone, print, all data-fx/data-print/data-scene/data-big-scene/data-ui-loop/data-m-* attributes, SVG animation, GIFs, Lottie, custom cursors, and any scroll or animation library.
-- **(floor)** Never place an effect where the product, device, or game world should appear, and always use real UI captures or real photographs for every other visual.
-- **(floor)** Build exactly one effect per page as either one live ground, one WebGL part, one object, or one big scene, and never place it in a fixed layer, behind body copy, or as a page-long canvas.
-- **(floor)** Deal at most two section moments per page, each in its own section, with at most one non-scroll moment in the hero or data-visual window, and never inside or beside the scene's section.
-- **(floor)** Use blend modes only for an effect-internal job like a glint and never on text, and never apply glass or frosted effects on any kind, using a flat 40 percent dim for menu curtains instead.
-- **(floor)** Never place a live effect or moving canvas inside a card, and never animate a card on scroll.
-- **(floor)** Run consistency.mjs with the declared kind and widths 1440,390 and assets/layout/check.mjs with sizes 1440x900,390x844.
-- **(floor)** Fail sections over 50% empty inside their container and warn on sections over 35% empty.
-- **(floor)** Fail when the hero lacks data-enter or the head line setting html.m-enter is missing.
-- **(floor)** Fail when the page deals no moment.
-- **(floor)** Plan every page as a list of screens where each section is exactly one or two screens tall and nothing of the next section shows at load.
-- **(floor)** Set every section and footer to height calc(var(--h,1) * 100svh) with --h of 1 or 2, padded above and below, and never use min-height alone, dvh, a third screen, or a script-set height.
-- **(floor)** Separate sections only with full-width ground changes or space, never rules, shadows, inner hairlines, or inset coloured boxes.
-- **(floor)** Make the close and footer a single footer.closing section with exactly two wrap children: the dealt close row and the links plus legal row.
-- **(floor)** Disable scroll-snap, scroll-jacking, and smooth-scroll libraries, and keep everything except big scenes and moments within their own 1H or 2H sections.
-- **(floor)** Make the hero exactly the first screen at 100svh with --h:1 and --hm:1, padded so content ends by y 836 at 1440x900, and ensure nothing of the next section shows at every width.
-- **(floor)** Place the h1 first, an optional notice line, a sub-line, at most two buttons, and the picture inside .wrap > .hero-text, with one plain claim, no caption, no second float card, and no three button styles.
-- **(floor)** Keep every hero picture inside the hero frame, ending by H - 24, and never let the fold slice a picture or leave half a picture under the text.
-- **(floor)** At 768 and 820, stack the hero split as words then picture, ending on a whole element or a deliberate large-picture bleed, and never let the fold slice a custom wrapper.
-- **(floor)** Deal every place page one full-bleed daylight photograph of the place under the header with nothing on it and the words on the ground below, entering once on load.
-- **(floor)** Use one .wrap for the header, every section, and the footer at width min(100% - 2 * var(--gut), 1280px) with consistent column lines across all widths.
-- **(floor)** Keep nothing crossing section edges, cut off, staggered, or peeking out, and leave no dead space beside short text.
-- **(floor)** Place exactly one moment on every short page and two moments on every long page (eight or more sections), never three.
-- **(floor)** On a short place page (fewer than eight photographs), use only the picture-develops moment on the section's photograph, or word-highlight when there is no photograph.
-- **(floor)** Place each moment in a different section, and never place two moments that avoid each other.
-- **(floor)** Never put a scroll moment inside a card, plan, result, or bento cell, and never let anything move on scroll except within its own [data-moment] section.
-- **(floor)** Give every moment a static variant for phone and reduced motion, and mark the host with data-moment-still reflecting the still state.
-- **(floor)** Scroll moments must be scrubbed to the scrollbar within their own one- or two-screen section and show a finished state at the top and bottom.
-- **(floor)** Represent every linked card as a .card that holds its link and never use .m-nolift on it.
-- **(floor)** At 1440px width a hovered card must lift 2px and a hovered photograph must scale to 1.02–1.03.
-- **(floor)** Nothing outside the dealt moment's section and the tech big scene may animate on scroll, including reveals, parallax, scroll-snap, progress lines, scroll-spy markers or counts on view.
-- **(floor)** Never reveal cards, rows or tiles by fade, rise, stagger or mask wipe as the page scrolls.
-- **(floor)** Never move text at a speed different from the page (no parallax on text).
-- **(floor)** No hover may resize or push a neighbour, and no hover may exceed its token duration.
-- **(floor)** Never animate height, max-height or padding, including in accordions and panels.
-- **(floor)** Never place two self-moving elements inside one 900px window or two loops inside one panel.
-- **(floor)** Reserve space for images, nav and counters to keep CLS under 0.1.
-- **(floor)** Ship zero broken requests and zero sideways overflow.
-- **(floor)** Place pages must use only 4:5, 4:3, and 1:1 ratios, with other page types adding 3:2, and maintain one ratio per row with equal-sized frames.
-- **(floor)** A place hero must be a full-bleed top photograph with nothing overlaid and words placed below it, while software and product heroes must end inside the screen.
-- **(floor)** Text must never appear on place photographs, and elsewhere only on the hero and one closing band over a calm, empty, dark or light area, a solid box, or off the photograph, with no scrim, gradient, fade, or blur.
-- **(floor)** Give each page at most one big scene and never place a shader ground or WebGL part beside it.
-- **(floor)** Deal a scene as the hero only when its restH is 1, and otherwise place it below the hero as a two-screen section with an h2 heading.
-- **(floor)** Never use powers-of-ten-pullback as the hero because its first screen has no headline and no action.
-- **(floor)** Make the scene section a direct child of main with data-big-scene, data-big-scene-opts hold, the scene's restH as --h, and aria-labelledby pointing to its heading.
-- **(floor)** Size the scene section to exactly one or two screens via --h equal to restH and never write page CSS or a fixed height for it.
-- **(floor)** Show phones the still or light version of every scene, never the full scene, and never show depth or overlapping elements in light scenes.
-- **(floor)** Keep nothing moving from crossing text being read and place statements over a flat band or the photograph's calm dark part at 4.5:1, or 3:1 for display text, never over a scrim or gradient.
-- **(floor)** Omit captions explaining the scene and never fly card chrome, chips, or labels with the scroll.
-- **(floor)** Use only the system's frame values (1280 wrap, 24 gutters, 72/56 nav height, 48/30 h2 sizes) and never invent a spacing number that is not already a token.
-- **(floor)** Make the page's single split pair text-left-visual-right and top-aligned with `.grid`, never `.grid--middle` or a mirrored layout, and keep text first on mobile.
-- **(floor)** Keep every card to at most two boxes deep and mark cards that hold UI as `.card--open` or `.panel--flush`, while reserving inset panels for pictures only.
-- **(floor)** Keep every edge 24px clear or cut by 24px or more with a fade at 1440, 1280, 1024, and 768, adjusting `--ax`/`--ay` until it holds.
-- **(floor)** Keep the fixed opaque nav at 72px (56px on mobile) with a 1px hairline identical at every depth.
-- **(floor)** Keep the product frame's cut-out photograph at least 64px from every edge and never let it touch the edge or sit in a box.
-- **(floor)** Always top-align text and its adjacent frame, and never use a four-line h2, an image that contradicts the text, a button pair where one link belongs, or a second split on the opposite side.
-- **(floor)** Keep chapter fragments fully opaque and upright, never let the action cover the main screen's readable rows, and never repeat a fragment that changes the template.
-- **(floor)** Place one real app frame on every software page within the hero or first three sections, and never on gaming, product, service, or place pages.
-- **(floor)** Render the product as a single window with a list pane and an open pane, never as two side-by-side boxes with ground between them.
-- **(floor)** Let the app frame sit directly on the section ground with no panel, card, or ground behind it, and place any second piece only over the open pane's lower-right.
-- **(floor)** Use steps only with three real steps, each card showing its result, with no arrows, stair-stepping, huge numerals, or mismatched panel heights.
-- **(floor)** Bleed one photograph across the screen as the section layer with a headline on its calm dark part, never two bands, words over the subject, or the hero photo again.
-- **(floor)** Give every peek-list row its own photograph, keep it to six rows, and never put the list on the right.
-- **(floor)** Keep the calendar frame one height at every width so the month shows whole, with real dates and the correct weekday for the 1st.
-- **(floor)** Only embed a street map for a street the brief gives, place the pin on the street line, keep routes still, and join the map credit to the footer line.
-- **(floor)** Keep booking forms to six fields with visible labels, per-field errors, correct types and autocompletes, and a real send endpoint or mailto stand-in.
-- **(floor)** Never leave a media slot empty, greyed, blacked, or captioned as pending.
-- **(floor)** Pricing cards must not change height when the billing switch toggles.
-- **(floor)** Do not present subscription plans for non-subscription offerings such as products or places.
-- **(floor)** A comparison table must never use a sticky header.
-- **(floor)** A comparison table must not scroll sideways on mobile.
-- **(floor)** Sticky headers, footers, and overlays must not cover the focused element.
-- **(floor)** Navigation links must use a or Link to support modifier clicks and middle-click.
-- **(floor)** Do not use eyebrow text (small uppercase labels above headings).
-- **(floor)** Make interactive targets at least 44x44 CSS pixels with sufficient spacing.
-- **(reflex)** Open the page with the single most characteristic element of the subject in the most appropriate form, rather than the default big-number-and-gradient treatment.
-- **(reflex)** When type functions as a headline or visual element, treat the type treatment itself as an active design element rather than a neutral carrier.
-- **(reflex)** Do not add typographic labels above content unless they carry meaning.
-- **(reflex)** Use structural devices such as outlines, borders, numbering, dividers, and labels only when they encode real information about the content.
-- **(reflex)** Only add numbered markers such as 01/02/03 when the content is genuinely a sequence like a process or timeline.
-- **(reflex)** Treat empty screens as invitations to act rather than as mood.
-- **(reflex)** Spend boldness in one place, keeping everything else quiet and disciplined, and cut decoration that does not serve the brief.
-- **(reflex)** Do not default to a broadsheet layout with hairline rules, zero border-radius, and dense newspaper columns unless the brief explicitly requests that direction.
-- **(reflex)** Do not default to identical rounded cards sharing one border-radius, a uniform soft grey shadow, and gradient washes as decoration unless the brief explicitly requests that direction.
-- **(reflex)** Do not apply template chrome such as tracked-out ALL-CAPS eyebrows above every heading, middle-dot meta strings, spaced-em-dash labels, tinted near-black stand-in blacks, monospace data labels, or trailing arrows on links and buttons unless the brief explicitly requests them.
-- **(reflex)** When the brief pins a visual direction, follow it exactly, including when it requests one of the generic default looks.
-- **(reflex)** Put the job's own action word (e.g. Book, Tickets, Shop, Listen, Start free) in the navigation.
-- **(reflex)** Show the actual product or offering in the hero (the room, cover, dates, or screen) rather than a generic element.
-- **(reflex)** Present proof using the category's own form instead of a generic band of numbers.
-- **(reflex)** When the prompt gives no content for a section, build it as a clearly marked sample the user replaces, showing the shape of the real thing.
-- **(reflex)** A section whose content would be facts the prompt lacks (a lineup or tour) must be one line plus a text slot, or left empty.
-- **(reflex)** Slot the two missing practical facts a visitor needs to act (such as hours and address) when the prompt lacks them.
-- **(reflex)** For a subscribe job, place the action in the hero, often as the hero itself, with the name, one line, and an email field.
-- **(reflex)** A subscribe page may end with a second email field under the archive or with the archive itself.
-- **(reflex)** For a book job, open the booking picker from the nav and hero, and repeat the next free times beside the menu or classes rather than only at the foot.
-- **(reflex)** A book page must end with hours, address, and the booking again.
-- **(reflex)** For a visit job, place today's hours and address in the nav or hero, and add tickets or donate only if the prompt includes them.
-- **(reflex)** A visit page must end with visit information and address, or a mailing list for what is on next.
-- **(reflex)** An attend page must end with tickets again, the questions, or a mailing list for the next edition.
-- **(reflex)** For a buy job, show the product with its price and options as the hero or an Offer, and place a buy action after the sections that earn it or in a sticky bar.
-- **(reflex)** For a try job, place store or download buttons directly under the heading, one per platform the prompt names.
-- **(reflex)** For a try job, show features as named moments captured from the product, not icon tiles.
-- **(reflex)** A game page must be five or six blocks, which counts as a full page.
-- **(reflex)** For a sign-up job, place start free in the nav and hero with its terms in one line under it.
-- **(reflex)** For a hire job, use a plain contact (email, phone, or Talk to us) in the nav and once more after the work, with no form.
-- **(reflex)** For a join job, place join or your first visit in the hero.
-- **(reflex)** For a listen job, place the new release or current issue with its listen, watch, or order buttons side by side.
-- **(reflex)** When a listen job has no release in the prompt, lead with the act and make the close the enquiry to book them.
-- **(reflex)** Order page endings as: the hero's action again in a short band, practical details, more of the catalogue, a short trust tail, and finally a mailing list only for recurring things.
-- **(reflex)** Limit every comp to the first viewport at the surface's own dimensions and never compose below the fold.
-- **(reflex)** Order the comp prompt as first-viewport layout, idea, ground and accent colour words, display class, macrostructure, then a negative clause describing the category default.
-- **(reflex)** Vary comps on composition only while holding the design system fixed.
-- **(reflex)** Write one line each on mass, interval, and entry when comparing the build to the comp.
-- **(reflex)** Cut any region the comp invented but the copy does not support instead of building it.
-- **(reflex)** Size and wrap headings by their rendered character count, splitting long heads at sense breaks and rewriting heads over 90 characters.
-- **(reflex)** Constrain headings by their own element width in ch, not by their wrapper.
-- **(reflex)** Choose one surface axis and treat centre-biasing as the default rather than a choice.
-- **(reflex)** Use spacing tokens for all gaps and allow at most three small optical nudges off the scale.
-- **(reflex)** Use CSS Grid for pages and Flexbox inside components, shrinking flex children with min-width zero and locking icons and images.
-- **(reflex)** Climb the surface ladder from whitespace to hairlines to tinted wells to cards, never combining white cards on tinted pages, cards in cards or bordered boxes inside wells.
-- **(reflex)** Use at most one shadow, keep elevated surfaces no darker than their canvas and assign one of eight z levels.
-- **(reflex)** Use overflow-x clip to keep sticky and fixed positioning working where hidden breaks them, and keep overflow visible on sections with deliberate overflow.
-- **(reflex)** Use one radius per level with concentric offsets and cap image radii by viewport width.
-- **(reflex)** Use clamp() for sizes that change continuously and media queries for layouts that change discretely, detecting capabilities with hover and pointer queries rather than width.
-- **(reflex)** Make body-adjacent UI such as meta, nav links, and controls larger on phones and tighten them at 60rem.
-- **(reflex)** When clickable text must wrap, first shorten the label, then apply white-space nowrap to the control, and finally collapse the row rather than the labels.
-- **(reflex)** With viewport-fit cover, fold the safe area into the gutter token using max with env safe-area-inset values.
-- **(reflex)** On phones, keep the row-naming column and the action column visible by restacking each row as a labelled block or pinning the first column, treating many columns as a redesign rather than a squeeze.
-- **(reflex)** Use logical properties for spacing, allow room for 30 to 40 percent longer strings, and avoid hard-coded date or number formats.
-- **(reflex)** Treat the column beside a later screen as the pin when a pinned pane appears once in a full-page shot.
-- **(reflex)** A screen with nothing big enough to be its reason outranks every detail finding.
-- **(reflex)** Flag any section head smaller than 40px as a layout defect.
-- **(reflex)** Flag a row of counting marks as a layout defect.
-- **(reflex)** On a custom run, judge the page as a design and never against layout.md.
-- **(reflex)** Name which template, catalog theme, or familiar site a page or section reads as, and where.
-- **(reflex)** Flag any element on the page that has no job, such as a repeated device, a decoration, or a box around nothing.
-- **(reflex)** Flag an idea that lives only in the hero and stops there.
-- **(reflex)** On a polish, ask at most five findings whether anything still reads as machine-made.
-- **(reflex)** On an app screen, read the full screens at 1440 and 375 and judge hierarchy, density, mobile controls, tables, and states.
-- **(reflex)** Center the content in the screen and place a real visual beside the text that occupies at least 60 percent of the screen height.
-- **(reflex)** When the hero layout places no image in the fold, make the type itself fill the screen.
-- **(reflex)** Place the page's strongest real element on the first screen.
-- **(reflex)** On a theme build, make the first screen a finished composition of its own.
-- **(reflex)** Write subheads under twelve words stating what, for whom and the difference, and make section heads state what the visitor sees rather than category labels.
-- **(reflex)** On custom theme runs, evaluate whether the screen matches what a model would produce for the prompt rather than checking centering, beside-the-text, or 60 percent rules.
-- **(reflex)** Drive pinned-chapter step reveals from a named view-timeline on the track rather than from elements inside the pinned pane.
-- **(reflex)** Hide the progress spine below 40rem because it consumes the mobile gutter.
-- **(reflex)** Keep the pinned diptych side fixed from one diptych to the next while only the scrolling figures fade in on their own view timelines.
-- **(reflex)** Collapse the sticky diptych to a single column with static positioning under 60rem.
-- **(reflex)** Respect word budgets for headings, section heads, intros, paragraphs and lists, and cap pages at 450 visible words.
-- **(reflex)** Treat low-frequency fibre or paper-tone washes as tints rather than specks, capping them at 0.12 page-wide and measuring contrast on the textured result.
-- **(reflex)** Set misregistration offsets between 1 and 3px and derive echo colours from the theme's declared spot inks.
-- **(reflex)** Apply deckle edges only to plates, tickets, and stubs on print-lineage pages, using one edge per element class per page.
-- **(reflex)** Treat deckle as an artifact edge rather than a general card border style.
-- **(reflex)** Open sections with nothing when the reader already knows, otherwise open with a fact, destination or identifier rather than a name for what comes next.
-- **(reflex)** Share at most two opening moves per section and rotate them against the log.
-- **(reflex)** Represent missing facts as text slots in muted colour within dashed outlines, two per page, and cut rows that would hold only missing facts.
-- **(reflex)** Open user-named-but-empty sections with their heading, one line and one text slot, or merge them into a neighbour.
-- **(reflex)** Use one filled primary control per page, keep secondaries quieter and match input width to its adjacent button.
-- **(reflex)** Emphasise a pricing tier with its button and a word, align buttons across tiers and never use negative margins for taller featured tiers.
-- **(reflex)** Build tables with sentence-case unwrapped heads, horizontal rules only and full width, restacking or pinning key columns on mobile.
-- **(reflex)** Enlarge body-adjacent UI on phones, keep body at 16px minimum, collapse sidebars into menus under 60rem and use container queries for layout-dependent widgets.
-- **(reflex)** Keep nav to one line of 56 to 80px, one weight across states, sideways-scrolling tab rows and a logo linking home with an aria-label.
-- **(reflex)** Set prose line-height to 1.65 to 1.75 with 60 to 75ch measure, keep stat titles unwrapped without icons and mark features as definition lists.
-- **(reflex)** Always place paper-2 cards on paper so cards are lighter than the canvas.
-- **(reflex)** Avoid dashboard walls of many KPIs, gauges, or confetti-style metrics; show fewer, truer figures.
-- **(reflex)** Draw bars with a baseline at zero, thickness of 24px or less, gaps of 2-4px, and rounding of 2px or less only at the data end.
-- **(reflex)** Draw lines with a 2px stroke and place markers only at annotated points that are at least 6px.
-- **(reflex)** Use 1px solid gridlines in the rule color, fewer than six horizontal lines, and treat the axis line as the grid's first line rather than a heavier stroke.
-- **(reflex)** Render sparklines inside components without axes, gridlines, or a second color.
-- **(reflex)** Design a complete, client-specific page that a design lead would bring to a client who rejected every template, rather than a generic good page.
-- **(reflex)** Make every large decision specific to this client, including its subject, place, materials, numbers, and the way its people talk.
-- **(reflex)** Build a visible system with a few widely spaced type sizes, one spacing rhythm, aligned edges, and one strong element per screen, removing anything that is not doing a job.
-- **(reflex)** Keep every road open on a custom page, including dark or light postures, one or many colors, type as picture or edge-to-edge photographs, and non-template structures.
-- **(reflex)** Identify and reject the default page this prompt would produce without effort, including its obvious twist, and never ship either.
-- **(reflex)** Sketch three widely separated two-line directions, then build the one a design lead would fight for and borrow only what strengthens it from the others.
-- **(reflex)** Grow the entire page from one client-specific idea that decides type, color, structure, motion, product presentation, and interaction from top to bottom.
-- **(reflex)** Decide what a visitor must see, understand, and do in order, then give each part the form that shows it best, and name what you made with the stamp.
-- **(reflex)** Set the sizes, spacing, widths, and gaps the design needs and keep the names, treating the written scale as a start rather than a style.
+- **(floor)** Ship responsive layouts down to mobile, respect reduced-motion preferences, and ensure visual accessibility with harmonious color palettes.
+- **(floor)** Overlays and dialogs must mark the page behind as inert, close on Escape and backdrop click, include a visible close control, and move first focus to the first interactive element; open dialogs with showModal().
+- **(floor)** Include an absolute-positioned skip-to-content link that becomes visible on focus and a skip link to main content.
+- **(floor)** Treat basics block failures as blocking while their warnings never block, and give every animated moment a static variant for phone and reduced motion.
+- **(floor)** Give each navigation group three or four words pointing to an id on that group, mark the main action with aria-current only on the group that performs it, and use a or Link for navigation links to support modifier and middle clicks.
+- **(floor)** Put a .skip-link as the first child of the header wrap pointing to main#top, keep it off layout until first Tab, ensure tab order equals reading order, never set tabindex above 0, and never let sticky headers, footers, or overlays cover the focused element.
+- **(floor)** Use button for actions and a or Link for navigation instead of div with onClick, give every link and control outside running text at least 44px of height, and keep targets under 8px apart from both being targets.
+- **(reflex)** Show one form__status line that reads sending then success or failure, keep typed input on failure, and persist hidden content via scripts off.
 - **(reflex)** For Tailwind v4, put every color, font, text, tracking, radius, shadow, and ease token into a @theme static block so each becomes a utility and a usable CSS variable.
+- **(reflex)** Include exactly one outlined call-to-action button at the foot of the FAQ.
 - **(reflex)** Keep every non-static token, including the space scale, in a :root block.
-- **(reflex)** Map the space scale directly onto Tailwind's 4px unit without a --spacing- namespace.
+- **(reflex)** Drive pinned-chapter step reveals from a named view-timeline on the track rather than from elements inside the pinned pane.
+- **(floor)** Ship base.css inside the base layer with layer(base) so its element rules land after Preflight and below utilities.
+- **(reflex)** Use linear gradients only as an edge fade inside a visual, never as decoration.
+- **(reflex)** Apply overscroll-behavior contain inside modals, drawers, and sheets.
+- **(reflex)** Use stat with window:true to cut its bars out so the ground shows through them.
+- **(reflex)** Make hairline ledgers 1px repeated sibling rules at 12–15% ink, never between sections.
+- **(floor)** Cap the fx library at 3 live contexts and the page at 4 live contexts, never run two live contexts on one page, and never exceed the hard cap of four live WebGL contexts.
+- **(floor)** Keep at most four live WebGL contexts per page (counting scenes with grounds and effects) and at most one per product page; keep shaders and WebGL effects off place, product, and service pages, which get photographs only.
+- **(floor)** Use fx-button only for the single primary call to action, not for every button.
+- **(floor)** Render steps as a real ordered list with numerals, never a 01 label over a head.
+- **(floor)** Use fx-progress only inside a product window as its own import or setup step, never as a standalone card, visual, or page loader.
+- **(reflex)** Use at most two effect ids per page outside the moments, give each panel its own data-fx-seed, and never echo the effect in the close, add a pattern panel, or place a focal tile.
+- **(floor)** For self-hosted faces, set font-display: swap and provide a metric-matched fallback using size-adjust and ascent/descent/line-gap overrides to prevent layout reflow during swap.
+- **(reflex)** Draw tech grounds from the sixteen CSS grounds in assets/backgrounds without WebGL.
+- **(reflex)** Build sliders whose drive.param grain drives the group loop; keep them compact via compact:true so they fit .at-center on a focal tile.
+- **(reflex)** Never shadow an open split nav panel, use at most four nav words, and keep UI fragments out of the menu.
+- **(reflex)** Use .btn.btn--primary at the single button height from <html data-buttons> for all nav and footer actions.
+- **(reflex)** Sync stateful UI to the URL when state drives behavior.
+- **(floor)** Bake street maps once at build time via bake.mjs and inline or reference the resulting JSON; never fetch streets in the browser.
+- **(reflex)** Use fx-tabs only for a product tour or dashboard preview (never navigation) and fx-avatar only for calls, presence, or a team list (never static team grids).
+- **(reflex)** Use fx-spotlight only for a row of plain feature cards such as security or admin sections.
+- **(reflex)** Expose Tailwind v3 utilities on request by defining the same names under theme.extend, each value as a var() of the corresponding token.
+- **(floor)** Represent every linked card as a .card that holds its link and never use .m-nolift on it.
+- **(floor)** Restrict fx-photo to the client's own subject photograph, fx-progress to product-window setup, fx-globe to globally-reach products, and fx-chart to a single metric over time.
+- **(reflex)** Use only the system's, cards.css's, and the kit's classes, and place any extra rule inside a visual or a place visit panel only.
+- **(floor)** Never use tabs.
+- **(floor)** Never place a live effect or moving canvas inside a card, and never animate a card on scroll.
+- **(reflex)** Export a fluid size as its maximum value and keep the clamp() call in CSS.
+- **(reflex)** Use the stage class only as a div wrapping one visual card.
+- **(floor)** Keep every link, form, field, handler, route, id, key, type, href, data-testid, script, data call, and analytics call, editing markup only inside the component that owns it.
+- **(reflex)** Set sizes, spacing, widths, and gaps to match the design; keep the names and treat the written scale as a starting point rather than a fixed style.
+- **(floor)** Always include the required phone bar.
+- **(reflex)** Name each feature-card landscape scene via data-cx-scene and composition via data-cx-params so no two panels look identical, using day, dusk, meadow, or grain-gradient.
+- **(reflex)** Render proper empty states instead of broken UI for empty strings or arrays.
+- **(floor)** Make the scene section a direct child of main with data-big-scene, hold scene options in data-big-scene-opts, set the scene's rest height as --h, and point aria-labelledby at its heading.
+- **(reflex)** Use one filled primary control per page, keep secondaries quieter, and match input width to its adjacent button.
+- **(reflex)** Link assets/icons/icon.css after system.css.
+- **(floor)** Use only classes and tokens from assets/system.css and system.js; never introduce a second grid, spacing scale, type scale, radius family, button shape, card recipe, hairline, corner-control size, link style, or fade.
+- **(reflex)** Use fx-map only for visit or contact sections showing the real streets around the door, baked and still.
 - **(reflex)** Replace Tailwind's own text-size and ease tokens in @theme, or remove those nine from @theme and declare them on a single page's root when other pages must not change.
+- **(floor)** Render sequential steps as a real ordered list using numerals rather than applying a numeric label over a heading.
+- **(reflex)** Emit the component in the project's convention plus an eight-state preview rendering every state stacked and labelled.
+- **(reflex)** Set wireframe frames in type and reserve slots holding library photographs or built products.
+- **(reflex)** Reflect filters, tabs, pagination, and expanded panels in query params.
+- **(reflex)** Make a slider with drive.param grain the group's loop and use compact:true to keep it small enough for .at-center on a focal tile.
+- **(reflex)** Ensure the page CSS clears a .frame[data-product]'s ground so it does not render on white.
+- **(reflex)** Use fx-feature-card only for a 2x2 grid of product features, not for features with nothing to show in a window.
+- **(reflex)** For Tailwind v4, place every color, font, text, tracking, radius, shadow, and ease token into a single @theme static block so each becomes both a utility and a usable CSS variable.
+- **(reflex)** Use flex and grid for layout instead of JavaScript measurement.
+- **(reflex)** Allow one card group to hold still grounds from the effect's family, but never a second live effect, and use the lit ground when a big scene is present.
+- **(floor)** Run consistency.mjs with the declared kind and widths 1440,390 and assets/layout/check.mjs with sizes 1440x900,390x844.
+- **(reflex)** Give a button's fill an even, low-contrast grain that moves only while pointed at, with no blobs that settle at one end.
 - **(reflex)** For Tailwind v3 keep tokens.css as a single :root block, place the stamp and both imports above the @tailwind directives, and ship base.css with layer(base).
-- **(reflex)** Expose Tailwind v3 utilities on request by defining the same names under theme.extend with each value as a var() of the token.
-- **(reflex)** Export a fluid size as its maximum value and keep the clamp() in CSS.
+- **(floor)** Make the scene section a direct child of main with data-big-scene, store scene opts in data-big-scene-opts, set the scene's restH as --h, and point aria-labelledby at its heading.
+- **(floor)** Treat interactive links as buttons: mark every running-text link with .link and every interactive button with .btn, and avoid separate button elements.
+- **(reflex)** Only the middle plan may use .btn--primary.
+- **(floor)** Ship zero broken requests and zero sideways overflow.
+- **(reflex)** Force each state in the preview with a helper class the component's CSS targets beside the real pseudo-class.
+- **(floor)** Make the first switcher state visible without JavaScript.
+- **(reflex)** Anticipate short, average, and very long user-generated inputs when building containers.
+- **(floor)** Render every ground, panel, and region as a single flat CSS colour via tokens; never assign gradients, layered backgrounds, glass, or coloured glow shadows to material, grain, photography, or depth surfaces.
+- **(reflex)** Keep saturated colour in accents and pictures, and never use a mid-tone section as the main ground.
+- **(floor)** Allow at most one loud ground per page and at most one brand band.
+- **(reflex)** A hover state must communicate through exactly one visual signal, such as a colour step, a 1px lift, or a border step.
+- **(floor)** Implement every button with all eight states (default, hover, active, focus-visible, disabled, aria-disabled, busy, quiet) using the provided CSS variables and transitions.
+- **(floor)** Use only the three ground tokens --g-main, --g-alt, and --g-dark for every section and panel ground, keeping them in the same order.
+- **(floor)** Put words on photographs only in the hero and one closing band on allowed pages, over a calm dark crop or solid box without a scrim.
+- **(floor)** Limit --g-dark to lightness 0.05 or less, use at most one dark body section mid-page or later, and never place it under the hero.
+- **(floor)** Prohibit light sections in dark builds.
+- **(floor)** Use exactly one accent hue, routed through tokens and consistent with the declared posture, applied only to the canvas treatment, focus rings, small tags, and a single data series — never to body text unless the theme names an accented word.
+- **(floor)** Never let gradient ramps stand in for material, and prohibit gradient-filled pills.
+- **(floor)** Exclude glass, frosted effects, and glass panels or cards everywhere.
+- **(floor)** Use only flat colour grounds and at most one brand or technical band, never over text.
+- **(reflex)** When the brief pins a colour direction, follow it exactly, including generic default looks, without overriding it.
+- **(floor)** Use only the three ground tokens --g-main, --g-alt, and --g-dark for every section and panel ground, keeping them in the same order down the page.
+- **(reflex)** Use surface white on light and #1c1d20 on dark with a 12% 1px border and 12px radius, keeping the layered shadow only inside the panel.
+- **(floor)** Always place paper-2 cards on paper so cards read lighter than the canvas.
+- **(reflex)** Apply a very subtle border and an 8px corner radius to refined surfaces, elevating cards by lightness steps using dedicated paper tokens.
+- **(floor)** Implement every button with all eight states using CSS variables and transitions.
+- **(reflex)** Render pill controls as both filled and outlined variants, with an ink-filled primary beside an outlined secondary.
+- **(floor)** Never rely on colour alone to convey information or state, and maintain consistent visual variants across reused components.
+- **(floor)** Apply exactly one accent colour and keep it consistent with the overall posture.
+- **(reflex)** Use surface white on light and #1c1d20 on dark with a 1px border at 12% and radius 12, keeping the layered shadow only inside the panel.
+- **(floor)** Never ship outline-only filler cards; climb the surface ladder instead.
+- **(reflex)** Style pill controls with an accent fill.
+- **(floor)** Never use repeated stripe or grid backgrounds with nothing under them.
+- **(floor)** Prohibit glass, frosted, and backdrop-filter effects because the medium is paper.
+- **(floor)** Prohibit light sections within a dark build.
+- **(floor)** Keep the single accent under 3 percent of the screen across primary buttons, focus rings, links, and state.
+- **(floor)** In dark mode, disable drop shadows and express elevation through progressive lightness steps (lighter than paper, +3% per level) or inset hairlines rather than blurred shadows.
+- **(floor)** Implement every button with all eight states using CSS variables and transitions.
+- **(floor)** Do not ship a near-black page with a single neon or bright acid accent unless the brief explicitly requests that direction.
+- **(reflex)** Limit dark body sections to one, with lightness 0.05 or less, placed mid-page or later, never under the hero.
+- **(floor)** Use thin visible borders instead of hairlines, and avoid applying hairlines across all elements.
+- **(reflex)** Allow at most one loud ground per page.
+- **(reflex)** Use one primary button style, one container width, one column gap below the hero, one radius per nesting level, and never more centred heading groups than left-aligned ones.
+- **(floor)** Exclude glass and frosted effects and never apply blend modes or gradients to text or material.
+- **(reflex)** Allow the brand band to replace the dark band at most once, in the second half of the page, on product and place pages.
+- **(floor)** Never use repeated stripe or grid backgrounds, noise, or fog grounds with nothing under them, and never place content over a noise or fog ground.
+- **(floor)** On non-tech pages, ban gradients, hard-stop two-tones, grain, paper, halos, texture, pattern, glass, contour, backdrop-filter, interface shadows, print, dither, duotone, and animated media.
+- **(reflex)** Keep each answer to one or two short paragraphs placed directly under its question.
+- **(floor)** Make the h1 name the product category rather than a vague benefit.
+- **(floor)** Respect word budgets for headings, section heads, intros, paragraphs and lists, keep roughly 80 words per screen, cap pages at 450 visible words, and keep one line to two sentences under headings and card bodies to two sentences of at most twenty-five words.
+- **(floor)** Only display figures the prompt explicitly provides.
+- **(floor)** Include the footer trademark line, an icons-credits.json entry listing file, set, pinned source commit, licence, and trademark flag, and a single credits details element.
+- **(reflex)** Write long-document pages as continuous prose that reads like a memo, letter, or journal entry, avoiding marketing structure.
+- **(floor)** Use the hero quote exactly as the user supplied it, including its attribution, and never invent or paraphrase a quote.
+- **(reflex)** Write enough rows and open-item lines that both panes run past the frame bottom and are cut by its fade, never leaving an empty strip.
+- **(floor)** Write prices, the FAQ, booking, and forms in plain, calm copy, reserving voice for the hero and story.
+- **(reflex)** Carry the sign-off link at the letter's foot with an explicit verb such as 'Join the list.'
+- **(floor)** Each section must hold one idea, one h2, and at most one action besides the main action.
+- **(reflex)** Write subheads under twelve words stating what, for whom, and the difference; make section and card heads state what the visitor sees or use a verb-led title with real words rather than category labels.
+- **(finish)** Vary what each section contains, such as a list, table, short letter, or single longer paragraph, instead of repeating the same skeleton.
+- **(reflex)** Avoid vague navigation labels such as 'Solutions' or 'Platform', and never mirror the split pair.
+- **(floor)** Place all credits in the footer's single credits line, never under the print, mark printed photographs as adapted, and include licence credits in that same single line.
+- **(floor)** Keep fewer than about 80 words in any 900px window at 1440, and never place more than two text blocks before actions in a hero.
+- **(finish)** Vary section and paragraph lengths to follow the material rather than forcing perfect evenness.
+- **(floor)** Sweep the redesign against the before record and restore or record anything the page had and no longer has.
+- **(reflex)** Make every large decision specific to this client, including its subject, place, materials, numbers, and the way its people talk.
+- **(floor)** Omit captions explaining the scene and never fly card chrome, chips, or labels with the scroll.
+- **(finish)** Treat the screen budget as a note at every depth because words belong to the owner and only a copy gate cuts one.
+- **(reflex)** Use one or two eyebrow labels per page and none when the heading already names the thing.
+- **(reflex)** Inside tiles, use a typographic link that carries a verb instead of a full button.
+- **(floor)** Fail when the page deals no moment.
+- **(reflex)** Vary card length with how much the brief knows, keeping titles as a verb and an object.
+- **(finish)** Vary what each section contains, such as a list, table, short letter, or single longer paragraph, instead of repeating the same skeleton.
+- **(reflex)** Treat empty screens as invitations to act rather than as mood.
+- **(floor)** Never caption or label a render, and never print or refer to anything on the page as a render, model, or illustration.
+- **(reflex)** Write the product statement as one plain paragraph with the first sentence in ink and the rest muted, and never place it directly after a hero of the same width.
+- **(floor)** Keep buttons, primary nav links, CTAs, footer links, tabs, and breadcrumbs single-line across all widths unless a phrase cannot realistically be shortened.
+- **(reflex)** Make section headings name the part with one line of claim beneath it as the default.
+- **(reflex)** Place a sold item's name and price inside its card padding rather than as a line under a bare picture.
+- **(floor)** Write empty states that name the next action, ask once near the footer with Subscribe or Sign up and an email field only, and never present subscription plans for non-subscription offerings such as products or places.
+- **(reflex)** Place every number inside a sentence beside the claim it proves, and do not build a strip of three or four figures over one-word labels.
+- **(reflex)** Place a verbed link at each rail's edge and avoid a global CTA so the fold's single visible action is the first rail's link.
+- **(floor)** Exclude hype words, metaphors, slogans, boasts, questions as headlines, exclamation marks, all-caps labels, filler, virtue words, puns, and sign-offs from all copy.
+- **(reflex)** A close-word must not repeat the name in a footer wordmark.
+- **(reflex)** Avoid vague nav labels like 'Solutions' or 'Platform' and never mirror the split pair.
+- **(floor)** Never repeat a fact: each stat, spec, and figure appears once with one wording.
+- **(reflex)** When clickable text must wrap, first shorten the label, then apply white-space nowrap to the control, and finally collapse the row rather than the labels.
+- **(reflex)** Keep small bento card copy to two to four words and never place text in different positions across bento cards.
+- **(floor)** Never use emoji as list bullets.
+- **(floor)** Keep the primary action's wording identical across the navigation, hero, close/booking, and phone bar, and render it as the only filled button on the page.
+- **(reflex)** Cut any region the comp invented but the copy does not support instead of building it.
+- **(reflex)** Leave .socials empty unless the brief gives accounts.
+- **(reflex)** Write stage headings as numbered, declarative, process-language lines with one stage per line.
+- **(reflex)** Keep hero text to seven words or fewer in the head, one lead sentence, and one or two actions; omit prices and quotes from the hero.
+- **(reflex)** Open user-named-but-empty sections with their heading, one line, and one text slot, or merge them into a neighbour.
+- **(floor)** Text must never appear on place photographs, and elsewhere only on the hero and one closing band over a calm, empty, dark or light area, a solid box, or off the photograph, with no scrim, gradient, fade, or blur.
+- **(reflex)** Do not end with an email sign-up unless the page's job is a mailing list or the stamp names a job; end on the action the page takes.
+- **(finish)** Vary section and paragraph lengths to follow the material rather than forcing perfect evenness.
+- **(reflex)** Limit the manifesto's call to action to one action: showing up, signing, or joining.
+- **(floor)** Never add a caption under a print that explains the effect, and never reveal that the image is a print.
+- **(reflex)** Represent missing facts as text slots in muted colour within dashed outlines (at most two per page), and cut rows that would hold only missing facts.
+- **(reflex)** Place exactly one typographic verb-led link on the plate under the sentence as the visible action.
+- **(floor)** Make the hero text only the headline, one sentence and its actions, name the category in the hero h1 using one of the allowed forms without stacking two adjectives, and keep at most two hero actions.
+- **(reflex)** Build section shapes from the reader's questions instead of applying the default eyebrow-claim-cards template everywhere, and use step numbers only where the order itself is the content such as a booking flow.
+- **(reflex)** Name the main transaction the same way in the nav, hero, close, and phone bar, and nowhere else.
+- **(reflex)** Use one plain buyer-word label per nav bar link and never wrap the bar below the .wrap width.
+- **(floor)** A CAD or render frame must sit on a light flat ground with square corners.
+- **(floor)** Library photographs must never exceed one third of the page's total pictures unless the draft path explicitly lifts the cap; below the hero they count at most a third of the page with no two photograph-led sections in a row.
+- **(floor)** Show the product big and whole across at most three sections with a new picture each, and show proof only as small exact objects from the brief such as named quotes, footnoted figures, press lines, rating lines, or real customer logos with permission.
+- **(floor)** A quote must show a face or merge into the section above it.
+- **(floor)** Include at most one signature scan or quiet inline photograph, or none; show a thumbnail per card from the user's work and, until images load, set projects in type with at most one empty slot.
+- **(floor)** Show product, service, and place frames on flat colour with photographs and never with a code ground.
+- **(reflex)** Frame screenshot strips as uniform 16:9 captures with square or page-radius corners, no device chrome, no shadow, and no captions.
+- **(reflex)** For place pages, lead with photographs sized 12 to 20 on the full page, 8 to 12 compact, or under 8 on a three-screen short page, and deal the palette by trade.
+- **(floor)** Use 3D and WebGL only when the product is 3D and the visitor can interact with it, always with a still fallback.
+- **(floor)** A footer-visit must not embed a map.
+- **(floor)** Never leave image slots empty, broken, or showing only ground; give every client-supplied asset a finished slot with a stand-in and a named comment, and flag empty coloured boxes or drawn illustrations where a photograph or product should appear.
+- **(floor)** Never place an effect over the hero photograph or in place of the client's photographs.
+- **(floor)** Crop images tightly inside their individual blocks and never let them full-bleed, except pages that get one full-bleed daylight photograph under the header.
+- **(floor)** A gaming page must never show UI fragments, dashboards, or widgets.
+- **(reflex)** Interactive previews count as imagery; restrict photographs to at most one band per page.
+- **(reflex)** Use photographs for a quarter to a third of the page below the hero and never lead two sections in a row.
+- **(floor)** Never display the same photograph twice on a page — including crops, mirrors, or smaller files — nor three near-identical frames, keeping all section photographs distinct.
+- **(reflex)** Use the same slot for product samples without an img element, built at full size.
+- **(reflex)** Treat interactive previews as the imagery and restrict photographs to at most one band per page.
+- **(reflex)** Use more and better real photographs where they fit, with nicer backgrounds, stronger heroes, layouts, and fonts.
+- **(floor)** Delete every image that carries no fact; mood-only pictures, mood stock, code grounds, drawings, empty boxes, note imagery, illustration packs, mascots, 3D blobs, isometric scenes, mesh orbs, auroras behind text, stock faces as proof, invented logo walls, hover zoom or rotation, baked text in images, and photos of other interfaces must never appear.
+- **(floor)** A close-photo must never place words over its photograph, and no words may appear on any photograph.
+- **(reflex)** Include only a real photograph of the quoted person or the company mark beside the attribution, or omit the image entirely.
+- **(reflex)** Use real full-color icons from known products rather than drawn ones, including small diagram visuals such as hubs with branches or pulses along lines.
+- **(floor)** Every named asset must occupy its own slot, and the product must be shown big and whole across at most three sections with a new picture each.
+- **(reflex)** Use thumbnails throughout the page so it reads as dense imagery of real platform content.
+- **(floor)** Never render the subject itself using paper, grain, a stamp, a dial, a knob, bevels, an engraving, or a drawing of the thing.
+- **(reflex)** Use exactly one image treatment per context (full-bleed, tightly cropped to grid, inline with text, margin-aligned, or none) and one ratio per goods grid with one backdrop, angle, and light.
+- **(floor)** On gaming pages, show a system of the game rather than replacing the game's own pictures.
+- **(reflex)** On product or service pages hold the client's photograph, real icons, or a still diagram on a flat panel, and give places no feature cards.
+- **(floor)** The product must be the hero, not every frame, filling its frame at large scale in the hero and at least one more section.
+- **(floor)** The close must be its own picture, a photograph, the big button, or the name set wide.
+- **(reflex)** Use only the UI set for interface glyphs rendered as inline SVGs in text colour, and real icons in brand colours at 20–40px via <img> from assets/icons — never call a CDN.
+- **(reflex)** On tech pages, lead with the client's own subject at true size, show software UI as live HTML in one app-frame, use real icons and pulsing diagrams for cards, and keep hardware to its photographs or stand-ins with renders only on a 3D ask.
+- **(floor)** Use no image in the specimen, since the typography itself is the imagery.
+- **(reflex)** Make the hero photograph the largest element on the first screen, either full-bleed behind the headline or beside it at 60 to 75 percent of screen height.
+- **(floor)** Open the page with the single most characteristic element of the subject in its most appropriate form instead of a default big-number-and-gradient treatment.
+- **(floor)** Separate two halves with a clear gutter and never use rules.
+- **(floor)** Place pages must use only 4:5, 4:3, and 1:1 ratios, with other page types adding 3:2, maintaining one ratio per row with equal-sized frames.
+- **(reflex)** Choose exactly one button voice from solid, outlined, unstyled link, oversized solid, typographic only, or form as CTA.
+- **(reflex)** For an attend job, place tickets in the nav from the first screen and make the date and place the headline.
+- **(floor)** Only include a block holding a figure or quote when the user explicitly supplied that content.
+- **(floor)** Show at most one product render per page.
+- **(reflex)** Use at least 120px between sections at 1440px width (64px where the paper changes) and vary the gaps.
+- **(floor)** Allow only one containment layer and never place a card inside a card.
+- **(reflex)** Treat navigation and footer as part of the chosen shape and settle them together with the hero.
+- **(floor)** Do not place any UI fragment over an object or add a second effect beside it, and leave the card plain when an effect strip holds nothing behind a stat or line of text.
+- **(reflex)** Present proofs using the category's own form instead of a generic band of numbers.
+- **(floor)** A close must contain exactly one primary button, and footer.closing must be the last section carrying the dealt close row and a directory row on one ground.
+- **(floor)** Limit every component to the first viewport at the surface's own dimensions and never compose below the fold.
+- **(reflex)** Use a modal only as the last answer, after inline editing and disclosure have been considered.
+- **(floor)** Open nav menus full width under the bar on the grid ending at x 1360, never place a second picture card, shorten footer links/tabs/breadcrumbs to at most two lines only when the phrase cannot be shortened, and keep hours, address, and directions out of the footer.
+- **(reflex)** Separate cards by three --section-gap steps, mix them, and let each card fill its section.
+- **(floor)** Never fade over the point of a fragment, and never leave a sliver of 1 to 23px at any edge.
+- **(reflex)** Do not use overflow:hidden to clip content that users need to access.
+- **(floor)** Do not use asymmetric prose columns.
+- **(reflex)** A screen with nothing big enough to be its reason outranks every detail finding.
+- **(reflex)** Build tables with four or five rows of 56 to 72px and tabular numerals.
+- **(reflex)** Write one line each on mass, interval, and entry when comparing the build to the comp.
+- **(reflex)** Centre hero content with 1.0 to 1.5 times more space below than above and sit the lowest content within 160px of the fold.
+- **(floor)** Always position objects using the place presets (card, tile, hero, none) instead of centering dead in a panel with even ground around it.
+- **(finish)** Before shipping scroll at 1440x900 one screen at a time and ensure each screen holds one big enough reason.
+- **(reflex)** Give the scene host a size via an aspect ratio or height when it is not inside a sized panel.
+- **(reflex)** Place a list of work or a single content block below the fold instead of continuing the hero.
+- **(floor)** Never hard-cut inside a close-up frame.
+- **(reflex)** When the theme supports sticky elements, pin a bottom bar with the hero action at --z-sticky after the third capture.
+- **(reflex)** Place the default panel with side edges on the text column running off the card bottom, top radius 12, and occupying the lower 60-65% of the card.
+- **(reflex)** Present additional supplied quotes as rows beneath the hero statement.
+- **(reflex)** Dissolve the last --fade-h (64px, or 40px on short panels) into the ground via .stage--fade-b, --fade-r, and --fade-br.
+- **(reflex)** Present the body as a vertical list of categorized links rather than a sidebar.
+- **(reflex)** Draw hub spokes as straight rays from the core rim and bend flows with rounded elbows, using curve, elbow, or swirl to change them.
+- **(floor)** End the first screen whole or on a clear bleed, with splits stacking text first and no row half empty.
+- **(reflex)** Write each section's product view on its plan line with no two views alike and whole views in at most three sections.
+- **(finish)** Permit heavy slab bars, dense bars with rounded knobs, banners, and marquee footers as playful chrome.
+- **(reflex)** A compact place page uses 8 to 12 photographs across 4 or 5 screens.
+- **(reflex)** Build pages with six to nine sections including hero and footer, or five on a thin prompt, never fewer.
+- **(reflex)** Use the filter row as the divider above the grid and never add internal rules inside it.
+- **(reflex)** Keep median layout shift under 0.25.
+- **(floor)** A place hero must be a full-bleed top photograph with nothing overlaid and text placed below it; do not substitute a map for narrative since some stories must not be read spatially.
+- **(reflex)** A short place page uses fewer than 8 usable photographs, three screens, at most 2700px width at 1440px, and sets <html data-page-mode="short">.
+- **(floor)** Give stamped-position heroes full screen height and unstamped heroes less than 92dvh, and prohibit a centered-everything hero unless the theme material is a centered bill.
+- **(reflex)** Maintain equal left and right content edges across the layout.
+- **(reflex)** Close the page with the visitor's job rather than a generic form.
+- **(floor)** Use dvh or svh for heights that meet mobile browser chrome, and never use vh on a hero.
+- **(reflex)** Show four dated moments on one rail with equal-height panels, at most one loop in the newest panel, and never zig-zag points or pulse dots.
+- **(reflex)** Draw lines with a 2px stroke and place markers only at annotated points that are at least 6px apart.
+- **(reflex)** Place the headline and its single sentence on a plate at the image base, and position captions near a corner in body type.
+- **(floor)** Never tilt or carousel cards; show whole cards in rows and stack press quotes.
+- **(reflex)** Place copy on the photograph's calm dark corner with white type and no scrim, restricted to the hero and one band per page.
+- **(reflex)** Design layouts that adapt across breakpoints without horizontal overflow.
+- **(floor)** Never stack two position:sticky;top:0 elements; offset the second with top:var(--banner-height) and place --z-sticky-nav above --z-sticky.
+- **(floor)** When a section has no photograph, add one height-1 statement section after the hero using word-highlight with 12 to 40 words from the brief, and keep every section and footer at height calc(var(--h,1) * 100svh) with --h of 1 or 2.
+- **(floor)** Avoid template signatures such as centered stacks, pills or labels above the headline, gradient blobs, empty colored boxes, drawn illustrations, counting marks, two filled buttons side by side, grey bars, or outline cards inside slots.
+- **(reflex)** When the brief calls for 3D, use a product render as the picture and let the page's single effect sit behind it as the transparent ground, keeping that effect as the beat rather than a second focal visual.
+- **(reflex)** Share at most two opening moves per section and rotate them against the log.
+- **(reflex)** Fill the place's share of the frame according to data-product-place: hero 0.88, stage 0.86, tile 0.84, card 0.9.
+- **(floor)** Add a nav.actionbar fixed at the foot on places with one main action or two half-width buttons, and let system.js show it only after the hero button scrolls off.
+- **(reflex)** Below the hero, widen body spans to ten columns, add a visual, set a statement, or merge sections instead of leaving thin or massless bands.
+- **(reflex)** Run the hero stage and hero review only at full depth; polish and restyle skip both.
+- **(reflex)** Place print objects as card, tile or hero and never centred dead, while photo prints and scenes fill an aspect-ratioed box.
+- **(reflex)** Place the primary action in the hero (often as the hero itself) with the name, a single line, and an email field for subscribe jobs, and place start-free actions in both the nav and hero with terms on one line beneath for sign-up jobs.
+- **(floor)** Place exactly one moment on every short page and two moments on every long page (eight or more sections), never three.
+- **(finish)** On redesigns, treat content below the first screen as the unbuilt old page and do not flag it.
+- **(floor)** Keep nothing moving from crossing text being read, and place statements over a flat band or the photograph's calm dark part at 4.5:1 (or 3:1 for display text), never over a scrim or gradient.
+- **(floor)** Build six to nine sections including hero and footer with at most 450 visible words, and give each section a composition with mass.
+- **(reflex)** Keep widgets from floating dead centre and remove any 1 to 23px strip of ground under a fragment.
+- **(floor)** Bleed one photograph across the screen as the section layer with a headline on its calm dark part; never use two bands, words over the subject, or the hero photo again.
+- **(reflex)** Deliver the product's signature object, such as the ledger, timeline, or queue, rather than a greeting above stat cards.
+- **(reflex)** From 1024 each pricing card must be a subgrid of its rows so buttons and lines align.
+- **(floor)** Ensure the headline, lede, primary action, and the visual focal point are all visible at 1280x800 without scrolling.
+- **(floor)** A close-photo must not extend as a band out to the viewport.
+- **(floor)** Keep text clear of opaque boxes, images, or other text runs unless it lives in sticky or fixed chrome.
+- **(floor)** The back third of the page must be calm before the close.
+- **(finish)** Ensure content visible at 1440px is not hidden on phones, keep navigation accessible, and avoid tables opening with two or more columns off-screen.
+- **(reflex)** On pages over six screens, drop the place section but never the booking.
+- **(reflex)** A close-word must set the client name across the .wrap in one line, never scaled by transform.
+- **(reflex)** When the FAQ is the primary page, open with a hero that asks the first question.
+- **(floor)** Never place an effect where the product, device, or game world should appear, and always use real UI captures or real photographs for every other visual.
+- **(floor)** Keep the catalogue heading to a single line at display scale so it never pushes the first row of cards below the fold.
+- **(floor)** Plan every page as a list of screens where each section is exactly one or two screens tall and nothing of the next section shows at load.
+- **(reflex)** Use 6/6 splits with text left-aligned and top-aligned, never mirrored.
+- **(reflex)** In a showcase place one full-width visual at 16:9 to 21:9 and at most two smaller visuals beneath it.
+- **(floor)** A close section must contain exactly one primary button and place the close row together with a directory row as the final section on one ground.
+- **(reflex)** Render catalogue items as a uniform grid of same-sized cards containing three to five per row.
+- **(floor)** When a section has no photograph, insert one statement section of height calc(var(--h,1) * 100svh) immediately after the hero using word-highlight with 12 to 40 words from the brief, keeping --h at 1 or 2.
+- **(floor)** Place a case-study link inside each card and never add a global call-to-action button.
+- **(floor)** Keep the fixed opaque nav at 72px (56px on mobile) with a 1px hairline identical at every depth.
+- **(reflex)** Flex children must set min-width: 0 to allow text truncation.
+- **(reflex)** Do not use a bento grid when the page has a single hero idea, since it spreads attention.
+- **(floor)** Only place an object of the product's own kind on a product page, never an object of another kind or a whole product when only a part is shown.
+- **(reflex)** Place an outlined button chip beneath the qualifier whose label begins with a verb.
+- **(reflex)** Add a sidebar only when there are more than about seven destinations, and collapse it to a menu under 60rem.
+- **(floor)** Ensure the only visible action above the fold is the first card's detail link.
+- **(finish)** Apply at most one container recipe to fewer than six selectors and apply pill radius to fewer than five non-control, non-tag, and non-badge selectors.
+- **(reflex)** Choose one footer.closing row-2 variant from footer-columns, footer-dark, footer-statement, or footer-visit.
+- **(reflex)** Name each beat and its section, keep beats out of one another and out of neighbouring sections, insert a calm section between them, and keep the back third of the page calm before the close.
+- **(reflex)** Apply overflow-wrap: break-word with min-width: 0 to display heads in image-bearing grid tracks.
+- **(floor)** Do not place any UI fragment over an object or add a second effect beside it, and leave the card plain when an effect strip holds nothing behind a stat or line of text.
+- **(floor)** A buy page must never use an email field as its close; place it in the footer instead.
+- **(floor)** A place hero must be a full-bleed top photograph with nothing overlaid and words placed below it; never use a map as a substitute for narrative.
+- **(floor)** Apply overflow-x: clip to both html and body, never use overflow: hidden and never use 100vw.
+- **(reflex)** When the brief asks for 3D, use a product render as the picture, let the page's single effect sit behind it as the transparent ground, and keep it as the beat rather than a second focal visual.
+- **(reflex)** Render sparklines inside components without axes, gridlines, or a second color.
+- **(floor)** Render the complete base layout with logical CSS properties so reduced motion, small screens, and unsupported browsers always show the finished page, and measure at 1440, 1024, 768, and 390px with 16px fragment insets on both sides, cutting only at the bottom on phones.
+- **(reflex)** Apply radius --r-lg (20 on soft, 18 on phone) and padding of 32px from 1024px, 28 below, and 24 on a phone, never under 24px, with 48px padding for a filled split panel.
+- **(floor)** On small screens stack every composition in reading order and preserve visual aspect ratios while dropping minimum heights, ensuring each phone section is at least its screen tall and grows with its content so nothing overlaps or sits under a fixed bar.
+- **(finish)** Keep a single primary button style, container width, column gap below the hero, radius per nesting level, and no more centred heading groups than left-aligned ones.
+- **(reflex)** Flag any section head smaller than 40px as a layout defect.
+- **(reflex)** A full-bleed band may change background but must keep the .container for width.
+- **(reflex)** Choose one surface axis and treat centre-biasing as the default rather than a choice.
+- **(floor)** A head plus a paragraph is only a head block, never a full section.
+- **(floor)** Choose the chart form from the number of values: one value becomes a stat tile, two-to-five values become a stat row or horizontal bars, a time series becomes a line or sparkline, more than seven categories becomes a table, and parts of a whole become a stacked horizontal bar.
+- **(reflex)** Fill eight to ten columns with a single statement spanning two or three lines from section to display size.
+- **(floor)** In a card, place the card's text above the panel, never over the object.
+- **(reflex)** Make hero visuals six or seven columns wide and 60 percent of the screen tall, or portrait objects 75 percent tall on four or five columns.
+- **(floor)** Limit every page to a single photo print unless the page is explicitly about prints, in which case a row of three is permitted.
+- **(finish)** Before shipping, confirm each section keeps a distinct shape and the page keeps a heavy-light rhythm.
+- **(reflex)** For .panel--inset use an even 8px margin with radius equal to the card radius minus the margin, never under 6, and keep one ratio and one inset per panel in a row.
+- **(reflex)** Insert a thick rule or a hard change of paper between the hero and the below-fold section.
+- **(floor)** Keep the point of a fragment above 100% minus --fade-h and only fade context.
+- **(reflex)** Separate FAQ pairs with either a hairline divider or a change of background with no rule.
+- **(reflex)** Upsize a flat drawing when the next size fits, or force size band or card explicitly.
+- **(reflex)** Lay out body content with asymmetric spans, a narrow marginalia column beside a wide content column, using hairline dividers instead of card borders.
+- **(reflex)** Spend only the spacing tokens --s-1 through --s-10 on every margin, gap, and padding.
+- **(reflex)** The recommended plan in pricing-two must be `.is-featured`.
+- **(floor)** Keep booking forms to six fields with visible labels, per-field errors, correct input types, autocompletes, and a real send endpoint or mailto stand-in; include an email field only when the job calls for a mailing list or the user explicitly asked.
+- **(reflex)** Footer columns must match the navigation order and names.
+- **(floor)** Determine the order in which visitors must see, understand, and act, then shape each section to reveal its content best, ensuring the first viewport's layout persists into later sections rather than collapsing into a generic card grid.
+- **(finish)** Separate list rows with hairline rules or paper bands rather than heavy dividers.
+- **(reflex)** Use 12 columns with 24px gutters, start blocks on the left line or a column start, end right-aligned blocks on a column end, and never use tiles narrower than 165px.
+- **(floor)** Do not place any UI fragment over an object, add a second effect beside it, or leave a card plain when an effect strip holds nothing behind a stat or line of text.
+- **(reflex)** A footer-dark must not have a second dark section directly above it.
+- **(reflex)** When the brief asks for 3D, use a product render as the picture, place the page's single effect behind it as the transparent ground, and treat it as the beat rather than a second focal visual.
+- **(reflex)** On the short page keep the section as open type on the page ground, never a card or ground box.
+- **(floor)** Place the widest view in the hero, lead with the client's own photographs and screenshots, and render the product as a single window containing a list pane and an open pane rather than two side-by-side boxes separated by ground.
+- **(reflex)** Make the framework tab row horizontally scrollable when the viewport is narrower than 60rem.
+- **(floor)** Place one real app frame on every software page within the hero or first three sections, and never on gaming, product, service, or place pages.
+- **(reflex)** Order page endings as: the hero's action again in a short band, practical details, more of the catalogue, a short trust tail, and finally a mailing list only for recurring things.
+- **(floor)** A comparison table must not scroll sideways on mobile.
+- **(floor)** Do not use a scene on product pages; show the product's own photographs plainly or use a print object render instead.
+- **(reflex)** Choose one footer.closing row-1 variant from close-type, close-photo, or close-word.
+- **(reflex)** Use .fit with --fit-max to keep width on wide panels and narrow on small ones, and .wide with --w to cut a fluid grid by the right edge while running 64px or more past it.
+- **(reflex)** For B2B SaaS pages whose shape is Bento Grid, Stat-Led, Workbench, or Marquee Hero, build from the SaaS section deck.
+- **(reflex)** Confirm hero content fits the 1280x800 fold, occupies one screen at 1440x900 with content centred and a visual beside text, and still fits at 1920x1080.
+- **(reflex)** Ensure every name fits on one line beside its price on span-3, shortening entries to roughly 24 characters when they would otherwise wrap.
+- **(finish)** Limit the page to one filled-primary button recipe, treating each dialog as its own page, and never place two filled buttons side by side.
+- **(reflex)** On phones, keep the row-naming column and the action column visible by restacking each row as a labelled block or pinning the first column, treating many columns as a redesign rather than a squeeze.
+- **(floor)** Use outlines, borders, dividers, numbering, and labels only when they encode real information about the content, and reserve negative space as the only section divider (allowing at most one centered ornament).
+- **(floor)** Every region that loads data must implement four states: loading, empty, error, and full.
+- **(floor)** Use CSS Grid for page layout and Flexbox inside components, shrinking flex children with min-width:0, using minmax(0,1fr) for image-bearing grid tracks, and giving display heads overflow-wrap:break-word with min-width:0.
+- **(floor)** On a product page, do not use an object of its own kind as the picture; instead compose the product from its parts.
+- **(floor)** A close section must contain exactly one primary button and footer.closing must be the last section with the dealt close row and a directory row on one ground.
+- **(reflex)** Make controls 32 to 40px with a 44px hit target in app screens.
+- **(floor)** Define every print frame size via aspect-ratio or height so the print fills it.
+- **(reflex)** Place terminal-run as .at-rise.fit with --fit-max 440px, always whole with 24px or more of ground under it, and never cut or fade it.
+- **(reflex)** Avoid fixed widths that break on smaller viewports.
+- **(reflex)** Place the effect in the hero, the single data-visual frame under an h2, or the scene's own section, and keep text over any effect on its quiet part at 4.5:1 contrast or higher.
+- **(floor)** Apply scroll choreography only to structural elements, never to prose.
+- **(floor)** Make the close and footer a single footer.closing section with exactly two wrap children: the dealt close row and the links plus legal row.
+- **(floor)** Give every effect host element an explicit size and a data-fx id before mounting it via fx.mountAll.
+- **(floor)** On a short place page (fewer than eight photographs), use only the picture-develops moment on the section's photograph, or word-highlight when there is no photograph.
+- **(reflex)** Grow the entire page from one client-specific idea that decides type, color, structure, motion, product presentation, and interaction from top to bottom.
+- **(floor)** Use only the system's frame values (1280 wrap, 24 gutters, 72/56 nav height, 48/30 h2 sizes) and never invent a spacing number that is not already a token.
+- **(floor)** Never restructure during a polish: no moving sections, no re-picking a system, and no swapping a nav.
+- **(reflex)** Never place a bento next to another card grid.
+- **(reflex)** At 1440x900 the next section must start between y760 and y900, the hero visual centre must sit within 60px of the text block, and it must not stand more than 120px from or pin to the viewport edge.
+- **(reflex)** Show two photographs side by side at one ratio and one light, with nothing under them and no captions or titles beneath.
+- **(reflex)** Pricing-two must place the h2 and shared inclusions on one span-4 column and the two cards on span-4 columns starting at 5 and 9.
+- **(reflex)** Build heroes around at most two centred elements with one breaking alignment, preferring margin-aligned, right-flush, or numeral-anchored layouts.
+- **(reflex)** Use asymmetric column ratios such as 2:5 or 3:7.
+- **(reflex)** Report layout gates as notes and print them with the depth that would settle them without rebuilding them, reserving asterisk separators for occasional use only.
+- **(reflex)** Build the bento body as an asymmetric grid of six to nine blocks using mixed spans such as 1×1, 2×1, 1×2, and 2×2.
+- **(floor)** When a section has no photograph, add one statement section of height 1 after the hero using word-highlight with 12 to 40 words from the brief; keep every section and footer at height calc(var(--h,1) * 100svh) with --h of 1 or 2.
+- **(floor)** Make the hero figure the largest element on the page and always pair it with a worded headline that explains its meaning rather than treating it as a bare label.
+- **(floor)** At 390px the page must retain the desktop grounds, photographs, and order, with each photograph appearing after its text.
+- **(reflex)** A book page must end with hours, address, and the booking again.
+- **(floor)** Separate manifesto sections by changes of paper or the theme's own rules, never by cards.
+- **(floor)** Make a place hero a full-bleed top photograph with nothing overlaid and words placed below it, never substitute a map for narrative, and never let two consecutive sections both lead with photographs.
+- **(reflex)** Render list rows at full width.
+- **(floor)** A close must contain exactly one primary button, footer.closing must be the last section, and the close row pairs with a directory row on one ground.
+- **(reflex)** Make .btn elements 44px high with 16px labels and 24px side padding, allow at most two per .btn-row, and make them full width on phones.
+- **(reflex)** When the hero layout places no image in the fold, make the type itself fill the screen.
+- **(floor)** Never ship a large number without an accompanying worded line that states what it means.
+- **(reflex)** Use one radius per level with concentric offsets and cap image radii by viewport width.
+- **(floor)** Never center display typography over photographs.
+- **(reflex)** Do not build a hero 92dvh or taller without a stamped hero posture, and instead put title, lede, action, and mark all on one centred axis.
+- **(reflex)** Use a product capture at least 360px tall per stage when the user provided screens, otherwise use a figure or rows from the prompt.
+- **(floor)** Never build three levels of boxes: a card, a patterned panel, and a white card on it.
+- **(reflex)** Lay out comparison stats in a three-column grid that collapses to a single column with top borders under 60rem.
+- **(reflex)** Top-align all section content with the single h2 as first content at --padt under the section top, never centre content vertically, and never use a second h2.
+- **(floor)** Prevent horizontal overflow at any viewport width from 320px to 1920px by clipping overflow-x on html and body, constraining widths to 100%, and never using 100vw widths.
+- **(floor)** Do not place any UI fragment over an object or add a second effect beside it, and leave the card plain when an effect strip holds nothing behind a stat or line of text.
+- **(floor)** Each section must span one or two screens, start with its top-aligned h2, and never contain a neighbour's heading or picture.
+- **(reflex)** Emphasise a pricing tier with its button and a word, align buttons across tiers, and never use negative margins for taller featured tiers.
+- **(floor)** Keep every section and footer at height calc(var(--h,1) * 100svh) with --h of 1 or 2, and when a section has no photograph add one statement section of height 1 after the hero using word-highlight with 12 to 40 words from the brief.
+- **(reflex)** Keep the bottom-right corner of the scene box or panel clear for the shared 32px pause disc, and never put the pause button on a poster.
+- **(floor)** Never emit raw padding, margin, or gap lengths where a --space-* token exists; use the token instead.
+- **(floor)** At 1920x1080 cap the container between 1360 and 1520px and centre it; hold column counts, cap vw visuals, constrain text to the left line and the page split line, start all headings and the close on the left line, and never centre or right-align blocks wider than half the .wrap.
+- **(reflex)** Verify the action location, category sections, and uniqueness of the section sequence against anatomy.md.
+- **(reflex)** When a page has a single hero idea, do not use a bento grid since it spreads attention.
+- **(reflex)** Use dense balanced bars, floating pills, mega-menus, visible search pills, or vast space between wordmark and one action, and avoid broadsheet furniture and marquee footers.
+- **(floor)** Never place a photo print over the hero photograph or any section's main photograph.
+- **(reflex)** Space a head and its lead line 16 to 24px apart.
+- **(reflex)** In a split layout centre text and visual within 60px and leave no column more than a fifth of the row empty.
+- **(reflex)** Make bands edge-to-edge with the container inside holding the page's functional content.
+- **(reflex)** Show the product in at most three sections on a product page.
+- **(reflex)** Use two-track hero grids with 48 to 120px gaps and leave an empty column between spans on the twelve-column grid.
+- **(reflex)** Use .panel--flush to reach the card edges, .panel--top with 8px margin for tall cards, and .panel--device with a status row and radius 12 running off the bottom.
+- **(floor)** Keep the hero to one screen and start the bento grid inside or immediately below it, never leaving a tall empty band between them.
+- **(reflex)** Apply a fade only where an edge cuts the fragment, and never fade a window that ends inside the panel.
+- **(reflex)** Clip detail views so the rest of the product runs off the frame edges and never cut hard inside the object.
+- **(reflex)** Place small result pieces only over a window or screenshot at its lower-right edge, never over its first rows.
+- **(reflex)** When the brief asks for 3D, use a product render as the picture, let the page's single effect sit behind it as the transparent ground, and keep it as the beat rather than a second focal visual.
+- **(reflex)** List rooms with a 4:3 whole-room photograph, name, facts, price from with season, and a Book this room action, never as plan cards with checks or badges.
+- **(guidance)** When the FAQ is not the primary page, pair it with another layout that opens the page.
+- **(reflex)** Position text within an effect's calm region by setting calmX and calmY so the effect keeps that area quiet.
+- **(reflex)** A footer-visit address must place the street and district on two lines, or the district alone when no street is given.
+- **(floor)** Do not place any UI fragment over an object, add a second effect beside it, or leave an effect strip empty behind a stat or line of text; keep such cards plain.
+- **(floor)** At 768 and 820 plan each section's stacked content within its screens, writing the tablet count on the plan line when it differs.
+- **(floor)** When a section has no photograph, add one statement section of height 1 after the hero using word-highlight with 12 to 40 words from the brief, and keep every section and footer at height calc(var(--h,1) * 100svh) with --h of 1 or 2.
+- **(reflex)** Place an outlined chip button below the text half.
+- **(floor)** Do not use a map as a substitute for narrative, since some stories must not be read spatially.
+- **(reflex)** Place the page's own action word (e.g. Book, Tickets, Shop, Start free) in the navigation.
+- **(floor)** Only embed a street map for a street the brief gives, place the pin on the street line, keep routes still, and join the map credit to the footer line.
+- **(reflex)** Apply deckle edges only to plates, tickets, and stubs on print-lineage pages, using one edge per element class per page.
+- **(reflex)** At most two visual sections may precede a calm section.
+- **(floor)** Render the product with transparent surroundings and no panel or grey box.
+- **(reflex)** Keep one main action per screen and never repeat Get directions beyond the hero button and phone bar.
+- **(reflex)** Give each head at least twice the space above it as below it, unless it sits in a box under 200px tall.
+- **(reflex)** Structure the body as two columns with the left column sticky and the right column scrolling through three to six detail captures per section.
+- **(reflex)** Compose two-column heroes with the title and its line beside a large visual slot.
+- **(reflex)** Apply the dealt nav class and repeat the logo in the footer.
+- **(floor)** Prohibit marquee footers and floating blur pills.
+- **(reflex)** Give the offer and the place different compositions and never repeat a composition between neighbours.
+- **(floor)** Wrap every page in a single centred .container capped at 1440px with 64px gutters so content stays 1312px wide from 1440 up to 1920, and ensure every page renders correctly across all widths from 320 to 1920 CSS pixels without relying on desktop-only interactions.
+- **(floor)** Only use prints (halftone, engraving, dither, type) on software, tech, AI, and games pages, and always show the render on product pages.
+- **(reflex)** Make at least two bento tiles visual and one clearly the lead, varying widths, heights, and borders rather than building equal icon-above-heading tile columns or thick colored side stripes.
+- **(floor)** Start bars at zero and annotate any zoomed axis explicitly, such as by stating the starting value.
+- **(floor)** A close must contain exactly one primary button, and footer.closing must be the last section with the dealt close row and a directory row on one ground.
+- **(reflex)** Apply data-product-fill between 0.3 and 1.2 over the place's share.
+- **(reflex)** When the brief asks for 3D use a product render as the picture, let the page's single effect sit behind it as the transparent ground, and keep it as the beat rather than a second focal visual.
+- **(floor)** Use a node-and-line diagram only to show how things connect, and never to depict a screen or UI fragment.
+- **(floor)** Use spacing tokens for all gaps, allow at most three small optical nudges off the scale, and reserve asterisk separators for occasional use while relying on paragraph spacing for dividers.
+- **(reflex)** Keep the panel's bottom-right corner clear with at most one turning or looping object per group and its round pause button visible once drawn.
+- **(reflex)** Use frame-split for a stage window cut by the right and bottom edges, hide secondary pieces between 1024 and 1279px and on phones, and never share a half with both text and UI.
+- **(floor)** A close must contain exactly one primary button, and footer.closing must be the last section with the dealt close row and a directory row on one ground.
+- **(floor)** Disable scroll-snap, scroll-jacking, and smooth-scroll libraries, and keep everything except big scenes and moments within their own 1H or 2H sections.
+- **(floor)** Never render a single-bar chart for a lone value; use a stat tile instead, and treat an ungrouped row of counting marks as a layout defect.
+- **(floor)** Place each moment in a different section, and never place two moments that avoid each other.
+- **(floor)** Include exactly one real capture per stage inside a <figure> or slot; never use a slot per stage when there is one screen or zero screens, and below 60rem collapse the sticky pane into a heading stacked above its captures in normal flow.
+- **(floor)** Make the page's single split pair text-left-visual-right and top-aligned with .grid, never .grid--middle or a mirrored layout, and keep text first on mobile.
+- **(reflex)** Top-align the split-text-left grid with text on span-5 and the frame on span-6 start-7, keeping the main piece cut by the bottom and never floating with ground on all four sides.
+- **(reflex)** Show every model at one scale on one backdrop or one camera angle, with prices from and facts lines, and never mix angles or scales.
+- **(reflex)** Make image-bearing grid tracks use minmax(0, 1fr) so images scale within their blocks.
+- **(reflex)** Pricing-two buttons must sit at the same height.
+- **(floor)** Make a place hero a full-bleed top photograph with nothing overlaid and place the words below it.
+- **(reflex)** Let the page job decide anatomy and let the theme dress it rather than replace it.
+- **(floor)** Do not place any UI fragment over an object or add a second effect beside it, and leave the card plain when an effect strip holds nothing behind a stat or line of text.
+- **(floor)** Use at most one strong object, print, scene moment, or effect per page, and never place it beside a second effect or over a moving ground.
+- **(reflex)** Use at most one shadow, keep elevated surfaces no darker than their canvas, and assign surfaces to a single stack of eight z levels.
+- **(floor)** Let page height follow content rather than padding toward a target height, size every section and footer with height calc(var(--h,1) * 100svh) using --h of 1 or 2 with padding above and below, and never use min-height alone, dvh, a third screen, or a script-set height.
+- **(floor)** Keep section content height between 520 and 900px, allowing under 360px only for bands and at most twice per page.
+- **(floor)** No section may be half empty or sparse, keep nothing crossing section edges cut off staggered or peeking out, and leave no dead space beside short text.
+- **(floor)** A close section must contain exactly one primary button, with footer.closing as the last section presenting the dealt close row and a directory row on one ground.
+- **(reflex)** Fill each card with its image, name, price, and one action.
+- **(reflex)** Use full rows of equal height with the first card left-aligned and the last right-aligned across two-up, three-up, and four-up grids.
+- **(floor)** Keep every card to at most two boxes deep, mark cards that hold UI as .card--open or .panel--flush, and reserve inset panels for pictures only.
+- **(reflex)** Use rounded surfaces with 12px radius on cards and 8px radius on inputs unless the theme specifies a different radius.
+- **(reflex)** Use one 1px solid gridline in the rule color with fewer than six horizontal lines, and treat the axis line as the grid's first line rather than a heavier stroke.
+- **(reflex)** Limit full-bleed photograph bands to roughly 45% of the page area below the hero.
+- **(floor)** A place hero must be a full-bleed top photograph with nothing overlaid and words placed below it, and do not use a map as a substitute for narrative since some stories must not be read spatially.
+- **(floor)** Never leave more than 160px of empty space between the hero's lowest content and the fold or hero foot; grow the visual or head instead of filling with copy.
+- **(reflex)** Centre the hero when the type is the visual (Poster or Banner posture), and place the visual beside the text at 44c when a visual accompanies text.
+- **(reflex)** On a theme build, make the first screen a finished composition of its own.
+- **(floor)** Size the scene section to exactly one or two screens via --h equal to restH and never write page CSS or a fixed height for it.
+- **(floor)** Place text above or beside the scene panel, never over the scene, and never add a caption or chip that explains the effect.
+- **(reflex)** Apply aspect-ratio 16:9 to section photographs under 640px via a dedicated page-CSS rule and set --hm: 2 on the section.
+- **(reflex)** Space a head block from its section content 48 to 64px apart, or 40px in a tight composition.
+- **(floor)** Cap the container width between 1360 and 1520px at 1920x1080 resolution.
+- **(finish)** Prevent text blocks from shrinking below roughly 16 characters wide over four or more lines at 1440px.
+- **(reflex)** Only place a fragment in a .fit slot when its minimum width fits the slot (324px in a 2x2 card at 1024, 256px in a span-4 card).
+- **(reflex)** For a join job, place the join or first-visit action inside the hero.
+- **(reflex)** Insert hairline rules between rows of catalogue cards.
+- **(reflex)** Keep the close as close-photo while a photograph remains to show.
+- **(floor)** An attend page must end by returning to tickets, the questions, or a mailing list for the next edition.
+- **(reflex)** Keep the six fingerprint choices coherent, drawn from the same design world.
+- **(reflex)** Use tables before cards in app screens, allowing a table to run wider than any prose measure.
+- **(reflex)** Surface multiple distinct cuts of platform content (featured, latest, by category, by people) through horizontal rails or grids.
+- **(floor)** Always top-align text and its adjacent frame, and never use a four-line h2, an image that contradicts the text, a button pair where one link belongs, or a second split on the opposite side.
+- **(reflex)** Flag any element on the page that has no job, such as a repeated device, a decoration, or a box around nothing.
+- **(reflex)** Show services as a list beside one photograph of the work, never as icon cards, with prices present and no more than eight rows.
+- **(reflex)** Emit numbered markers (01/02/03) only when the content is genuinely sequential, such as a process or timeline.
+- **(floor)** Display numeric figures at graphic scale next to or beneath a real headline that reads as a complete statement together with the number.
+- **(floor)** Never default to an email field in a band.
+- **(floor)** Never emit short inert type before a heading that announces it, except figcaption, th, label, nav/tab label, byline, time, unit after figure, real filename, live status chip, or one linked announcement going somewhere real.
+- **(reflex)** Collapse the sticky diptych to a single column with static positioning below 60rem.
+- **(reflex)** Use exactly one solid accent button block placed beside or under the declaration above the fold, repeated at the page foot as the final element.
+- **(reflex)** Inspect every object at 1440, 820, and 390px on both light and dark paper before shipping.
+- **(reflex)** Choose exactly one fixed opaque nav bar variant from nav-mega, nav-cards, nav-centre, or nav-split.
+- **(reflex)** Climb the surface ladder from whitespace to hairlines to tinted wells to cards, never combining white cards on tinted pages, cards in cards, or bordered boxes inside wells, and use different rungs at different seams rather than repeating the same rung everywhere.
+- **(floor)** Place the stage number inside each section heading via <h2> or an <ol> with counter(), never as a separate label beside the heading.
+- **(floor)** When a section has no photograph, add one statement section of height 1 after the hero using word-highlight with 12 to 40 words from the brief.
+- **(floor)** Keep place pages effect-free with flat grounds, square photographs, one button style, a phone bar, list text at 16px, and no diagrams, grounds, loops, fragments, or tabs.
+- **(reflex)** When the brief asks for 3D, use a product render as the picture and let the page's single effect sit behind it as the transparent ground, keeping it as the beat rather than a second focal visual.
+- **(floor)** Set width to 100% and never 100vw to avoid horizontal overflow.
+- **(reflex)** The FAQ must merge into the section above below 495px.
+- **(floor)** Never show an object of a different kind than the product on a product page.
+- **(reflex)** Choose one rhythm from dark-band, media-band, surface-pairs, space, or brand-band, and never use a hairline rhythm.
+- **(reflex)** Prefer standard patterns like tabs, breadcrumbs, and command palettes over invented ones in app screens.
+- **(reflex)** Insert a rule between stages using the theme's rule weight, keeping the number in the heading and never on the rule itself.
+- **(finish)** Apply align-items:center to flex rows containing unequal heights.
+- **(floor)** Do not insert a divider inside the map; treat the diagram as one continuous composition.
+- **(floor)** Place all section content on a 12-column grid with 32px column gaps and 80px base column width so left edges align from nav to footer.
+- **(floor)** Place the page's single action with the orientation phrase inside the fold, never beneath the map.
+- **(reflex)** Let a section body reach ten of the twelve columns at its widest row.
+- **(floor)** Make interactive targets at least 44x44 CSS pixels with sufficient spacing.
+- **(floor)** Center head blocks only over symmetric bodies and never outnumber left-aligned head blocks, and never render a narrow auto-centred heading over full-width left-flush content.
+- **(finish)** Prevent grid or wrapping rows from leaving a single item alone on the last row beneath a fuller row.
+- **(reflex)** In a grid give items equal heights, aligned tops, and 240px-or-greater height.
+- **(reflex)** A close-up must clip the product to the frame edges without a hard cut inside the frame.
+- **(reflex)** On split layouts stack text then visual on every split, never mirror or alternate them, and never inset text into a bare column.
+- **(reflex)** Hold card lines 2px apart from 1024px via .card--row so titles and panels align across a row.
+- **(reflex)** Place pipeline-board as .at-rise.fit with --fit-max 420px, whole with 24px or more of ground under it and no fade, and name each step's real tool mark on a light tile.
+- **(floor)** A close must contain exactly one primary button; footer.closing must be the final section with the dealt close row and a directory row on one ground.
+- **(reflex)** Set data-product-place to stage, hero, tile or card and let the frame's CSS size and position the product; never lay words over it.
+- **(floor)** Render a place hero as a full-bleed top photograph with nothing overlaid and place its words below it; never substitute a map for narrative spatial stories.
+- **(floor)** Fail sections over 50% empty inside their container and warn on sections over 35% empty.
+- **(floor)** Never put a scroll moment inside a card, plan, result, or bento cell, and never let anything move on scroll except within its own [data-moment] section.
+- **(reflex)** Permit a hard-offset shadow only when the theme declares it as material.
+- **(reflex)** Give cards with panels the full row from 640 to 1023 and two-up span-4 panels from 1024 to 1279, so no span-4 panel is under 304px wide.
+- **(reflex)** Spend visual boldness in exactly one place, keep everything else quiet and disciplined, and remove decoration that does not serve the brief.
+- **(reflex)** Use the specified tile classes (ic-tile, ic-row, ic-chip, ic-stack, ic-grid--mosaic, ic-cell, ic-file, ic-file--tile, ic-point) for layout.
+- **(reflex)** For visit-oriented pages, surface today's hours and the address in the nav or hero, and add tickets or donate only when the prompt explicitly asks.
+- **(floor)** At 768 and 820px, stack the hero split as words then picture, ending on a whole element or a deliberate large-picture bleed, and never let the fold slice a custom wrapper.
+- **(reflex)** Keep the pinned diptych side fixed across consecutive diptychs while only the scrolling figures fade in on their own view timelines.
+- **(reflex)** In a comparison table, place the feature on span-4, options on span-4 starting at column 5, and additional options on span-4 starting at column 9 or span-2.
+- **(floor)** Make the hero exactly the first screen at 100svh with --h:1 and --hm:1, padded so content ends by y 836 at 1440x900, and ensure nothing of the next section shows at every width.
+- **(floor)** Keep every section and footer at height calc(var(--h,1) * 100svh) with --h of 1 or 2.
+- **(floor)** Render at most one diagram per section and at most two per page, keeping product and service pages to a single still diagram and place pages to none.
+- **(reflex)** Focal grounds must pair with one compact UI piece never a large window, screenshot, or text.
+- **(reflex)** A visit page must end with visit information and address, or a mailing list describing what is next.
+- **(floor)** Never repeat the same composition in neighbouring sections, and mirror a split at most once.
+- **(reflex)** Draw bars with a baseline at zero, a thickness of 24px or less, gaps of 2-4px, and rounding of 2px or less applied only at the data end.
+- **(reflex)** Build software tabs tours with three to six jobs shown one at a time inside a fixed-height frame that never resizes.
+- **(floor)** Do not place a product render on a place page.
+- **(floor)** Never build two sections around a single photograph.
+- **(floor)** Keep every section and footer at height calc(var(--h,1) * 100svh) with --h of 1 or 2.
+- **(reflex)** Ensure the only visible action above the fold is the first card's case-study link.
+- **(floor)** Make a place hero a full-bleed top photograph with nothing overlaid and place its words below it; never use a map as a substitute for narrative since some stories must not be read spatially.
+- **(reflex)** Full-bleed layouts must apply env safe-area-inset values for notches.
+- **(reflex)** Allow one section to stand on a contrasting ground holding the strongest view while the rest share a single flat ground, and require any special effect to occupy its own section rather than sit on a photograph.
+- **(floor)** A mailing list is one close among five and must never be the default close.
+- **(reflex)** Do not use the catalogue pattern for narrative brands or products with a hierarchy.
+- **(floor)** Do not use a scene on place, service or local-business pages; show their photographs plainly.
+- **(floor)** Place the visit section as screen two directly after the hero with data-place="visit" and id="visit".
+- **(reflex)** Use .to-edge so the wrapper reaches 72px past the bottom and growing fragments are always cut, never a few px short.
+- **(reflex)** Use four to six unwrapped one-word nav nouns with their own anchors and at most one second plain-word action.
+- **(floor)** Deal zero or one big scene from scenes matching the page kind, keep it away from the last three sections, and size its section to its restH as one or two screens.
+- **(reflex)** Open the menu as a full-screen sheet under 640 and keep the menu button at the secondary button look.
+- **(reflex)** Fill sections to 0.55 or more by merging short blocks or giving them pictures, and never centre a short block alone in an empty screen or use strip sections.
+- **(reflex)** A section whose content is factual data the prompt does not supply (e.g. a lineup or tour) must collapse to one line plus a text slot, or be left empty.
+- **(floor)** Keep the product frame's cut-out photograph at least 64px from every edge and never let it touch the edge or sit in a box.
+- **(reflex)** When the prompt gives no content for a section, build it as a clearly marked sample the user replaces, showing the shape of the real thing.
+- **(reflex)** On tablet stack the list above the open item and hide the list on phone, keeping the open item's own header as chrome.
+- **(floor)** Never use device sniffing instead of feature queries, rely on hover-only interactions, or define breakpoints in px.
+- **(floor)** Do not place any UI fragment over an object or add a second effect beside it, and leave the card plain when an effect strip holds nothing behind a stat or line of text.
+- **(reflex)** Use at most three off-scale spacing values, each an optical nudge, otherwise use the scale.
+- **(reflex)** When the brief asks for 3D, use a product render as the picture, let the page's single effect sit behind it as the transparent ground, and keep it as the beat rather than a second focal visual.
+- **(reflex)** Decide and name chrome (nav:, footer:) instead of emitting the AI nav or footer shapes by reflex.
+- **(finish)** Keep data-slot rendering at least 40px in each dimension at 1440px and run the hallmarkSlots script on pages that use slots.
+- **(reflex)** Render the nav pill on a backdrop-blur surface, treating that as the single glass licence.
+- **(reflex)** Apply soft offset shadows and tinted alternating bands to reinforce the playful register.
+- **(reflex)** Space grid items 32px across and 48 to 64px vertically, with 32 to 40px of padding inside cards or wells.
+- **(floor)** Make a place hero a full-bleed top photograph with nothing overlaid and place its words below it; never use a map as a substitute for narrative.
+- **(reflex)** Set form inputs 48 to 56px tall with one primary action on six or seven columns beside the head block.
+- **(reflex)** Choose exactly one body composition from single column, two-column asymmetric, multi-column justified with hyphenation, marginalia, three equal columns, full-bleed with margin reset, or asymmetric spans.
+- **(reflex)** Order sections by the argument the shape makes, never by a fixed hero-features-cta-footer pattern.
+- **(reflex)** Define exactly two shared page-level breakpoints in rem units, with the layout breakpoint at 60rem and the type breakpoint at 40rem, adding a third only when content itself breaks.
+- **(reflex)** Use a single gap defined by --gap-columns between blocks and never add rules or dividers between them.
+- **(reflex)** For listen-oriented pages, place the new release or current issue alongside its listen, watch, or order buttons.
+- **(reflex)** A transition's cover must be an inset panel with an even gutter on every side, keeping all content whole and never touching the section edges.
+- **(reflex)** At widths under 60rem, collapse multi-column grids to one column, remove tilts and clip effects, unstick sticky panes, and collapse hero postures to content height unless a poster stays full-bleed.
+- **(floor)** Keep every edge 24px clear or cut by 24px or more with a fade at 1440, 1280, 1024, and 768, adjusting --ax/--ay until it holds.
+- **(reflex)** Place text and UI fragments inside the effect element with the canvas behind them via an isolated element at z-index:-1.
+- **(floor)** Place a single link to the detail page inside each card and omit any global call-to-action.
+- **(reflex)** Use the project's own shell for app screens and invent a new one only when strictly necessary.
+- **(floor)** Give every peek-list row its own photograph, keep it to six rows, and never put the list on the right.
+- **(floor)** Do not place any UI fragment over an object or add a second effect beside it, and leave the card plain when an effect strip holds nothing behind a stat or line of text.
+- **(reflex)** Place each group on span-3 and every photograph on span-3 with aspect-ratio 1:1 when there are three groups, or span-6 with aspect-ratio 3:2 when there are two groups.
+- **(floor)** A close must contain exactly one primary button, and footer.closing must be the last section with the dealt close row and a directory row on one ground.
+- **(reflex)** Separate examples with hairlines and change the paper background per category.
+- **(floor)** When a section has no photograph, insert one statement section of height calc(var(--h,1) * 100svh) immediately after the hero using word-highlight with 12 to 40 words drawn from the brief, keeping --h at 1 or 2.
+- **(finish)** Do not flag extra horizontal space at 1920px width because the container and type retain their 1440px size by rule.
+- **(reflex)** A card layout must show at most twice on a page.
+- **(reflex)** Open sections with nothing when the reader already knows; otherwise open with a fact, destination, or identifier rather than a name for what comes next.
+- **(reflex)** Show exactly one hero action button returning once at the foot, and keep links inside stages.
+- **(reflex)** Do not reuse the hero-features-CTA-footer AI template or the same shape as one of the last three logged builds; read .hallmark/log.json and build differently.
+- **(reflex)** Anchor the sticky pane at the banner height value beneath a sticky navigation bar of 56 pixels.
+- **(reflex)** Fill short heroes with only the visual or the headline, never additional copy.
+- **(reflex)** Embed links inside nodes so the map itself carries interactive actions.
+- **(reflex)** Display wide product visuals rather than narrow or cropped imagery.
+- **(reflex)** At polish fix single elements and tokens in place without restructuring, and recommend a full run if the concept is wrong.
+- **(floor)** Never leave empty grid frames, stock faces for people, or icon tiles over headings.
+- **(reflex)** For a try job, present features as named moments captured from the product rather than as icon tiles.
+- **(reflex)** Match each hero posture to its height: Settled, Stage, Ledge, Corridor, Counter, and Index fill the screen under the nav; Banner is 50 to 60 percent; Poster is 92 to 100dvh.
+- **(reflex)** For a try job, place store or download buttons directly under the heading, one per platform the prompt names.
+- **(floor)** Reserve the hero for the first screen only.
+- **(reflex)** Keep 32px from the last line to the panel and set one --p-h per card group with a phone value when tiles stack into a two-screen section.
+- **(reflex)** Vary placements across a card group so a 2x2 shows at least three distinct layouts and never one card layout four times.
+- **(floor)** Express the single visible action as a typographic link inside a paragraph carrying a verb, never as a separate block button.
+- **(reflex)** Set ground by layout default (rings around a hub, none under an orbit/timeline/sync, dots for flows) and add glow when the diagram leads a section.
+- **(reflex)** Separate sections with gap and figure rather than explicit divider elements.
+- **(reflex)** Keep words outside the product frame and never place them over the product or beside it.
+- **(reflex)** Separate quotes with a centred quote-mark glyph or a short rule.
+- **(reflex)** Apply ic-wide and render wordmark-only logos with --tile to give them a wide tile.
+- **(floor)** Do not apply the letter structure to transactional commerce pages.
+- **(floor)** Place the h1 first, an optional notice line, a sub-line, at most two buttons, and the picture inside .wrap > .hero-text, with one plain claim, no caption, no second float card, and no three button styles.
+- **(floor)** Keep the proof on the same side throughout the page, allowing at most one mirror and never a zigzag.
+- **(reflex)** Moment text must sit in a .container or .wrap and end on the page's left and right edges like every other section.
+- **(reflex)** Include exactly one action under the hero statement, sized small at its foot as a typographic link or single button.
+- **(reflex)** Let layout.css take the frame's fill, border, and padding from a data-product frame so it sits on the page ground with no panel.
+- **(floor)** Ensure every visual renders fully, with no empty ground, across 1440, 1024, 768, and 390 pixel widths.
+- **(reflex)** A full-bleed band uses 120px of vertical padding.
+- **(floor)** At 390px use one column, full-width buttons, and a full-screen menu with the place action bar.
+- **(reflex)** In a split layout make the visual 440px tall or more at a 4:3 to 4:5 ratio.
+- **(reflex)** Constrain an idea that exists only in the hero to the hero; do not extend it into later sections.
+- **(reflex)** Anchor each body section with a supporting figure or chart.
+- **(reflex)** Handle long text in containers with truncate, line-clamp, or break-words so content never overflows.
+- **(reflex)** Build indexes with 6 to 20 rows and a larger lead row.
+- **(reflex)** When a listen job has no release in the prompt, lead with the act and make the close the enquiry to book them.
+- **(reflex)** Place an outlined chip button inside the hero area.
+- **(floor)** Only place a scene on software, tech, AI, developer-tool, or games pages, never on place, service, or local-business pages.
+- **(reflex)** Vary the full-size object shown per stage rather than repeating the same object type across multiple stages.
+- **(reflex)** Avoid dashboard walls of many KPIs, gauges, or confetti-style metrics; show fewer, truer figures.
+- **(reflex)** Do not use the split composition for narrative or photographic brands.
+- **(floor)** Do not place any UI fragment over an object or add a second effect beside it, and leave the card plain when an effect strip holds nothing behind a stat or line of text.
+- **(floor)** Mark exactly one main action with a filled primary button and never add slanted, gradient, ghost or shadowed buttons.
+- **(reflex)** When the brief calls for 3D, use a product render as the picture, place the page's single effect behind it as the transparent ground, and keep that effect as the beat rather than a second focal visual.
+- **(reflex)** Show the actual product or offering in the hero rather than a generic element.
+- **(reflex)** Build a bento grid of four to six tiles spanning six or twelve columns in mixed spans, place a display heading over the first row, use figures for the supporting row, and use rows for qualifiers.
+- **(reflex)** Treat deckle as an artifact edge rather than a general card border style.
+- **(floor)** Deal each product picture section's composition from bleed, pair, trio, strip, tall-small, or split, keeping neighbours distinct.
+- **(reflex)** Size the frame so the product fills its share of the frame.
+- **(reflex)** At mobile widths render the navigation as nav-split with no panel and use the close as the head row of close-word without the name.
+- **(floor)** Never put a pattern behind a window or a list.
+- **(reflex)** When re-dealing without pictures choose either the brand band on colour-band or the name set wide in the footer, never both.
+- **(floor)** Never use a split hero holding only an order form or an effect in place of the product.
+- **(reflex)** Use a consistent spacing scale for margins and gaps across components.
+- **(reflex)** At 640 to 1023px, stack split text first, take full rows for panel cards, and never leave rows half empty or scroll sideways.
+- **(reflex)** Treat the column beside a later screen as the pin when a pinned pane appears once in a full-page shot.
+- **(floor)** Show phones the still or light version of every scene, never the full scene, and never show depth or overlapping elements in light scenes.
+- **(floor)** Screenshot the built page at exactly the comp's dimensions before building any content below the fold.
+- **(reflex)** Pricing-three must show three plans side by side with the middle plan recommended.
+- **(floor)** Keep the hero headline, one sentence, and primary action visible at 1280x800 without scrolling.
+- **(reflex)** Keep navigation to one line of 56 to 80px, sized to real destinations, with one weight across states and sideways-scrolling tab rows.
+- **(floor)** Do not place objects on place pages (cafes, shops, hotels, studios) or beside the client's own photographs.
+- **(floor)** An FAQ that reaches 495px with answers open becomes its own section.
+- **(reflex)** Put the scene in a plain panel, never over a dealt effect ground, so it paints its own ground.
+- **(reflex)** On a place page allow at most two moments on a long page.
+- **(reflex)** Make a close-up shot wide enough (cover default 2, up to 2:1 wide or 1:1.25 tall) and crop evenly around the parts' center.
+- **(reflex)** Limit menu rows to 6 when they include descriptions or 8 when they do not.
+- **(floor)** Structure content as card > panel > fragment and never nest a patterned panel with a white UI card, a card inside a card for text, or glass.
+- **(reflex)** At tablet widths with a section photograph, set --h: 2, place the photograph full width above the groups and visit columns, and constrain the h2 to one line.
+- **(reflex)** Keep 24px of ground on every edge or cut by 24px or more, and 16px a side on a phone.
+- **(reflex)** Make fields 48px with 14px labels and 16px text, use 44px tap targets, and include at most six fields in one column under 640.
+- **(reflex)** Keep diagrams to at most eight spokes and twelve nodes, treating anything busier as a list.
+- **(reflex)** Without a hero visual, grow the head to --text-display across eight to twelve columns, or start the first section at 640px.
+- **(reflex)** Make rails hold five or more items with the next cut by the edge and scroll by touch and keyboard.
+- **(reflex)** Make each card image track minmax(0, 1fr) so images fill their grid cell.
+- **(reflex)** Size icons using the standard sizes 16, 20, 24, 28, 32, 36, 40, 48, and 56.
+- **(floor)** Do not use the ecosystem index pattern on single-product pages.
+- **(reflex)** Allow software and product to dock one row under the hero content at most 96px, hidden on phone unless it ends by H - 24 - bar, and never dock on service or place pages.
+- **(reflex)** Do not default to a broadsheet layout with hairline rules, zero border-radius, and dense newspaper columns unless the brief explicitly requests that direction.
+- **(reflex)** Keep pinned layouts static below 60rem and unpinned on small screens.
+- **(reflex)** Place each interactive preview immediately before its corresponding code block within every example.
+- **(reflex)** At mobile widths place each fragment 16px in from the edges with its top at --ay-sm (24px unless overridden).
+- **(reflex)** Center the content in the screen and place a real visual beside the text that occupies at least 60 percent of the screen height.
+- **(reflex)** Use two to four chapters per row in a series, each with an h2, a ~25-word grey paragraph, one link, a 16:7 hero frame, and four feature names.
+- **(reflex)** Use overflow-x clip to keep sticky and fixed positioning working where hidden breaks them, and keep overflow visible on sections with deliberate overflow.
+- **(reflex)** Insert hairline rules between figure blocks and apply tabular numerals throughout.
+- **(reflex)** Ensure no ground changes a section's height, fade soft grounds over 120px, and keep hard grounds' colour across the whole box.
+- **(reflex)** Keep section content around 560px at 1440px width and never let a 4:3 span-6 photograph extend past 828px beyond the section-height boundary.
+- **(floor)** For app screens, skip all marketing rules: no shape, no hero, no fold, no screen word budget, no section rhythm, no stand-in photographs, and no reveal on load.
+- **(reflex)** Organise page content as a single large spatial diagram (flowchart, floor plan, network graph, or system map) rather than linear prose.
+- **(floor)** Make a place hero a full-bleed top photograph with nothing overlaid and words placed below it, and never substitute a map for narrative since some stories must not be read spatially.
+- **(reflex)** Build horizontal rails with grid auto-flow column, scroll-snap mandatory, inline gutters, and focus-visible outlines.
+- **(floor)** A close must contain exactly one primary button, and footer.closing must be the last section containing the close row and a directory row on one ground.
+- **(reflex)** For a buy job, surface the product with its price and options as the hero or an Offer, and place the buy action after the sections that earn it or in a sticky bar.
+- **(reflex)** Let the chosen shape determine how each deck card is rendered instead of applying a fixed layout, and render feature-card inset panels as still pictures with an 8px margin and a corner radius of card-radius minus margin, allowing at most two short pointer demos per row.
+- **(floor)** Use one y-axis per chart and never dual axes; split two differently-unit series into small multiples.
+- **(reflex)** Show the call-to-action button in the sticky pane only after the section's last capture is reached, keeping it present even when scripting is disabled.
+- **(reflex)** Pad filled or side-bordered boxes so text stays beyond max(8px,0.5em) from sides and max(4px,0.3em) from top and bottom, and keep running text 16px from a phone edge.
+- **(finish)** Permit a filled primary button paired with an outlined or text action that navigates elsewhere, and permit a sample of the built product placed in a slot.
+- **(finish)** Reserve min-height:1lh for helper-text slots.
+- **(floor)** A deal keeping fewer than five cards is a landing strip, not a landing page; re-add cards or switch shape.
+- **(floor)** Give each section's outer element the background and block padding while its inner .container sets only padding-inline, never a padding shorthand that zeroes rhythm.
+- **(reflex)** When the prompt omits them, slot the two practical facts a visitor needs to act, such as hours and address.
+- **(floor)** Give every body visual mass: a 360px-tall-or-greater visual, three-to-four across items, three-plus-row list or table, working control, or a statement at section size or larger.
+- **(reflex)** On custom theme runs evaluate whether the screen matches what a model would produce for the prompt rather than checking centering, beside-the-text, or 60 percent rules.
+- **(reflex)** Vary the nav style against the logo and reserve three-part bars for four or more real destinations.
+- **(reflex)** Vary comps on composition only while holding the design system fixed.
+- **(floor)** A close must not place a ground behind its main button.
+- **(reflex)** Build tables with sentence-case unwrapped heads, horizontal rules only and full width, restacking or pinning key columns on mobile.
+- **(reflex)** Make the hero action a single button sized at 44b.
+- **(reflex)** Design a complete, client-specific page that a design lead would bring to a client who rejected every template, rather than a generic good page.
+- **(reflex)** Place a verb-bearing typographic link beneath the attribution instead of a heavy button.
+- **(reflex)** Permit a centred hero layout in this genre.
+- **(floor)** Place a hero-sized heading naming the index with a single supporting line at the top of the page so the index begins on the first screen.
+- **(finish)** Permit soft drop shadows with offset and hover lifts on cards.
+- **(reflex)** Make the heading occupy half the screen width and place a capture or supplied quote in the other half.
+- **(reflex)** Separate sections using 120px, 144px, or 176px gaps, mixed rather than uniform.
+- **(reflex)** Build the body as a responsive grid of project cards sized uniformly or with only slight size variation.
+- **(reflex)** Use three to six distinct compositions and never repeat the same composition in adjacent sections.
+- **(reflex)** Separate rails with a hairline or a change of paper rather than a label band.
+- **(reflex)** Use close-photo with an unused 1:1 photograph and no words on it.
+- **(floor)** Never stamp decorative status dots or sticker-style pills on every element.
+- **(reflex)** Keep one height per card row and per tile kind across the whole page and place sections at H or 2H.
+- **(reflex)** Choose one divider language for the page and vary its weight and placement by seam, never applying the same rule at the same gap across every seam.
+- **(floor)** Reserve space for images, navigation, and counters to keep cumulative layout shift under 0.1.
+- **(floor)** Build a 12-column grid with 24px gaps (12px below 640px), keep every block aligned to wrap lines or grid columns with no sideways scroll or one-sided bleed, and fill wide canvases with larger visuals, wider body text, section-sized heads, and large statements instead of more words or smaller gaps.
+- **(floor)** Use one .wrap for the header, every section, and the footer at width min(100% - 2 * var(--gut), 1280px) with consistent column lines across all widths, and use a single column gap across all body rows.
+- **(floor)** With viewport-fit cover, fold safe area into the gutter token using max with env safe-area-inset values, size heroes with dvh or svh (never vh), and keep every section and footer at height calc(var(--h,1) * 100svh) with --h of 1 or 2.
+- **(floor)** Keep each section to one or two screens tall at 1440x900, place the hero alone on the first screen, prevent a second section heading from peeking in, allow only a live photo-chapters section to span three or four screens, swap split sides at most once per page, and vary the column ratio between splits.
+- **(reflex)** The first screen must state what is sold, who it is for or where it applies, and include one hard fact, with the hero filling the screen alone at every width and its main button inside it, kept above the fold as a single statement or visual that fills the viewport.
+- **(floor)** Let the product or hero object lead the hero and at most two more sections while another visual kind carries the rest of the page, render place heroes as full-bleed top photographs with nothing overlaid and words below, and centre hero content for its posture measured on painted space.
+- **(floor)** Follow dense sections with quiet ones and end the page on a real close, keep calm sections after at most two visual ones on software, product, and service pages, and separate sections only with full-width ground changes or space, never rules, shadows, inner hairlines, or inset coloured boxes.
+- **(floor)** Do not place any UI fragment over an object or add a second effect beside it, leave the card plain when an effect strip holds nothing behind a stat or line of text, and do not place a hairline border beneath a wide soft shadow defined as 24px or more of blur after a negative spread.
+- **(reflex)** Do not default to identical rounded cards sharing one border-radius, a uniform soft grey shadow, and gradient washes as decoration unless the brief explicitly requests that direction.
+- **(floor)** Place halftone dot fields only on plate fills and section bands, never under or overlapping type, and mark every frame holding a visual or UI with .frame or [data-visual] so it never counts as a band.
+- **(reflex)** Build 2x2 feature cards two boxes deep with .card--open on light pages or .panel--flush on dark pages, keep panels at the recipe height, and build a visible system using a few widely spaced type sizes, one spacing rhythm, aligned edges, and one strong element per screen, removing anything not doing a job.
+- **(floor)** Place fragments via .stage with the appropriate placement class, keep windows and dialogs out of .at-center and never let a fragment run past .wrap, never place a big fragment dead centre with even ground all round, and never place a dialog alone on a ground.
+- **(reflex)** Place diff-review as .at-corner.fit or .at-rise.fit with --fit-max 480px, cut by the bottom with .stage--fade-b, never by the right edge, and keep 24px or more past the edge.
+- **(reflex)** Order the comp prompt as first-viewport layout, idea, ground and accent colour words, display class, macrostructure, then a negative clause describing the category default.
+- **(reflex)** At full depth on an app screen, recompute each screen inside its existing shell while keeping routes, destinations, and component logic, keep filters, tabs, and pagination in the URL for app screens, and position any filter row or disclosure above the list instead of using a sidebar by default.
+- **(reflex)** On phones enlarge body-adjacent UI and keep body text at a 16px minimum, collapse sidebars into menus below 60rem, and use container queries for layout-dependent widgets.
+- **(reflex)** A close-type button must be 88px tall at 1440px and 48px tall at 390px, each comparison row must be 48px tall and closed by a 1px rule, and the middle plan must be .is-featured and carry a Most popular .badge.
+- **(reflex)** Place one outlined Buy-the-family action in the fold and repeat it at the foot, vary body rows by weight rather than side giving the lead row the larger share of the proof and splitting the rest evenly, and assign ic-wide, ic-land, or ic-tall shape classes based on cropped aspect ratios and size landscape and portrait marks per their dimensions.
+- **(reflex)** Deal the place from bleed, trio, strip, pair, wall, or story, use chrome that fits the register — a floating pill on a blur backdrop, an edge-aligned bar, a command palette, or a statement footer — and avoid dense link furniture.
+- **(floor)** On offer sections show the photo or screen, options, price, action, and one delivery or terms line, compose the product itself from a spec of its parts with product-render instead of using hero-product without the product's picture, and put the visit panel on --g-alt and never let a ground box wider than the section form a band.
+- **(reflex)** Ship no more than five empty data-slots per page and no four or more in one row, fill the set with type or hold a library photo or product, use 12 to 20 photographs at 2 to 3 per screen and at most 6 screens on a full place page, and treat a game page of five or six blocks as a full page.
+- **(floor)** Treat a textured or motion ground as the page's single effect and deal no other effect afterward; reserve big scenes, shader effects, loops, counts, CSS grounds, dark pages, and dark heroes for tech pages only.
+- **(floor)** Use only one scroll-choreography pattern per page and rely on sticky scroll synchronization as the only motion, omitting fade reveals.
+- **(floor)** Limit scrub-linked effects to a single display element per page and never apply them to the hero h1.
+- **(floor)** A feature card that leads somewhere must lift 2px and zoom its picture 1.03 on hover.
+- **(reflex)** Trigger a single horizontal reveal sweep on the first claim below the fold and leave all remaining content static.
+- **(floor)** Allow at most one object per card group to turn by itself, at most two objects in view, and never over a moving ground.
+- **(floor)** Reveal nothing and scrub nothing by scroll, never move a card, panel, or feature card on scroll, and never use spatial reveal motion for photographs.
+- **(reflex)** Move the tab indicator by transform only, never width, and animate height changes via grid-template-rows.
+- **(floor)** Pricing cards must not change height when the billing switch toggles.
+- **(floor)** Carry exactly one loop per card group, split, wide frame, or bento (wide card loops, small cards still), place at most one self-moving element per 900px window or one loop per panel, cycle card loops in 2.5-4s, loop only the open item via data-ui-loop with the list still and nothing scrolling inside the window, pause and expose resume() for anything moving beyond 5 seconds, restart pulse on pointer enter or keyboard focus, hold effects at rest with ambient cycles of 4s or longer, disable pointer play on touch, and honor prefers-reduced-motion by providing a reduced variant, disabling, or minimizing non-essential animations and always showing a poster and still fallback.
+- **(floor)** Never reveal cards, rows, tiles, or sections by fade, rise, stagger, mask wipe, or parallax as the page scrolls, never fade in every section, never use scroll-jacking, and disable reveal animations on catalogue pages and the ecosystem index.
+- **(floor)** Treat a ground with grain, dither, texture, or motion as the page's single effect and deal another effect without them afterward; on the single still diagram of a product or service page, set ground none and motion pulse none.
+- **(floor)** Every page includes exactly one hero entrance that fires once on load via data-enter, plus one dealt moment per section (two on long pages), with the hero entering exactly once and never emitting a second or longer-than-1.1s entrance, entry animation, dissolve, or resting movement.
+- **(floor)** Animate transitions that answer a user action and reveal what changed, instead of generic fade-and-slide-up entrances or per-card hover effects, and ensure every change shows state, steps, or real data rather than blinking, twinking, glittering, flickering, cycling hue, or scrambling text.
+- **(floor)** Allow at most one horizontal reveal on the first stage when the theme permits it, or a single scroll-choreography pinned pattern, but never both on the same page, and use at most one scroll-choreography pattern family per page.
+- **(floor)** Treat a ground with grain, dither, texture, or motion as the page's single effect and deal another effect without them afterward; on the single still diagram of a product or service page, set ground none and motion pulse none.
+- **(reflex)** Add a solid 32px pause disc beside the card title at the right of the text column, keeping 44px clear, or 12px from the bottom-right corner outside a card.
+- **(floor)** Never move text at a speed different from the page; there is no parallax on text.
+- **(floor)** Give the hero a single entrance lasting 0.4-0.8s from an already-visible default state, and never combine fade, sweep, and scale or use bounce, starfields, parallax, or auto-carousels.
+- **(reflex)** Fade the backdrop and scale the panel from 0.96 to 1 over the long duration on open, closing at about 65% on the ease-in.
+- **(floor)** Scroll moments must be scrubbed to the scrollbar within their own one- or two-screen section and show a finished state at the top and bottom.
+- **(floor)** No hover may resize or push a neighbour, and no hover may exceed its token duration.
+- **(reflex)** A dealt moment may pin its section with position:sticky only inside its own data-moment box.
+- **(floor)** Animate only transform, scale, opacity, and a few named cheap properties within declared moments; never animate height, max-height, padding, margin, or layout.
+- **(floor)** When an object sits in a panel, keep the ground still by setting speed and grainMotion to zero.
+- **(reflex)** Lift a linkable card 2px on hover with a soft shadow shown only on hover, and add .m-nolift to cards without links.
+- **(floor)** Give each page at most one big scene and never place a shader ground or WebGL part beside it.
+- **(reflex)** Use the deal commands to choose heroes, palettes, pairings, and moments from history, taking the first printed result unless it clashes with the client's logo or photographs, and never use violet.
+- **(reflex)** On a custom run, judge the page as a design and never against layout.md.
+- **(reflex)** Build one prompt in one theme twice to produce two distinct pages and never let two prompts converge on the same combination.
+- **(guidance)** Do not apply the component playground pattern to marketing pages.
 - **(reflex)** When the prompt names one element, is short, targets one file, or says 'just the X', treat it as component scope.
 - **(reflex)** When a request is ambiguous like 'a pricing section', ask once whether it is one card or the whole page, defaulting to one card.
-- **(reflex)** Build one prompt in one theme twice to produce two distinct pages and never let two prompts converge on the same combination.
-- **(reflex)** Build six to nine sections including hero and footer with at most 450 visible words and give each section a composition with mass.
-- **(reflex)** Use one primary button style, one container width, one column gap below the hero, one radius per nesting level and never more centred heading groups than left-aligned ones.
-- **(reflex)** Limit pictures below the hero to at most a third of the page and never place two photograph-led sections in a row.
-- **(reflex)** Emit the component in the project's convention plus an eight-state preview rendering every state stacked and labelled.
-- **(reflex)** Force each state in the preview with a helper class the component's CSS targets beside the real pseudo-class.
-- **(reflex)** Treat dashboards, admins, settings pages, and tools as app-screen scope when the prompt or sign-in indicates them.
-- **(reflex)** Sweep app screens with sloplint scope app, which skips the listed page-only gates and reads control heights on the app range.
-- **(reflex)** Use the project's own shell for app screens; invent a new one only when necessary.
-- **(reflex)** Add a sidebar only when there are more than about seven destinations, and collapse it to a menu under 60rem.
-- **(reflex)** Prefer standard patterns like tabs, breadcrumbs, and command palettes over invented ones in app screens.
-- **(reflex)** Use a modal only as the last answer, after inline editing and disclosure have been considered.
-- **(reflex)** Make controls 32 to 40px with a 44px hit target in app screens.
-- **(reflex)** Use tables before cards in app screens, allowing a table to run wider than any prose measure.
-- **(reflex)** Keep filters, tabs, and pagination in the URL for app screens.
-- **(reflex)** Deliver the product's signature object, such as the ledger, timeline, or queue, rather than a greeting above stat cards.
 - **(reflex)** Print structural findings with file:line and a one-line fix each without rebuilding them during a polish.
-- **(reflex)** Select faces by their shape and colour on the page, not by their name, reputation, or subject association.
-- **(reflex)** Keep running prose max-width between 45 and 75ch, never render lines of about 88 characters or more over three lines, and cap lede/caption widths at 28ch for two-sentence-or-fewer copy.
-- **(reflex)** Do not build three equal columns of icon-above-heading tiles, an icon in a rounded tile above a heading, or a thick coloured side stripe on a card; vary widths, heights, and borders.
-- **(reflex)** Do not build a hero 92dvh or taller with no stamped hero: posture, or put title, lede, action, and mark all on one centred axis.
-- **(reflex)** Do not reuse the hero-features-CTA-footer AI template or the same shape as one of the last three logged builds; read .hallmark/log.json and build differently.
-- **(reflex)** Do not separate every section with the same gap; vary the surface ladder between sections.
-- **(reflex)** Use at most three off-scale spacing values, each an optical nudge, otherwise use the scale.
-- **(reflex)** Centre hero content for its posture, measured on painted space, following the layout.md section 6 rules.
-- **(reflex)** At 1440x900 the next section must start between y760 and y900, the hero visual centre must sit within 60px of the text block, and it must not stand more than 120px from or pin to the viewport edge.
-- **(reflex)** Use at least 120px between sections at 1440 (64px where the paper changes) and vary the gaps.
-- **(reflex)** Give each head at least twice the space above it as below it, unless it sits in a box under 200px tall.
-- **(reflex)** Pad filled or side-bordered boxes so text stays beyond max(8px,0.5em) from sides and max(4px,0.3em) from top and bottom, and keep running text 16px from a phone edge.
-- **(reflex)** Below the hero, widen body spans to ten columns, add a visual, set a statement, or merge sections instead of leaving thin or massless bands.
-- **(reflex)** Render median h2s below the hero at --text-section and item titles at --text-title.
-- **(reflex)** Never leave more than 160px of empty space between the hero's lowest content and the fold or hero foot; grow the visual or head instead of filling with copy.
-- **(reflex)** Do not close with an email sign-up unless the page job is native to a mailing list or the stamp names a job; end on the action the job takes.
-- **(reflex)** Decide and name chrome (nav:, footer:) instead of emitting the AI nav or footer shapes by reflex.
-- **(reflex)** Do not ship more than five empty data-slots on one page or four or more in one row; set the set in type or hold a library photo or product.
-- **(reflex)** Shorten footer links, tabs, and breadcrumbs, allowing at most two lines only when the phrase cannot be shortened.
-- **(reflex)** Build heroes around at most two centred elements with one breaking alignment, preferring margin-aligned, right-flush, or numeral-anchored layouts.
-- **(reflex)** Give stamped-position heroes full screen height and unstamped heroes less than 92dvh.
-- **(reflex)** Ensure the page shape differs from the last three logged builds by comparing the fingerprint field against the six structural axes.
-- **(reflex)** Climb different surface-ladder rungs at different seams rather than repeating the same rung everywhere.
-- **(reflex)** Confirm hero content fits the 1280x800 fold, occupies one screen at 1440x900 with content centred and visual beside text, and still fits at 1920x1080.
-- **(reflex)** Fill short heroes with only the visual or the headline, never additional copy.
-- **(reflex)** Limit landing pages to about 80 words per 900px window with the hero reduced to a headline, one sentence, and its actions.
-- **(reflex)** Set wireframe frames in type and reserve slots holding library photographs or built products.
-- **(reflex)** Fill wide canvases with larger visuals, wider body text, section-sized heads, and large statements rather than more words or smaller gaps.
-- **(reflex)** Verify the action location, category sections, and uniqueness of the section sequence against anatomy.md.
-- **(reflex)** Centre the hero when the type is the visual (Poster or Banner posture), and place the visual beside the text at 44c when a visual accompanies text.
-- **(reflex)** Render the nav pill on a backdrop-blur surface, treating that as the single glass licence.
-- **(reflex)** Permit a centred hero layout in this genre.
-- **(reflex)** Style pill controls with an accent fill.
-- **(reflex)** Elevate cards by lightness steps using --color-paper-2 and -3 instead of hairlines.
-- **(reflex)** Use chrome that fits the register: a floating pill on a blur backdrop, an edge-aligned bar, a command palette, or a statement footer, and avoid dense link furniture.
-- **(reflex)** Use asymmetric layouts with hairline dividers instead of card borders.
-- **(reflex)** Use asymmetric column ratios such as 2:5 or 3:7.
-- **(reflex)** Allow a single mark band positioned behind the x-height.
-- **(reflex)** Prohibit marquee footers and floating blur pills.
-- **(reflex)** Compose two-column heroes with the title and its line beside a large visual slot.
-- **(reflex)** Display wide product visuals rather than narrow or cropped imagery.
-- **(reflex)** Use thin visible borders instead of hairlines.
-- **(reflex)** Render pill controls as filled and outlined variants with an ink-filled primary beside an outlined secondary.
-- **(reflex)** Apply a very subtle border and an 8px corner radius to refined surfaces.
-- **(reflex)** Keep motion minimal and treats the page as a composed layout rather than an animated reveal.
-- **(reflex)** Use dense balanced bars, floating pills, mega-menus, visible search pills, or vast space between wordmark and one action, and avoid broadsheet furniture and marquee footers.
-- **(reflex)** Use rounded surfaces with 12px radius on cards and 8px radius on inputs unless the theme specifies a different radius.
-- **(reflex)** Apply soft offset shadows and tinted alternating bands to reinforce the playful register.
-- **(reflex)** Permit a hard-offset shadow only when the theme declares it as material.
-- **(reflex)** Make the hero photograph the largest element on the first screen, either full-bleed behind the headline or beside it at 60 to 75 percent of screen height.
-- **(reflex)** Never place more than four slots in a row, and never build frames for subjects the page has no pictures of; set those in type.
-- **(reflex)** Make photographs span six of twelve columns and stand at least 440px tall, or run full-bleed; treat thumbnails as clip art.
-- **(reflex)** Crop each photograph tightly to one subject with its weight leaning toward the text, and vary ratio and size across the page.
-- **(reflex)** Limit photographs to at most a third of the page below the hero, up to 45 percent on photographic shapes, and never place two photograph-led sections in a row.
-- **(reflex)** Hover state must communicate through exactly one visual signal such as a colour step, a 1px lift, or a border step.
-- **(reflex)** Active state must show a 1px drop or one colour step darker during press.
-- **(reflex)** Loading state must show inline progress while keeping the label readable and the control width unchanged.
-- **(reflex)** Input height must match the adjacent button height, between 44 and 52px on marketing pages, with vertical padding computed as (height - line-height) / 2.
-- **(reflex)** Reserve about 24px in the right-edge slot for clear buttons, error glyphs, or spinners so content never reflows when one appears.
-- **(reflex)** Labels sit 4 to 8px above fields, helpers sit about 4px below at label size with min-height 1lh, and errors replace helpers in that line without adding a second.
-- **(reflex)** Textareas must allow vertical resize with min-height 6rem.
-- **(reflex)** Comboboxes must position the listbox below without pushing content, mirror aria-expanded, cycle with arrows, select with Enter, and close with Escape.
-- **(reflex)** Custom-positioned modals must use position fixed, inset 0, margin auto, height fit-content, and max-height min(80dvh, 40rem) to prevent corner snapping.
-- **(reflex)** Popovers and menus must use the Popover API for light-dismiss, stacking, and Escape, with CSS anchor positioning or fixed positioning plus getBoundingClientRect, flipping near viewport edges, and never inside overflow hidden ancestors.
-- **(reflex)** Use skeletons where content shape is known, and spinners only inside buttons replacing the label.
-- **(reflex)** A full-bleed band may change background but must keep the .container for width.
-- **(reflex)** Space a head and its lead line 16 to 24px apart.
-- **(reflex)** Space a head block from its section content 48 to 64px apart, or 40px in a tight composition.
-- **(reflex)** Space grid items 32px across and 48 to 64px vertically, with 32 to 40px of padding inside cards or wells.
-- **(reflex)** Separate sections using 120px, 144px, or 176px gaps, mixed rather than uniform.
-- **(reflex)** A full-bleed band uses 120px of vertical padding.
-- **(reflex)** Earn space through visual mass such as larger heads or bigger visuals rather than shrinking gaps on empty pages.
-- **(reflex)** Build pages with six to nine sections including hero and footer, or five on a thin prompt, never fewer.
-- **(reflex)** Let page height follow content, typically 5,000 to 8,000px with media, never padding toward a target height.
-- **(reflex)** Keep section heads to six words or fewer at --text-section and at most one lead line beneath.
-- **(reflex)** Place head blocks on columns 1 to 6 or 1 to 7, or split head and lead across aligned baselines.
-- **(reflex)** Center head blocks only over symmetric bodies and never outnumber left-aligned head blocks.
-- **(reflex)** Let a section body reach ten of the twelve columns at its widest row.
-- **(reflex)** In a split layout centre text and visual within 60px and leave no column more than a fifth of the row empty.
-- **(reflex)** Keep section content height between 520 and 900px, allowing under 360px only for bands and at most twice per page.
-- **(reflex)** Use three to six distinct compositions and never repeat the same composition in adjacent sections.
-- **(reflex)** In a split layout make the visual 440px tall or more at a 4:3 to 4:5 ratio.
-- **(reflex)** Swap split sides at most once per page and vary the column ratio between splits.
-- **(reflex)** In a showcase place one full-width visual at 16:9 to 21:9 and at most two smaller visuals beneath it.
-- **(reflex)** Build a bento with four to six tiles spanning six or twelve columns in mixed spans.
-- **(reflex)** Make at least two bento tiles visual and one clearly the lead.
-- **(reflex)** In a grid give items equal heights, aligned tops, and 240px-or-greater height.
-- **(reflex)** Build tables with four or five rows of 56 to 72px and tabular numerals.
-- **(reflex)** Fill eight to ten columns with a single statement spanning two or three lines from section to display size.
-- **(reflex)** Make bands edge-to-edge with the container inside holding the page's functional content.
-- **(reflex)** Set form inputs 48 to 56px tall with one primary action on six or seven columns beside the head block.
-- **(reflex)** Make rails hold five or more items with the next cut by the edge and scroll by touch and keyboard.
-- **(reflex)** Keep pinned layouts static below 60rem and unpins them on small screens.
-- **(reflex)** Build indexes with 6 to 20 rows and a larger lead row.
-- **(reflex)** On offer sections show the photo or screen, options, price, action, and one delivery or terms line.
-- **(reflex)** On small screens stack every composition in reading order and preserve visual aspect ratios while dropping minimum heights.
-- **(reflex)** Match each hero posture to its height: Settled, Stage, Ledge, Corridor, Counter, and Index fill the screen under the nav; Banner is 50 to 60 percent; Poster is 92 to 100dvh.
-- **(reflex)** Centre hero content with 1.0 to 1.5 times more space below than above and sit the lowest content within 160px of the fold.
-- **(reflex)** Make hero visuals six or seven columns wide and 60 percent of the screen tall, or portrait objects 75 percent tall on four or five columns.
-- **(reflex)** Use two-track hero grids with 48 to 120px gaps and leave an empty column between spans on the twelve-column grid.
-- **(reflex)** Without a hero visual grow the head to --text-display across eight to twelve columns or start the first section by 640px.
-- **(reflex)** Keep hero text to seven words or fewer in the head, one lead sentence, and one or two actions.
-- **(reflex)** Let the page job decide anatomy and let the theme dress it rather than replace it.
-- **(reflex)** Order sections by the argument the shape makes, never by a fixed hero-features-cta-footer pattern.
-- **(reflex)** Add steps only for genuine visitor processes and figures only for numbers the prompt states outright.
-- **(reflex)** Follow dense sections with quiet ones and end the page on a real close.
-- **(reflex)** Close the page with the visitor's job, not a generic form.
-- **(reflex)** Make footers 200 to 400px with wordmark or closing line, real links, and a legal line.
-- **(reflex)** Keep the nav one line between 56 and 80px tall sized to real destinations.
-- **(reflex)** Vary nav style against the log and reserve three-part bars for four or more real destinations.
-- **(reflex)** Build the bento body as an asymmetric grid of six to nine blocks using mixed spans such as 1×1, 2×1, 1×2, and 2×2.
-- **(reflex)** Make image-bearing grid tracks use minmax(0, 1fr) so images scale within their blocks.
-- **(reflex)** Use a single gap defined by --gap-columns between blocks and never add rules or dividers between them.
-- **(reflex)** Place an outlined chip button inside the hero area.
-- **(reflex)** Inside tiles, use a typographic link that carries a verb instead of a full button.
-- **(reflex)** Do not use a bento grid when the page has a single hero idea, since it spreads attention.
-- **(reflex)** Place a display heading over the first row of the grid.
-- **(reflex)** Write long-document pages as continuous prose that reads like a memo, letter, or journal entry, avoiding marketing structure.
-- **(reflex)** Emerge section headings from the paragraph flow as short bold phrases inline with the body rather than as standalone block headings.
-- **(reflex)** Keep the body to a single column with line-height of at least 1.65 and a measure of 60 to 65 characters.
-- **(reflex)** Use negative space as the only divider between sections, allowing at most one centered ornament for emphasis.
-- **(reflex)** Size inline images to the body measure and never render them full-bleed.
-- **(reflex)** Keep the hero above the fold as a single statement or visual that fills the viewport.
-- **(reflex)** Set the hero heading to clamp(4rem, 10vw, 9rem) and hug the container edges.
-- **(reflex)** Place a list of work or a single content block below the fold instead of continuing the hero.
-- **(reflex)** Insert a thick rule or a hard change of paper between the hero and the below-fold section.
-- **(reflex)** Include exactly one action under the hero statement, sized small at its foot as a typographic link or single button.
-- **(reflex)** Anchor each body section with a supporting figure or chart.
-- **(reflex)** Insert hairline rules between figure blocks and apply tabular numerals throughout.
-- **(reflex)** Place an outlined button chip beneath the qualifier whose label begins with a verb.
-- **(reflex)** Use figures for the supporting row and rows for the qualifiers when composing the layout.
-- **(reflex)** Keep the section heading plain and functional at section size so the captures carry the content.
-- **(reflex)** Render each capture as a figure element containing a figcaption that states one fact plus one inline annotation.
-- **(reflex)** Separate sections by gap and figure rather than adding explicit divider elements.
-- **(reflex)** Make the hero action a single button sized at 44b.
-- **(reflex)** When the theme supports sticky elements, pin a bottom bar with the hero action at --z-sticky after the third capture.
-- **(reflex)** Show the real product capture unframed inside a figure.
-- **(reflex)** Keep each answer to one or two short paragraphs placed directly under its question.
-- **(reflex)** Include exactly one outlined call-to-action button at the foot of the FAQ.
-- **(reflex)** Separate FAQ pairs with either a hairline divider or a change of background with no rule.
-- **(reflex)** Use at most one diagram per long answer and keep images sparse.
-- **(reflex)** When the FAQ is the primary page, open with a hero that asks the first question.
-- **(reflex)** Set manifesto headings as uppercase display type, tilted between -2deg and -4deg or left straight, using exactly one weight and one colour throughout.
-- **(reflex)** Use a line-height of 1.0 or greater on manifesto headings whenever the text wraps.
-- **(reflex)** When a theme's signature is an accented word, place it exactly once in the hero and record that placement as the single 38iii waiver.
-- **(reflex)** Use exactly one solid button block in the accent colour, positioned beside or under the declaration above the fold and repeated at the page foot as the final element.
-- **(reflex)** Trigger a single horizontal reveal sweep on the first claim below the fold and leave all remaining content static.
-- **(reflex)** Limit the manifesto's call to action to one action: showing up, signing, or joining.
-- **(reflex)** Place the headline and its single sentence on a plate at the image base and put captions near a corner in body type.
-- **(reflex)** Limit full-bleed photograph bands to roughly 45% of the page area below the hero.
-- **(reflex)** Use the image edge as the section divider instead of explicit rules or lines.
-- **(reflex)** Place exactly one typographic verb-led link on the plate under the sentence as the visible action.
-- **(reflex)** Apply the italic display type setting to the entire hero quote rather than to a single word.
-- **(reflex)** Render the attribution below the quote in the body face on a single quiet line.
-- **(reflex)** Separate quotes with a centred quote-mark glyph or a short rule.
-- **(reflex)** Place a verb-bearing typographic link beneath the attribution instead of a heavy button.
-- **(reflex)** Include only a real photograph of the quoted person or the company mark beside the attribution, or omit the image entirely.
-- **(reflex)** Omit reveal motion in the fold; stagger below-the-fold content only.
-- **(reflex)** Present additional supplied quotes as rows beneath the hero statement.
-- **(reflex)** Use a large serif display phrase as the standalone heading.
-- **(reflex)** Treat a number typed beside or above the heading as an eyebrow rather than an ordinal counter.
-- **(reflex)** Lay out body content with asymmetric spans: a narrow marginalia column beside a wide content column.
-- **(reflex)** Render catalogue items as a uniform grid of same-sized cards containing 3 to 5 per row.
-- **(reflex)** Insert hairline rules between rows of catalogue cards.
-- **(reflex)** Fill each card with its image, name, price, and one action.
-- **(reflex)** Do not use the catalogue pattern for narrative brands or products with a hierarchy.
-- **(reflex)** Render the letter's salutation as display italic at 1.5 to 2 times body size as a single unified style.
-- **(reflex)** Set letter body prose to a single column with a 50ch measure.
-- **(reflex)** Use paragraph spacing alone for dividers and reserve asterisk separators for occasional use only.
-- **(reflex)** Carry the sign-off link at the letter's foot with an explicit verb such as Join the list.
-- **(reflex)** Present the body as a vertical list of categorized links rather than a sidebar.
-- **(reflex)** Position any filter row or disclosure above the list instead of using a sidebar by default.
-- **(reflex)** Treat the links themselves as the buttons and avoid separate button elements.
-- **(reflex)** Render list rows at full width.
-- **(reflex)** Vary the full-size object shown per stage rather than repeating the same object type across multiple stages.
-- **(reflex)** Use a product capture at least 360px tall per stage when the user provided screens, otherwise use a figure or rows from the prompt.
-- **(reflex)** Insert a rule between stages using the theme's rule weight, keeping the number in the heading and never on the rule itself.
-- **(reflex)** Show exactly one hero action button returning once at the foot, and keep links inside stages.
-- **(reflex)** Allow at most one horizontal reveal on the first stage when the theme permits it, or use a single scroll-choreography pinned pattern, but never both on the same page.
-- **(reflex)** Write stage headings as numbered, declarative, process-language lines with one stage per line.
-- **(reflex)** Make the heading occupy half the screen width and place a capture or supplied quote in the other half.
-- **(reflex)** Vary body rows by weight rather than side, giving the lead row the larger share of the proof and splitting the rest evenly.
-- **(reflex)** Use a single column gap across all body rows.
-- **(reflex)** Place an outlined chip button below the text half.
-- **(reflex)** Keep every image on the proof side, using a real capture or a product built in a slot.
-- **(reflex)** Do not use the split composition for narrative or photographic brands.
-- **(reflex)** Implement a sticky left pane that holds the section heading while a scroll-synced right pane cycles through related captures.
-- **(reflex)** Structure the body as two columns with the left column sticky and the right column scrolling through three to six detail captures per section.
-- **(reflex)** Anchor the sticky pane at the banner height value beneath a sticky navigation bar of 56 pixels.
-- **(reflex)** Show the call-to-action button in the sticky pane only after the section's last capture is reached, keeping it present even when scripting is disabled.
-- **(reflex)** Below 60rem collapse the sticky pane into a heading stacked above its captures in normal flow.
-- **(reflex)** Avoid this pattern for mobile-first audiences unless a strong fallback exists.
-- **(reflex)** Show the typeface at multiple sizes in the specimen heading to demonstrate its behavior.
-- **(reflex)** Place one outlined Buy the family action in the fold and repeat it at the foot.
-- **(reflex)** Use no image in the specimen since the typography itself is the imagery.
-- **(reflex)** Keep the grid heading to a short line placed above the grid and never use display typography for it.
-- **(reflex)** Build the body as a responsive grid of project cards sized uniformly or with only slight size variation.
-- **(reflex)** Make each card image track minmax(0, 1fr) so images fill their grid cell.
-- **(reflex)** Use the filter row as the divider above the grid and never add internal rules inside it.
-- **(reflex)** Ensure the only visible action above the fold is the first card's case-study link.
-- **(reflex)** Show a thumbnail per card from the user's work and, until images load, set projects in type with at most one empty slot.
-- **(reflex)** Organise page content as a single large spatial diagram (flowchart, floor plan, network graph, or system map) rather than linear prose.
-- **(reflex)** Place an orientation heading at or beside the map to orient the reader before the diagram carries the page.
-- **(reflex)** Embed links inside nodes so the map itself carries interactive actions.
-- **(reflex)** Surface multiple distinct cuts of platform content (featured, latest, by category, by people) via horizontal rails or grids.
-- **(reflex)** Separate rails with a hairline or a change of paper rather than a label band.
-- **(reflex)** Place a verbed link (for example "See all templates") at each rail's edge and avoid a global CTA so the fold's single visible action is the first rail's link.
-- **(reflex)** Use thumbnails throughout the page so it reads as dense imagery of real platform content.
-- **(reflex)** Place the interactive preview before its corresponding code block within each example.
-- **(reflex)** Make the framework tab row horizontally scrollable when the viewport is narrower than 60rem.
-- **(reflex)** Separate examples with hairlines and change the paper background per category.
-- **(reflex)** Treat navigation and footer as part of the chosen shape and settle them together with the hero.
-- **(reflex)** For B2B SaaS pages whose shape is Bento Grid, Stat-Led, Workbench or Marquee Hero, build from the SaaS section deck.
-- **(reflex)** Every SaaS deal must drop at least one base card (never the footer) and either promote a second base card into the hero or reorder one adjacent pair meaningfully.
-- **(reflex)** Separate cards by three --section-gap steps, mix them, and let each card fill its section.
-- **(reflex)** Let the chosen shape determine how each deck card is rendered rather than stamping a fixed layout.
-- **(reflex)** Do not apply the SaaS section deck to Editorial, Manifesto, Letter, Long Document or Quote-Led pages.
-- **(reflex)** Choose exactly one heading placement from marginalia, hanging, centred display, bottom-aligned, overlapping, sticky or pinned, numbered by structure, or inline with the body.
-- **(reflex)** Choose exactly one body composition from single column, two-column asymmetric, multi-column justified with hyphenation, marginalia, three equal columns, full-bleed with margin reset, or asymmetric spans.
-- **(reflex)** Pick one divider language for the page and vary its weight and placement by seam; never use the same rule at the same gap at every seam.
-- **(reflex)** Choose exactly one button voice from solid, outlined, unstyled link, oversized solid, typographic only, or form as CTA.
-- **(reflex)** Choose exactly one image treatment from full-bleed, tightly cropped to the grid, inline with the text, margin-aligned, or none.
-- **(reflex)** Keep the six fingerprint choices coherent, drawn from the same design world.
-- **(reflex)** Share no more than three of the six fingerprint axes with any of the last three logged entries.
-- **(reflex)** Use a typographic CTA with a Specimen page rather than an oversized solid button.
-- **(reflex)** When the prompt names no shape, choose three shapes from different families that fit the domain and never three near-twins.
-- **(reflex)** Fade the backdrop and scale the panel from 0.96 to 1 over the long duration on open, closing at about 65% on the ease-in.
-- **(reflex)** Render photographs as 4:5 aspect-ratio slots with a 440px minimum height and card-radius corners.
-- **(reflex)** Use the same slot for product samples without an img element, built at full size.
-- **(reflex)** Build horizontal rails with grid auto-flow column, scroll-snap mandatory, inline gutters, and focus-visible outlines.
-- **(reflex)** Pin paired navigation with position sticky top space-2xl and release it below 60rem.
-- **(reflex)** Lay out comparison stats in a three-column grid that collapses to a single column with top borders under 60rem.
-- **(reflex)** Render stat figures with tabular-nums and block display for the numeric value.
-- **(reflex)** At polish, fix single elements and tokens in place without restructuring, and recommend a full run if the concept is wrong.
-- **(reflex)** At full depth on an app screen, recompute each screen inside its existing shell while keeping routes, destinations, and component logic.
-- **(reflex)** Run the hero stage and hero review only at full depth; polish and restyle skip both.
-- **(reflex)** Where the layout stays, report layout gates as notes and print them with the depth that would settle them without rebuilding them.
-- **(reflex)** Fix plain defects such as misalignment, broken glyphs, and lying labels at any depth.
-- **(reflex)** Include a Layout row in the handoff listing findings only a full redesign would settle when the layout stayed.
-- **(reflex)** Define exactly two shared page-level breakpoints in rem units, with the layout breakpoint at 60rem and the type breakpoint at 40rem, adding a third only when content itself breaks.
-- **(reflex)** At widths under 60rem, collapse multi-column grids to one column, remove tilts and clip effects, unstick sticky panes, and collapse hero postures to content height unless a poster stays full-bleed.
-- **(reflex)** At widths under 40rem, step down display sizes, move margin captions inline, and consolidate annotations.
-- **(reflex)** Focal grounds must pair with one compact UI piece, never a large window, screenshot, or text.
-- **(reflex)** Use quiet grounds for slots that carry a large window.
-- **(reflex)** Position text within the effect's calm region by setting calmX and calmY so the effect keeps that area quiet.
-- **(reflex)** Place text and UI fragments inside the effect element with the canvas behind them via an isolated element at z-index:-1.
-- **(reflex)** Keep the panel's bottom-right corner clear for the pause button when an object turns, and never put the pause button on a poster.
-- **(reflex)** Check every object at 1440, 820, and 390 on both light and dark paper before shipping.
-- **(reflex)** Keep the bottom-right corner of the scene box clear for the shared 32px pause disc.
-- **(reflex)** Put the scene in a plain panel, never over a dealt effect ground, so it paints its own ground.
-- **(reflex)** Give the scene host a size via an aspect ratio or height when it is not inside a sized panel.
-- **(reflex)** The FAQ must merge into the section above below 495px.
-- **(reflex)** A close-type button must be 88px tall at 1440 and 48px tall at 390.
-- **(reflex)** A close-word must set the client name across the .wrap in one line, never scaled by transform.
-- **(reflex)** A close-word must not repeat the name in a footer wordmark.
-- **(reflex)** Footer columns must match the navigation order and names.
-- **(reflex)** A footer-dark must not have a second dark section directly above it.
-- **(reflex)** A footer-visit address must place the street and district on two lines, or the district alone when no street is given.
-- **(reflex)** Neighbouring sections must never share a layout.
-- **(reflex)** At most two visual sections may precede a calm section.
-- **(reflex)** A card layout must show at most twice on a page.
-- **(reflex)** A dealt effect must stand in a section of its own, never on a photograph.
-- **(reflex)** Choose one fixed opaque nav bar variant from nav-mega, nav-cards, nav-centre, or nav-split.
-- **(reflex)** Choose one footer.closing row-2 variant from footer-columns, footer-dark, footer-statement, or footer-visit.
-- **(reflex)** Choose one footer.closing row-1 variant from close-type, close-photo, or close-word.
-- **(reflex)** Choose one rhythm from dark-band, media-band, surface-pairs, space, or brand-band, and never use a hairline rhythm.
-- **(reflex)** One section may stand on a contrasting ground holding the strongest view, while the rest share one flat ground.
-- **(reflex)** Size the frame so the product fills its share of the frame.
-- **(reflex)** Fill the place's share of the frame according to data-product-place (hero 0.88, stage 0.86, tile 0.84, card 0.9).
-- **(reflex)** On a place page allow at most two moments on a long page.
-- **(reflex)** On pages over six screens drop the place section but never the booking.
-- **(reflex)** A compact place page uses 8 to 12 photographs across 4 or 5 screens.
-- **(reflex)** A short place page uses under 8 usable photographs, three screens and at most 2700px at 1440 with `<html data-page-mode="short">`.
-- **(reflex)** Make the hero a photograph whenever any picked frame fits.
-- **(reflex)** Apply data-product-fill between 0.3 and 1.2 over the place's share.
-- **(reflex)** Let the usable photograph count decide the page mode, not the trade.
-- **(reflex)** Keep all section photographs distinct and follow the per-section counts.
+- **(reflex)** Identify and reject the default page this prompt would produce without effort, including its obvious twist, and never ship either.
+- **(floor)** Only apply Specimen when the prompt concerns type, publishing, or writing, or the user names it; never use Specimen for product pages that require a demo.
 - **(reflex)** Never deal the hero or the section splits.
-- **(reflex)** Keep the close as `close-photo` while a photograph remains to show.
-- **(reflex)** Give the offer and the place different compositions and never repeat a composition between neighbours.
-- **(reflex)** Use exactly one display-type moment per page.
-- **(reflex)** When the moment is `address`, set the street and district large under the visit h2, never invent a street.
-- **(reflex)** When the moment is `name`, cap the footer name at 12vw or omit it.
-- **(reflex)** Keep one main action per screen and never repeat Get directions beyond the hero button and phone bar.
-- **(reflex)** Put the visit panel on `--g-alt` and never let a ground box wider than the section form a band.
-- **(reflex)** Open the offer with a head row and deal its composition from pair, strip or tall-small.
-- **(reflex)** Give group labels 13px weight 500 ink with 12px of air below and no rule.
-- **(reflex)** Limit menu rows to 6 with descriptions or 8 without.
-- **(reflex)** Use straight-on whole-room photographs with window light for rooms.
-- **(reflex)** Use one ratio per goods grid and one backdrop, angle and light.
-- **(reflex)** Deal the place from bleed, trio, strip, pair, wall or story.
-- **(reflex)** Use `close-photo` with an unused 1:1 photograph and no words on it.
-- **(reflex)** A close-up must clip the product to the frame edges without a hard cut inside the frame.
-- **(reflex)** Use 6/6 splits with text left, top-aligned and never mirrored.
-- **(reflex)** On the short page keep the section as open type on the page ground, never a card or ground box.
-- **(reflex)** Make a close-up shot wide enough (cover default 2, up to 2:1 wide or 1:1.25 tall) and crop evenly around the parts' center.
-- **(reflex)** Link the credits list from one footer line only.
-- **(reflex)** Place each group on span-3 and every photograph on span-3 with aspect-ratio 1:1 when there are three groups, or span-6 with aspect-ratio 3:2 when there are two groups.
-- **(reflex)** Keep section content around 560px at 1440px width and never let a 4:3 span-6 photograph extend past 828px beyond the section-height boundary.
-- **(reflex)** Ensure every name fits on one line beside its price on span-3, shortening entries to roughly 24 characters when they would otherwise wrap.
-- **(reflex)** Apply aspect-ratio 16:9 to section photographs under 640px via a dedicated page-CSS rule and set --hm: 2 on the section.
-- **(reflex)** Give each navigation group three or four words that point to an id on that group and mark the main action with aria-current only on the group that performs it.
-- **(reflex)** At mobile widths render the navigation as nav-split with no panel and use the close as the head row of close-word without the name.
-- **(reflex)** When re-dealing without pictures choose either the brand band on colour-band or the name set wide in the footer, never both.
-- **(reflex)** When a section has no photograph add one statement section of height 1 after the hero using word-highlight with 12 to 40 words from the brief.
-- **(reflex)** At tablet widths keep the section one screen by forcing three equal grid columns via a dedicated media rule and apply --hm under 640px.
-- **(reflex)** At tablet widths with a section photograph set --h: 2, place the photograph full width above the groups and visit columns, and constrain the h2 to one line.
-- **(reflex)** Each section must use a different view and never repeat the same view.
-- **(reflex)** Spend only the spacing tokens --s-1 through --s-10 on every margin, gap and padding.
-- **(reflex)** Keep one height per card row and per tile kind across the whole page and place sections at H or 2H.
-- **(reflex)** Show the product in at most three sections on a product page.
-- **(reflex)** Build .grid as 12 columns with a 24px gap (12px under 640) and keep picture walls as their own gapless grid.
-- **(reflex)** Limit the hero to at most one quieter level of small text.
-- **(reflex)** Place the widest view in the hero section.
-- **(reflex)** Use only --g-main, --g-alt and --g-dark for grounds and reserve dark pages and dark heroes for tech.
-- **(reflex)** Set html data-radius to sharp, soft or round and apply the matching radius family to cards, panels, controls and buttons.
-- **(reflex)** Make .btn elements 44px high with 16px labels, 24px side padding and at most two per .btn-row and full width on phones.
-- **(reflex)** Apply the dealt nav class and repeat the logo in the footer.
-- **(reflex)** Use four to six unwrapped one-word nav nouns with their own anchors and at most one second plain-word action.
-- **(reflex)** Open the menu as a full-screen sheet under 640 and keep the menu button at the secondary button look.
-- **(reflex)** Make footer.closing the last section with the dealt close row and a directory row on one ground.
-- **(reflex)** Include the brand, current year, Privacy, Terms and a single credits details element and leave .socials empty unless the brief gives accounts.
-- **(reflex)** Build .card rows with one height per row and use .tile, .rows and .faq for their kinds.
-- **(reflex)** Make fields 48px with 14px labels and 16px text, 44px tap targets and at most six fields in one column under 640.
-- **(reflex)** Maintain equal left and right content edges across the layout.
-- **(reflex)** Make every hero enter exactly once on load via data-enter and give every page one dealt moment, or two on a long page.
-- **(reflex)** Use more and better real photographs where they fit, with nicer backgrounds, stronger heroes, layouts, and fonts.
-- **(reflex)** For place pages, lead with photographs, size them 12 to 20 on the full page, 8 to 12 compact, or under 8 on a three-screen short page, and deal the palette by trade.
-- **(reflex)** On tech pages, lead with the client's own subject at true size, show software UI as live HTML in one app-frame, use real icons and pulsing diagrams for cards, and keep hardware to its photographs or stand-ins with renders only on a 3D ask.
-- **(reflex)** Plan the page as screens with the kind on line one, the deal and palette reasoning on line two, and one line per section describing its id, idea, picture, kind, screen count, moment, and reason for motion.
+- **(floor)** Only enter a custom run when the user explicitly requests it, such as by saying custom, bespoke, no theme, or a world of its own.
 - **(reflex)** Use the deal commands to choose heroes, palettes, pairings, and moments from history, taking the first printed result unless it clashes with the client's logo or photographs, and never use violet.
-- **(reflex)** No single action may repeat more than once per screen.
-- **(reflex)** Stills must be measured and placed to fill their place's share exactly and be centered.
-- **(reflex)** Limit --g-dark to lightness 0.05 or less, use at most one dark body section at the page's middle or later, and never place it right under the hero.
-- **(reflex)** Allow the brand band to replace the dark band at most once, in the second half of the page, on product and place pages.
-- **(reflex)** Use the stage class only as a div wrapping one visual card.
-- **(reflex)** Place words on photo grounds over their calm, dark part, only in the hero and one closing band.
-- **(reflex)** Ensure no ground changes a section's height, fade soft grounds over 120px, and keep hard grounds' colour across the whole box.
-- **(reflex)** Limit grid marks to one dark technical band, data panel or footer, never over text.
-- **(reflex)** Make hairline ledgers 1px repeated sibling rules at 12-15% ink, never between sections.
-- **(reflex)** Lift a linkable card 2px on hover with a soft shadow shown only on hover, and add .m-nolift to cards without links.
-- **(reflex)** Use full rows of equal height with the first card left-aligned and the last right-aligned across two-up, three-up, and four-up grids.
-- **(reflex)** Mark every frame holding a visual or UI with .frame or [data-visual] so it never counts as a band.
-- **(reflex)** Apply radius --r-lg (20 on soft, 18 on phone) and padding of 32px from 1024px, 28 below, and 24 on a phone, never under 24px, with 48px padding for a filled split panel.
-- **(reflex)** Hold card lines 2px apart from 1024px via .card--row so titles and panels align across a row.
-- **(reflex)** Keep 32px from the last line to the panel and set one --p-h per card group with a phone value when tiles stack into a two-screen section.
-- **(reflex)** Place the default panel with side edges on the text column running off the card bottom, top radius 12, and occupying the lower 60-65% of the card.
-- **(reflex)** For .panel--inset use an even 8px margin with radius equal to the card radius minus the margin, never under 6, and keep one ratio and one inset per panel in a row.
-- **(reflex)** Use .panel--flush to reach the card edges, .panel--top with 8px margin for tall cards, and .panel--device with a status row and radius 12 running off the bottom.
-- **(reflex)** Draw a 1px inner edge via ::after over the ground and over any fragment it cuts.
-- **(reflex)** Apply the vignette via ::before with --vx, --vy, and --calm-k, setting --calm-k to 0% on a lit ground and using the effect's own calm params.
-- **(reflex)** Use surface white on light and #1c1d20 on dark with a 1px border at 12% and radius 12, keeping the layered shadow only inside the panel.
-- **(reflex)** Place fragments via .stage with the appropriate placement class, keeping windows and dialogs out of .at-center and never letting a fragment run past .wrap.
-- **(reflex)** Use .fit with --fit-max to keep width on wide panels and narrow on small ones, and .wide with --w to cut a fluid grid by the right edge while running 64px or more past it.
-- **(reflex)** Use .to-edge so the wrapper reaches 72px past the bottom and grows fragments are always cut, never a few px short.
-- **(reflex)** Place diff-review as .at-corner.fit or .at-rise.fit with --fit-max 480px, cut by the bottom with .stage--fade-b, never by the right edge, and keep 24px or more past the edge.
-- **(reflex)** Place terminal-run as .at-rise.fit with --fit-max 440px, always whole with 24px or more of ground under it, and never cut or fade it.
-- **(reflex)** Place pipeline-board as .at-rise.fit with --fit-max 420px, whole with 24px or more of ground under it and no fade, and name each step's real tool mark on a light tile.
-- **(reflex)** Vary placements across a card group so a 2x2 shows at least three distinct layouts and never one card layout four times.
-- **(reflex)** Keep 24px of ground on every edge or cut by 24px or more, and 16px a side on a phone.
-- **(reflex)** Dissolve the last --fade-h (64px, or 40px on short panels) into the ground via .stage--fade-b, --fade-r, and --fade-br.
-- **(reflex)** Apply a fade only where an edge cuts the fragment, and never fade a window that ends inside the panel.
-- **(reflex)** Measure layouts at 1440, 1024, 768, and 390, placing the fragment 16px in on both sides and cut only at the bottom on a phone.
-- **(reflex)** On product or service pages hold the client's photograph, real icons, or a still diagram on a flat panel, and give places no feature cards.
-- **(reflex)** Leave the card plain when an effect strip holds nothing behind a stat or line of text.
-- **(reflex)** Add a solid 32px pause disc beside the card title at the right of the text column, keeping 44px clear, or 12px from the bottom-right corner outside a card.
-- **(reflex)** Make a slider with drive.param grain the group's loop and use compact:true to keep it small enough for .at-center on a focal tile.
-- **(reflex)** Use stat with window:true to cut its bars out so the ground shows through them.
-- **(reflex)** Use an object from assets/objects as the whole picture of a .panel--top on one of the lit palettes, centred as the subject, and never tilt the card.
-- **(reflex)** Make section headings name the part with one line of claim beneath it as the default.
-- **(reflex)** Vary card length with how much the brief knows, keeping titles as a verb and an object.
-- **(reflex)** Do not build a strip of three or four figures over one-word labels; place each number in the sentence it proves.
-- **(reflex)** Build section shapes from the reader's questions instead of applying the default eyebrow-claim-cards template everywhere.
-- **(reflex)** Write prices, the FAQ, booking, and forms in plain, calm copy, reserving voice for the hero and story.
-- **(reflex)** Use step numbers only where the order itself is the content, such as a booking flow.
-- **(reflex)** Restrict accent colour to the light and what it reaches, use hairline lines, and make the core an ink tile.
-- **(reflex)** Set ground by layout default (rings around a hub, none under an orbit/timeline/sync, dots for flows) and add glow when the diagram leads a section.
-- **(reflex)** Keep diagrams to at most eight spokes and twelve nodes, treating anything busier as a list.
-- **(reflex)** Draw hub spokes as straight rays from the core rim and bend flows with rounded elbows, using curve, elbow, or swirl to change them.
-- **(reflex)** Upsize a flat drawing when the next size fits, or force size band or card explicitly.
-- **(reflex)** Draw feature-card inset panels as still pictures with an 8px margin and card-radius-minus-margin corner radius, running at most two short pointer demos per row.
-- **(reflex)** Name each feature-card landscape scene via data-cx-scene and composition via data-cx-params so no two panels look identical, using day, dusk, meadow, or grain-gradient.
-- **(reflex)** Make the feature-card UI window's content run out through the panel's bottom edge with no empty space under the last row.
-- **(reflex)** Place copy on the photograph's calm dark corner with white type and no scrim, and only in the hero and one band per page.
-- **(reflex)** Use fx-feature-card only for a 2x2 grid of product features, not for features with nothing to show in a window.
-- **(reflex)** Use fx-tabs only for a product tour or dashboard preview, never for navigation.
-- **(reflex)** Use fx-spotlight only for a row of plain feature cards such as security or admin sections.
-- **(reflex)** Use fx-map only for visit or contact sections showing the real streets around the door, baked and still.
-- **(reflex)** Use fx-avatar only for calls, presence, or a team list, never for static team grids.
-- **(reflex)** Use painterly-landscape with a scene or grain-gradient for feature-card panels, and ruled-grounds only for technical panels that hold no UI.
-- **(reflex)** Use still low-contrast grain-gradient inside chips, pills, and bars, and never silk, glass, or metal sheen there.
-- **(reflex)** Place print objects as card, tile or hero and never centred dead, while photo prints and scenes fill an aspect-ratioed box.
-- **(reflex)** Keep the panel's bottom-right corner clear with at most one turning or looping object per group and its round pause button visible once drawn.
-- **(reflex)** Set data-product-place to stage, hero, tile or card and let the frame's CSS size and position the product, never laying words over it.
-- **(reflex)** Keep words outside the product frame and never place them over the product or beside it.
-- **(reflex)** Let layout.css take the frame's fill, border and padding from a data-product frame so it sits on the page ground with no panel.
-- **(reflex)** Write each section's product view on its plan line with no two views alike and whole views in at most three sections.
-- **(reflex)** Clip detail views so the rest of the product runs off the frame edges and never cut hard inside the object.
-- **(reflex)** On non-tech pages, allow only the hero entrance, one or two photo- or type-led moments, fx-map as a baked still, fx-photo as a plain photograph, real icons, still diagrams, and physical-product 3D renders when the brief explicitly asks.
-- **(reflex)** Hardware without photographs or renders must use stand-in photographs of the same machine at work, and games without art files must show their name over stand-in photographs of their setting.
-- **(reflex)** When the brief asks for 3D, use a product render as the picture, let the page's single effect sit behind it as the transparent ground, and keep it as the beat rather than a second focal visual.
-- **(reflex)** Allow one card group to hold still grounds from the effect's family, but never a second live effect, and use the lit ground when a big scene is present.
-- **(reflex)** Name each beat and its section, keep beats out of one another and out of neighbouring sections, insert a calm section between them, and keep the back third of the page calm before the close.
-- **(reflex)** Use quiet grounds to hold UI and focal grounds to stand alone in the hero, and never place content over a noise or fog ground.
-- **(reflex)** Use at most two effect ids per page outside the moments, give each panel its own data-fx-seed, and never echo the effect in the close, add a pattern panel, or place a focal tile.
-- **(reflex)** Deal zero or one big scene from scenes matching the page kind and brief needs, keep it away from the last three sections, and size its section to its restH as one or two screens.
-- **(reflex)** Never pair a scene with a moment it lists in avoidMoments or with its twin, and pass the scene to the moments deal so those are excluded.
-- **(reflex)** Place the effect in the hero, the single data-visual frame under an h2, or the scene's own section, and keep text over any effect on its quiet part at 4.5:1 contrast or higher.
-- **(reflex)** Use frame-split for a stage window cut by the right and bottom edges, hide secondary pieces between 1024 and 1279 and on phones, and never share a half with both text and UI.
-- **(reflex)** Run the 390 width to enable phone checks and a 320 walk for off-viewport content, and load hidden-content with scripts off.
-- **(reflex)** Apply ic-wide and render wordmark-only logos with --tile to give them a wide tile.
-- **(reflex)** Link assets/icons/icon.css after system.css.
-- **(reflex)** Use the specified tile classes (ic-tile, ic-row, ic-chip, ic-stack, ic-grid--mosaic, ic-cell, ic-file, ic-file--tile, ic-point) for layout.
-- **(reflex)** Size icons using the standard sizes 16, 20, 24, 28, 32, 36, 40, 48, and 56.
-- **(reflex)** Assign ic-wide, ic-land, or ic-tall shape classes based on cropped aspect ratios and size landscape and portrait marks per their dimensions.
-- **(reflex)** Use real icons at 20 to 40px in file cards, integration grids, and reads-from lists instead of grey boxes.
-- **(reflex)** Fit content into one screen (708px at 1440x900) by merging short blocks, adding pictures, splitting long content, or using .g2, and never shrink a long feature grid.
-- **(reflex)** Top-align all section content with the single h2 as first content at --padt under the section top, and never centre content vertically or use a second h2.
-- **(reflex)** Fill sections to 0.55 or more by merging short blocks or giving them pictures, and never centre a short block alone in an empty screen or use strip sections.
-- **(reflex)** Allow software and product to dock one row under the hero content at most 96px, hidden on phone unless it ends by H - 24 - bar, and never dock on service or place pages.
-- **(reflex)** Use 12 columns with 24px gutters, starting blocks on the left line or a column start and ending right-aligned blocks on a column end, and never use tiles narrower than 165px.
-- **(reflex)** Constrain text to the left line and the page's split line, start all headings and the close on the left line, and never centre or right-align blocks wider than half the .wrap.
-- **(reflex)** Stack splits as text then visual on every split of the page, never mirror or alternate them, and never inset text into a bare column.
-- **(reflex)** Span photographs on column lines or as full-bleed layers covering 90% or more of the section, use one ratio per row, and never bleed out to one side only.
-- **(reflex)** At 640 to 1023, stack splits text first, take full rows for panel cards, and never leave rows half empty or scroll sideways.
-- **(reflex)** Moment text must sit in a .container or .wrap and end on the page's left and right edges like every other section.
-- **(reflex)** A transition's cover must be an inset panel with an even gutter on every side, keeping all content whole and never touching the section edges.
-- **(reflex)** A dealt moment may pin its section with position:sticky only inside its own data-moment box.
-- **(reflex)** Keep median layout shift under 0.25.
-- **(reflex)** Place a sold item's name and price inside its card padding rather than as a line under a bare picture.
-- **(reflex)** Give cards with panels the full row from 640 to 1023 and two-up span-4 panels from 1024 to 1279 so no span-4 panel is under 304px wide.
-- **(reflex)** Only place a fragment in a `.fit` slot when its minimum width fits the slot (324px in a 2x2 card at 1024, 256px in a span-4 card).
-- **(reflex)** On mobile place each fragment 16px in with its top at `--ay-sm` (24px unless set).
-- **(reflex)** Use one plain buyer-word label per nav bar link and never wrap the bar below the `.wrap` width.
-- **(reflex)** Open nav menus full width under the bar on the grid, ending at x 1360, and never place a second picture card.
-- **(reflex)** Avoid vague nav labels like "Solutions" or "Platform" and never mirror the split pair.
-- **(reflex)** On split navs place links in the left third, the logo on the centre line, and actions in the right third, keeping four words that never wrap at 1024.
-- **(reflex)** Never put a shadow on an open split nav panel or more than four nav words, and keep UI fragments out of the menu.
-- **(reflex)** Write the product statement as one plain paragraph with the first sentence in ink and the rest muted, and never place it straight after a hero of the same width.
-- **(reflex)** Build 2x2 feature cards two boxes deep with `.card--open` on light pages or `.panel--flush` on dark pages, and keep panels at the recipe height.
-- **(reflex)** Keep widgets from floating dead centre and remove any 1 to 23px strip of ground under a fragment.
-- **(reflex)** Keep small bento card copy to two to four words and never place text in different positions across bento cards.
-- **(reflex)** Never place a bento next to another card grid.
-- **(reflex)** Top-align the split-text-left grid with text on span-5 and the frame on span-6 start-7, keeping the main piece cut by the bottom and never floating with ground on all four sides.
-- **(reflex)** Place small result pieces only over a window or screenshot at its lower-right edge, never over its first rows.
-- **(reflex)** Use `.btn.btn--primary` at the single button height from `<html data-buttons>` for all nav and footer actions.
-- **(reflex)** Build software tabs tours with three to six jobs shown one at a time inside a fixed-height frame that never resizes.
-- **(reflex)** Use two to four chapters per row in a series, each with an h2, a ~25-word grey paragraph, one link, a 16:7 hero frame, and four feature names.
-- **(reflex)** Write enough rows and open-item lines that both panes run past the frame bottom and are cut by its fade, never leaving an empty strip.
-- **(reflex)** Stack the list above the open item on tablet and hide the list on phone, keeping the open item's own header as chrome.
-- **(reflex)** Show two photographs side by side at one ratio and one light, with nothing under them and no captions or titles beneath.
-- **(reflex)** Show every model at one scale on one backdrop or one camera angle, with prices from and facts lines, and never mix angles or scales.
-- **(reflex)** List rooms with a 4:3 whole-room photograph, name, facts, price from with season, and a Book this room action, never as plan cards with checks or badges.
-- **(reflex)** Show services as a list beside one photograph of the work, never as icon cards, with prices present and no more than eight rows.
-- **(reflex)** Show four dated moments on one rail with equal-height panels, at most one loop in the newest panel, and never zig-zag points or pulse dots.
-- **(reflex)** Frame screenshot strips as uniform 16:9 captures with square or page-radius corners, no device chrome, no shadow, and no captions.
-- **(reflex)** Ensure the page CSS clears a .frame[data-product]'s ground so it does not render on white.
-- **(reflex)** A CAD or render frame must sit on a light flat ground with square corners.
-- **(reflex)** A CAD or render frame counts as one of the product's three sections.
-- **(reflex)** Pricing-three must show three plans side by side with the middle plan recommended.
-- **(reflex)** The middle plan must be .is-featured and carry a Most popular .badge.
-- **(reflex)** From 1024 each pricing card must be a subgrid of its rows so buttons and lines align.
-- **(reflex)** Only the middle plan may use .btn--primary.
-- **(reflex)** Pricing-two must place the h2 and shared inclusions on one span-4 column and the two cards on span-4 columns starting at 5 and 9.
-- **(reflex)** The recommended plan in pricing-two must be .is-featured.
-- **(reflex)** Pricing-two buttons must sit at the same height.
-- **(reflex)** A comparison table must place the feature on span-4 and options on span-4 start-5 and span-4 start-9 or span-2.
-- **(reflex)** Each comparison row must be 48px tall and closed by a 1px rule.
-- **(reflex)** Text containers must handle long content with truncate, line-clamp, or break-words.
-- **(reflex)** Flex children must set min-w-0 to allow text truncation.
-- **(reflex)** Render proper empty states instead of broken UI for empty strings or arrays.
-- **(reflex)** Anticipate short, average, and very long user-generated inputs when building containers.
-- **(reflex)** Reflect filters, tabs, pagination, and expanded panels in query params.
-- **(reflex)** Sync stateful UI to the URL when state drives behavior.
-- **(reflex)** Apply overscroll-behavior contain inside modals, drawers, and sheets.
-- **(reflex)** Full-bleed layouts must apply env safe-area-inset values for notches.
-- **(reflex)** Prevent unwanted scrollbars by clipping overflow on containers and fixing content overflow.
-- **(reflex)** Use flex and grid for layout instead of JavaScript measurement.
-- **(reflex)** Design layouts that adapt across breakpoints without horizontal overflow.
-- **(reflex)** Use a consistent spacing scale for margins and gaps across components.
-- **(reflex)** Do not use overflow:hidden to clip content that users need to access.
-- **(reflex)** Maintain consistent visual variants across reused components.
-- **(reflex)** Avoid fixed widths that break on smaller viewports.
-- **(reflex)** Use logical CSS properties instead of physical ones for layout.
-- **(reflex)** Maintain adequate whitespace between adjacent interactive elements.
-- **(finish)** Do not flag extra horizontal space at 1920 pixels width because the container and type retain their 1440 size by rule.
-- **(finish)** Permit a filled primary button paired with an outlined or text action that navigates elsewhere, and permit a sample of the built product placed in a slot.
-- **(finish)** On redesigns, treat content below the first screen as the unbuilt old page and do not flag it.
-- **(finish)** Change a section composition or its order and record the delta in the stamp when a page repeats logged compositions.
-- **(finish)** Limit the page to one filled-primary button recipe, treating each dialog as its own page, and never place two filled buttons side by side.
-- **(finish)** Stamp at most one container recipe on fewer than six selectors and apply pill radius to fewer than five non-control, non-tag, non-badge selectors.
-- **(finish)** Apply align-items:center to flex rows containing unequal heights.
-- **(finish)** Reserve min-height:1lh for helper-text slots.
-- **(finish)** Keep a single primary button style, container width, column gap below the hero, radius per nesting level, and no more centred heading groups than left-aligned ones.
-- **(finish)** Prevent text blocks from shrinking below roughly 16 characters wide over four or more lines at 1440px.
-- **(finish)** Keep data-slot rendering at least 40px in each dimension at 1440px and run the hallmarkSlots script on pages that use slots.
-- **(finish)** Prevent grid or wrapping rows from leaving a single item alone on the last row beneath a fuller row.
-- **(finish)** Do not place a hairline border beneath a wide soft shadow defined as 24px or more of blur after a negative spread.
-- **(finish)** Ensure content visible at 1440px is not hidden on phones, keep navigation accessible, and avoid tables opening with two or more columns off-screen.
-- **(finish)** Permit hairline rules, fleurons, drop caps, double rules, and italic text inside running body copy.
-- **(finish)** Permit a masthead, quiet edge-aligned bar, colophon, and letter close.
-- **(finish)** Permit soft drop shadows with offset and hover lifts on cards.
-- **(finish)** Permit heavy slab bars, dense bars with rounded knobs, banners, and marquee footers as playful chrome.
-- **(finish)** Permit a solid pill as chrome since it does not fight the register.
-- **(finish)** Before shipping scroll at 1440x900 one screen at a time and ensure each screen holds one big enough reason.
-- **(finish)** Before shipping squint to confirm each section keeps a shape and the page keeps a heavy-light rhythm.
-- **(finish)** Separate list rows with hairline rules or paper bands instead of heavy dividers.
-- **(finish)** Treat gate 58, the screen budget, as a note at every depth because words belong to the owner and only a copy gate cuts one.
-- **(finish)** Vary section and paragraph lengths to follow the material rather than forcing perfect evenness.
-- **(finish)** Use one or two eyebrow labels per page and none when the heading already names the thing.
-- **(finish)** Vary what each section contains, such as a list, table, short letter, or single longer paragraph, instead of repeating the same skeleton.
-- **(guidance)** When the FAQ is not the primary page, pair it with another layout that opens the page.
-- **(guidance)** Reserve index-first for browsing surfaces such as documentation hubs, knowledge bases, archives, and design-system entries rather than hard-sell pages.
-- **(guidance)** Do not use a map as a substitute for narrative; some stories must not be read spatially.
+- **(floor)** Never use the long-document pattern when there is one decisive action, since it hides actions inside sentences.
+- **(floor)** Do not use the manifesto structure for checkout, pricing, or product tour pages.
+- **(reflex)** Sweep app screens with sloplint scope app, which skips the listed page-only gates and reads control heights on the app range.
+- **(floor)** Use a comp only for its composition, never as evidence that a design gate has been satisfied.
 - **(guidance)** Do not apply the component playground pattern to marketing pages.
+- **(floor)** Redeal a part only when its recipe's use does not fit, drawing from its own list without photographs.
+- **(floor)** Never apply a texture a theme does not name, mix two artifact families on one page, or use texture as ambient fill across an entire page.
+- **(floor)** Build the page in the current folder, never inside the product's own repository, unless the user explicitly asks otherwise.
+- **(reflex)** Include a Layout row in the handoff listing findings only a full redesign would settle when the layout stayed.
+- **(floor)** Read the single job named in the prompt before choosing the page shape, because it determines where the action lives, which sections belong to the category, and how the page ends.
+- **(floor)** Plan the page as screens with the kind on line one, the deal and palette reasoning on line two, and one line per section describing its id, idea, picture, kind, screen count, moment, and reason for motion.
+- **(floor)** Give each page at most one big scene and never place a shader ground or WebGL part beside it.
+- **(guidance)** Reserve index-first for browsing surfaces such as documentation hubs, knowledge bases, archives, and design-system entries rather than hard-sell pages.
+- **(floor)** Do not use the narrative workflow for tools that operate in a single moment; reserve it for products with an explicit multi-stage sequence.
+- **(reflex)** Share no more than three of the six fingerprint axes with any of the last three logged entries.
+- **(reflex)** Treat dashboards, admins, settings pages, and tools as app-screen scope when the prompt or sign-in indicates them.
+- **(reflex)** When the prompt names no shape, choose three shapes from different families that fit the domain and never three near-twins.
+- **(reflex)** Use the deal commands to choose heroes, palettes, pairings, and moments from history, taking the first printed result unless it clashes with the client's logo or photographs, and never use violet.
+- **(reflex)** On a polish, ask at most five findings whether anything still reads as machine-made.
+- **(reflex)** Sweep app screens with sloplint scope app, which skips the listed page-only gates and reads control heights on the app range.
+- **(reflex)** Let the usable photograph count decide the page mode, not the trade.
+- **(floor)** Never use powers-of-ten-pullback as the hero because its first screen has no headline and no action.
+- **(floor)** Name the largest divergence and fix it, or state in one line why the build is right and the comp was wrong.
+- **(floor)** Never apply a texture a theme does not name, grain on a modern-minimal page, two artifact families on one page, or texture as ambient fill over an entire page.
+- **(reflex)** Use exactly one display-type moment per page and limit the hero to at most one quieter level of small text.
+- **(floor)** Emerge section headings from the paragraph flow as short bold phrases inline with the body rather than as standalone block headings, and render each category as a real h2 element using the display face in sentence case instead of a styled label band.
+- **(reflex)** Keep the grid heading to a short line placed above the grid and never use display typography for it.
+- **(reflex)** Set the hero heading to clamp(4rem, 10vw, 9rem) and hug the container edges.
+- **(reflex)** Constrain headings by their own element width in ch, not by their wrapper.
+- **(reflex)** Set prose line-height to 1.65 to 1.75 with 60 to 75ch measure, keep stat titles unwrapped without icons, mark features as definition lists, and never render multi-line prose leaded under 1.3.
+- **(finish)** Permit hairline rules, fleurons, drop caps, double rules, and italic text inside running body copy.
+- **(floor)** Include a Controls section specifying Primary fill, radius, and height and Secondary outline-or-text with matching radius and height.
+- **(reflex)** Reserve about 24px in the right-edge slot for clear buttons, error glyphs, or spinners so content never reflows when one appears.
+- **(floor)** Render the call-to-action as a typographic link carrying a verb with no box, no fill, and no arrow.
+- **(reflex)** Use skeletons where content shape is known, and spinners only inside buttons replacing the label.
+- **(reflex)** Choose exactly one heading placement from marginalia, hanging, centred display, bottom-aligned, overlapping, sticky or pinned, numbered by structure, or inline with the body.
+- **(reflex)** Keep each display head to one weight, one style and one colour, deriving stress from breaks or size rather than styling.
+- **(reflex)** Show the typeface at multiple sizes in the specimen heading to demonstrate its behavior.
+- **(reflex)** When a theme's signature is an accented word, place it exactly once in the hero and record that placement as the single 38iii waiver.
+- **(floor)** Include a System section listing Genre, first-page Shape, Theme, and Axes with posture.
+- **(reflex)** Give group labels 13px weight 500 ink with 12px of air below and no rule.
+- **(reflex)** Use a typographic CTA with a Specimen page instead of an oversized solid button.
+- **(reflex)** Keep body copy to a single column with line-height of at least 1.65 and a measure of 60 to 65 characters.
+- **(reflex)** Render stat figures with tabular-nums and block display for the numeric value.
+- **(floor)** Keep all text small and subordinate to the photographs rather than using large display typography.
+- **(reflex)** When type functions as a headline or visual element, treat the type treatment itself as an active design element rather than a neutral carrier, and ensure the type carries the theme at the current size.
+- **(reflex)** When the moment is name, cap the footer name at 12vw or omit it.
+- **(floor)** Open each content rail with its own h2 element instead of a label band.
+- **(floor)** Derive emphasis in manifesto headings exclusively from line breaks, and apply the italic display type setting to the entire hero quote rather than to a single word.
+- **(floor)** Treat a number typed beside or above the heading as an eyebrow rather than an ordinal counter, and treat a figure as a headline only when the page is built around it and it carries its unit and source.
+- **(floor)** Show the inset outline immediately on focus and never change the border width, keeping floating labels as placeholders at rest.
+- **(floor)** Anything reachable by touch must have a 44x44 CSS pixel hit target, expanding small controls without changing their appearance.
+- **(reflex)** Custom-positioned modals must use position fixed, inset 0, margin auto, height fit-content, and max-height min(80dvh, 40rem) to prevent corner snapping.
+- **(reflex)** Render median h2s below the hero at --text-section and item titles at --text-title.
+- **(reflex)** Render the attribution below the quote in the body face on a single quiet line.
+- **(reflex)** Textareas must allow vertical resize with min-height 6rem.
+- **(floor)** Use a figcaption below each specimen as the divider and never place a label above the specimen.
+- **(floor)** Do not use an eyebrow label above a specimen, and do not add typographic labels above content unless they carry meaning.
+- **(reflex)** Size and wrap headings by their rendered character count, splitting long heads at sense breaks and rewriting heads over 90 characters, keeping section heads to six words or fewer at --text-section with at most one lead line beneath.
+- **(reflex)** Keep the section heading plain and functional at section size so the captures carry the content.
+- **(reflex)** Use logical properties for spacing, allow room for 30 to 40 percent longer strings, avoid hard-coded date or number formats, and detect capabilities with hover and pointer queries rather than width.
+- **(floor)** Labels sit 4 to 8px above fields, helpers sit about 4px below at label size with min-height 1lh, errors replace helpers in that line without adding a second, every field must have a visible label above it (never using placeholder as the label), and range thumbs must take focus and provide a 44px hit target.
+- **(reflex)** Render the letter's salutation as display italic at 1.5 to 2 times body size as a single unified style.
+- **(floor)** Do not apply template chrome such as tracked-out ALL-CAPS eyebrows above every heading, middle-dot meta strings, spaced-em-dash labels, tinted near-black stand-in blacks, monospace data labels, or trailing arrows on links and buttons unless the brief explicitly requests them.
+- **(reflex)** Keep running prose max-width between 45 and 75ch, never render lines of about 88 characters or more over three lines, and cap lede/caption widths at 28ch for two-sentence-or-fewer copy.
+- **(reflex)** Use a line-height of 1.0 or greater on manifesto headings whenever the text wraps.
+- **(reflex)** Select faces by their shape and colour on the page, not by their name, reputation, or subject association.
+- **(floor)** Never render a section head below 40px at 1440px width.

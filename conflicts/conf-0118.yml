@@ -24,7 +24,7 @@ suggestion:
   kind: keep-a
   note: Apply the stricter 90-part cap to product specs even when rendered as scenes; scenes that are not product specs may use the 110 cap.
   note_zh: 对作为场景渲染的产品规格应用更严格的 90 部分上限；非产品规格的场景可使用 110 上限。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/38
 evidence_files:
   - option-a.png
   - option-b.png

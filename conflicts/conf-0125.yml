@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: Treat footer-statement as a distinct non-closing statement region that never contains a big button, and reserve the single big primary button for footer.closing's close row. Keep them as separate sections so the no-second-big-button rule never applies to the close row.
   note_zh: 将 footer-statement 视为独立且非 closing 的语句区域，其中永不出现大按钮；把唯一的大号主按钮保留给 footer.closing 的 close 行。使二者成为独立区块，这样 no-second-big-button 规则就不会作用于 close 行。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/45
 evidence_files:
   - option-a.png
   - option-b.png

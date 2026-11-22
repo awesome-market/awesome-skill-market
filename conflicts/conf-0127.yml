@@ -24,4 +24,4 @@ suggestion:
   kind: keep-b
   note: l2c2 refines l2c1 by allowing exactly one constrained scroll pattern; scope l2c1's ban to repeated or spatial reveals beyond that single pattern.
   note_zh: l2c2 通过恰好允许一个受限的滚动模式来细化 l2c1；将 l2c1 的禁令范围限定为该单一模式之外的重复或空间揭示。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/47

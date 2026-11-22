@@ -24,4 +24,4 @@ suggestion:
   kind: scope-split
   note: l2c1 targets level-1 pages with two-family flexibility; l2c2 targets level-2 pages with stricter single-family preference. Scope by level.
   note_zh: l2c1 面向一级页面，允许两个族的灵活性；l2c2 面向二级页面，偏好更严格的单一族。按页面层级限定适用范围。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/20

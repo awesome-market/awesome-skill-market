@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: l2c2's autoplay ban takes precedence; implement voice-as-loop only after a user gesture or pause/resume control.
   note_zh: l2c2 的自动播放禁令优先；应在用户手势或 pause/resume 控制之后，才实现 voice-as-loop。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/49
 evidence_files:
   - option-a.png
   - option-b.png

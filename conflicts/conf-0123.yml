@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: Resolve by treating the sticky left pane as chrome (not a repeating template-changing fragment) and cycling captures only within the right scroll-synced pane, keeping the left heading static and never covering readable rows.
   note_zh: 将粘性左窗格视为 chrome（而非会改变模板的重复片段），仅在右侧同步滚动窗格内循环捕获，使左侧标题保持静态且不覆盖任何可读行。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/43
 evidence_files:
   - option-a.png
   - option-b.png

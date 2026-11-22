@@ -24,7 +24,7 @@ suggestion:
   kind: scope-split
   note: Reconcilable via explicit-brief gating.
   note_zh: 可通过「明确简报」门槛解决。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/21
 evidence_files:
   - option-a.png
   - option-b.png

@@ -21,7 +21,7 @@ sides:
 ai_explanation: Rule copy-l2c1 requires a caption under each visual explaining its placeholder nature, while copy-l2c4 forbids any caption, label, or description under or on any picture. These directly contradict for the same scope (visuals) and cannot both be satisfied.
 ai_explanation_zh: 规则 copy-l2c1 要求为每个视觉元素添加说明其占位符性质的标题，而 copy-l2c4 禁止在任何图片下方或图片上添加任何标题、标签或说明。两者针对同一范围（视觉元素）直接冲突，无法同时满足。
 suggestion: null
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/27
 evidence_files:
   - option-a.png
   - option-b.png

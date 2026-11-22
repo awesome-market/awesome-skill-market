@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: l2c2's dominant full-bleed photography overrides the l2c1 one-third share cap.
   note_zh: l2c2 的主导全出血照片覆盖 l2c1 的三分之一占比上限。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/34
 evidence_files:
   - option-a.png
   - option-b.png

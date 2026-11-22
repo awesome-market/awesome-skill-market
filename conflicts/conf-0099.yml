@@ -24,7 +24,7 @@ suggestion:
   kind: keep-b
   note: Scope the prohibition to dynamic or accent spotlights; allow fixed atmospheric blooms per color-l2c2 when the canvas is the design.
   note_zh: 将禁止范围限定为动态或强调色聚光灯；当画布为设计本身时，按 color-l2c2 允许固定氛围光斑。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/19
 evidence_files:
   - option-a.png
   - option-b.png
