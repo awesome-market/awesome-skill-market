@@ -13,12 +13,12 @@ const LABELS = [
   { name: 'decided', color: '5319e7', description: 'Arbitrated via issue comment or decisions/*.yml' },
 ];
 
-const stripLangTag = (s) => (s ?? '').replace(/^(EN|ZH|中文)\s*[:：]\s*/i, '');
+const stripLangTag = (s) => (s ?? '').replace(/^(EN|ZH|中文|RULE\s*[AB]|规则\s*[AB])\s*[:：]\s*/i, '');
 
 function issueBody(conf) {
   const [A, B] = conf.sides;
   const img = (p) => `![](${rawURL(p)})`;
-  const side = (s) => `${s.text}${s.text_zh ? `<br>${s.text_zh}` : ''}`;
+  const side = (s) => `${s.text}${s.text_zh ? `<br>${stripLangTag(s.text_zh)}` : ''}`;
   const sug = conf.suggestion
     ? `\`${conf.suggestion.kind}\`${conf.suggestion.note ? ` — ${stripLangTag(conf.suggestion.note)}` : ''}${conf.suggestion.note_zh ? `<br>${stripLangTag(conf.suggestion.note_zh)}` : ''}`
     : '_none_ / 无_';

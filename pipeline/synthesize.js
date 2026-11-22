@@ -4,7 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { DIRS, FILES } from './lib/env.js';
-import { log, readYAML, writeYAML, readJSON, writeJSON, listYAMLFiles, ruleHash, nextId, conflictFingerprint, sha1 } from './lib/util.js';
+import { log, readYAML, writeYAML, readJSON, writeJSON, listYAMLFiles, ruleHash, nextId, conflictFingerprint, sha1, tokens, jaccard } from './lib/util.js';
 import { chatJSON } from './lib/llm.js';
 
 const DOMAINS = ['color', 'type', 'layout', 'motion', 'a11y', 'copy', 'imagery', 'code', 'process'];
@@ -278,6 +278,13 @@ export async function synthesize({ applyOnly = false, onlyDomain = null } = {}) 
       const bId = synthById.get(d.b_id)?.source_ids?.[0] ?? d.b_id;
       const ra = idToRule.get(aId), rb = idToRule.get(bId);
       if (!ra || !rb || aId === bId) { log(`synthesize: dilemma with unresolvable ids ${d.a_id}~${d.b_id}, skipped`); continue; }
+      // guards against non-dilemmas the detector files anyway — restatements aren't contradictions
+      if (jaccard(tokens(ra.rule), tokens(rb.rule)) >= 0.8) {
+        log(`synthesize: near-identical sides ${aId}~${bId} skipped (restatement, not a dilemma)`); continue;
+      }
+      if (/not contradict|no (true )?dilemma|identical|redundant|same directive|do not conflict/i.test(d.explanation ?? '')) {
+        log(`synthesize: self-admitted non-dilemma ${aId}~${bId} skipped`); continue;
+      }
       const fp = conflictFingerprint([{ text: ra.rule }, { text: rb.rule }]);
       if (seenPair.has(fp)) continue;
       seenPair.add(fp);
