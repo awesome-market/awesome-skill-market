@@ -1,0 +1,32 @@
+id: conf-0015
+status: pending
+fingerprint: 3001d3f36f75
+detected_at: 2026-11-22T11:30:34.103Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-947
+    hash: 0d41c994e9de
+    severity: reflex
+    text: Place exactly one filled primary button per page and route the quiet variant elsewhere.
+    text_zh: 每页放置恰好一个填充主按钮，并将安静变体路由到别处。
+  - key: B
+    source: taste-skill
+    rule_id: taste--1002
+    hash: 7c9b9edb1bd2
+    severity: floor
+    text: A close must contain exactly one primary button.
+    text_zh: 一个关闭必须包含恰好一个主按钮。
+ai_explanation: Rule A constrains primary buttons at the page scope (exactly one filled primary button per page), while Rule B constrains them at the close-element scope (exactly one primary button per close). When a close is nested inside a page, requiring one primary button inside the close can exceed the page's single-primary-button budget, producing a contradiction.
+ai_explanation_zh: 规则A在页面作用域约束主按钮数量（每页恰好一个填充主按钮），而规则B在关闭元素作用域约束（每个关闭恰好一个主按钮）。当关闭元素嵌套在页面内时，要求关闭包含一个主按钮可能超过页面仅一个主按钮的预算，从而产生矛盾。
+suggestion:
+  kind: scope-split
+  note: "Split by scope: Rule A governs pages (exactly one filled primary button per page, route the quiet variant elsewhere); Rule B governs close elements (exactly one primary button per close). When a close is its own page/surface, both apply consistently; when nested within a page, Rule B governs the close's own button and the page's count must account for it."
+  note_zh: 按作用域拆分：规则A管理页面（每页恰好一个填充主按钮，安静变体路由到别处）；规则B管理关闭元素（每个关闭恰好一个主按钮）。当关闭自身是页面/表面时，两者一致适用；当嵌套在页面内时，规则B管理关闭自身的按钮，页面计数需计入该按钮。
+issue_url: https://github.com/terry2010/deslop-fusion/issues/15
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

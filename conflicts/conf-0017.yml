@@ -1,0 +1,32 @@
+id: conf-0017
+status: pending
+fingerprint: 11380bece055
+detected_at: 2026-11-22T11:46:21.128Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-627
+    hash: 2806c88626a9
+    severity: floor
+    text: Never place two neighbouring sections with the same skeleton on one page.
+    text_zh: 永远不要在一页上放置两个具有相同骨架的相邻区块。
+  - key: B
+    source: taste-skill
+    rule_id: taste--1025
+    hash: 7e434b8090e4
+    severity: reflex
+    text: Splits must keep one side across neighbouring sections.
+    text_zh: 分割必须在相邻区块间保持一侧。
+ai_explanation: Rule A forbids two neighbouring sections sharing the same skeleton on one page, while Rule B requires splits to keep one side across neighbouring sections — if that side carries the same skeleton, the two rules directly contradict each other.
+ai_explanation_zh: 规则A禁止在一页上放置两个具有相同骨架的相邻区块，而规则B要求分割在相邻区块间保持一侧——若该侧承载相同骨架，则两条规则直接矛盾。
+suggestion:
+  kind: scope-split
+  note: Rule A governs regular section layout (never repeat the same skeleton in neighbouring sections); Rule B governs split mechanics (keep one side spanning across neighbouring sections).
+  note_zh: 规则A规范常规区块布局（相邻区块不重复相同骨架）；规则B规范分割机制（保持一侧跨相邻区块延伸）。
+issue_url: https://github.com/terry2010/deslop-fusion/issues/17
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

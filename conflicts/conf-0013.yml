@@ -24,4 +24,9 @@ suggestion:
   kind: scope-split
   note: Apply Rule A when the context calls for real content (a photograph or product image) — flag empty boxes or drawings; apply Rule B when the context calls for an effect, drawing, or empty box — flag photographs. Distinguish by what is contextually appropriate for the location.
   note_zh: 当上下文需要真实内容（照片或产品图）时应用规则A——标记空色块或绘制插图；当上下文需要效果、绘图或空框时应用规则B——标记照片。依据该位置上下文适当的内容进行区分。
-issue_url: null
+issue_url: https://github.com/terry2010/deslop-fusion/issues/13
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

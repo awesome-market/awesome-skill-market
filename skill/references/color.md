@@ -66,8 +66,7 @@
 - **(floor)** Never stamp decorative status dots or sticker-style pills on every element.
 - **(floor)** Never use a masthead or a blurred pill, as they fight the playful register.
 - **(floor)** Every stateful control must implement all eight states: default, hover, focus, active, disabled, loading, error, and success.
-- **(floor)** Focus must render a 2px solid focus-colour ring with 2px offset, inset on inputs via negative offset, and only show via :focus-visible.
-- **(floor)** Never apply outline: none without providing an equivalent visible focus indicator.
+- **(floor)** Never apply outline: none (or outline: 0) without replacing it with an equivalent visible focus indicator / focus-visible style.
 - **(floor)** The focus ring must maintain at least 3:1 contrast against both the element and the page background.
 - **(floor)** Disabled controls must combine opacity 0.55, cursor not-allowed, and the native disabled attribute or aria-disabled, keeping focusability via aria-disabled when needed.
 - **(floor)** Error state must apply the error colour to the border, message, and aria-invalid, never relying on colour alone.
@@ -127,7 +126,6 @@
 - **(floor)** Separate sections only with full-width ground changes or space, never rules, shadows, inner hairlines, or inset coloured boxes.
 - **(floor)** Ensure all text and interactive elements meet WCAG AA color contrast ratios.
 - **(floor)** Do not rely on color alone to convey information or state.
-- **(floor)** Provide visible focus indicators for all interactive elements.
 - **(reflex)** Spend boldness in one place, keeping everything else quiet and disciplined, and cut decoration that does not serve the brief.
 - **(reflex)** Do not default to a warm cream background with high-contrast serif display and terracotta or warm-clay accents unless the brief explicitly requests that direction.
 - **(reflex)** Do not default to a near-black background with a single bright acid-green or vermilion accent unless the brief explicitly requests that direction.
@@ -247,7 +245,6 @@
 - **(reflex)** Keep saturated colour in accents and pictures, and never use a mid-tone section as the main ground.
 - **(reflex)** Apply paper to body and topglow around the nav and hero set without setting any ground tokens.
 - **(reflex)** Ensure the thirteen section grounds set the page tokens so cards and buttons work unchanged.
-- **(reflex)** Allow at most one loud ground per page.
 - **(reflex)** Place words on photo grounds over their calm, dark part, only in the hero and one closing band.
 - **(reflex)** Tune tints toward the accent and never toward violet.
 - **(reflex)** Draw tech grounds from the sixteen CSS grounds in assets/backgrounds without WebGL.

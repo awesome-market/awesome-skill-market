@@ -63,8 +63,8 @@
 - **(floor)** Write the Hallmark stamp in the first lines of CSS of every build or checked form.
 - **(floor)** Never emit success states for forms or controls with no request behind them; keep an empty data-endpoint and no success state until the form is wired.
 - **(floor)** Never ship with an open FAIL or REFLEX; fix floors, fix or waive reflexes, and read and answer finish findings.
+- **(floor)** Never apply outline: none (or outline: 0) without replacing it with an equivalent visible focus indicator / focus-visible style.
 - **(floor)** A head plus a paragraph is only a head block, never a full section.
-- **(floor)** Never place two neighbouring sections with the same skeleton on one page.
 - **(floor)** Reserve the hero for the first screen only.
 - **(floor)** Never repeat the same composition in neighbouring sections and mirror a split at most once.
 - **(floor)** Close with an email field only when the job natively calls for a mailing list or the user asked.
@@ -129,7 +129,6 @@
 - **(floor)** A place footer-visit must use hours matching the visit section.
 - **(floor)** Write a screen plan listing each section's id, one idea, picture, screen count, and tech effect before building any UI.
 - **(floor)** Write each plan line's visual kind and keep at most three object lines.
-- **(floor)** Show at most one product render per page.
 - **(floor)** Merge short blocks that would hold under 495px into the section above as their last element with no own heading or ground.
 - **(floor)** An FAQ that reaches 495px with answers open becomes its own section.
 - **(floor)** A card layout may appear at most twice per page, neighbours must never share a layout, and a calm section must follow at most two visual ones on software, product, and service.
@@ -181,6 +180,7 @@
 - **(floor)** Use the lit ground only on tech pages, behind UI, in closing bands and footer-statement.
 - **(floor)** Never use gradients, hard-stop two-tones, grain, paper, halo, texture, pattern, glass, contour, canvas, backdrop-filter, gradient masks or interface shadows on non-tech pages.
 - **(floor)** Limit grain to a single tile made at load, never animated and never over UI, text or photographs.
+- **(floor)** Stop loops off screen and hold them still under reduced motion with no buttons; muted decorative loops must stop under prefers-reduced-motion.
 - **(floor)** Never include a sample, example, or to follow note anywhere, even one line in the footer.
 - **(floor)** Invent no fact, figure, name, price, hour, or detail that the brief or client files do not supply, and leave the corresponding section empty or shrink it when a field is missing.
 - **(floor)** Use a node-and-line diagram only to show how things connect, and never to depict a screen or UI fragment.
@@ -270,17 +270,11 @@
 - **(floor)** Every form control must have a label via label element or aria-label.
 - **(floor)** Interactive elements must include keyboard handlers such as onKeyDown or onKeyUp.
 - **(floor)** Use button for actions and a or Link for navigation instead of div with onClick.
-- **(floor)** Maintain hierarchical h1 through h6 headings and include a skip link to main content.
 - **(floor)** Interactive media needs keyboard support while decorative media must hide from assistive tech.
-- **(floor)** Interactive elements must show a visible focus ring via focus-visible ring utilities.
-- **(floor)** Never apply outline none without replacing it with a focus-visible style.
 - **(floor)** Never block paste via onPaste with preventDefault.
 - **(floor)** Warn before navigation when changes are unsaved using beforeunload or a router guard.
 - **(floor)** Honor prefers-reduced-motion by providing a reduced variant or disabling motion.
 - **(floor)** Never use transition all; list target properties explicitly.
-- **(floor)** Autoplaying motion longer than five seconds alongside other content must expose pause, stop, or hide controls.
-- **(floor)** Muted decorative loops must stop under prefers-reduced-motion.
-- **(floor)** Every img must set explicit width and height to prevent layout shift.
 - **(floor)** Never perform layout reads such as getBoundingClientRect during render.
 - **(floor)** Navigation links must use a or Link to support modifier clicks and middle-click.
 - **(floor)** Destructive actions must require a confirmation modal or provide an undo window instead of acting immediately.
@@ -359,7 +353,6 @@
 - **(reflex)** Sweep components with sloplint scope component, which skips the page-only gates.
 - **(reflex)** Treat dashboards, admins, settings pages, and tools as app-screen scope when the prompt or sign-in indicates them.
 - **(reflex)** Sweep app screens with sloplint scope app, which skips the listed page-only gates and reads control heights on the app range.
-- **(reflex)** Keep filters, tabs, and pagination in the URL for app screens.
 - **(reflex)** Make destructive actions undoable or confirmed in app screens.
 - **(reflex)** Stamp app screens with shape: app screen so sloplint and the edit-time hook recognize the app scope.
 - **(reflex)** Print structural findings with file:line and a one-line fix each without rebuilding them during a polish.
@@ -583,20 +576,16 @@
 - **(reflex)** Checkbox and radio labels plus controls must share a single hit target without dead zones.
 - **(reflex)** Keep the submit button enabled until the request starts and show a spinner during the request.
 - **(reflex)** Show errors inline next to fields and focus the first error on submit.
-- **(reflex)** Placeholders must end with an ellipsis and show an example pattern.
 - **(reflex)** Set autocomplete off on non-auth fields to avoid password manager triggers.
 - **(reflex)** Animations must remain interruptible and respond to user input mid-animation.
 - **(reflex)** Use a single ellipsis character instead of three dots.
 - **(reflex)** Use curly quotes instead of straight quotes for typography.
 - **(reflex)** Use non-breaking spaces between units, modifiers, and brand names.
 - **(reflex)** Loading state labels must end with an ellipsis character.
-- **(reflex)** Use tabular-nums for number columns and numeric comparisons.
-- **(reflex)** Apply text-wrap balance or text-pretty to headings to prevent widows.
 - **(reflex)** Text containers must handle long content with truncate, line-clamp, or break-words.
 - **(reflex)** Flex children must set min-w-0 to allow text truncation.
 - **(reflex)** Render proper empty states instead of broken UI for empty strings or arrays.
 - **(reflex)** Anticipate short, average, and very long user-generated inputs when building containers.
-- **(reflex)** Below-fold images must set loading lazy.
 - **(reflex)** Above-fold critical images must use priority or fetchpriority high.
 - **(reflex)** Virtualize lists longer than fifty items using virtualization or content-visibility auto.
 - **(reflex)** Batch DOM reads and writes and avoid interleaving them.
@@ -605,7 +594,6 @@
 - **(reflex)** Preload critical fonts with link rel preload as font and font-display swap.
 - **(reflex)** Prefer autoplay muted loop playsinline video over animated GIFs and provide a still alternative.
 - **(reflex)** Short non-essential loops must use compressed video with a still fallback and reduced-motion handling.
-- **(reflex)** Reflect filters, tabs, pagination, and expanded panels in query params.
 - **(reflex)** Sync stateful UI to the URL when state drives behavior.
 - **(reflex)** Apply touch-action manipulation to prevent double-tap zoom delay.
 - **(reflex)** Set -webkit-tap-highlight-color intentionally on touch targets.
@@ -613,7 +601,6 @@
 - **(reflex)** Suppress page rubber-band with overscroll-behavior none on html inside fine-pointer media while keeping coarse-pointer defaults.
 - **(reflex)** Disable text selection and mark dragged elements inert during drag operations.
 - **(reflex)** Use autoFocus only on desktop for a single primary input and avoid it on mobile.
-- **(reflex)** Full-bleed layouts must apply env safe-area-inset values for notches.
 - **(reflex)** Prevent unwanted scrollbars by clipping overflow on containers and fixing content overflow.
 - **(reflex)** Use flex and grid for layout instead of JavaScript measurement.
 - **(reflex)** Set color-scheme dark on html for dark themes to fix scrollbars and inputs.
@@ -656,5 +643,4 @@
 - **(guidance)** Carry the one-line voice card, every assumed price or hour, and the list of what the client must still supply in the report.
 - **(guidance)** Every motion must have a one-line stated purpose; a motion with no purpose is cut.
 - **(guidance)** Content must be fully readable at rest, without script and under reduced motion, since motion only adds to an already whole page.
-- **(guidance)** Write copy in active voice.
 - **(guidance)** Write copy in second person and avoid first person.

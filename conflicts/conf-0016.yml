@@ -1,0 +1,32 @@
+id: conf-0016
+status: pending
+fingerprint: 33f30e99d70c
+detected_at: 2026-11-22T11:35:43.841Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--775
+    hash: 53f5b05df1ae
+    severity: floor
+    text: Set width and height or aspect-ratio on every image.
+    text_zh: 为每张图像设置宽度和高度，或设置宽高比。
+  - key: B
+    source: web-design-guidelines
+    rule_id: web-de-047
+    hash: 7c50977a0f28
+    severity: floor
+    text: Every img must set explicit width and height to prevent layout shift.
+    text_zh: 每张 img 必须设置明确的宽度和高度，以防止布局偏移。
+ai_explanation: Rule A permits aspect-ratio as an alternative to explicit width/height, while Rule B requires explicit width and height — an image with only aspect-ratio satisfies A but violates B.
+ai_explanation_zh: 规则A允许仅设置宽高比作为替代，而规则B要求设置明确的宽度和高度——仅设置宽高比的图像满足A但违反B。
+suggestion:
+  kind: merge
+  note: Set explicit width and height on every img to prevent layout shift; when dimensions are unknown, set aspect-ratio as a fallback.
+  note_zh: 为每张 img 设置明确的宽度和高度以防止布局偏移；当尺寸未知时，设置宽高比作为备选。
+issue_url: https://github.com/terry2010/deslop-fusion/issues/16
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

@@ -29,6 +29,7 @@
 - **(floor)** Never use Comic-style faces.
 - **(floor)** Keep numbers, names and claims in type and never let a photograph stand in for a fact, customer, teammate or testimonial.
 - **(floor)** Use only photographs printed by the library script or supplied by the user, never memory-derived URLs or stock-site images.
+- **(floor)** Set width and height or aspect-ratio on every image; for srcset images, preserve the printed srcset, set sizes to the layout width, and crop with aspect-ratio, object-fit cover, and the printed object-position.
 - **(floor)** Ensure every slot shows the user's image, a library photograph, or the fully built product, never only its wash.
 - **(floor)** Never show visible placeholder labels, ratio notes or sample chips; carry that information in data-alt and the handoff.
 - **(floor)** Never build a mock of a product the build could have captured.
@@ -170,7 +171,6 @@
 - **(floor)** Wrap every leading photograph in an <a class="m-zoom"> around its <img>, or place img.frame__img inside a linked frame.
 - **(floor)** Keep shaders and WebGL effects off place, product and service pages; those pages get photographs only.
 - **(floor)** Keep each WebGL piece's still when its shader fails.
-- **(floor)** Set width and height or aspect-ratio on every image.
 - **(floor)** Render below-fold photos as img elements, never as CSS backgrounds.
 - **(floor)** Give every picture slot a real src, width and height so no visual shows only its ground.
 - **(floor)** Lead every screen with two or three of the client's own photographs, the real software interface, or the game's own art, never a random object or effect in place of the subject.
@@ -234,8 +234,8 @@
 - **(floor)** Do not use a single stand-in photograph across every slot.
 - **(floor)** When the brief does not ask for 3D, never emit a data-product-fill over 1 or a 3D render.
 - **(floor)** Every img must have alt text or alt empty string for decorative images.
-- **(floor)** Every img must set explicit width and height to prevent layout shift.
 - **(reflex)** Open the page with the single most characteristic element of the subject in the most appropriate form, rather than the default big-number-and-gradient treatment.
+- **(reflex)** Treat type — its treatment and chosen typeface — as an active, primary design element rather than a neutral carrier or afterthought, especially when it functions as a headline or visual element.
 - **(reflex)** Show the actual product or offering in the hero (the room, cover, dates, or screen) rather than a generic element.
 - **(reflex)** When the prompt gives no content for a section, build it as a clearly marked sample the user replaces, showing the shape of the real thing.
 - **(reflex)** For a try job, show features as named moments captured from the product, not icon tiles.
@@ -281,7 +281,6 @@
 - **(reflex)** Permit a single character moment as the only decorative animated element.
 - **(reflex)** Prefer the user's own media, then real product screenshots, then the built product, then library photographs, then generated stills, then full-scale type, in that order.
 - **(reflex)** Make the hero photograph the largest element on the first screen, either full-bleed behind the headline or beside it at 60 to 75 percent of screen height.
-- **(reflex)** Preserve the printed srcset, set sizes to the layout width, and crop with aspect-ratio, object-fit cover and the printed object-position.
 - **(reflex)** Mark the hero photograph as the LCP with fetchpriority high and never loading lazy, while lazy-loading every other image.
 - **(reflex)** Use a hero or full-bleed photograph at least 2400px on its long side, and treat smaller ones as soft past 1920px.
 - **(reflex)** Give every swappable image a data-slot, a data-alt describing the user's intended picture, and a real size.
@@ -333,12 +332,10 @@
 - **(reflex)** Use a product capture at least 360px tall per stage when the user provided screens, otherwise use a figure or rows from the prompt.
 - **(reflex)** Make the heading occupy half the screen width and place a capture or supplied quote in the other half.
 - **(reflex)** Keep every image on the proof side, using a real capture or a product built in a slot.
-- **(reflex)** Treat the chosen typeface as the primary design element rather than an afterthought.
 - **(reflex)** Use no image in the specimen since the typography itself is the imagery.
 - **(reflex)** Show a thumbnail per card from the user's work and, until images load, set projects in type with at most one empty slot.
 - **(reflex)** Draw the map as SVG derived from real places or the real system, including hover states.
 - **(reflex)** Use thumbnails throughout the page so it reads as dense imagery of real platform content.
-- **(reflex)** Treat the interactive previews as the imagery and restrict photographs to at most one band per page.
 - **(reflex)** Use only honest base cards (spec sheet, worked example, changelog, comparison anatomy, pricing table, FAQ, CTA strip, footer) that require no invented material.
 - **(reflex)** Choose exactly one image treatment from full-bleed, tightly cropped to the grid, inline with the text, margin-aligned, or none.
 - **(reflex)** Keep the six fingerprint choices coherent, drawn from the same design world.
@@ -437,7 +434,7 @@
 - **(reflex)** Ship separate phone and desktop video files.
 - **(reflex)** Keep total images under 2400 and the largest single image under 700 KiB.
 - **(reflex)** Give every img width and height or CSS aspect-ratio.
-- **(reflex)** Lazy-load below-fold images that are not already lazy.
+- **(reflex)** Below-fold images must set loading='lazy' (lazy-load them if not already lazy).
 - **(reflex)** Avoid oversized images, CSS backgrounds and SVGs whose natural size exceeds 2.2x the shown width.
 - **(reflex)** Avoid below-fold photos rendered as CSS or SVG backgrounds.
 - **(reflex)** Judge object modules by count, ensuring more object modules are not loaded than canvases or fallback hosts drawn.
@@ -467,7 +464,6 @@
 - **(reflex)** Key art must be named via a comment referencing assets/client/key-art.jpg.
 - **(reflex)** Meaningful media must provide captions, transcripts, or descriptions as appropriate.
 - **(reflex)** Apply SVG transforms to a g wrapper with transform-box fill-box and transform-origin center.
-- **(reflex)** Below-fold images must set loading lazy.
 - **(reflex)** Above-fold critical images must use priority or fetchpriority high.
 - **(reflex)** Prefer autoplay muted loop playsinline video over animated GIFs and provide a still alternative.
 - **(reflex)** Short non-essential loops must use compressed video with a still fallback and reduced-motion handling.

@@ -1,0 +1,32 @@
+id: conf-0014
+status: pending
+fingerprint: 0cb370b1a408
+detected_at: 2026-11-22T11:30:10.393Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-877
+    hash: 1fcd1ea4b1aa
+    severity: reflex
+    text: "Treat interactive previews as imagery and limit visual content per page: show at most one band of photographs and at most one product render per page."
+    text_zh: 将交互式预览视为图像内容，并限制每页的视觉内容：每页最多显示一条照片带和最多一个产品渲染。
+  - key: B
+    source: taste-skill
+    rule_id: taste--162
+    hash: ec862808a48f
+    severity: reflex
+    text: Allow at most one loud ground per page.
+    text_zh: 每页最多允许一个强色/高视觉强度背景区域。
+ai_explanation: Rule A explicitly permits one band of photographs plus one product render per page; if both are visually loud or each sits on its own strong-color ground, that produces two loud grounds, which Rule B caps at one — so the two rules can contradict within the same page scope.
+ai_explanation_zh: 规则A明确允许每页显示一条照片带加一个产品渲染；若两者视觉上都强烈，或各自位于自己的强色背景上，则会产生两个强色背景，而规则B将每页强色背景上限设为一个——因此两条规则在同一页面范围内可能冲突。
+suggestion:
+  kind: scope-split
+  note: Rule A governs the count of imagery elements (≤1 band of photographs + ≤1 product render per page). Rule B governs the count of loud color grounds (≤1 per page). They apply to different dimensions; when an imagery element is itself visually loud or requires a loud ground, B's one-loud-ground cap constrains that element's color/visual weight.
+  note_zh: 规则A管控图像元素数量（每页≤1条照片带 + ≤1个产品渲染）。规则B管控强色/高视觉强度背景区域数量（每页≤1个）。二者作用于不同维度；当某个图像元素本身视觉强烈或需要强色背景时，B的'每页最多一个强色背景'上限会约束该元素的色彩/视觉强度。
+issue_url: https://github.com/terry2010/deslop-fusion/issues/14
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

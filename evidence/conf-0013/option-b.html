@@ -1,0 +1,39 @@
+<!doctype html>
+<html><head><style>
+body{margin:0;font-family:system-ui,sans-serif;background:#f4f4f4;color:#222}
+.frame{width:1200px;height:800px;background:#fff;box-shadow:0 0 0 1px #ccc;position:relative;overflow:hidden}
+.topbar{height:56px;border-bottom:1px solid #e5e5e5;display:flex;align-items:center;padding:0 24px;font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:32px}
+.card{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:20px}
+.thumb{height:160px;border-radius:8px;margin-bottom:16px;display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff}
+.p1{background:#3b82f6}
+.p2{background:#10b981}
+.p3{background:#f59e0b}
+h3{margin:0 0 8px}
+p{margin:0;font-size:14px;color:#555}
+.badge{position:absolute;top:16px;right:16px;background:#16a34a;color:#fff;font-size:12px;padding:6px 12px;border-radius:999px;font-weight:600}
+caption{position:absolute;bottom:0;left:0;background:#111;color:#fff;font-size:13px;padding:10px 16px;border-top-right-radius:8px}
+</style></head><body>
+<div class="frame">
+  <div class="topbar">Product Gallery</div>
+  <div class="badge">Rule B applied</div>
+  <div class="grid">
+    <div class="card">
+      <div class="thumb p1">Real product photo</div>
+      <h3>Wireframe widget</h3>
+      <p>A photograph occupies the placeholder slot.</p>
+    </div>
+    <div class="card">
+      <div class="thumb p2">Real product photo</div>
+      <h3>Icon placeholder</h3>
+      <p>A photograph replaces the drawn illustration.</p>
+    </div>
+    <div class="card">
+      <div class="thumb p3">Real product photo</div>
+      <h3>Colour swatch</h3>
+      <p>A photograph fills the empty colour block.</p>
+    </div>
+  </div>
+  <caption>OPTION B — Keep photo where placeholder belongs</caption>
+</div>
+</body></html>

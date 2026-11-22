@@ -1,0 +1,1 @@
+Both files share the same two-image gallery scaffold. Option A uses width plus aspect-ratio (no explicit height); Option B uses explicit width and height (320x240). A viewer should compare the <img> rules: A omits height and sets aspect-ratio, B sets both width and height.

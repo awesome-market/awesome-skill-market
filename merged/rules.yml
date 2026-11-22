@@ -1,9 +1,9 @@
-generated_at: 2026-11-22T11:28:40.513Z
+generated_at: 2026-11-22T11:46:21.146Z
 counts:
   extracted: 2570
   canonical: 2570
-  merged: 2555
-  pendingHeld: 4
+  merged: 2518
+  pendingHeld: 12
 rules:
   - id: fronte-001
     rule: Identify the product, audience, and primary job from the brief or memory before designing, and confirm them with the client if the brief omits them.
@@ -1202,18 +1202,22 @@ rules:
       - source: hallmark
         id: hallma-183
   - id: hallma-184
-    rule: Under reduced motion, all motion must resolve instantly.
+    rule: Under prefers-reduced-motion, all motion must resolve instantly and present a single still frame instead of animated motion; liquid must pause and hold still.
     severity: floor
     scope:
       - motion
       - a11y
-    evidence: recording
+    evidence: none
     mechanizable: true
     hash: 26a86fc6b575
     source: hallmark
     sources:
       - source: hallmark
         id: hallma-184
+      - source: taste-skill
+        id: taste--164
+      - source: taste-skill
+        id: taste--014
   - id: hallma-185
     rule: Include an Exports section that lists tokens.css and any requested Tailwind, DTCG, or shadcn blocks.
     severity: floor
@@ -1574,18 +1578,19 @@ rules:
       - source: hallmark
         id: hallma-2493
   - id: hallma-2494
-    rule: "Never use transition: all and never animate width, height, top or left."
+    rule: "Never use transition: all and never animate width, height, top, left, margin or padding in motion."
     severity: floor
     scope:
-      - motion
-      - code
-    evidence: audit
+      - motion,code
+    evidence: none
     mechanizable: true
     hash: 91f4005f43e3
     source: hallmark
     sources:
       - source: hallmark
         id: hallma-2494
+      - source: taste-skill
+        id: taste--729
   - id: hallma-2495
     rule: Never place a single italic word inside a roman (non-italic) heading.
     severity: floor
@@ -1625,18 +1630,20 @@ rules:
       - source: hallmark
         id: hallma-2497
   - id: hallma-2498
-    rule: Give every interactive element an instantly visible :focus-visible state.
+    rule: Give every interactive element an instantly visible :focus-visible state (a visible focus indicator).
     severity: floor
     scope:
-      - a11y
-      - code
-    evidence: screenshot
+      - interactive elements
+      - focus management
+    evidence: audit
     mechanizable: true
     hash: 98590b01dde3
     source: hallmark
     sources:
       - source: hallmark
         id: hallma-2498
+      - source: web-design-guidelines
+        id: web-de-097
   - id: hallma-2499
     rule: "Provide a prefers-reduced-motion: reduce fallback for every animation and keep content visible with scripting disabled."
     severity: floor
@@ -1953,18 +1960,20 @@ rules:
       - source: hallmark
         id: hallma-292
   - id: hallma-293
-    rule: Never use emoji as list bullets.
+    rule: Do not use emoji as list bullets.
     severity: floor
     scope:
       - copy
       - layout
-    evidence: screenshot
-    mechanizable: false
+    evidence: none
+    mechanizable: true
     hash: 859909efd09c
     source: hallmark
     sources:
       - source: hallmark
         id: hallma-293
+      - source: taste-skill
+        id: taste--337
   - id: hallma-294
     rule: Never ship a tight grotesk at 600 on near-white with one blue accent and a 1px border under a soft shadow.
     severity: floor
@@ -2159,6 +2168,21 @@ rules:
     sources:
       - source: hallmark
         id: hallma-321
+  - id: hallma-326
+    rule: Use one family or a display plus text face with fixed jobs, at most four font files, and never Inter, Roboto, Open Sans, Poppins, Lato, Montserrat, Space Grotesk, Plus Jakarta Sans, or the system look; always choose the display face from the theme or fonts.md.
+    severity: floor
+    scope:
+      - type
+      - code
+    evidence: none
+    mechanizable: true
+    hash: "580856348295"
+    source: hallmark
+    sources:
+      - source: hallmark
+        id: hallma-326
+      - source: taste-skill
+        id: taste--680
   - id: hallma-329
     rule: Never place one italic word inside an otherwise roman heading; use a line break or set the whole heading one way.
     severity: floor
@@ -2443,15 +2467,17 @@ rules:
     rule: Pause auto-rotating content on hover and focus, and add a visible pause control for anything moving past 5 seconds.
     severity: floor
     scope:
-      - a11y
       - motion
-    evidence: screenshot
+      - a11y
+    evidence: none
     mechanizable: true
     hash: d58714e4527c
     source: hallmark
     sources:
       - source: hallmark
         id: hallma-386
+      - source: taste-skill
+        id: taste--1271
   - id: hallma-387
     rule: Give every interactive element a :focus-visible ring at 3:1 contrast or better, and never remove the outline without replacing it.
     severity: floor
@@ -2628,18 +2654,19 @@ rules:
       - source: hallmark
         id: hallma-412
   - id: hallma-426
-    rule: Add lang, a title element, and a meta description to every document.
+    rule: lang, title, description, and share tags must all be set on every document.
     severity: floor
     scope:
       - code
-      - a11y
-    evidence: audit
+    evidence: none
     mechanizable: true
     hash: ab7366144448
     source: hallmark
     sources:
       - source: hallmark
         id: hallma-426
+      - source: taste-skill
+        id: taste--1279
   - id: hallma-452
     rule: Until a form endpoint exists, validate without posting and plainly state that nothing was sent.
     severity: floor
@@ -2867,17 +2894,20 @@ rules:
       - source: hallmark
         id: hallma-493
   - id: hallma-502
-    rule: Never use an italic serif body type.
+    rule: Body copy must never be set in italic type — including italic serif body faces.
     severity: floor
     scope:
-      - type
-    evidence: screenshot
+      - body copy
+      - body type
+    evidence: none
     mechanizable: true
     hash: 11d86612c4e7
     source: hallmark
     sources:
       - source: hallmark
         id: hallma-502
+      - source: web-design-guidelines
+        id: web-de-117
   - id: hallma-503
     rule: Avoid applying hairlines across all elements.
     severity: floor
@@ -3107,6 +3137,20 @@ rules:
     sources:
       - source: hallmark
         id: hallma-536
+  - id: hallma-538
+    rule: Set width and height or aspect-ratio on every image; for srcset images, preserve the printed srcset, set sizes to the layout width, and crop with aspect-ratio, object-fit cover, and the printed object-position.
+    severity: floor
+    scope:
+      - imagery
+    evidence: none
+    mechanizable: true
+    hash: ae80dbdc333b
+    source: hallmark
+    sources:
+      - source: hallmark
+        id: hallma-538
+      - source: taste-skill
+        id: taste--775
   - id: hallma-542
     rule: Ensure every slot shows the user's image, a library photograph, or the fully built product, never only its wash.
     severity: floor
@@ -3214,32 +3258,39 @@ rules:
       - source: hallmark
         id: hallma-569
   - id: hallma-571
-    rule: Focus must render a 2px solid focus-colour ring with 2px offset, inset on inputs via negative offset, and only show via :focus-visible.
+    rule: Interactive elements must show a visible focus ring via :focus-visible, rendered as a 2px solid focus-colour ring with 2px offset (inset on inputs via negative offset).
     severity: floor
     scope:
-      - color
+      - focus rings
+      - interactive elements
       - a11y
       - type
-    evidence: screenshot
+    evidence: none
     mechanizable: true
     hash: 18638e100b64
     source: hallmark
     sources:
       - source: hallmark
         id: hallma-571
+      - source: web-design-guidelines
+        id: web-de-013
   - id: hallma-572
-    rule: "Never apply outline: none without providing an equivalent visible focus indicator."
+    rule: "Never apply outline: none (or outline: 0) without replacing it with an equivalent visible focus indicator / focus-visible style."
     severity: floor
     scope:
       - a11y
       - color
-    evidence: screenshot
+      - code
+      - process
+    evidence: none
     mechanizable: true
     hash: eab1cb81da49
     source: hallmark
     sources:
       - source: hallmark
         id: hallma-572
+      - source: web-design-guidelines
+        id: web-de-014
   - id: hallma-573
     rule: The focus ring must maintain at least 3:1 contrast against both the element and the page background.
     severity: floor
@@ -3313,20 +3364,22 @@ rules:
       - source: hallmark
         id: hallma-579
   - id: hallma-580
-    rule: Every field must have a visible label above it, never using placeholder as the label.
+    rule: Every field must have a visible label above it; never rely on placeholder or aria-label alone.
     severity: floor
     scope:
-      - type
       - a11y
       - copy
       - layout
-    evidence: screenshot
+      - code
+    evidence: none
     mechanizable: true
     hash: 3cd9e29762f2
     source: hallmark
     sources:
       - source: hallmark
         id: hallma-580
+      - source: taste-skill
+        id: taste--1211
   - id: hallma-583
     rule: Error messages must describe what broke, why, and what to do in one sentence, tied to the field via aria-describedby and aria-invalid true.
     severity: floor
@@ -3503,19 +3556,6 @@ rules:
     sources:
       - source: hallmark
         id: hallma-624
-  - id: hallma-627
-    rule: Never place two neighbouring sections with the same skeleton on one page.
-    severity: floor
-    scope:
-      - layout
-      - process
-    evidence: screenshot
-    mechanizable: true
-    hash: 2806c88626a9
-    source: hallmark
-    sources:
-      - source: hallmark
-        id: hallma-627
   - id: hallma-635
     rule: Never leave empty grid frames, stock faces for people, or icon tiles over headings.
     severity: floor
@@ -3827,6 +3867,21 @@ rules:
     sources:
       - source: hallmark
         id: hallma-720
+  - id: hallma-724
+    rule: Make each FAQ section heading a short direct question ending in a question mark; never use a question as a heading outside the FAQ.
+    severity: floor
+    scope:
+      - FAQ section headings
+      - headings outside FAQ
+    evidence: none
+    mechanizable: true
+    hash: 361d41115699
+    source: hallmark
+    sources:
+      - source: hallmark
+        id: hallma-724
+      - source: taste-skill
+        id: taste--270
   - id: hallma-727
     rule: Do not reveal FAQ answers on page load.
     severity: floor
@@ -4822,32 +4877,36 @@ rules:
       - source: hallmark
         id: hallma-961
   - id: hallma-965
-    rule: Pause any content moving longer than five seconds until script runs, off-screen, under reduced motion, on hover/focus, and expose a visible pause control.
+    rule: Pause any content moving longer than five seconds (including autoplaying motion alongside other content) until script runs, off-screen, under reduced motion, on hover/focus, and expose visible pause, stop, or hide controls.
     severity: floor
     scope:
       - motion
       - a11y
       - code
-    evidence: screenshot
+    evidence: none
     mechanizable: true
     hash: 37154f649ddb
     source: hallmark
     sources:
       - source: hallmark
         id: hallma-965
+      - source: web-design-guidelines
+        id: web-de-035
   - id: hallma-966
-    rule: Include an absolute-positioned skip-to-content link that becomes visible on focus.
+    rule: Include an absolute-positioned skip-to-content link that becomes visible on focus, and maintain hierarchical h1 through h6 headings.
     severity: floor
     scope:
-      - a11y
-      - layout
-    evidence: screenshot
+      - a11y,layout
+      - a11y,code,process
+    evidence: none
     mechanizable: true
     hash: 4f65d7195770
     source: hallmark
     sources:
       - source: hallmark
         id: hallma-966
+      - source: web-design-guidelines
+        id: web-de-009
   - id: hallma-967
     rule: Carry over every fact, claim, name, price, date, quote, figure, and logo from the existing page exactly as found, adding nothing the page did not already state.
     severity: floor
@@ -5079,19 +5138,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--011
-  - id: taste--014
-    rule: Under prefers-reduced-motion show a single still frame instead of animated motion.
-    severity: floor
-    scope:
-      - a11y
-      - motion
-    evidence: screenshot
-    mechanizable: true
-    hash: b24e0fe03a76
-    source: taste-skill
-    sources:
-      - source: taste-skill
-        id: taste--014
   - id: taste--015
     rule: Render a CSS fallback in the same colours when WebGL is unavailable.
     severity: floor
@@ -5716,19 +5762,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--100
-  - id: taste--1002
-    rule: A close must contain exactly one primary button.
-    severity: floor
-    scope:
-      - layout
-      - copy
-    evidence: screenshot
-    mechanizable: true
-    hash: 7c9b9edb1bd2
-    source: taste-skill
-    sources:
-      - source: taste-skill
-        id: taste--1002
   - id: taste--1003
     rule: The big close button must not appear anywhere else on the page.
     severity: floor
@@ -6099,19 +6132,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--1049
-  - id: taste--105
-    rule: Show at most one product render per page.
-    severity: floor
-    scope:
-      - layout
-      - process
-    evidence: audit
-    mechanizable: false
-    hash: 6d1ce097458c
-    source: taste-skill
-    sources:
-      - source: taste-skill
-        id: taste--105
   - id: taste--1050
     rule: The main action must read identically in the nav, hero, close or booking, and phone bar, and appear nowhere else as a filled button.
     severity: floor
@@ -7135,19 +7155,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--1209
-  - id: taste--1211
-    rule: Give every field a visible label above it and never rely on placeholder or aria-label alone.
-    severity: floor
-    scope:
-      - a11y
-      - code
-    evidence: screenshot
-    mechanizable: true
-    hash: 93ad371882ab
-    source: taste-skill
-    sources:
-      - source: taste-skill
-        id: taste--1211
   - id: taste--1213
     rule: Validate on submit, set aria-invalid and aria-describedby errors named by field and move focus to the first failed field.
     severity: floor
@@ -7175,17 +7182,21 @@ rules:
       - source: taste-skill
         id: taste--1215
   - id: taste--1217
-    rule: Give every control a name and an aria-label for icon-only buttons.
+    rule: Give every control a name, and give every icon-only button an aria-label describing its action.
     severity: floor
     scope:
-      - a11y
-    evidence: audit
+      - accessibility
+      - icon-only buttons
+      - control naming
+    evidence: none
     mechanizable: true
     hash: acc0619826b0
     source: taste-skill
     sources:
       - source: taste-skill
         id: taste--1217
+      - source: web-design-guidelines
+        id: web-de-001
   - id: taste--1218
     rule: Set alt on content photographs, alt empty on decorative ones and role img with aria-label on drawn mocks.
     severity: floor
@@ -7607,19 +7618,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--1270
-  - id: taste--1271
-    rule: Anything moving past 5 seconds must have a pause button.
-    severity: floor
-    scope:
-      - motion
-      - a11y
-    evidence: recording
-    mechanizable: true
-    hash: b78cefc53221
-    source: taste-skill
-    sources:
-      - source: taste-skill
-        id: taste--1271
   - id: taste--1272
     rule: Under reduced motion, everything must rest and nothing may stay hidden.
     severity: floor
@@ -7711,19 +7709,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--1278
-  - id: taste--1279
-    rule: lang, title, description, and share tags must all be set.
-    severity: floor
-    scope:
-      - code
-      - copy
-    evidence: audit
-    mechanizable: true
-    hash: 550f256f3a29
-    source: taste-skill
-    sources:
-      - source: taste-skill
-        id: taste--1279
   - id: taste--128
     rule: In image mode the page must hold no canvas and no WebGL context.
     severity: floor
@@ -8367,6 +8352,23 @@ rules:
     sources:
       - source: taste-skill
         id: taste--224
+  - id: taste--238
+    rule: Stop loops off screen and hold them still under reduced motion with no buttons; muted decorative loops must stop under prefers-reduced-motion.
+    severity: floor
+    scope:
+      - motion
+      - a11y
+      - code
+      - process
+    evidence: none
+    mechanizable: true
+    hash: 2508758b008b
+    source: taste-skill
+    sources:
+      - source: taste-skill
+        id: taste--238
+      - source: web-design-guidelines
+        id: web-de-036
   - id: taste--248
     rule: Never place a big fragment dead centre with even ground all round, nor a dialog alone on a ground.
     severity: floor
@@ -8525,18 +8527,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--264
-  - id: taste--270
-    rule: Never use a question as a heading except inside the FAQ.
-    severity: floor
-    scope:
-      - copy
-    evidence: screenshot
-    mechanizable: true
-    hash: fc20ca24f95e
-    source: taste-skill
-    sources:
-      - source: taste-skill
-        id: taste--270
   - id: taste--285
     rule: "Include only proof the brief gives: verbatim quotes with name and role or town, sourced figures and showable customer logos."
     severity: floor
@@ -10334,19 +10324,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--679
-  - id: taste--680
-    rule: Use one family or a display plus text face with fixed jobs, at most four font files, and never Inter, Roboto, Open Sans, Lato, Montserrat, Poppins, Space Grotesk, Plus Jakarta Sans, or the system look.
-    severity: floor
-    scope:
-      - type
-      - code
-    evidence: audit
-    mechanizable: true
-    hash: 6134fa0c8d2d
-    source: taste-skill
-    sources:
-      - source: taste-skill
-        id: taste--680
   - id: taste--681
     rule: Set headlines at --display-weight with size and tight tracking, use text 400 and 500 only, keep sizes per level with at least 1.3x scaling from 1024, and never use weights 700 or 800 except the letters moment.
     severity: floor
@@ -10819,19 +10796,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--727
-  - id: taste--729
-    rule: Never animate width, height, top, left, margin or padding in motion.
-    severity: floor
-    scope:
-      - motion
-      - code
-    evidence: audit
-    mechanizable: true
-    hash: b966db938209
-    source: taste-skill
-    sources:
-      - source: taste-skill
-        id: taste--729
   - id: taste--732
     rule: Never use rotate, skew, glow, shine sweep, chip glide, tilt, flip, pointer-follow, magnetic button or pointer simulation.
     severity: floor
@@ -11029,19 +10993,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--768
-  - id: taste--775
-    severity: floor
-    scope:
-      - imagery
-      - layout
-    evidence: screenshot
-    mechanizable: true
-    rule: Set width and height or aspect-ratio on every image.
-    hash: 53f5b05df1ae
-    source: taste-skill
-    sources:
-      - source: taste-skill
-        id: taste--775
   - id: taste--778
     severity: floor
     scope:
@@ -12601,19 +12552,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--996
-  - id: web-de-001
-    rule: Give every icon-only button an aria-label describing its action.
-    severity: floor
-    scope:
-      - a11y
-      - code
-    evidence: audit
-    mechanizable: true
-    hash: 0ac1582809e3
-    source: web-design-guidelines
-    sources:
-      - source: web-design-guidelines
-        id: web-de-001
   - id: web-de-002
     rule: Every form control must have a label via label element or aria-label.
     severity: floor
@@ -12696,20 +12634,6 @@ rules:
     sources:
       - source: web-design-guidelines
         id: web-de-007
-  - id: web-de-009
-    rule: Maintain hierarchical h1 through h6 headings and include a skip link to main content.
-    severity: floor
-    scope:
-      - a11y
-      - code
-      - process
-    evidence: audit
-    mechanizable: true
-    hash: 6807adf9cf4b
-    source: web-design-guidelines
-    sources:
-      - source: web-design-guidelines
-        id: web-de-009
   - id: web-de-012
     rule: Interactive media needs keyboard support while decorative media must hide from assistive tech.
     severity: floor
@@ -12724,34 +12648,6 @@ rules:
     sources:
       - source: web-design-guidelines
         id: web-de-012
-  - id: web-de-013
-    rule: Interactive elements must show a visible focus ring via focus-visible ring utilities.
-    severity: floor
-    scope:
-      - a11y
-      - code
-      - process
-    evidence: screenshot
-    mechanizable: true
-    hash: b66f218f9f6e
-    source: web-design-guidelines
-    sources:
-      - source: web-design-guidelines
-        id: web-de-013
-  - id: web-de-014
-    rule: Never apply outline none without replacing it with a focus-visible style.
-    severity: floor
-    scope:
-      - a11y
-      - code
-      - process
-    evidence: audit
-    mechanizable: true
-    hash: 6be81585daf9
-    source: web-design-guidelines
-    sources:
-      - source: web-design-guidelines
-        id: web-de-014
   - id: web-de-017
     rule: Sticky headers, footers, and overlays must not cover the focused element.
     severity: floor
@@ -12821,48 +12717,6 @@ rules:
     sources:
       - source: web-design-guidelines
         id: web-de-031
-  - id: web-de-035
-    rule: Autoplaying motion longer than five seconds alongside other content must expose pause, stop, or hide controls.
-    severity: floor
-    scope:
-      - a11y
-      - code
-      - process
-    evidence: screenshot
-    mechanizable: true
-    hash: d17388599529
-    source: web-design-guidelines
-    sources:
-      - source: web-design-guidelines
-        id: web-de-035
-  - id: web-de-036
-    rule: Muted decorative loops must stop under prefers-reduced-motion.
-    severity: floor
-    scope:
-      - motion
-      - code
-      - process
-    evidence: screenshot
-    mechanizable: true
-    hash: 3ab5e48983c8
-    source: web-design-guidelines
-    sources:
-      - source: web-design-guidelines
-        id: web-de-036
-  - id: web-de-047
-    rule: Every img must set explicit width and height to prevent layout shift.
-    severity: floor
-    scope:
-      - code
-      - imagery
-      - process
-    evidence: audit
-    mechanizable: true
-    hash: 7c50977a0f28
-    source: web-design-guidelines
-    sources:
-      - source: web-design-guidelines
-        id: web-de-047
   - id: web-de-051
     rule: Never perform layout reads such as getBoundingClientRect during render.
     severity: floor
@@ -13013,20 +12867,6 @@ rules:
     sources:
       - source: web-design-guidelines
         id: web-de-096
-  - id: web-de-097
-    rule: Provide visible focus indicators for all interactive elements.
-    severity: floor
-    scope:
-      - color
-      - a11y
-      - code
-    evidence: screenshot
-    mechanizable: true
-    hash: 648114da6790
-    source: web-design-guidelines
-    sources:
-      - source: web-design-guidelines
-        id: web-de-097
   - id: web-de-100
     rule: Make interactive targets at least 44x44 CSS pixels with sufficient spacing.
     severity: floor
@@ -13124,18 +12964,21 @@ rules:
       - source: frontend-design
         id: fronte-004
   - id: fronte-005
-    rule: When type functions as a headline or visual element, treat the type treatment itself as an active design element rather than a neutral carrier.
+    rule: Treat type — its treatment and chosen typeface — as an active, primary design element rather than a neutral carrier or afterthought, especially when it functions as a headline or visual element.
     severity: reflex
     scope:
       - type
       - layout
-    evidence: screenshot
-    mechanizable: false
+      - imagery
+    evidence: none
+    mechanizable: true
     hash: ac81c6abdb1d
     source: frontend-design
     sources:
       - source: frontend-design
         id: fronte-005
+      - source: hallmark
+        id: hallma-833
   - id: fronte-006
     rule: Keep body line lengths under 80 characters, allowing slightly longer lines for serif body text.
     severity: reflex
@@ -13248,17 +13091,20 @@ rules:
       - source: frontend-design
         id: fronte-016
   - id: fronte-017
-    rule: Use active voice by default in interface copy.
+    rule: Write interface copy in active voice by default; reserve passive voice only when it is genuinely clearer.
     severity: reflex
     scope:
-      - copy
-    evidence: screenshot
-    mechanizable: false
+      - frontend-design
+      - web-design-guidelines
+    evidence: none
+    mechanizable: true
     hash: d1fab0e7dfc7
     source: frontend-design
     sources:
       - source: frontend-design
         id: fronte-017
+      - source: web-design-guidelines
+        id: web-de-084
   - id: fronte-018
     rule: Keep an action's name identical across the entire flow, so the button label matches the resulting status or toast.
     severity: reflex
@@ -13589,18 +13435,21 @@ rules:
       - source: hallmark
         id: hallma-014
   - id: hallma-015
-    rule: For an attend job, place tickets in the nav from the first screen and make the date and place the headline.
+    rule: For attend jobs, place tickets in the nav from the first screen and surface one hard fact (a number, place, price, or date) as the headline on the first screen.
     severity: reflex
     scope:
       - layout
       - copy
-    evidence: screenshot
-    mechanizable: false
+      - attend-jobs
+    evidence: none
+    mechanizable: true
     hash: 45c65935de16
     source: hallmark
     sources:
       - source: hallmark
         id: hallma-015
+      - source: taste-skill
+        id: taste--395
   - id: hallma-016
     rule: An attend page must end with tickets again, the questions, or a mailing list for the next edition.
     severity: reflex
@@ -14075,17 +13924,20 @@ rules:
       - source: hallmark
         id: hallma-074
   - id: hallma-075
-    rule: Apply text-wrap balance to headings and pretty to body copy so no head or paragraph ends on a single stub word.
+    rule: Apply text-wrap balance to headings and text-pretty to body copy to prevent widows and ensure no heading or paragraph ends on a single stub word.
     severity: reflex
     scope:
-      - type
-    evidence: screenshot
+      - headings
+      - body copy
+    evidence: none
     mechanizable: true
     hash: 5ebeddc30dc9
     source: hallmark
     sources:
       - source: hallmark
         id: hallma-075
+      - source: web-design-guidelines
+        id: web-de-042
   - id: hallma-076
     rule: Constrain headings by their own element width in ch, not by their wrapper.
     severity: reflex
@@ -14343,18 +14195,20 @@ rules:
       - source: hallmark
         id: hallma-1003
   - id: hallma-1006
-    rule: With viewport-fit cover, fold the safe area into the gutter token using max with env safe-area-inset values.
+    rule: Full-bleed / viewport-fit=cover layouts must apply env(safe-area-inset-*) values (via max() when computing gutter tokens) to account for notches.
     severity: reflex
     scope:
       - layout
       - code
-    evidence: screenshot
+    evidence: none
     mechanizable: true
     hash: 33253499d02a
     source: hallmark
     sources:
       - source: hallmark
         id: hallma-1006
+      - source: web-design-guidelines
+        id: web-de-069
   - id: hallma-1007
     rule: On phones, keep the row-naming column and the action column visible by restacking each row as a labelled block or pinning the first column, treating many columns as a redesign rather than a squeeze.
     severity: reflex
@@ -16306,18 +16160,20 @@ rules:
       - source: hallmark
         id: hallma-2511
   - id: hallma-2512
-    rule: Write a hero headline of seven words or fewer and one sentence of twelve words or fewer with one or two actions.
+    rule: Write a hero headline of seven words or fewer and one sentence of twelve words or fewer with one or two actions; show at most two actions in the hero, with one on a place.
     severity: reflex
     scope:
       - copy
       - layout
-    evidence: screenshot
+    evidence: none
     mechanizable: true
     hash: 2c3d13700880
     source: hallmark
     sources:
       - source: hallmark
         id: hallma-2512
+      - source: taste-skill
+        id: taste--400
   - id: hallma-2513
     rule: Build six to nine sections including hero and footer with at most 450 visible words and give each section a composition with mass.
     severity: reflex
@@ -16557,19 +16413,19 @@ rules:
       - source: hallmark
         id: hallma-265
   - id: hallma-267
-    rule: Keep filters, tabs, and pagination in the URL for app screens.
+    rule: Keep filters, tabs, pagination, and expanded panels in query params (the URL) for app screens.
     severity: reflex
     scope:
-      - layout
-      - code
-      - process
-    evidence: audit
-    mechanizable: false
+      - app screens
+    evidence: none
+    mechanizable: true
     hash: c44916c9f7d8
     source: hallmark
     sources:
       - source: hallmark
         id: hallma-267
+      - source: web-design-guidelines
+        id: web-de-058
   - id: hallma-268
     rule: Make destructive actions undoable or confirmed in app screens.
     severity: reflex
@@ -16978,18 +16834,6 @@ rules:
     sources:
       - source: hallmark
         id: hallma-325
-  - id: hallma-326
-    rule: Never use Inter, Roboto, Open Sans, Poppins, Lato, or a system face as the display; use a display face from the theme or fonts.md.
-    severity: reflex
-    scope:
-      - type
-    evidence: audit
-    mechanizable: true
-    hash: "580856348295"
-    source: hallmark
-    sources:
-      - source: hallmark
-        id: hallma-326
   - id: hallma-327
     rule: Keep running prose max-width between 45 and 75ch, never render lines of about 88 characters or more over three lines, and cap lede/caption widths at 28ch for two-sentence-or-fewer copy.
     severity: reflex
@@ -18345,19 +18189,6 @@ rules:
     sources:
       - source: hallmark
         id: hallma-534
-  - id: hallma-538
-    rule: Preserve the printed srcset, set sizes to the layout width, and crop with aspect-ratio, object-fit cover and the printed object-position.
-    severity: reflex
-    scope:
-      - imagery
-      - code
-    evidence: audit
-    mechanizable: true
-    hash: ae80dbdc333b
-    source: hallmark
-    sources:
-      - source: hallmark
-        id: hallma-538
   - id: hallma-539
     rule: Mark the hero photograph as the LCP with fetchpriority high and never loading lazy, while lazy-loading every other image.
     severity: reflex
@@ -18689,18 +18520,21 @@ rules:
       - source: hallmark
         id: hallma-576
   - id: hallma-581
-    rule: Placeholders must show a format example, never an instruction.
+    rule: Placeholders must show a format/example pattern (never an instruction) and end with an ellipsis.
     severity: reflex
     scope:
-      - type
-      - copy
-    evidence: screenshot
+      - placeholder
+      - form
+      - input
+    evidence: none
     mechanizable: true
     hash: 74720d9b5f81
     source: hallmark
     sources:
       - source: hallmark
         id: hallma-581
+      - source: web-design-guidelines
+        id: web-de-026
   - id: hallma-582
     rule: Validation must occur on blur once a field is touched, then on every subsequent input.
     severity: reflex
@@ -19639,15 +19473,17 @@ rules:
     rule: Keep the body to a single column with line-height of at least 1.65 and a measure of 60 to 65 characters.
     severity: reflex
     scope:
-      - type
-      - layout
-    evidence: screenshot
+      - body text
+      - body
+    evidence: none
     mechanizable: true
     hash: 25d934e19df5
     source: hallmark
     sources:
       - source: hallmark
         id: hallma-684
+      - source: web-design-guidelines
+        id: web-de-107
   - id: hallma-685
     rule: Use negative space as the only divider between sections, allowing at most one centered ornament for emphasis.
     severity: reflex
@@ -19811,17 +19647,21 @@ rules:
       - source: hallmark
         id: hallma-702
   - id: hallma-703
-    rule: Apply tabular-nums to all numeric text on the page.
+    rule: Apply tabular-nums to all numeric text on the page (including number columns and numeric comparisons).
     severity: reflex
     scope:
-      - type
-    evidence: screenshot
+      - numeric text
+      - number columns
+      - numeric comparisons
+    evidence: none
     mechanizable: true
     hash: 44ebd6364d45
     source: hallmark
     sources:
       - source: hallmark
         id: hallma-703
+      - source: web-design-guidelines
+        id: web-de-041
   - id: hallma-704
     rule: Place an outlined button chip beneath the qualifier whose label begins with a verb.
     severity: reflex
@@ -20001,19 +19841,6 @@ rules:
     sources:
       - source: hallmark
         id: hallma-723
-  - id: hallma-724
-    rule: Make each FAQ section heading a short direct question ending in a question mark.
-    severity: reflex
-    scope:
-      - type
-      - copy
-    evidence: screenshot
-    mechanizable: true
-    hash: 361d41115699
-    source: hallmark
-    sources:
-      - source: hallmark
-        id: hallma-724
   - id: hallma-725
     rule: Keep each answer to one or two short paragraphs placed directly under its question.
     severity: reflex
@@ -20880,19 +20707,6 @@ rules:
     sources:
       - source: hallmark
         id: hallma-832
-  - id: hallma-833
-    rule: Treat the chosen typeface as the primary design element rather than an afterthought.
-    severity: reflex
-    scope:
-      - type
-      - imagery
-    evidence: screenshot
-    mechanizable: false
-    hash: b420698db380
-    source: hallmark
-    sources:
-      - source: hallmark
-        id: hallma-833
   - id: hallma-834
     rule: Show the typeface at multiple sizes in the specimen heading to demonstrate its behavior.
     severity: reflex
@@ -21217,19 +21031,6 @@ rules:
     sources:
       - source: hallmark
         id: hallma-875
-  - id: hallma-877
-    rule: Treat the interactive previews as the imagery and restrict photographs to at most one band per page.
-    severity: reflex
-    scope:
-      - imagery
-      - layout
-    evidence: screenshot
-    mechanizable: false
-    hash: 1fcd1ea4b1aa
-    source: hallmark
-    sources:
-      - source: hallmark
-        id: hallma-877
   - id: hallma-878
     rule: Omit reveal animations on the playground.
     severity: reflex
@@ -21764,19 +21565,6 @@ rules:
     sources:
       - source: hallmark
         id: hallma-944
-  - id: hallma-947
-    rule: Place exactly one filled primary button per page and route the quiet variant elsewhere.
-    severity: reflex
-    scope:
-      - layout
-      - copy
-    evidence: screenshot
-    mechanizable: false
-    hash: 0d41c994e9de
-    source: hallmark
-    sources:
-      - source: hallmark
-        id: hallma-947
   - id: hallma-948
     rule: Render photographs as 4:5 aspect-ratio slots with a 440px minimum height and card-radius corners.
     severity: reflex
@@ -22893,18 +22681,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--1024
-  - id: taste--1025
-    rule: Splits must keep one side across neighbouring sections.
-    severity: reflex
-    scope:
-      - layout
-    evidence: screenshot
-    mechanizable: false
-    hash: 7e434b8090e4
-    source: taste-skill
-    sources:
-      - source: taste-skill
-        id: taste--1025
   - id: taste--1026
     rule: At most two visual sections may precede a calm section.
     severity: reflex
@@ -24968,33 +24744,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--160
-  - id: taste--162
-    rule: Allow at most one loud ground per page.
-    severity: reflex
-    scope:
-      - color
-      - layout
-    evidence: screenshot
-    mechanizable: false
-    hash: ec862808a48f
-    source: taste-skill
-    sources:
-      - source: taste-skill
-        id: taste--162
-  - id: taste--164
-    rule: Make liquid pause under reduced motion and hold still when motion is reduced.
-    severity: reflex
-    scope:
-      - motion
-      - a11y
-      - code
-    evidence: recording
-    mechanizable: true
-    hash: 26846d16dd50
-    source: taste-skill
-    sources:
-      - source: taste-skill
-        id: taste--164
   - id: taste--166
     rule: Place words on photo grounds over their calm, dark part, only in the hero and one closing band.
     severity: reflex
@@ -25774,19 +25523,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--237
-  - id: taste--238
-    rule: Stop loops off screen and hold them still under reduced motion with no buttons.
-    severity: reflex
-    scope:
-      - motion
-      - a11y
-    evidence: screenshot
-    mechanizable: true
-    hash: 2508758b008b
-    source: taste-skill
-    sources:
-      - source: taste-skill
-        id: taste--238
   - id: taste--239
     rule: Use one cycle of 2.5 to 4 seconds that repeats and restarts on pointer or focus entry, and never move the card itself by itself.
     severity: reflex
@@ -26613,18 +26349,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--336
-  - id: taste--337
-    severity: reflex
-    rule: Do not use emoji as list bullets.
-    scope:
-      - copy
-    evidence: screenshot
-    mechanizable: true
-    hash: 12b43e488039
-    source: taste-skill
-    sources:
-      - source: taste-skill
-        id: taste--337
   - id: taste--338
     severity: reflex
     rule: Do not append an arrow after every link's text.
@@ -27041,18 +26765,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--381
-  - id: taste--395
-    rule: Put one hard fact—a number, place, price, or date—in the first screen.
-    severity: reflex
-    scope:
-      - copy
-    evidence: screenshot
-    mechanizable: true
-    hash: 2a6c243957d6
-    source: taste-skill
-    sources:
-      - source: taste-skill
-        id: taste--395
   - id: taste--396
     rule: Give every heading a noun naming a thing, a section, or a digit.
     severity: reflex
@@ -27077,18 +26789,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--397
-  - id: taste--400
-    rule: Show at most two actions in the hero, with one on a place.
-    severity: reflex
-    scope:
-      - copy
-    evidence: screenshot
-    mechanizable: true
-    hash: 6ad4527fe09d
-    source: taste-skill
-    sources:
-      - source: taste-skill
-        id: taste--400
   - id: taste--401
     rule: Use at most ten different button labels across a page.
     severity: reflex
@@ -29816,14 +29516,16 @@ rules:
     scope:
       - imagery
       - code
-    evidence: screenshot
+    evidence: none
     mechanizable: true
-    rule: Lazy-load below-fold images that are not already lazy.
+    rule: Below-fold images must set loading='lazy' (lazy-load them if not already lazy).
     hash: 148df32dc495
     source: taste-skill
     sources:
       - source: taste-skill
         id: taste--794
+      - source: web-design-guidelines
+        id: web-de-048
   - id: taste--795
     severity: reflex
     scope:
@@ -31098,20 +30800,6 @@ rules:
     sources:
       - source: web-design-guidelines
         id: web-de-025
-  - id: web-de-026
-    rule: Placeholders must end with an ellipsis and show an example pattern.
-    severity: reflex
-    scope:
-      - copy
-      - code
-      - process
-    evidence: screenshot
-    mechanizable: true
-    hash: 3d80fad3c26b
-    source: web-design-guidelines
-    sources:
-      - source: web-design-guidelines
-        id: web-de-026
   - id: web-de-027
     rule: Set autocomplete off on non-auth fields to avoid password manager triggers.
     severity: reflex
@@ -31222,34 +30910,6 @@ rules:
     sources:
       - source: web-design-guidelines
         id: web-de-040
-  - id: web-de-041
-    rule: Use tabular-nums for number columns and numeric comparisons.
-    severity: reflex
-    scope:
-      - type
-      - code
-      - process
-    evidence: screenshot
-    mechanizable: true
-    hash: 8b063e689d83
-    source: web-design-guidelines
-    sources:
-      - source: web-design-guidelines
-        id: web-de-041
-  - id: web-de-042
-    rule: Apply text-wrap balance or text-pretty to headings to prevent widows.
-    severity: reflex
-    scope:
-      - type
-      - code
-      - process
-    evidence: screenshot
-    mechanizable: true
-    hash: 07aa28d0f939
-    source: web-design-guidelines
-    sources:
-      - source: web-design-guidelines
-        id: web-de-042
   - id: web-de-043
     rule: Text containers must handle long content with truncate, line-clamp, or break-words.
     severity: reflex
@@ -31306,20 +30966,6 @@ rules:
     sources:
       - source: web-design-guidelines
         id: web-de-046
-  - id: web-de-048
-    rule: Below-fold images must set loading lazy.
-    severity: reflex
-    scope:
-      - code
-      - imagery
-      - process
-    evidence: audit
-    mechanizable: true
-    hash: 493f8cb7587e
-    source: web-design-guidelines
-    sources:
-      - source: web-design-guidelines
-        id: web-de-048
   - id: web-de-049
     rule: Above-fold critical images must use priority or fetchpriority high.
     severity: reflex
@@ -31427,20 +31073,6 @@ rules:
     sources:
       - source: web-design-guidelines
         id: web-de-057
-  - id: web-de-058
-    rule: Reflect filters, tabs, pagination, and expanded panels in query params.
-    severity: reflex
-    scope:
-      - code
-      - process
-      - layout
-    evidence: audit
-    mechanizable: true
-    hash: 18986a9914d2
-    source: web-design-guidelines
-    sources:
-      - source: web-design-guidelines
-        id: web-de-058
   - id: web-de-060
     rule: Sync stateful UI to the URL when state drives behavior.
     severity: reflex
@@ -31539,20 +31171,6 @@ rules:
     sources:
       - source: web-design-guidelines
         id: web-de-068
-  - id: web-de-069
-    rule: Full-bleed layouts must apply env safe-area-inset values for notches.
-    severity: reflex
-    scope:
-      - layout
-      - code
-      - process
-    evidence: screenshot
-    mechanizable: true
-    hash: 5dfed0b79f97
-    source: web-design-guidelines
-    sources:
-      - source: web-design-guidelines
-        id: web-de-069
   - id: web-de-070
     rule: Prevent unwanted scrollbars by clipping overflow on containers and fixing content overflow.
     severity: reflex
@@ -31887,20 +31505,6 @@ rules:
     sources:
       - source: web-design-guidelines
         id: web-de-106
-  - id: web-de-107
-    rule: Set line height to at least 1.5 for body text.
-    severity: reflex
-    scope:
-      - type
-      - a11y
-      - code
-    evidence: audit
-    mechanizable: true
-    hash: 0377aa06419f
-    source: web-design-guidelines
-    sources:
-      - source: web-design-guidelines
-        id: web-de-107
   - id: web-de-108
     rule: Do not render body text in all caps.
     severity: reflex
@@ -32780,19 +32384,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--953
-  - id: web-de-117
-    rule: Do not use italic type for body copy.
-    severity: finish
-    scope:
-      - type
-      - copy
-    evidence: screenshot
-    mechanizable: true
-    hash: c9b09101e7ef
-    source: web-design-guidelines
-    sources:
-      - source: web-design-guidelines
-        id: web-de-117
   - id: hallma-1052
     rule: Never request copy, actions, or visuals the page lacks; instead state in one line what the owner could supply.
     severity: guidance
@@ -33088,19 +32679,6 @@ rules:
     sources:
       - source: taste-skill
         id: taste--756
-  - id: web-de-084
-    rule: Write copy in active voice.
-    severity: guidance
-    scope:
-      - copy
-      - process
-    evidence: none
-    mechanizable: false
-    hash: 47a4e9691941
-    source: web-design-guidelines
-    sources:
-      - source: web-design-guidelines
-        id: web-de-084
   - id: web-de-089
     rule: Write copy in second person and avoid first person.
     severity: guidance

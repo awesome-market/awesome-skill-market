@@ -27,7 +27,7 @@
 - **(floor)** Keep the hero headline, one sentence and primary action visible at 1280 x 800 without scrolling.
 - **(floor)** Keep roughly 80 words per screen and make the hero text only the headline, one sentence and its actions.
 - **(floor)** Use only the product's own figures; never add icon tiles, gradients, or trend arrows nobody measured.
-- **(floor)** Never use emoji as list bullets.
+- **(floor)** Do not use emoji as list bullets.
 - **(floor)** Hallmark does not invent copy, pick a brand identity, enforce an uncommitted style, or build logic.
 - **(floor)** Never emit a tracked-caps label: any label, caption, table head, nav link, tag, chip, or text at 15px or under set uppercase, small caps, or letter-spaced past 0.03em.
 - **(floor)** Keep fewer than about 80 words in any 900px window at 1440 and never put more than two text blocks before actions in a hero.
@@ -43,7 +43,7 @@
 - **(floor)** Never use illustration packs, mascots, 3D blobs, isometric scenes, mesh orbs, auroras behind text, stock faces as proof, invented logo walls, hover zoom or rotation, baked text in images, or photos of other interfaces.
 - **(floor)** Error state must apply the error colour to the border, message, and aria-invalid, never relying on colour alone.
 - **(floor)** Success state must derive from the server response, use at most one icon from the page set, never a toast, and must not exist where no request was made.
-- **(floor)** Every field must have a visible label above it, never using placeholder as the label.
+- **(floor)** Every field must have a visible label above it; never rely on placeholder or aria-label alone.
 - **(floor)** Error messages must describe what broke, why, and what to do in one sentence, tied to the field via aria-describedby and aria-invalid true.
 - **(floor)** Required fields must carry aria-required and a visible word, never colour alone.
 - **(floor)** Never leave empty grid frames, stock faces for people, or icon tiles over headings.
@@ -91,7 +91,6 @@
 - **(floor)** Never add a caption under a print that explains the effect, and never reveal that the image is a print.
 - **(floor)** Never place text over a print, and only allow a small UI card on a corner of the frame without covering the subject.
 - **(floor)** Place all credits in the footer's single credits line, never under the print, and mark printed photographs as adapted.
-- **(floor)** A close must contain exactly one primary button.
 - **(floor)** A footer-visit must use hours matching the visit section.
 - **(floor)** A footer-visit must not print an email or phone the brief does not give.
 - **(floor)** A footer-statement must contain no second big button.
@@ -130,7 +129,6 @@
 - **(floor)** No placeholder, sample note, or printed .example address may appear in the shipped UI.
 - **(floor)** Contacts must include street number, postcode, coordinates, company number, and phone number as specified in rule 9.
 - **(floor)** Get directions requires a street, See the area requires a district, and no map link may use a town only.
-- **(floor)** lang, title, description, and share tags must all be set.
 - **(floor)** Headings must name things, buttons must pair a verb with an object, and there may be at most two hero actions.
 - **(floor)** Assumed facts must be marked, and no line may claim something is open now based on them.
 - **(floor)** Every link must land, forms must send, confirmations must only appear after a real send, and each error must sit under its own field.
@@ -143,7 +141,6 @@
 - **(floor)** Never include a sample, example, or to follow note anywhere, even one line in the footer.
 - **(floor)** Name the category in the hero h1 using one of the allowed forms and never stack two adjectives.
 - **(floor)** Keep greetings, state-of-mind lines, questions, imperatives, enemy lines, twisted idioms and product-news lines out of the h1.
-- **(floor)** Never use a question as a heading except inside the FAQ.
 - **(floor)** Include only proof the brief gives: verbatim quotes with name and role or town, sourced figures and showable customer logos.
 - **(floor)** Place a risk reversal beside the button only when it is true.
 - **(floor)** Make every button a verb and the real object and keep it literal about what happens next.
@@ -229,7 +226,6 @@
 - **(floor)** Every interactive element must have an accessible name via label, aria-label, or visible text.
 - **(reflex)** Treat copy as design content and write it with the same intentionality and minimalism applied to spacing and color.
 - **(reflex)** Name things by what users understand in plain language rather than by how the system is built.
-- **(reflex)** Use active voice by default in interface copy.
 - **(reflex)** Keep an action's name identical across the entire flow, so the button label matches the resulting status or toast.
 - **(reflex)** Treat empty screens as invitations to act rather than as mood.
 - **(reflex)** Keep copy conversational with plain verbs, sentence case, no filler, and a tone matched to the brand and audience.
@@ -244,7 +240,7 @@
 - **(reflex)** A book page must end with hours, address, and the booking again.
 - **(reflex)** For a visit job, place today's hours and address in the nav or hero, and add tickets or donate only if the prompt includes them.
 - **(reflex)** A visit page must end with visit information and address, or a mailing list for what is on next.
-- **(reflex)** For an attend job, place tickets in the nav from the first screen and make the date and place the headline.
+- **(reflex)** For attend jobs, place tickets in the nav from the first screen and surface one hard fact (a number, place, price, or date) as the headline on the first screen.
 - **(reflex)** An attend page must end with tickets again, the questions, or a mailing list for the next edition.
 - **(reflex)** For a sign-up job, place start free in the nav and hero with its terms in one line under it.
 - **(reflex)** For a hire job, use a plain contact (email, phone, or Talk to us) in the nav and once more after the work, with no form.
@@ -293,7 +289,7 @@
 - **(reflex)** Replace Shape and Theme with Idea and Look in the picks block, and state what was decided in every other row.
 - **(reflex)** Use the stamp format theme: custom with a one-sentence idea, a 4 to 8 word vibe, the paper accent and faces, hero in own words, and posture and axes values.
 - **(reflex)** Ask once about material, audience, use and tone before building, then infer skipped fields and state the inferences.
-- **(reflex)** Write a hero headline of seven words or fewer and one sentence of twelve words or fewer with one or two actions.
+- **(reflex)** Write a hero headline of seven words or fewer and one sentence of twelve words or fewer with one or two actions; show at most two actions in the hero, with one on a place.
 - **(reflex)** Build six to nine sections including hero and footer with at most 450 visible words and give each section a composition with mass.
 - **(reflex)** Never use a stock-site URL, a drawn illustration, an empty wash, a row of counting marks or an invented figure.
 - **(reflex)** Deliver the product's signature object, such as the ledger, timeline, or queue, rather than a greeting above stat cards.
@@ -319,7 +315,6 @@
 - **(reflex)** Write warm, direct, specific copy and avoid quirk for its own sake.
 - **(reflex)** Add captions as facts from the prompt beside or under each picture, never credit lines or claims that a stand-in is the user's own person, place or product.
 - **(reflex)** Display only the user's own logos, monochrome and one treatment per row, sized 32 to 48px tall, plus Simple Icons only for named platforms or brands.
-- **(reflex)** Placeholders must show a format example, never an instruction.
 - **(reflex)** Labels sit 4 to 8px above fields, helpers sit about 4px below at label size with min-height 1lh, and errors replace helpers in that line without adding a second.
 - **(reflex)** Reversible actions must run immediately and offer Undo for 5 to 10 seconds; irreversible actions must keep confirm with the user typing the name of the thing being destroyed.
 - **(reflex)** Empty states must state what is empty, why it matters, and one action, never a bare No results.
@@ -336,7 +331,6 @@
 - **(reflex)** Render each capture as a figure element containing a figcaption that states one fact plus one inline annotation.
 - **(reflex)** Label the sticky bottom bar with an action verb such as 'Start a project'.
 - **(reflex)** Write captions that name concrete inputs and actions instead of marketing claims.
-- **(reflex)** Make each FAQ section heading a short direct question ending in a question mark.
 - **(reflex)** Keep each answer to one or two short paragraphs placed directly under its question.
 - **(reflex)** Place a typographic link inside an answer that carries an explicit verb such as Read the policy.
 - **(reflex)** Include exactly one outlined call-to-action button at the foot of the FAQ.
@@ -365,7 +359,6 @@
 - **(reflex)** State both deck moves in the Picks block using the deck syntax such as deck: -cta +changelog.
 - **(reflex)** State the chosen shape once, in the Picks block Shape row and the stamp shape field.
 - **(reflex)** Swap the copy button label to Copied for 2.5s instead of showing a toast.
-- **(reflex)** Place exactly one filled primary button per page and route the quiet variant elsewhere.
 - **(reflex)** Limit placeholder fill spans to two per page and name each in the handoff.
 - **(reflex)** Tighten wording that fails a copy gate from facts already on the page and list every changed line before and after.
 - **(reflex)** Never delete an eyebrow alone; where its heading is figurative, promote the plain label to the heading.
@@ -466,7 +459,6 @@
 - **(reflex)** Do not use question-then-answer, colon-reveal, or 'serves as'/'plays a key role' phrasing where 'is' or 'has' would suffice.
 - **(reflex)** Avoid using em dashes throughout body copy.
 - **(reflex)** Do not use exclamation marks in body copy.
-- **(reflex)** Do not use emoji as list bullets.
 - **(reflex)** Do not append an arrow after every link's text.
 - **(reflex)** Name the specific street or thing instead of using dead metaphors like 'landscape', 'ecosystem', or 'journey'.
 - **(reflex)** Choose a writing register per client from copy-registers.md instead of applying one uniform house voice.
@@ -501,10 +493,8 @@
 - **(reflex)** Spend each signature device at most once per page, where it lands hardest, and never repeat two in a row.
 - **(reflex)** Do not place lists of three in consecutive sentences.
 - **(reflex)** Use step numbers only where the order itself is the content, such as a booking flow.
-- **(reflex)** Put one hard fact—a number, place, price, or date—in the first screen.
 - **(reflex)** Give every heading a noun naming a thing, a section, or a digit.
 - **(reflex)** Use at most one brand line per page, never as the h1, and pair it with a factual line beneath it.
-- **(reflex)** Show at most two actions in the hero, with one on a place.
 - **(reflex)** Use at most ten different button labels across a page.
 - **(reflex)** Name the main transaction the same way in the nav, hero, close, and phone bar, and nowhere else.
 - **(reflex)** Write the hero sub-line in fifteen to thirty words as one to two sentences describing how it works and the main benefit.
@@ -584,7 +574,6 @@
 - **(reflex)** The every-plan inclusion list must not be repeated inside the individual cards.
 - **(reflex)** FAQ questions must be phrased in the buyer's words and stay at most 60 characters.
 - **(reflex)** FAQ answers must start with the answer and stay under 50 words.
-- **(reflex)** Placeholders must end with an ellipsis and show an example pattern.
 - **(reflex)** Use a single ellipsis character instead of three dots.
 - **(reflex)** Use curly quotes instead of straight quotes for typography.
 - **(reflex)** Use non-breaking spaces between units, modifiers, and brand names.
@@ -615,7 +604,6 @@
 - **(finish)** Vary what each section contains, such as a list, table, short letter, or single longer paragraph, instead of repeating the same skeleton.
 - **(finish)** Omit captions and place the photograph credit in the footer line only.
 - **(finish)** An open-now line may fill once at load but the panel must read correctly without it.
-- **(finish)** Do not use italic type for body copy.
 - **(guidance)** Never request copy, actions, or visuals the page lacks; instead state in one line what the owner could supply.
 - **(guidance)** Write answers as concrete facts rather than comparisons.
 - **(guidance)** Write manifesto opening lines as committed declarations without hedging language.
@@ -630,5 +618,4 @@
 - **(guidance)** After fixing one device, check that it was not replaced by another tic such as multiplying 'rather than' or fragmenting every sentence.
 - **(guidance)** When a subagent is available, give it only the page text and fix what it cannot use to identify the product, buyer, cost, and differentiator.
 - **(guidance)** Carry the one-line voice card, every assumed price or hour, and the list of what the client must still supply in the report.
-- **(guidance)** Write copy in active voice.
 - **(guidance)** Write copy in second person and avoid first person.
