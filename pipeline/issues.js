@@ -4,12 +4,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { CFG, DIRS } from './lib/env.js';
 import { log, readYAML, writeYAML, listYAMLFiles } from './lib/util.js';
-import { ensureLabels, openIssuesWithLabel, createIssue, rawURL } from './lib/gh.js';
+import { ensureLabels, openIssuesWithLabel, createIssue, rawURL, ghApi } from './lib/gh.js';
 
 const LABELS = [
   { name: 'conflict', color: 'd93f0b', description: 'Unresolved rule conflict awaiting human arbitration' },
   { name: 'pipeline', color: '0e8a16', description: 'Created by the merge pipeline' },
   { name: 'decision-needed', color: 'fbca04', description: 'Needs a decisions/*.yml entry' },
+  { name: 'decided', color: '5319e7', description: 'Arbitrated via issue comment or decisions/*.yml' },
 ];
 
 function issueBody(conf) {
@@ -44,23 +45,32 @@ ${conf.evidence_inconclusive ? '两次生成对比图渲染结果一致——此
 **AI 建议**：${sug}
 
 ${evSection}
-### 裁决方式
+### 裁决方式 — 直接回复本 issue
 
-编辑 \`decisions/${conf.id}.yml\`（或 \`npm run decide -- ${conf.id} --resolution A --reason "..."\`）：
+| 回复 | 效果 |
+|---|---|
+| \`a\` 或 \`b\` | 选该侧规则入库（可加 \`- 理由\`） |
+| \`merge 合并后的规则文本\` | 用你给的合并文本入库 |
+| \`custom 规则文本\` | 完全自定义 |
 
-\`\`\`yaml
-id: ${conf.id}
-status: active
-resolution: A          # A | B | merge | custom
-custom: null           # resolution=merge 时填合并后的规则文本
-reason: "..."
-alternatives_rejected: []
-decided_by: "${CFG.githubRepo.split('/')[0]}"
-\`\`\`
-
-裁决提交后，下一次 pipeline 循环会按裁决重建 skill。推翻裁决直接改同一文件并说明理由。
+仅 repo owner/collaborator 的回复生效；pipeline 每轮循环扫描评论，裁决后自动记录 \`decisions/${conf.id}.yml\`、回复确认并关闭 issue。推翻：reopen 本 issue 再回复一次，或运行 \`npm run decide -- ${conf.id} --resolution A --reason "..."\`。
 
 _fingerprint: \`${conf.fingerprint}\` · evidence: \`${conf.evidence}\` · detected: ${conf.detected_at}_`;
+}
+
+export { issueBody };
+
+/** Rewrite bodies of open conflict issues (e.g. after template changes). */
+export async function updateBodies() {
+  const open = openIssuesWithLabel(CFG.githubRepo, 'conflict');
+  const byId = new Map(open.map((i) => [(i.title.match(/conf-\d+/) || [])[0], i.number]));
+  for (const f of listYAMLFiles(DIRS.conflicts)) {
+    const conf = readYAML(f);
+    const num = byId.get(conf.id);
+    if (!num) continue;
+    ghApi(`repos/${CFG.githubRepo}/issues/${num}`, { method: 'PATCH', fields: { body: issueBody(conf) } });
+    log(`issues: updated body of #${num} (${conf.id})`);
+  }
 }
 
 export async function issues() {
@@ -98,5 +108,6 @@ export async function issues() {
 }
 
 if (process.argv[1] && import.meta.url.endsWith(path.basename(process.argv[1]))) {
-  await issues();
+  if (process.argv.includes('--update-bodies')) await updateBodies();
+  else await issues();
 }

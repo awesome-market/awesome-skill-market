@@ -66,11 +66,23 @@ LLM steps run **locally** in a foreground daemon (`npm run daemon`, Ctrl-C to st
 
 ## Arbitrate a conflict
 
+**Fastest path — reply on the issue.** Look at the A/B screenshots, then comment:
+
+| Reply | Effect |
+|---|---|
+| `a` or `b` | Ship that side (`a - gradients break print` adds a reason) |
+| `merge merged rule text` | Ship your merge |
+| `custom rule text` | Ship a fully custom rule |
+
+Only owner/member/collaborator comments count. Each daemon cycle polls open `conflict` issues, writes `decisions/conf-NNNN.yml`, confirms in a comment, closes the issue, and rebuilds the skill.
+
+CLI still works for richer entries (`alternatives_rejected`, explicit provenance):
+
 ```bash
 npm run decide -- conf-0001 --resolution A --reason "gradients break our print stylesheet"
 ```
 
-Resolutions: `A` | `B` | `merge` | `custom` (latter two need `--custom "merged rule text"`). `--reason` is mandatory — overturning a decision requires new evidence, which prevents arbitration ping-pong. Overturn anytime by deciding again; `supersedes` keeps the history.
+Resolutions: `A` | `B` | `merge` | `custom` (latter two need `--custom "merged rule text"`). `--reason` is mandatory — overturning a decision requires new evidence, which prevents arbitration ping-pong. Overturn anytime by deciding again (reopen the issue and reply again, or re-run `decide`); `supersedes` keeps the history.
 
 ## FAQ
 

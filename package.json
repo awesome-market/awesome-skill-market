@@ -12,6 +12,7 @@
     "merge": "node pipeline/merge.js",
     "evidence": "node pipeline/evidence.js",
     "issues": "node pipeline/issues.js",
+    "poll": "node pipeline/poll.js",
     "build": "node pipeline/build.js",
     "decide": "node pipeline/decide.js",
     "validate": "node pipeline/validate.js",

@@ -7,6 +7,7 @@ import { extract } from './extract.js';
 import { merge } from './merge.js';
 import { evidence } from './evidence.js';
 import { issues } from './issues.js';
+import { poll } from './poll.js';
 import { build } from './build.js';
 
 const once = process.argv.includes('--once');
@@ -40,8 +41,10 @@ async function cycle() {
     await merge();
     await evidence();
     await issues();
+    await poll(); // harvest a/b votes from issue comments
   } else {
     log('merge/evidence/issues skipped (--no-llm)');
+    await poll(); // votes don't need the model
   }
 
   build();

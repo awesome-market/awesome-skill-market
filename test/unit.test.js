@@ -7,6 +7,7 @@ import { execFileSync } from 'node:child_process';
 import { extractJSON } from '../pipeline/lib/llm.js';
 import { tokens, jaccard, ruleHash, nextId, normText } from '../pipeline/lib/util.js';
 import { conflictFingerprint } from '../pipeline/merge.js';
+import { parseVote } from '../pipeline/poll.js';
 
 test('extractJSON parses plain, fenced, and nested JSON', () => {
   assert.deepEqual(extractJSON('{"a":1}'), { a: 1 });
@@ -62,4 +63,21 @@ test('lint flags violations and passes clean files', () => {
 
 test('normText strips markdown noise', () => {
   assert.equal(normText('**Never** `transition: all` — it\'s sloppy'), 'never transition all it s sloppy');
+});
+
+test('parseVote accepts exact a/b votes and merge/custom text', () => {
+  assert.deepEqual(parseVote('a'), { resolution: 'A', reason: null });
+  assert.deepEqual(parseVote('  B '), { resolution: 'B', reason: null });
+  assert.deepEqual(parseVote('a - gradients break print'), { resolution: 'A', reason: 'gradients break print' });
+  assert.deepEqual(parseVote('A: 选这个'), { resolution: 'A', reason: '选这个' });
+  assert.deepEqual(parseVote('merge use opacity only'), { resolution: 'merge', custom: 'use opacity only' });
+  assert.deepEqual(parseVote('custom 自定义规则'), { resolution: 'custom', custom: '自定义规则' });
+});
+
+test('parseVote rejects non-votes and bare merge/custom', () => {
+  for (const s of ['x', 'a b', 'hello a', 'I choose A because...', 'aaa', '']) {
+    assert.equal(parseVote(s), null, s);
+  }
+  assert.ok(parseVote('merge').error);
+  assert.ok(parseVote('custom').error);
 });
