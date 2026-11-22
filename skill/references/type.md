@@ -26,12 +26,12 @@
 - **(floor)** Every interactive component must ship all eight states: default, hover, focus-visible, active, disabled, loading, error, and success.
 - **(floor)** A polish fixes only the material half: tokens, colour, type, motion, states, contrast, and single elements.
 - **(floor)** Never ship a tight grotesk at 600 on near-white with one blue accent and a 1px border under a soft shadow.
+- **(floor)** Use exactly one display face and one body face, or a single family for both, plus at most one outlier that serves exactly one role.
 - **(floor)** Do not use Inter, Roboto, Open Sans, Lato, Poppins, Source Sans, Nunito, Montserrat, Raleway, Work Sans, DM Sans, Plus Jakarta Sans, system-ui, Arial, Helvetica, Merriweather, Lora, Georgia, Courier New, or the system mono as the default display or body face unless the user explicitly requests it or the pre-flight confirms it exists in the project.
 - **(floor)** Before writing a display token, run the theme check command to confirm the face is not already used by the active catalog theme.
 - **(floor)** Load only the weights the page uses, using one link per source with display=swap and a preconnect to the host first.
 - **(floor)** For self-hosted faces, set font-display: swap and provide a metric-matched fallback using size-adjust and ascent/descent/line-gap overrides to prevent layout reflow during swap.
 - **(floor)** Set font-synthesis: none and load the actual italic face when a heading uses italics; never synthesise bold or italic.
-- **(floor)** Use one family or a display plus text face with fixed jobs, at most four font files. Never use Inter, Roboto, Open Sans, Poppins, Lato, Montserrat, Space Grotesk, Plus Jakarta Sans, or the system look; use a display face from the theme or fonts.md.
 - **(floor)** Never place one italic word inside an otherwise roman heading; use a line break or set the whole heading one way.
 - **(floor)** Never allow an uppercase display head to wrap with line-height under 1.0; use at least 1.0 and ideally 1.02 to 1.08.
 - **(floor)** Never emit a tracked-caps label: any label, caption, table head, nav link, tag, chip, or text at 15px or under set uppercase, small caps, or letter-spaced past 0.03em.
@@ -40,16 +40,18 @@
 - **(floor)** Keep button labels and primary nav links from wrapping between 320px and 1920px widths by shortening them or applying white-space:nowrap.
 - **(floor)** Cap display type at 6rem.
 - **(floor)** Prohibit gradient text.
+- **(floor)** Never use an italic serif body type.
 - **(floor)** Do not use asymmetric prose columns.
 - **(floor)** Never use gradient text.
 - **(floor)** Do not use a code or terminal register as decoration unless the product is a developer tool.
 - **(floor)** Never use a monospace label voice.
 - **(floor)** Every stateful control must implement all eight states: default, hover, focus, active, disabled, loading, error, and success.
+- **(floor)** Focus must render a 2px solid focus-colour ring with 2px offset, inset on inputs via negative offset, and only show via :focus-visible.
 - **(floor)** Disabled controls must combine opacity 0.55, cursor not-allowed, and the native disabled attribute or aria-disabled, keeping focusability via aria-disabled when needed.
 - **(floor)** Error state must apply the error colour to the border, message, and aria-invalid, never relying on colour alone.
 - **(floor)** Success state must derive from the server response, use at most one icon from the page set, never a toast, and must not exist where no request was made.
 - **(floor)** Anything reachable by touch must have a 44x44 CSS pixel hit target, expanding small controls without changing their appearance.
-- **(floor)** Every field must have a visible label above it; never rely on placeholder or aria-label alone as the label.
+- **(floor)** Every field must have a visible label above it, never using placeholder as the label.
 - **(floor)** Error messages must describe what broke, why, and what to do in one sentence, tied to the field via aria-describedby and aria-invalid true.
 - **(floor)** Required fields must carry aria-required and a visible word, never colour alone.
 - **(floor)** Submit must be disabled only while a request is in flight, never at rest.
@@ -89,10 +91,11 @@
 - **(floor)** Fill letters and digits with silk-folds or aurora-curtains on dark and colour pages, a plain ink fade on light pages, and never fluted-glass, caustics, halftone-screen, or line-engraving in type.
 - **(floor)** On non-tech pages, ban canvas, WebGL, autoplay video, CSS gradients, SVG pattern or texture grounds, backdrop-filter, filter, mix-blend-mode, mask-image, glass, grain, halftone, dither, duotone, print, all data-fx/data-print/data-scene/data-big-scene/data-ui-loop/data-m-* attributes, SVG animation, GIFs, Lottie, custom cursors, and any scroll or animation library.
 - **(floor)** Take the first dealt Google pairing from start.mjs, keep library/type.json as the single source, and load faces from Google Fonts with display=swap.
+- **(floor)** Use one family or a display plus text face with fixed jobs, at most four font files, and never Inter, Roboto, Open Sans, Lato, Montserrat, Poppins, Space Grotesk, Plus Jakarta Sans, or the system look.
 - **(floor)** Set headlines at --display-weight with size and tight tracking, use text 400 and 500 only, keep sizes per level with at least 1.3x scaling from 1024, and never use weights 700 or 800 except the letters moment.
 - **(floor)** Do not use eyebrow text (small uppercase labels above headings).
 - **(reflex)** Choose non-default typefaces and set a clear type scale with intentional weights, widths, and spacing.
-- **(reflex)** When type functions as a headline or visual element, treat the chosen typeface and its treatment as the primary/active design element rather than a neutral carrier or afterthought.
+- **(reflex)** When type functions as a headline or visual element, treat the type treatment itself as an active design element rather than a neutral carrier.
 - **(reflex)** Keep body line lengths under 80 characters, allowing slightly longer lines for serif body text.
 - **(reflex)** Give serif body text slightly more line-height than sans-serif body text.
 - **(reflex)** Do not add typographic labels above content unless they carry meaning.
@@ -112,7 +115,7 @@
 - **(reflex)** Set display line-height between 1.0 and 1.15, tightening as size grows, and never below 1.0 for wrappable uppercase heads.
 - **(reflex)** Keep each display head to one weight, one style and one colour, deriving stress from breaks or size rather than styling.
 - **(reflex)** Size and wrap headings by their rendered character count, splitting long heads at sense breaks and rewriting heads over 90 characters.
-- **(reflex)** Apply text-wrap balance to headings and text-pretty to body copy to prevent widows and single stub words.
+- **(reflex)** Apply text-wrap balance to headings and pretty to body copy so no head or paragraph ends on a single stub word.
 - **(reflex)** Constrain headings by their own element width in ch, not by their wrapper.
 - **(reflex)** Set labels, captions and meta to the body face in sentence case and untracked, reserving monospace for code and measured figures.
 - **(reflex)** Use clamp() for sizes that change continuously and media queries for layouts that change discretely, detecting capabilities with hover and pointer queries rather than width.
@@ -146,6 +149,7 @@
 - **(reflex)** Prefer variable fonts where the family ships them, since they load once and provide every weight.
 - **(reflex)** When using Bespoke Slab as display, place figures in the body face because its old-style figures ignore lining-nums.
 - **(reflex)** Only use Nunito Sans at weight 700 when there is an explicit argument for it.
+- **(reflex)** Never use Inter, Roboto, Open Sans, Poppins, Lato, or a system face as the display; use a display face from the theme or fonts.md.
 - **(reflex)** Keep running prose max-width between 45 and 75ch, never render lines of about 88 characters or more over three lines, and cap lede/caption widths at 28ch for two-sentence-or-fewer copy.
 - **(reflex)** Use at most three font families, and only declare a font-slot stand-in waiver on the record.
 - **(reflex)** Do not build an italic display system unless --font-display and every head at that level use true italics with font-synthesis:none; otherwise use a roman display.
@@ -164,6 +168,7 @@
 - **(reflex)** Hover state must communicate through exactly one visual signal such as a colour step, a 1px lift, or a border step.
 - **(reflex)** Active state must show a 1px drop or one colour step darker during press.
 - **(reflex)** Loading state must show inline progress while keeping the label readable and the control width unchanged.
+- **(reflex)** Placeholders must show a format example, never an instruction.
 - **(reflex)** Validation must occur on blur once a field is touched, then on every subsequent input.
 - **(reflex)** Input height must match the adjacent button height, between 44 and 52px on marketing pages, with vertical padding computed as (height - line-height) / 2.
 - **(reflex)** Reserve about 24px in the right-edge slot for clear buttons, error glyphs, or spinners so content never reflows when one appears.
@@ -187,11 +192,14 @@
 - **(reflex)** Without a hero visual grow the head to --text-display across eight to twelve columns or start the first section by 640px.
 - **(reflex)** Place a display heading over the first row of the grid.
 - **(reflex)** Emerge section headings from the paragraph flow as short bold phrases inline with the body rather than as standalone block headings.
+- **(reflex)** Keep the body to a single column with line-height of at least 1.65 and a measure of 60 to 65 characters.
 - **(reflex)** Set the hero heading to clamp(4rem, 10vw, 9rem) and hug the container edges.
 - **(reflex)** Give uppercase wrapping hero headings a line-height of 1.0 or greater.
 - **(reflex)** Insert hairline rules between figure blocks and apply tabular numerals throughout.
+- **(reflex)** Apply tabular-nums to all numeric text on the page.
 - **(reflex)** Keep the section heading plain and functional at section size so the captures carry the content.
 - **(reflex)** Apply exactly one type-unmask reveal to the first caption only.
+- **(reflex)** Make each FAQ section heading a short direct question ending in a question mark.
 - **(reflex)** Set manifesto headings as uppercase display type, tilted between -2deg and -4deg or left straight, using exactly one weight and one colour throughout.
 - **(reflex)** Use a line-height of 1.0 or greater on manifesto headings whenever the text wraps.
 - **(reflex)** When a theme's signature is an accented word, place it exactly once in the hero and record that placement as the single 38iii waiver.
@@ -206,6 +214,7 @@
 - **(reflex)** Set letter body prose to a single column with a 50ch measure.
 - **(reflex)** Use paragraph spacing alone for dividers and reserve asterisk separators for occasional use only.
 - **(reflex)** Present the body as a vertical list of categorized links rather than a sidebar.
+- **(reflex)** Treat the chosen typeface as the primary design element rather than an afterthought.
 - **(reflex)** Show the typeface at multiple sizes in the specimen heading to demonstrate its behavior.
 - **(reflex)** Progressively demonstrate the typeface through display size, body size, italic, language coverage, and OpenType features.
 - **(reflex)** Apply exactly one type-unmask reveal on the first specimen as it paints and leave the rest static.
@@ -251,7 +260,11 @@
 - **(reflex)** Use at most four font files and preload only the regular and display weights.
 - **(reflex)** Use font-display: swap and request only used weights.
 - **(reflex)** Keep font families under 3, files under 6, and font bytes under 320 KiB.
+- **(reflex)** Use tabular-nums for number columns and numeric comparisons.
+- **(reflex)** Apply text-wrap balance or text-pretty to headings to prevent widows.
 - **(reflex)** Use the native system font stack instead of custom web fonts for body text.
+- **(reflex)** Set line height to at least 1.5 for body text.
+- **(reflex)** Do not render body text in all caps.
 - **(reflex)** Use a base font size of at least 16px for readable body text.
 - **(reflex)** Maintain consistent visual variants across reused components.
 - **(reflex)** Do not underline links by default; use color and spacing to distinguish them.
@@ -265,3 +278,4 @@
 - **(finish)** Permit hairline rules, fleurons, drop caps, double rules, and italic text inside running body copy.
 - **(finish)** Permit a masthead, quiet edge-aligned bar, colophon, and letter close.
 - **(finish)** Use a small mark beside each entry and at most one photograph of the collection itself.
+- **(finish)** Do not use italic type for body copy.

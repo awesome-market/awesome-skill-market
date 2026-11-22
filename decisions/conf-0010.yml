@@ -1,0 +1,11 @@
+id: conf-0010
+status: active
+resolution: A
+custom: null
+reason: "arbitrated via issue #10 by @terry2010"
+alternatives_rejected: []
+trigger: issue-comment
+decided_at: 2026-11-22T11:07:36.969Z
+decided_by: terry2010
+comment_url: https://github.com/terry2010/deslop-fusion/issues/10#issuecomment-7078222735
+supersedes: null

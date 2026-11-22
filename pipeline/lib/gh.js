@@ -1,12 +1,22 @@
+import { execFileSync } from 'node:child_process';
 import { sh } from './util.js';
 import { CFG } from './env.js';
 
-/** gh api helper; returns parsed JSON. */
+/** gh api helper; returns parsed JSON. Retries transient failures (EOF/timeout). */
 export function ghApi(path, { method = 'GET', fields = {} } = {}) {
   const args = ['api', path, '-X', method];
   for (const [k, v] of Object.entries(fields)) args.push('-f', `${k}=${v}`);
-  const out = sh('gh', args, { quiet: true });
-  return out ? JSON.parse(out) : null;
+  let lastErr;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const out = sh('gh', args, { quiet: true });
+      return out ? JSON.parse(out) : null;
+    } catch (e) {
+      lastErr = e;
+      if (attempt < 2) execFileSync('sleep', [String(1 + attempt)]);
+    }
+  }
+  throw lastErr;
 }
 
 export function defaultBranch(repo) {

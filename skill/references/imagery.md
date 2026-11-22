@@ -7,7 +7,6 @@
 - **(floor)** Only fire image generation when the key is set and the user asked for generated images or the library cannot reach the subject.
 - **(floor)** Never auto-fire image generation.
 - **(floor)** Ship the hero visual as the real thing, keep its accent footprint small, stay under 2 MB and provide a reduced-motion fallback.
-- **(floor)** Use a real photograph when the product or photograph is appropriate; use an effect, drawing, or empty box when that is appropriate. Flag a placeholder where a real product/photograph should appear, and flag a real product/photograph where a placeholder/effect/drawing should appear.
 - **(floor)** Avoid template signatures such as centered stacks, pills or labels above the headline, gradient blobs, empty colored boxes, drawn illustrations, counting marks, two filled buttons side by side, grey bars, or outline cards inside slots.
 - **(floor)** Use exactly one texture artifact family per page, allowing grain and its matching misregistration only when they originate from the same print lineage.
 - **(floor)** Render the retro signal as atmosphere only and never draw a monitor bezel or literal screen frame.
@@ -52,7 +51,6 @@
 - **(floor)** Omit hero images and narrative flow, treating the page as a pure list of links.
 - **(floor)** Include one real capture per stage inside a <figure> or slot, and never use a slot per stage when there is one screen or none.
 - **(floor)** Populate the scrolling column with real captures or product-built slots rather than empty frames.
-- **(floor)** Treat interactive previews as imagery and show at most one product render per page, with photographs restricted to at most one band per page.
 - **(floor)** Only include material cards (hero visual, logo row, three features, testimonials) when the user supplied the exact material named by the Picks block.
 - **(floor)** Never invent customer marks or a 'Trusted by' line when no logo row material was supplied.
 - **(floor)** Do not render styled-div UI outside a data-slot when no hero capture was supplied; use a product built in a data-slot or a typographic hero.
@@ -172,7 +170,7 @@
 - **(floor)** Wrap every leading photograph in an <a class="m-zoom"> around its <img>, or place img.frame__img inside a linked frame.
 - **(floor)** Keep shaders and WebGL effects off place, product and service pages; those pages get photographs only.
 - **(floor)** Keep each WebGL piece's still when its shader fails.
-- **(floor)** Set explicit width and height (or aspect-ratio) on every image to prevent layout shift.
+- **(floor)** Set width and height or aspect-ratio on every image.
 - **(floor)** Render below-fold photos as img elements, never as CSS backgrounds.
 - **(floor)** Give every picture slot a real src, width and height so no visual shows only its ground.
 - **(floor)** Lead every screen with two or three of the client's own photographs, the real software interface, or the game's own art, never a random object or effect in place of the subject.
@@ -196,6 +194,7 @@
 - **(floor)** All non-hero images must be loading="lazy", decoding="async", with explicit width, height, and sizes attributes matching the shown width.
 - **(floor)** Every photograph must be visible from the first paint, never hidden behind opacity 0, scroll reveals, print styles, or load-time dissolves, masks, or clips.
 - **(floor)** Cut-outs must only depict the client's own subject on the page ground or one backdrop, with no drop shadows, never stock imagery, people, or buildings.
+- **(floor)** A photograph must never stand where an effect, a drawing, or an empty box would appropriately appear.
 - **(floor)** Never substitute a video for a photograph.
 - **(floor)** Capture photographs at 1440, 1024, 768 and 390 pixels and inspect every frame for empty, blank, grey or half-loaded areas.
 - **(floor)** Apply no print, grading, effect, halftone, dither, duotone, engraving, grain, glitch, filter or blend mode to any photograph, and never cover more than half of a photograph with a canvas.
@@ -203,6 +202,7 @@
 - **(floor)** Apply no tilt, rotation, Ken Burns effect at rest, or opacity change to a place photograph.
 - **(floor)** Place no caption, label or description under or on any picture.
 - **(floor)** Omit any credit, sample or example note from the interface.
+- **(floor)** Show exactly one footer credit line that links or opens the credits list instead of one link per photograph.
 - **(floor)** Never show another business's identifiable room, counter, sign, cup, bag or product as the client's.
 - **(floor)** Never show a machine bearing its maker's name.
 - **(floor)** Never show a named bar's whole room.
@@ -235,8 +235,8 @@
 - **(floor)** Do not use a single stand-in photograph across every slot.
 - **(floor)** When the brief does not ask for 3D, never emit a data-product-fill over 1 or a 3D render.
 - **(floor)** Every img must have alt text or alt empty string for decorative images.
+- **(floor)** Every img must set explicit width and height to prevent layout shift.
 - **(reflex)** Open the page with the single most characteristic element of the subject in the most appropriate form, rather than the default big-number-and-gradient treatment.
-- **(reflex)** When type functions as a headline or visual element, treat the chosen typeface and its treatment as the primary/active design element rather than a neutral carrier or afterthought.
 - **(reflex)** Show the actual product or offering in the hero (the room, cover, dates, or screen) rather than a generic element.
 - **(reflex)** When the prompt gives no content for a section, build it as a clearly marked sample the user replaces, showing the shape of the real thing.
 - **(reflex)** For a try job, show features as named moments captured from the product, not icon tiles.
@@ -244,6 +244,7 @@
 - **(reflex)** Write generated-still prompts as photographer prompts with one subject, place, light, and lens and no on-camera people or text.
 - **(reflex)** Inspect every generated still and discard results with malformed anatomy, doubled furniture, or melted labels.
 - **(reflex)** Provide srcset with width descriptors, use picture for different crops, set width and height attributes on every image, and apply loading lazy below the fold while never lazy-loading the LCP element.
+- **(reflex)** Flag an empty coloured box or a drawn illustration where a photograph or the product should appear.
 - **(reflex)** Treat the theme's picture as the bar for finish, never as a model to copy.
 - **(reflex)** Where the theme file and its picture disagree, let the theme file win over its picture.
 - **(reflex)** Center the content in the screen and place a real visual beside the text that occupies at least 60 percent of the screen height.
@@ -334,10 +335,12 @@
 - **(reflex)** Use a product capture at least 360px tall per stage when the user provided screens, otherwise use a figure or rows from the prompt.
 - **(reflex)** Make the heading occupy half the screen width and place a capture or supplied quote in the other half.
 - **(reflex)** Keep every image on the proof side, using a real capture or a product built in a slot.
+- **(reflex)** Treat the chosen typeface as the primary design element rather than an afterthought.
 - **(reflex)** Use no image in the specimen since the typography itself is the imagery.
 - **(reflex)** Show a thumbnail per card from the user's work and, until images load, set projects in type with at most one empty slot.
 - **(reflex)** Draw the map as SVG derived from real places or the real system, including hover states.
 - **(reflex)** Use thumbnails throughout the page so it reads as dense imagery of real platform content.
+- **(reflex)** Treat the interactive previews as the imagery and restrict photographs to at most one band per page.
 - **(reflex)** Use only honest base cards (spec sheet, worked example, changelog, comparison anatomy, pricing table, FAQ, CTA strip, footer) that require no invented material.
 - **(reflex)** Choose exactly one image treatment from full-bleed, tightly cropped to the grid, inline with the text, margin-aligned, or none.
 - **(reflex)** Keep the six fingerprint choices coherent, drawn from the same design world.
@@ -431,7 +434,7 @@
 - **(reflex)** Keep the hero image under 400 KiB and every other photograph under 250 KiB.
 - **(reflex)** Keep the page's total images under 2400 KiB at 1440 width.
 - **(reflex)** Use a --g-alt fill while images load.
-- **(reflex)** Below-fold images must set loading="lazy" and decoding="async"; the hero image (above the first screen) stays eager with fetchpriority="high".
+- **(reflex)** Lazy-load and set decoding=async for images below the first screen, but keep the hero eager with fetchpriority=high.
 - **(reflex)** Keep real-time 3D models near 2 MB compressed with a poster.
 - **(reflex)** Ship separate phone and desktop video files.
 - **(reflex)** Keep total images under 2400 and the largest single image under 700 KiB.
@@ -466,6 +469,7 @@
 - **(reflex)** Key art must be named via a comment referencing assets/client/key-art.jpg.
 - **(reflex)** Meaningful media must provide captions, transcripts, or descriptions as appropriate.
 - **(reflex)** Apply SVG transforms to a g wrapper with transform-box fill-box and transform-origin center.
+- **(reflex)** Below-fold images must set loading lazy.
 - **(reflex)** Above-fold critical images must use priority or fetchpriority high.
 - **(reflex)** Prefer autoplay muted loop playsinline video over animated GIFs and provide a still alternative.
 - **(reflex)** Short non-essential loops must use compressed video with a still fallback and reduced-motion handling.
@@ -475,4 +479,5 @@
 - **(finish)** Use a small mark beside each entry and at most one photograph of the collection itself.
 - **(finish)** Drop an object if it still looks cheap after two honest attempts.
 - **(finish)** Include the details that name the thing, such as a bike's spokes, chain and mudguards or a lamp's springs and knobs.
+- **(finish)** Omit captions and place the photograph credit in the footer line only.
 - **(guidance)** Never request copy, actions, or visuals the page lacks; instead state in one line what the owner could supply.

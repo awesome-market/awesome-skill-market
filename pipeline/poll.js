@@ -26,12 +26,8 @@ async function commentIssue(repo, number, body) {
 }
 
 function closeIssue(repo, number) {
-  try {
-    ghApi(`repos/${repo}/issues/${number}`, { method: 'PATCH', fields: { state: 'closed' } });
-    ghApi(`repos/${repo}/issues/${number}/labels`, { method: 'POST', fields: { labels: ['decided'] } });
-  } catch (e) {
-    log(`poll: close/label issue #${number} failed: ${e.message}`);
-  }
+  ghApi(`repos/${repo}/issues/${number}`, { method: 'PATCH', fields: { state: 'closed' } });
+  ghApi(`repos/${repo}/issues/${number}/labels`, { method: 'POST', fields: { 'labels[]': 'decided' } });
 }
 
 export async function poll() {
@@ -60,30 +56,40 @@ export async function poll() {
       const conf = readYAML(confFile);
       const decFile = path.join(DIRS.decisions, `${id}.yml`);
       const prev = readYAML(decFile);
+      const already = prev?.comment_url === c.html_url; // same comment re-seen — don't fake a supersede
 
-      writeYAML(decFile, {
-        id,
-        status: 'active',
-        resolution: vote.resolution.toLowerCase() === 'a' ? 'A' : vote.resolution.toLowerCase() === 'b' ? 'B' : vote.resolution,
-        custom: vote.custom ?? null,
-        reason: vote.reason ?? `arbitrated via issue #${issue.number} by @${c.user.login}`,
-        alternatives_rejected: prev?.alternatives_rejected ?? [],
-        trigger: 'issue-comment',
-        decided_at: new Date().toISOString(),
-        decided_by: c.user.login,
-        comment_url: c.html_url,
-        supersedes: prev ? { resolution: prev.resolution, reason: prev.reason, at: prev.decided_at } : null,
-      });
-      conf.status = 'decided';
-      writeYAML(confFile, conf);
-      resolved.push(id);
+      if (!already) {
+        writeYAML(decFile, {
+          id,
+          status: 'active',
+          resolution: vote.resolution.toLowerCase() === 'a' ? 'A' : vote.resolution.toLowerCase() === 'b' ? 'B' : vote.resolution,
+          custom: vote.custom ?? null,
+          reason: vote.reason ?? `arbitrated via issue #${issue.number} by @${c.user.login}`,
+          alternatives_rejected: prev?.alternatives_rejected ?? [],
+          trigger: 'issue-comment',
+          decided_at: new Date().toISOString(),
+          decided_by: c.user.login,
+          comment_url: c.html_url,
+          supersedes: prev ? { resolution: prev.resolution, reason: prev.reason, at: prev.decided_at } : null,
+        });
+        conf.status = 'decided';
+        writeYAML(confFile, conf);
+        resolved.push(id);
+      }
 
-      await commentIssue(
-        CFG.githubRepo, issue.number,
-        `✅ 裁决已记录 Decision recorded：**${vote.resolution.toUpperCase()}**${vote.custom ? ` — ${vote.custom}` : ''}\n\nby @${c.user.login} · 下一次 pipeline 循环将按此重建 skill。The next pipeline cycle rebuilds the skill accordingly.\n推翻 Overturn：reopen 本 issue 再回复一次，或直接改 \`decisions/${id}.yml\`。Reopen and reply again, or edit the decision file.`,
-      );
-      closeIssue(CFG.githubRepo, issue.number);
-      log(`poll: ${id} decided via issue #${issue.number} -> ${vote.resolution}`);
+      const confirmed = comments.some((cc) => cc.body?.trim().startsWith('✅'));
+      try {
+        if (!confirmed) {
+          await commentIssue(
+            CFG.githubRepo, issue.number,
+            `✅ 裁决已记录 Decision recorded：**${vote.resolution.toUpperCase()}**${vote.custom ? ` — ${vote.custom}` : ''}\n\nby @${c.user.login} · 下一次 pipeline 循环将按此重建 skill。The next pipeline cycle rebuilds the skill accordingly.\n推翻 Overturn：reopen 本 issue 再回复一次，或直接改 \`decisions/${id}.yml\`。Reopen and reply again, or edit the decision file.`,
+          );
+        }
+        closeIssue(CFG.githubRepo, issue.number);
+        log(`poll: ${id} decided via issue #${issue.number} -> ${vote.resolution}${already ? ' (already recorded)' : ''}`);
+      } catch (e) {
+        log(`poll: ${id} comment/close failed (decision ${already ? 'kept' : 'recorded'}): ${e.message.split('\n')[0]}`);
+      }
       break; // one vote per issue per cycle
     }
   }

@@ -13,7 +13,6 @@
 - **(floor)** Use dvh or svh for heights that meet mobile browser chrome and never use vh on a hero.
 - **(floor)** Set width to 100% and never 100vw to avoid horizontal overflow.
 - **(floor)** Never use device sniffing instead of feature queries, rely on hover-only interactions, or define breakpoints in px.
-- **(floor)** Use a real photograph when the product or photograph is appropriate; use an effect, drawing, or empty box when that is appropriate. Flag a placeholder where a real product/photograph should appear, and flag a real product/photograph where a placeholder/effect/drawing should appear.
 - **(floor)** Avoid template signatures such as centered stacks, pills or labels above the headline, gradient blobs, empty colored boxes, drawn illustrations, counting marks, two filled buttons side by side, grey bars, or outline cards inside slots.
 - **(floor)** Apply scroll choreography only to structural elements, never to prose.
 - **(floor)** Make the base CSS render the complete layout so reduced motion, small screens, and unsupported browsers always show the finished page.
@@ -48,6 +47,7 @@
 - **(floor)** Never restructure during a polish: no moving sections, no re-picking a system, and no swapping a nav.
 - **(floor)** Never ship outline-only filler cards; climb the surface ladder instead.
 - **(floor)** Never use repeated stripe or grid backgrounds with nothing under them.
+- **(floor)** Never use emoji as list bullets.
 - **(floor)** Never ship a tight grotesk at 600 on near-white with one blue accent and a 1px border under a soft shadow.
 - **(floor)** Never let a first viewport commit and then quietly become a card grid on white in a later section.
 - **(floor)** For self-hosted faces, set font-display: swap and provide a metric-matched fallback using size-adjust and ascent/descent/line-gap overrides to prevent layout reflow during swap.
@@ -79,7 +79,7 @@
 - **(floor)** Never use a masthead or a blurred pill, as they fight the playful register.
 - **(floor)** Every stateful control must implement all eight states: default, hover, focus, active, disabled, loading, error, and success.
 - **(floor)** Anything reachable by touch must have a 44x44 CSS pixel hit target, expanding small controls without changing their appearance.
-- **(floor)** Every field must have a visible label above it; never rely on placeholder or aria-label alone as the label.
+- **(floor)** Every field must have a visible label above it, never using placeholder as the label.
 - **(floor)** State changes must never alter border width, padding, height, or animate the ring; reserve a transparent outline at rest so the ring appears without shifting.
 - **(floor)** Modals must use native dialog with showModal, providing focus trap, Escape handling, and ::backdrop for free.
 - **(floor)** Overlays must mark the page behind as inert, close on Escape and backdrop click, include a visible close control, and move first focus to the first interactive element.
@@ -139,14 +139,13 @@
 - **(floor)** Open each content rail with its own h2 element instead of a label band.
 - **(floor)** Do not use the ecosystem index pattern on single-product pages.
 - **(floor)** Render each category as a real h2 element using the display face in sentence case instead of a styled label band.
-- **(floor)** Treat interactive previews as imagery and show at most one product render per page, with photographs restricted to at most one band per page.
 - **(floor)** A deal keeping fewer than five cards is a landing strip, not a landing page; re-add cards or switch shape.
 - **(floor)** Never render a narrow auto-centred heading over full-width left-flush content, which reads as a mistake.
 - **(floor)** Do not place a label beside a heading in the margin; that reads as an eyebrow.
 - **(floor)** Open a dialog with showModal(), inert the page behind it, and move first focus to the first interactive element.
 - **(floor)** Implement every button with all eight states (default, hover, active, focus-visible, disabled, aria-disabled, busy, quiet) using the provided CSS variables and transitions.
 - **(floor)** Keep segmented radio inputs at 1px in the flow while the label carries the checked state and focus ring in body face sentence case.
-- **(floor)** Include an absolute-positioned skip-to-content link that becomes visible on focus, and maintain hierarchical h1 through h6 headings.
+- **(floor)** Include an absolute-positioned skip-to-content link that becomes visible on focus.
 - **(floor)** Keep every link, form, field, handler, route, id, key, type, href, data-testid, script, data call, and analytics call, editing markup only inside the component that owns it.
 - **(floor)** Sweep the redesign against the before record and restore or record anything the page had and no longer has.
 - **(floor)** Ensure every page renders correctly across all widths from 320 to 1920 CSS pixels without relying on desktop-only interactions.
@@ -188,6 +187,7 @@
 - **(floor)** A picture must occupy at least half a tile, a 50/50 split, or a whole screen layer.
 - **(floor)** The close must be its own picture, a photograph, the big button, or the name set wide.
 - **(floor)** Each section must hold one idea, one h2, and at most one action besides the main action.
+- **(floor)** Show at most one product render per page.
 - **(floor)** The main action must read identically in the nav, hero, close or booking, and phone bar, and appear nowhere else as a filled button.
 - **(floor)** Merge short blocks that would hold under 495px into the section above as their last element with no own heading or ground.
 - **(floor)** An FAQ that reaches 495px with answers open becomes its own section.
@@ -294,12 +294,13 @@
 - **(floor)** No hover may resize or push a neighbour, and no hover may exceed its token duration.
 - **(floor)** Never animate height, max-height or padding, including in accordions and panels.
 - **(floor)** Never place two self-moving elements inside one 900px window or two loops inside one panel.
-- **(floor)** Set explicit width and height (or aspect-ratio) on every image to prevent layout shift.
+- **(floor)** Set width and height or aspect-ratio on every image.
 - **(floor)** Reserve space for images, nav and counters to keep CLS under 0.1.
 - **(floor)** Ship zero broken requests and zero sideways overflow.
 - **(floor)** Place pages must use only 4:5, 4:3, and 1:1 ratios, with other page types adding 3:2, and maintain one ratio per row with equal-sized frames.
 - **(floor)** A place hero must be a full-bleed top photograph with nothing overlaid and words placed below it, while software and product heroes must end inside the screen.
 - **(floor)** Text must never appear on place photographs, and elsewhere only on the hero and one closing band over a calm, empty, dark or light area, a solid box, or off the photograph, with no scrim, gradient, fade, or blur.
+- **(floor)** A photograph must never stand where an effect, a drawing, or an empty box would appropriately appear.
 - **(floor)** Give each page at most one big scene and never place a shader ground or WebGL part beside it.
 - **(floor)** Deal a scene as the hero only when its restH is 1, and otherwise place it below the hero as a two-screen section with an h2 heading.
 - **(floor)** Never use powers-of-ten-pullback as the hero because its first screen has no headline and no action.
@@ -335,7 +336,7 @@
 - **(floor)** Do not use eyebrow text (small uppercase labels above headings).
 - **(floor)** Make interactive targets at least 44x44 CSS pixels with sufficient spacing.
 - **(reflex)** Open the page with the single most characteristic element of the subject in the most appropriate form, rather than the default big-number-and-gradient treatment.
-- **(reflex)** When type functions as a headline or visual element, treat the chosen typeface and its treatment as the primary/active design element rather than a neutral carrier or afterthought.
+- **(reflex)** When type functions as a headline or visual element, treat the type treatment itself as an active design element rather than a neutral carrier.
 - **(reflex)** Do not add typographic labels above content unless they carry meaning.
 - **(reflex)** Use structural devices such as outlines, borders, numbering, dividers, and labels only when they encode real information about the content.
 - **(reflex)** Only add numbered markers such as 01/02/03 when the content is genuinely a sequence like a process or timeline.
@@ -394,6 +395,7 @@
 - **(reflex)** Treat the column beside a later screen as the pin when a pinned pane appears once in a full-page shot.
 - **(reflex)** A screen with nothing big enough to be its reason outranks every detail finding.
 - **(reflex)** Flag any section head smaller than 40px as a layout defect.
+- **(reflex)** Flag an empty coloured box or a drawn illustration where a photograph or the product should appear.
 - **(reflex)** Flag a row of counting marks as a layout defect.
 - **(reflex)** On a custom run, judge the page as a design and never against layout.md.
 - **(reflex)** Name which template, catalog theme, or familiar site a page or section reads as, and where.
@@ -451,7 +453,7 @@
 - **(reflex)** When the prompt names one element, is short, targets one file, or says 'just the X', treat it as component scope.
 - **(reflex)** When a request is ambiguous like 'a pricing section', ask once whether it is one card or the whole page, defaulting to one card.
 - **(reflex)** Build one prompt in one theme twice to produce two distinct pages and never let two prompts converge on the same combination.
-- **(reflex)** Write a hero headline of seven words or fewer and one sentence of twelve words or fewer with at most two actions, one of which is on a place.
+- **(reflex)** Write a hero headline of seven words or fewer and one sentence of twelve words or fewer with one or two actions.
 - **(reflex)** Build six to nine sections including hero and footer with at most 450 visible words and give each section a composition with mass.
 - **(reflex)** Use one primary button style, one container width, one column gap below the hero, one radius per nesting level and never more centred heading groups than left-aligned ones.
 - **(reflex)** Limit pictures below the hero to at most a third of the page and never place two photograph-led sections in a row.
@@ -587,6 +589,7 @@
 - **(reflex)** Place a display heading over the first row of the grid.
 - **(reflex)** Write long-document pages as continuous prose that reads like a memo, letter, or journal entry, avoiding marketing structure.
 - **(reflex)** Emerge section headings from the paragraph flow as short bold phrases inline with the body rather than as standalone block headings.
+- **(reflex)** Keep the body to a single column with line-height of at least 1.65 and a measure of 60 to 65 characters.
 - **(reflex)** Use negative space as the only divider between sections, allowing at most one centered ornament for emphasis.
 - **(reflex)** Size inline images to the body measure and never render them full-bleed.
 - **(reflex)** Keep the hero above the fold as a single statement or visual that fills the viewport.
@@ -678,6 +681,7 @@
 - **(reflex)** Place the interactive preview before its corresponding code block within each example.
 - **(reflex)** Make the framework tab row horizontally scrollable when the viewport is narrower than 60rem.
 - **(reflex)** Separate examples with hairlines and change the paper background per category.
+- **(reflex)** Treat the interactive previews as the imagery and restrict photographs to at most one band per page.
 - **(reflex)** Treat navigation and footer as part of the chosen shape and settle them together with the hero.
 - **(reflex)** For B2B SaaS pages whose shape is Bento Grid, Stat-Led, Workbench or Marquee Hero, build from the SaaS section deck.
 - **(reflex)** Every SaaS deal must drop at least one base card (never the footer) and either promote a second base card into the hero or reorder one adjacent pair meaningfully.
@@ -694,6 +698,7 @@
 - **(reflex)** Use a typographic CTA with a Specimen page rather than an oversized solid button.
 - **(reflex)** When the prompt names no shape, choose three shapes from different families that fit the domain and never three near-twins.
 - **(reflex)** Fade the backdrop and scale the panel from 0.96 to 1 over the long duration on open, closing at about 65% on the ease-in.
+- **(reflex)** Move the tab indicator by transform only, never width, and animate height changes via grid-template-rows.
 - **(reflex)** Place exactly one filled primary button per page and route the quiet variant elsewhere.
 - **(reflex)** Render photographs as 4:5 aspect-ratio slots with a 440px minimum height and card-radius corners.
 - **(reflex)** Use the same slot for product samples without an img element, built at full size.
@@ -811,6 +816,7 @@
 - **(reflex)** Place words on photo grounds over their calm, dark part, only in the hero and one closing band.
 - **(reflex)** Ensure no ground changes a section's height, fade soft grounds over 120px, and keep hard grounds' colour across the whole box.
 - **(reflex)** Limit grid marks to one dark technical band, data panel or footer, never over text.
+- **(reflex)** Make hairline ledgers 1px repeated sibling rules at 12-15% ink, never between sections.
 - **(reflex)** Lift a linkable card 2px on hover with a soft shadow shown only on hover, and add .m-nolift to cards without links.
 - **(reflex)** Use full rows of equal height with the first card left-aligned and the last right-aligned across two-up, three-up, and four-up grids.
 - **(reflex)** Mark every frame holding a visual or UI with .frame or [data-visual] so it never counts as a band.
@@ -899,6 +905,7 @@
 - **(reflex)** Moment text must sit in a .container or .wrap and end on the page's left and right edges like every other section.
 - **(reflex)** A transition's cover must be an inset panel with an even gutter on every side, keeping all content whole and never touching the section edges.
 - **(reflex)** A dealt moment may pin its section with position:sticky only inside its own data-moment box.
+- **(reflex)** Animate only transform, opacity and colours, never height, padding or layout.
 - **(reflex)** Keep median layout shift under 0.25.
 - **(reflex)** Place a sold item's name and price inside its card padding rather than as a line under a bare picture.
 - **(reflex)** Give cards with panels the full row from 640 to 1023 and two-up span-4 panels from 1024 to 1279 so no span-4 panel is under 304px wide.
@@ -959,6 +966,7 @@
 - **(finish)** Do not flag extra horizontal space at 1920 pixels width because the container and type retain their 1440 size by rule.
 - **(finish)** Permit a filled primary button paired with an outlined or text action that navigates elsewhere, and permit a sample of the built product placed in a slot.
 - **(finish)** On redesigns, treat content below the first screen as the unbuilt old page and do not flag it.
+- **(finish)** Change a section composition or its order and record the delta in the stamp when a page repeats logged compositions.
 - **(finish)** Limit the page to one filled-primary button recipe, treating each dialog as its own page, and never place two filled buttons side by side.
 - **(finish)** Stamp at most one container recipe on fewer than six selectors and apply pill radius to fewer than five non-control, non-tag, non-badge selectors.
 - **(finish)** Apply align-items:center to flex rows containing unequal heights.
@@ -985,4 +993,3 @@
 - **(guidance)** Reserve index-first for browsing surfaces such as documentation hubs, knowledge bases, archives, and design-system entries rather than hard-sell pages.
 - **(guidance)** Do not use a map as a substitute for narrative; some stories must not be read spatially.
 - **(guidance)** Do not apply the component playground pattern to marketing pages.
-- **(finish)** Change a section composition or its order and record the delta in the stamp when a page repeats logged compositions.

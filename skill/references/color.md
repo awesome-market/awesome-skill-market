@@ -66,7 +66,8 @@
 - **(floor)** Never stamp decorative status dots or sticker-style pills on every element.
 - **(floor)** Never use a masthead or a blurred pill, as they fight the playful register.
 - **(floor)** Every stateful control must implement all eight states: default, hover, focus, active, disabled, loading, error, and success.
-- **(floor)** Never apply outline: none (or outline: 0/none) without replacing it with an equivalent visible focus indicator / focus-visible style.
+- **(floor)** Focus must render a 2px solid focus-colour ring with 2px offset, inset on inputs via negative offset, and only show via :focus-visible.
+- **(floor)** Never apply outline: none without providing an equivalent visible focus indicator.
 - **(floor)** The focus ring must maintain at least 3:1 contrast against both the element and the page background.
 - **(floor)** Disabled controls must combine opacity 0.55, cursor not-allowed, and the native disabled attribute or aria-disabled, keeping focusability via aria-disabled when needed.
 - **(floor)** Error state must apply the error colour to the border, message, and aria-invalid, never relying on colour alone.
@@ -126,6 +127,7 @@
 - **(floor)** Separate sections only with full-width ground changes or space, never rules, shadows, inner hairlines, or inset coloured boxes.
 - **(floor)** Ensure all text and interactive elements meet WCAG AA color contrast ratios.
 - **(floor)** Do not rely on color alone to convey information or state.
+- **(floor)** Provide visible focus indicators for all interactive elements.
 - **(reflex)** Spend boldness in one place, keeping everything else quiet and disciplined, and cut decoration that does not serve the brief.
 - **(reflex)** Do not default to a warm cream background with high-contrast serif display and terracotta or warm-clay accents unless the brief explicitly requests that direction.
 - **(reflex)** Do not default to a near-black background with a single bright acid-green or vermilion accent unless the brief explicitly requests that direction.
@@ -254,6 +256,7 @@
 - **(reflex)** Use linear gradients only as an edge fade inside a visual, never as decoration.
 - **(reflex)** Treat a two-tone seam as a hard stop.
 - **(reflex)** Limit grid marks to one dark technical band, data panel or footer, never over text.
+- **(reflex)** Make hairline ledgers 1px repeated sibling rules at 12-15% ink, never between sections.
 - **(reflex)** Keep ground chroma under 0.12 and mix colours in OKLCH.
 - **(reflex)** Apply radius --r-lg (20 on soft, 18 on phone) and padding of 32px from 1024px, 28 below, and 24 on a phone, never under 24px, with 48px padding for a filled split panel.
 - **(reflex)** Render the title one line at the card-title token with weight 500, keep running card text at 16/24 in --c-text ink, cap text at 46ch, and reserve muted small text for labels only.
@@ -288,6 +291,7 @@
 - **(reflex)** Keep each logo's own proportions and colours intact.
 - **(reflex)** Every moment must consume the page tokens (--bg, --ink, --muted, --accent, --line, and the display face).
 - **(reflex)** Use a --g-alt fill while images load.
+- **(reflex)** Set color-scheme dark on html for dark themes to fix scrollbars and inputs.
 - **(reflex)** Set the theme-color meta tag to match the page background.
 - **(reflex)** Set explicit background-color and color on native select elements for Windows dark mode.
 - **(reflex)** Increase contrast for hover, active, and focus states relative to the rest state.

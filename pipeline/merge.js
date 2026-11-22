@@ -61,7 +61,7 @@ async function judgePair(a, b) {
   });
 }
 
-export async function merge() {
+export async function merge({ applyOnly = false } = {}) {
   const rules = loadExtracted();
   log(`merge: ${rules.length} extracted rules in`);
 
@@ -89,7 +89,7 @@ export async function merge() {
     const dec = decisions.get(c.id);
     const sideHash = (key) => c.sides.find((s) => s.key === key)?.hash;
     if (dec?.status === 'active') {
-      if (dec.resolution === 'merge' && dec.custom) {
+      if ((dec.resolution === 'merge' || dec.resolution === 'custom') && dec.custom) {
         for (const s of c.sides) absorbed.add(s.hash);
         overlays.push({
           id: `${c.id}-merged`,
@@ -111,6 +111,8 @@ export async function merge() {
     }
   }
 
+  if (applyOnly) log('merge: --apply-only, skipping pair judging');
+
   // 2. candidate pairs across different upstreams
   const tok = canonical.map((r) => tokens(r.rule));
   const pairs = [];
@@ -129,6 +131,7 @@ export async function merge() {
   log(`merge: ${pairs.length} candidate pairs, judging top ${shortlisted.length}`);
 
   for (const [i, j] of shortlisted) {
+    if (applyOnly) break;
     const a = canonical[i], b = canonical[j];
     if (absorbed.has(a.hash) || absorbed.has(b.hash)) continue;
     const fp = conflictFingerprint([{ text: a.rule }, { text: b.rule }]);
@@ -208,5 +211,5 @@ export async function merge() {
 const severityRank = (s) => ({ floor: 0, reflex: 1, finish: 2, guidance: 3 }[s] ?? 4);
 
 if (process.argv[1] && import.meta.url.endsWith(path.basename(process.argv[1]))) {
-  await merge();
+  await merge({ applyOnly: process.argv.includes('--apply-only') });
 }
