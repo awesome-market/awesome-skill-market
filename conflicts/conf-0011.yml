@@ -1,0 +1,28 @@
+id: conf-0011
+status: pending
+fingerprint: 81dbcae07ba8
+detected_at: 2026-11-22T10:32:38.206Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-950
+    hash: 5cfd098bbd4c
+    severity: reflex
+    text: Keep captions as factual text outside the image frame and place credits (including licence credits) in a single footer line — the footer's Photographs line.
+  - key: B
+    source: taste-skill
+    rule_id: taste--096
+    hash: e9cbe8381d1a
+    severity: floor
+    text: Place all credits in the footer's single credits line, never under the print, and mark printed photographs as adapted.
+ai_explanation: Both rules govern where credits live in the footer, but A requires them in the footer's 'Photographs' line while B requires them in the footer's single 'credits' line — these are different named lines, so an agent cannot satisfy both simultaneously.
+suggestion:
+  kind: scope-split
+  note: A applies to photography/licence credits → footer's Photographs line; B applies to all other credits → footer's single credits line, never under the print.
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

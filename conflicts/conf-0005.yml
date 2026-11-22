@@ -1,0 +1,28 @@
+id: conf-0005
+status: pending
+fingerprint: 677d954014eb
+detected_at: 2026-11-22T10:17:46.339Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-771
+    hash: 0c7837957141
+    severity: reflex
+    text: Insert hairline rules between sections.
+  - key: B
+    source: taste-skill
+    rule_id: taste--179
+    hash: 89f38df3b5eb
+    severity: reflex
+    text: Make hairline ledgers 1px repeated sibling rules at 12-15% ink, never between sections.
+ai_explanation: Rule A requires inserting hairline rules between sections, while Rule B explicitly states 'never between sections' — a direct contradiction on the between-sections case.
+suggestion:
+  kind: keep-b
+  note: Rule B is more specific (1px repeated sibling rules at 12-15% ink) and explicitly governs the between-sections case with 'never between sections', overriding Rule A's general instruction.
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

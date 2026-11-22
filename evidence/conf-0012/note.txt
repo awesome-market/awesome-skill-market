@@ -1,0 +1,1 @@
+Both files share the identical hero scaffold; the only difference is the h1 word count: Option A uses 6 words (satisfies the ≤7 cap), while Option B uses 7 words ending in 'today' — still within B's 2–9 range but shown as the taste-skill variant that A's reflex cap would reject.

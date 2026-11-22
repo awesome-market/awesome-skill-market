@@ -7,7 +7,8 @@
   {
     "name": "hallmark",
     "repo": "Nutlope/hallmark",
-    "includePaths": ["skills/hallmark"]
+    "includePaths": ["skills/hallmark"],
+    "excludeRe": "/themes/"
   },
   {
     "name": "frontend-design",

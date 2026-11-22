@@ -1,0 +1,28 @@
+id: conf-0012
+status: pending
+fingerprint: 3515ac83d001
+detected_at: 2026-11-22T10:36:01.412Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-657
+    hash: 6dab3f14ed76
+    severity: reflex
+    text: Keep hero text to seven words or fewer in the head, one lead sentence, and one or two actions.
+  - key: B
+    source: taste-skill
+    rule_id: taste--265
+    hash: 155a9f6ef496
+    severity: floor
+    text: Keep the hero h1 to two to nine words in a single clause.
+ai_explanation: Rule A caps hero text at ≤7 words while Rule B permits the hero h1 at 2–9 words; an 8–9 word h1 satisfies B but violates A's reflex cap.
+suggestion:
+  kind: scope-split
+  note: A governs the overall hero text/head (≤7 words, one lead sentence, 1–2 actions); B governs the hero h1 specifically (2–9 words, single clause). When the h1 alone exceeds 7 words, A's reflex constraint wins and it should be trimmed.
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

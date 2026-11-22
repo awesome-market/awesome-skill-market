@@ -1,0 +1,28 @@
+id: conf-0008
+status: pending
+fingerprint: 38b87de70c4f
+detected_at: 2026-11-22T10:31:42.370Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--138
+    hash: 34be8f23898d
+    severity: floor
+    text: Do not render text or logos on the product.
+  - key: B
+    source: web-design-guidelines
+    rule_id: web-de-108
+    hash: fe8bbf3d57ad
+    severity: reflex
+    text: Do not render body text in all caps.
+ai_explanation: Rule A prohibits all text on the product, while Rule B permits body text as long as it is not all caps — A forbids exactly what B treats as the default allowed case.
+suggestion:
+  kind: scope-split
+  note: A applies to physical product rendering (no text or logos on the product); B applies to web/digital body copy (allowed, just not all caps).
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

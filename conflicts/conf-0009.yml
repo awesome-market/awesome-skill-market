@@ -1,0 +1,28 @@
+id: conf-0009
+status: pending
+fingerprint: f2dfa21795d7
+detected_at: 2026-11-22T10:32:08.884Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-537
+    hash: 8c3533ae8df8
+    severity: finish
+    text: Omit captions and credit every photograph the scenes print in the footer via data-credits / the credits helper, with each printed credit on its own line, naming each once.
+  - key: B
+    source: taste-skill
+    rule_id: taste--842
+    hash: c28bbf4d4c20
+    severity: floor
+    text: Show exactly one footer credit line that links or opens the credits list instead of one link per photograph.
+ai_explanation: Rule A requires each photograph's credit printed on its own line (multiple lines), while Rule B requires exactly one footer credit line that opens the credits list — in their literal default readings these contradict, but they describe a coherent two-level pattern (one footer line → credits list with per-photograph credits).
+suggestion:
+  kind: merge
+  note: Omit captions. Show exactly one footer credit line that opens the credits list (instead of one link per photograph). Populate the list via data-credits / the credits helper, listing each photograph's credit on its own line and naming each once.
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

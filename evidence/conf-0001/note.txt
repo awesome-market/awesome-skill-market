@@ -1,0 +1,1 @@
+At a glance, Option A shows the swatches and button filled with solid theme colours (colour animation applied); Option B shows them as white chips with coloured outlines (colour animation skipped), while both keep identical layout and position — the only difference is whether colour is animated.

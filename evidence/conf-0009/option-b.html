@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Option B</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#fff;color:#1a1a1a;height:800px;display:flex;flex-direction:column}
+header{padding:28px 40px;border-bottom:1px solid #e5e5e5}
+h1{font-size:22px;font-weight:700}
+p{margin-top:8px;color:#555;font-size:14px}
+main{flex:1;padding:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+figure{background:#f7f7f7;border:1px solid #e5e5e5;padding:16px}
+.photo{height:160px;background:#d9d9d9;border-radius:6px;margin-bottom:12px;position:relative}
+.photo::after{content:attr(data-label);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#888;font-size:13px}
+caption{font-size:13px;color:#333;margin-bottom:6px}
+.meta{font-size:12px;color:#777}
+footer{background:#1a1a1a;color:#fff;padding:32px 40px}
+.footline{font-size:13px;color:#999}
+.footline a{color:#fff;text-decoration:none;border-bottom:1px solid #555}
+.credits{margin-top:16px;display:none}
+.credits li{list-style:none;padding:4px 0;font-size:13px;color:#ccc}
+.credits li span{color:#888}
+</style></head>
+<body>
+<header>
+<h1>Field Notes — Coastal Survey</h1>
+<p>Documenting shoreline markers across three sites this season.</p>
+</header>
+<main>
+<figure><div class="photo" data-label="Site A — marker 12"></div><caption>Marker 12 at dawn</caption><div class="meta">Site A, 06:41</div></figure>
+<figure><div class="photo" data-label="Site B — tide gauge"></div><caption>Tide gauge reading</caption><div class="meta">Site B, 09:15</div></figure>
+<figure><div class="photo" data-label="Site C — old pier"></div><caption>Remains of the old pier</caption><div class="meta">Site C, 14:02</div></figure>
+</main>
+<footer>
+<div class="footline">Photos from the coastal survey — <a href="#">view full credits</a>.</div>
+<ul class="credits">
+<li><span>Site A marker 12</span> — photo by A. Reyes</li>
+<li><span>Tide gauge reading</span> — photo by M. Okafor</li>
+<li><span>Old pier remains</span> — photo by T. Novak</li>
+</ul>
+</footer>
+</body></html>

@@ -1,0 +1,28 @@
+id: conf-0003
+status: pending
+fingerprint: 479bc69fc099
+detected_at: 2026-11-22T10:15:45.159Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-537
+    hash: 8c3533ae8df8
+    severity: floor
+    text: Credit every library photograph in a footer marked data-credits with each printed credit line.
+  - key: B
+    source: taste-skill
+    rule_id: taste--530
+    hash: 49cc417fba00
+    severity: reflex
+    text: Put photograph credits for any print or scene into the footer's single credit line, and never credit a render.
+ai_explanation: Rule A requires each library photograph to receive its own printed credit line (multiple lines), while Rule B requires all photograph credits to go into a single credit line — a direct contradiction on footer structure.
+suggestion:
+  kind: scope-split
+  note: A applies to library photographs (each gets its own printed credit line); B applies to renders (single credit line, never credit renders).
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

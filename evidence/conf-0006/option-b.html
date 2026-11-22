@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" style="color-scheme:dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1200,height=800">
+<title>Option B</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:14px/1.5 system-ui,sans-serif;background:#0f0f0f;color:#f0f0f0;min-height:800px}
+.wrap{max-width:760px;margin:0 auto;padding:40px 48px}
+header{display:flex;align-items:center;justify-content:space-between;padding-bottom:24px;border-bottom:1px solid #2a2a2a;margin-bottom:32px}
+h1{font-size:20px;font-weight:600}
+.badge{font-size:11px;background:#2a3a2f;color:#7ee0a0;padding:4px 10px;border-radius:999px}
+.card{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;padding:24px;margin-bottom:20px}
+label{display:block;font-weight:600;margin-bottom:6px}
+input[type=text]{width:100%;padding:10px 12px;border:1px solid #3a3a3a;border-radius:6px;background:#0f0f0f;color:#f0f0f0;font:inherit}
+input[type=text]:focus{outline:2px solid #4c9aff;border-color:#4c9aff}
+select{width:100%;padding:10px 12px;border:1px solid #3a3a3a;border-radius:6px;background:#0f0f0f;color:#f0f0f0;font:inherit}
+.row{display:flex;gap:16px;margin-bottom:20px}
+.row>div{flex:1}
+.note{font-size:12px;color:#999;margin-top:8px}
+footer{margin-top:8px;font-size:11px;color:#777}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>Settings</h1>
+<span class="badge">color-scheme: dark</span>
+</header>
+<div class="card">
+<label for="name">Display name</label>
+<input id="name" type="text" value="Casey Morgan">
+<p class="note">Input background follows the forced dark mode.</p>
+</div>
+<div class="card">
+<label for="theme">Theme</label>
+<select id="theme">
+<option>System</option>
+<option>Light</option>
+<option selected>Dark</option>
+</select>
+</div>
+<div class="card">
+<label for="bio">Bio</label>
+<input id="bio" type="text" value="Designer &amp; researcher">
+</div>
+<footer>Form controls inherit the single dark color-scheme.</footer>
+</div>
+</body>
+</html>

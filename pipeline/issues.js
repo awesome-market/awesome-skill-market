@@ -18,7 +18,7 @@ function issueBody(conf) {
   const sug = conf.suggestion
     ? `\`${conf.suggestion.kind}\`${conf.suggestion.note ? ` — ${conf.suggestion.note}` : ''}`
     : '_none_';
-  const evSection = conf.evidence === 'screenshot' && conf.evidence_files?.length
+  const evSection = conf.evidence_files?.length
     ? `### 证据对比（左 A / 右 B）
 
 | OPTION A — ${A.source} | OPTION B — ${B.source} |
@@ -30,7 +30,7 @@ function issueBody(conf) {
 `
     : `### 证据
 
-此冲突类型为 \`${conf.evidence}\`，暂无自动截图。
+${conf.evidence_inconclusive ? '两次生成对比图渲染结果一致——此分歧可能需交互才可见，或并非纯视觉差异，请直接按规则文本裁决。' : `此冲突类型为 \`${conf.evidence}\`，暂无自动截图。`}
 `;
   return `## 规则冲突 \`${conf.id}\`
 

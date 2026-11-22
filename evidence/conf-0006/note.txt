@@ -1,0 +1,1 @@
+Compare the input/select backgrounds and page background: Option A uses a light root with a dual light-dark color-scheme (inputs are light even in a dark page), while Option B forces color-scheme:dark on html (inputs and scrollbars are dark). Both target the root, but :root specificity wins, so applying both yields light-dark rather than forced dark.

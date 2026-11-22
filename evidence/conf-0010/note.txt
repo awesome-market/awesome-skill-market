@@ -1,0 +1,1 @@
+Look at the tab indicator (blue in A, red in B): both move by transform only. The difference is height handling — A uses grid-template-rows with variable panel heights (open state), B uses a fixed 120px height on every panel.

@@ -1,0 +1,28 @@
+id: conf-0004
+status: pending
+fingerprint: 807cdc529d0c
+detected_at: 2026-11-22T10:16:54.675Z
+evidence: screenshot
+sides:
+  - key: A
+    source: frontend-design
+    rule_id: fronte-003
+    hash: 2da155f51e20
+    severity: reflex
+    text: Use one typeface family, or at most two that are clearly distinct, and never a separate display face from the body face.
+  - key: B
+    source: hallmark
+    rule_id: hallma-306
+    hash: 9d26c1f9a84e
+    severity: floor
+    text: Use exactly one display face and one body face, or a single family for both, plus at most one outlier that serves exactly one role.
+ai_explanation: RULE A explicitly forbids 'a separate display face from the body face,' while RULE B explicitly permits/defaults to 'exactly one display face and one body face' (i.e., separate display and body faces). These directly contradict on whether display and body may differ.
+suggestion:
+  kind: scope-split
+  note: RULE A (frontend-design · reflex) governs frontend design contexts and forbids separate display/body faces; RULE B (hallmark · floor) governs hallmark contexts and permits a separate display face plus body face.
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

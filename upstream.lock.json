@@ -10,6 +10,7 @@
       "syncedAt": "2026-11-22T09:02:28.793Z"
     },
     {
+      "excludeRe": "/themes/",
       "name": "hallmark",
       "repo": "Nutlope/hallmark",
       "sha": "04977e15f3dfd6ee4b74c887dac3eb52665d6c92",

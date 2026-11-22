@@ -1,0 +1,1 @@
+Look for horizontal hairlines: Option A places 1px solid rules between each section; Option B keeps sections section-only and uses 1px rules at ~13% ink only inside the data ledger rows.

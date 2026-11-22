@@ -1,0 +1,1 @@
+Compare the heading and body typefaces: Option A uses one family (Georgia) for everything; Option B uses a serif display face (Times) for headings and a distinct sans-serif body face (Helvetica) for paragraphs — the exact display-vs-body separation that Rule A forbids but Rule B permits.

@@ -30,7 +30,7 @@ export async function sync() {
     execFileSync('tar', ['-xzf', tgz, '-C', dest, '--strip-components=1']);
     fs.rmSync(tgz);
 
-    const entry = { name: up.name, repo: up.repo, sha, includePaths: up.includePaths, syncedAt: new Date().toISOString() };
+    const entry = { name: up.name, repo: up.repo, sha, includePaths: up.includePaths, excludeRe: up.excludeRe, syncedAt: new Date().toISOString() };
     lock.upstreams = [...lock.upstreams.filter((u) => u.name !== up.name), entry].sort((a, b) => a.name.localeCompare(b.name));
     changed.push(up.name);
   }

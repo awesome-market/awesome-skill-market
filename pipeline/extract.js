@@ -41,11 +41,12 @@ function sourceFiles(name) {
   if (!up) throw new Error(`upstream ${name} not in lock (run sync first)`);
   const root = path.join(DIRS.upstream, name);
   const files = [];
+  const skip = up.excludeRe ? new RegExp(up.excludeRe) : null;
   for (const inc of up.includePaths) {
     const abs = path.join(root, inc);
     if (fs.existsSync(abs) && fs.statSync(abs).isDirectory()) {
-      files.push(...walk(abs, (p) => /\.(md|mdx|txt)$/i.test(p) && !/(LICENSE|NOTICE|CHANGELOG|CONTRIBUTING|CODE_OF_CONDUCT|AUTHORS)/i.test(path.basename(p))));
-    } else if (fs.existsSync(abs)) {
+      files.push(...walk(abs, (p) => /\.(md|mdx|txt)$/i.test(p) && !/(LICENSE|NOTICE|CHANGELOG|CONTRIBUTING|CODE_OF_CONDUCT|AUTHORS)/i.test(path.basename(p)) && !(skip && skip.test(p))));
+    } else if (fs.existsSync(abs) && !(skip && skip.test(abs))) {
       files.push(abs);
     }
   }

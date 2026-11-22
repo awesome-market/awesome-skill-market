@@ -18,6 +18,7 @@ function render(rules, version) {
   const reflex = rules.filter((r) => r.severity === 'reflex');
   const finish = rules.filter((r) => r.severity === 'finish');
   const guidance = rules.filter((r) => r.severity === 'guidance');
+  const REFLEX_INLINE = 80;
 
   const byScope = new Map(SCOPES.map((s) => [s, rules.filter((r) => r.scope?.includes(s))]));
   const refList = [...byScope.entries()].filter(([, v]) => v.length);
@@ -38,15 +39,11 @@ ${floor.map((r) => `- ${r.rule}`).join('\n')}
 
 ## Reflex defaults — apply unless the brief says otherwise
 
-${reflex.map((r) => `- ${r.rule}`).join('\n')}
+${reflex.slice(0, REFLEX_INLINE).map((r) => `- ${r.rule}`).join('\n')}${reflex.length > REFLEX_INLINE ? `\n\n_…and ${reflex.length - REFLEX_INLINE} more reflex rules in references/ — load the scope file you're working in._` : ''}
 
-## Finish — craft details, apply when polishing
+## Finish & Direction
 
-${finish.map((r) => `- ${r.rule}`).join('\n')}
-
-## Direction — guidance, not checkboxes
-
-${guidance.map((r) => `- ${r.rule}`).join('\n')}
+${finish.length} finish rules and ${guidance.length} direction notes live in \`references/\` — read the scope file matching your task instead of loading everything.
 
 ## References — load on demand for the scope you're working in
 

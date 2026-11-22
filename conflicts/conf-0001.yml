@@ -1,0 +1,28 @@
+id: conf-0001
+status: pending
+fingerprint: 597acd6ee6aa
+detected_at: 2026-11-22T10:13:01.746Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--780
+    hash: cde37874f5f6
+    severity: reflex
+    text: Animate only transform, opacity and colours, never height, padding or layout.
+  - key: B
+    source: web-design-guidelines
+    rule_id: web-de-030
+    hash: 823f98374dde
+    severity: floor
+    text: Animate only transform and opacity properties.
+ai_explanation: "Rule A explicitly permits animating colours, while Rule B restricts animations to only transform and opacity — which excludes colours. An agent cannot obey both in the same scope: A allows what B implicitly prohibits."
+suggestion:
+  kind: merge
+  note: Animate only transform, opacity, and colours; never height, padding, or layout.
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

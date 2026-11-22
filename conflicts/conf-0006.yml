@@ -1,0 +1,28 @@
+id: conf-0006
+status: pending
+fingerprint: 0020f6f13d10
+detected_at: 2026-11-22T10:23:33.965Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-146
+    hash: 4bbc8f8838e9
+    severity: reflex
+    text: "Set color-scheme: light dark on :root so form controls and scrollbars follow the active mode."
+  - key: B
+    source: web-design-guidelines
+    rule_id: web-de-072
+    hash: b2caaee50e77
+    severity: reflex
+    text: Set color-scheme dark on html for dark themes to fix scrollbars and inputs.
+ai_explanation: "Both rules target the document root, but :root (specificity 0,1,0) beats html (0,0,1), so applying both yields color-scheme: light dark rather than dark — an agent obeying both cannot realize RULE B's forced-dark intent."
+suggestion:
+  kind: scope-split
+  note: "Use color-scheme: light dark on :root when theming should follow the user's light/dark preference (RULE A); use color-scheme: dark on html when the theme must always be dark (RULE B). These are mutually exclusive strategies — do not apply both simultaneously."
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png

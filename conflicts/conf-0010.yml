@@ -1,0 +1,28 @@
+id: conf-0010
+status: pending
+fingerprint: 4221878228fb
+detected_at: 2026-11-22T10:32:26.235Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-937
+    hash: 8ce310908db6
+    severity: reflex
+    text: Move the tab indicator by transform only, never width, and animate height changes via grid-template-rows.
+  - key: B
+    source: taste-skill
+    rule_id: taste--736
+    hash: 39539a2d0525
+    severity: reflex
+    text: The tab indicator must move by transform alone and panels must have one fixed height.
+ai_explanation: "Both rules agree the tab indicator must move by transform alone, but they directly contradict on height: Rule A requires animating height changes via grid-template-rows (implying variable heights), while Rule B requires panels to have one fixed height (no height changes)."
+suggestion:
+  kind: scope-split
+  note: Rule A applies when panels have variable/dynamic heights (animate transitions via grid-template-rows); Rule B applies when panels use a single fixed height (no height animation needed).
+issue_url: null
+evidence_files:
+  - option-a.png
+  - option-b.png
+  - option-a-mobile.png
+  - option-b-mobile.png
