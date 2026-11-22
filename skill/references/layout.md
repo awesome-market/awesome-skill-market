@@ -47,7 +47,7 @@
 - **(floor)** Never restructure during a polish: no moving sections, no re-picking a system, and no swapping a nav.
 - **(floor)** Never ship outline-only filler cards; climb the surface ladder instead.
 - **(floor)** Never use repeated stripe or grid backgrounds with nothing under them.
-- **(floor)** Do not use emoji as list bullets.
+- **(floor)** Never use emoji as list bullets.
 - **(floor)** Never ship a tight grotesk at 600 on near-white with one blue accent and a 1px border under a soft shadow.
 - **(floor)** Never let a first viewport commit and then quietly become a card grid on white in a later section.
 - **(floor)** For self-hosted faces, set font-display: swap and provide a metric-matched fallback using size-adjust and ascent/descent/line-gap overrides to prevent layout reflow during swap.
@@ -79,7 +79,7 @@
 - **(floor)** Never use a masthead or a blurred pill, as they fight the playful register.
 - **(floor)** Every stateful control must implement all eight states: default, hover, focus, active, disabled, loading, error, and success.
 - **(floor)** Anything reachable by touch must have a 44x44 CSS pixel hit target, expanding small controls without changing their appearance.
-- **(floor)** Every field must have a visible label above it; never rely on placeholder or aria-label alone as the label.
+- **(floor)** Every field must have a visible label above it, never using placeholder as the label.
 - **(floor)** State changes must never alter border width, padding, height, or animate the ring; reserve a transparent outline at rest so the ring appears without shifting.
 - **(floor)** Modals must use native dialog with showModal, providing focus trap, Escape handling, and ::backdrop for free.
 - **(floor)** Overlays must mark the page behind as inert, close on Escape and backdrop click, include a visible close control, and move first focus to the first interactive element.
@@ -89,6 +89,7 @@
 - **(floor)** Never render a section head below 40px at 1440px width.
 - **(floor)** Give every body visual mass: a 360px-tall-or-greater visual, three-to-four across items, three-plus-row list or table, working control, or a statement at section size or larger.
 - **(floor)** A head plus a paragraph is only a head block, never a full section.
+- **(floor)** Never place two neighbouring sections with the same skeleton on one page.
 - **(floor)** Never leave empty grid frames, stock faces for people, or icon tiles over headings.
 - **(floor)** Only display figures the prompt explicitly provides.
 - **(floor)** Render steps as a real ordered list with numerals, never a 01 label over a head.
@@ -144,7 +145,7 @@
 - **(floor)** Open a dialog with showModal(), inert the page behind it, and move first focus to the first interactive element.
 - **(floor)** Implement every button with all eight states (default, hover, active, focus-visible, disabled, aria-disabled, busy, quiet) using the provided CSS variables and transitions.
 - **(floor)** Keep segmented radio inputs at 1px in the flow while the label carries the checked state and focus ring in body face sentence case.
-- **(floor)** Maintain hierarchical h1 through h6 headings and include an absolute-positioned skip-to-content link that becomes visible on focus.
+- **(floor)** Include an absolute-positioned skip-to-content link that becomes visible on focus.
 - **(floor)** Keep every link, form, field, handler, route, id, key, type, href, data-testid, script, data call, and analytics call, editing markup only inside the component that owns it.
 - **(floor)** Sweep the redesign against the before record and restore or record anything the page had and no longer has.
 - **(floor)** Ensure every page renders correctly across all widths from 320 to 1920 CSS pixels without relying on desktop-only interactions.
@@ -171,6 +172,7 @@
 - **(floor)** Never add a caption under a print that explains the effect, and never reveal that the image is a print.
 - **(floor)** Every print frame must define an explicit size via aspect-ratio or height so the print fills it.
 - **(floor)** Never place text over a print, and only allow a small UI card on a corner of the frame without covering the subject.
+- **(floor)** A close must contain exactly one primary button.
 - **(floor)** The big close button must not appear anywhere else on the page.
 - **(floor)** A close must not place a ground behind its main button.
 - **(floor)** A close-photo must never place words over its photograph.
@@ -185,6 +187,7 @@
 - **(floor)** A picture must occupy at least half a tile, a 50/50 split, or a whole screen layer.
 - **(floor)** The close must be its own picture, a photograph, the big button, or the name set wide.
 - **(floor)** Each section must hold one idea, one h2, and at most one action besides the main action.
+- **(floor)** Show at most one product render per page.
 - **(floor)** The main action must read identically in the nav, hero, close or booking, and phone bar, and appear nowhere else as a filled button.
 - **(floor)** Merge short blocks that would hold under 495px into the section above as their last element with no own heading or ground.
 - **(floor)** An FAQ that reaches 495px with answers open becomes its own section.
@@ -331,7 +334,7 @@
 - **(floor)** Do not use eyebrow text (small uppercase labels above headings).
 - **(floor)** Make interactive targets at least 44x44 CSS pixels with sufficient spacing.
 - **(reflex)** Open the page with the single most characteristic element of the subject in the most appropriate form, rather than the default big-number-and-gradient treatment.
-- **(reflex)** When type functions as a headline or visual element, treat the chosen typeface and its treatment as the primary, active design element rather than a neutral carrier or afterthought.
+- **(reflex)** When type functions as a headline or visual element, treat the type treatment itself as an active design element rather than a neutral carrier.
 - **(reflex)** Do not add typographic labels above content unless they carry meaning.
 - **(reflex)** Use structural devices such as outlines, borders, numbering, dividers, and labels only when they encode real information about the content.
 - **(reflex)** Only add numbered markers such as 01/02/03 when the content is genuinely a sequence like a process or timeline.
@@ -460,6 +463,7 @@
 - **(reflex)** Use a modal only as the last answer, after inline editing and disclosure have been considered.
 - **(reflex)** Make controls 32 to 40px with a 44px hit target in app screens.
 - **(reflex)** Use tables before cards in app screens, allowing a table to run wider than any prose measure.
+- **(reflex)** Keep filters, tabs, and pagination in the URL for app screens.
 - **(reflex)** Deliver the product's signature object, such as the ledger, timeline, or queue, rather than a greeting above stat cards.
 - **(reflex)** Print structural findings with file:line and a one-line fix each without rebuilding them during a polish.
 - **(reflex)** Select faces by their shape and colour on the page, not by their name, reputation, or subject association.
@@ -563,6 +567,7 @@
 - **(reflex)** Make hero visuals six or seven columns wide and 60 percent of the screen tall, or portrait objects 75 percent tall on four or five columns.
 - **(reflex)** Use two-track hero grids with 48 to 120px gaps and leave an empty column between spans on the twelve-column grid.
 - **(reflex)** Without a hero visual grow the head to --text-display across eight to twelve columns or start the first section by 640px.
+- **(reflex)** Keep hero text to seven words or fewer in the head, one lead sentence, and one or two actions.
 - **(reflex)** Let the page job decide anatomy and let the theme dress it rather than replace it.
 - **(reflex)** Order sections by the argument the shape makes, never by a fixed hero-features-cta-footer pattern.
 - **(reflex)** Add steps only for genuine visitor processes and figures only for numbers the prompt states outright.
@@ -581,6 +586,7 @@
 - **(reflex)** Place a display heading over the first row of the grid.
 - **(reflex)** Write long-document pages as continuous prose that reads like a memo, letter, or journal entry, avoiding marketing structure.
 - **(reflex)** Emerge section headings from the paragraph flow as short bold phrases inline with the body rather than as standalone block headings.
+- **(reflex)** Keep the body to a single column with line-height of at least 1.65 and a measure of 60 to 65 characters.
 - **(reflex)** Use negative space as the only divider between sections, allowing at most one centered ornament for emphasis.
 - **(reflex)** Size inline images to the body measure and never render them full-bleed.
 - **(reflex)** Keep the hero above the fold as a single statement or visual that fills the viewport.
@@ -937,6 +943,7 @@
 - **(reflex)** Flex children must set min-w-0 to allow text truncation.
 - **(reflex)** Render proper empty states instead of broken UI for empty strings or arrays.
 - **(reflex)** Anticipate short, average, and very long user-generated inputs when building containers.
+- **(reflex)** Reflect filters, tabs, pagination, and expanded panels in query params.
 - **(reflex)** Sync stateful UI to the URL when state drives behavior.
 - **(reflex)** Apply overscroll-behavior contain inside modals, drawers, and sheets.
 - **(reflex)** Full-bleed layouts must apply env safe-area-inset values for notches.

@@ -179,7 +179,7 @@ export async function merge({ applyOnly = false, limit = MAX_PAIRS_PER_RUN } = {
       } catch (e) {
         return { verdict: null, error: e.message };
       }
-    })));
+    }));
     const batchSecs = ((Date.now() - t0) / 1000).toFixed(1);
     const done = Math.min(off + JUDGE_POOL, shortlisted.length);
     const eta = ` ETA ~${Math.max(1, Math.round(((Date.now() - judgeStart) / done) * (shortlisted.length - done) / 60000))}m`;
