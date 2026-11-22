@@ -8,6 +8,7 @@ import { chatJSON } from './lib/llm.js';
 
 const SIM_THRESHOLD = 0.08;
 const MAX_PAIRS_PER_RUN = 80;
+const JUDGE_POOL = 4; // concurrent judge calls — omlx handles a few fine; thinking calls are the bottleneck
 const CACHE_FILE = path.join(DIRS.work, 'judge-cache.jsonl'); // verdict replay cache — survives Ctrl-C
 
 function loadJudgeCache() {
@@ -75,7 +76,7 @@ async function judgePair(a, b) {
   });
 }
 
-export async function merge({ applyOnly = false } = {}) {
+export async function merge({ applyOnly = false, limit = MAX_PAIRS_PER_RUN } = {}) {
   const rules = loadExtracted();
   log(`merge: ${rules.length} extracted rules in`);
 
@@ -141,80 +142,93 @@ export async function merge({ applyOnly = false } = {}) {
     }
   }
   pairs.sort((a, b) => b[2] - a[2]);
-  const shortlisted = pairs.slice(0, MAX_PAIRS_PER_RUN);
-  log(`merge: ${pairs.length} candidate pairs, judging top ${shortlisted.length}`);
+  const shortlisted = pairs.slice(0, limit);
+  log(`merge: ${pairs.length} candidate pairs, judging top ${shortlisted.length} (pool=${JUDGE_POOL})`);
 
   const judgeCache = loadJudgeCache();
-  let llmCalls = 0, llmMs = 0;
+  const judgeStart = Date.now();
 
-  for (const [n, [i, j]] of shortlisted.entries()) {
+  for (let off = 0; off < shortlisted.length; off += JUDGE_POOL) {
     if (applyOnly) break;
-    const a = canonical[i], b = canonical[j];
-    if (absorbed.has(a.hash) || absorbed.has(b.hash)) continue;
-    const fp = conflictFingerprint([{ text: a.rule }, { text: b.rule }]);
 
-    if (conflictByFp.has(fp)) {
-      const c = conflictByFp.get(fp);
-      if (c.status === 'pending') { held.add(a.hash); held.add(b.hash); }
-      // decided conflicts already handled above
-      continue;
+    // 1. eligibility pass (serial — absorbs from earlier batches apply here)
+    const batch = [];
+    for (const [bn, [i, j]] of shortlisted.slice(off, off + JUDGE_POOL).entries()) {
+      const a = canonical[i], b = canonical[j];
+      if (absorbed.has(a.hash) || absorbed.has(b.hash)) continue;
+      const fp = conflictFingerprint([{ text: a.rule }, { text: b.rule }]);
+      if (conflictByFp.has(fp)) {
+        const c = conflictByFp.get(fp);
+        if (c.status === 'pending') { held.add(a.hash); held.add(b.hash); }
+        continue;
+      }
+      batch.push({ a, b, fp, n: off + bn });
     }
+    if (!batch.length) continue;
 
-    let verdict = judgeCache.get(fp);
-    const cached = !!verdict;
+    // 2. fetch verdicts — cache hits instant, misses call LLM concurrently
     const t0 = Date.now();
-    if (!verdict) {
+    const results = await Promise.all(batch.map(async ({ a, b, fp }) => {
+      const cached = judgeCache.get(fp);
+      if (cached) return { verdict: cached, cached: true };
       try {
-        verdict = await judgePair(a, b);
-        llmCalls++; llmMs += Date.now() - t0;
-        fs.appendFileSync(CACHE_FILE, JSON.stringify({ fp, verdict }) + '\n');
+        const v = await judgePair(a, b);
+        fs.appendFileSync(CACHE_FILE, JSON.stringify({ fp, verdict: v }) + '\n');
+        judgeCache.set(fp, v);
+        return { verdict: v, cached: false };
       } catch (e) {
-        log(`judge [${n + 1}/${shortlisted.length}] ${a.id}~${b.id} failed: ${e.message}; holding both`);
+        return { verdict: null, error: e.message };
+      }
+    })));
+    const batchSecs = ((Date.now() - t0) / 1000).toFixed(1);
+    const done = Math.min(off + JUDGE_POOL, shortlisted.length);
+    const eta = ` ETA ~${Math.max(1, Math.round(((Date.now() - judgeStart) / done) * (shortlisted.length - done) / 60000))}m`;
+
+    // 3. apply verdicts in shortlist order — deterministic mutations
+    for (const [k, { a, b, fp, n }] of batch.entries()) {
+      const { verdict, cached, error } = results[k];
+      if (!verdict) {
+        log(`judge [${n + 1}/${shortlisted.length}] ${a.id}~${b.id} FAILED: ${error}; holding both`);
         held.add(a.hash); held.add(b.hash);
         continue;
       }
-    }
+      log(`judge [${n + 1}/${shortlisted.length}] ${a.id}~${b.id}: ${verdict.relationship} (${cached ? 'cached' : `${batchSecs}s batch`})${eta}`);
 
-    const secs = cached ? 'cached' : `${((Date.now() - t0) / 1000).toFixed(1)}s`;
-    const eta = llmCalls
-      ? ` ETA ~${Math.max(1, Math.round((llmMs / llmCalls) * (shortlisted.length - n - 1) / 60000))}m`
-      : '';
-    log(`judge [${n + 1}/${shortlisted.length}] ${a.id}~${b.id}: ${verdict.relationship} (${secs})${eta}`);
+      if (verdict.relationship === 'overlap' && verdict.merged?.rule) {
+        const m = verdict.merged;
+        absorbed.add(b.hash);
+        a.rule = m.rule;
+        a.severity = m.severity ?? a.severity;
+        a.scope = m.scope ?? a.scope;
+        a.evidence = m.evidence ?? a.evidence;
+        a.mechanizable = m.mechanizable ?? a.mechanizable;
+        a.sources.push(...b.sources);
+        continue;
+      }
 
-    if (verdict.relationship === 'overlap' && verdict.merged?.rule) {
-      const m = verdict.merged;
-      absorbed.add(b.hash);
-      a.rule = m.rule;
-      a.severity = m.severity ?? a.severity;
-      a.scope = m.scope ?? a.scope;
-      a.evidence = m.evidence ?? a.evidence;
-      a.mechanizable = m.mechanizable ?? a.mechanizable;
-      a.sources.push(...b.sources);
-      continue;
-    }
-
-    if (verdict.relationship === 'conflict') {
-      const id = nextId(DIRS.conflicts, 'conf');
-      const ev = [a.evidence, b.evidence].includes('recording') ? 'recording'
-        : [a.evidence, b.evidence].includes('screenshot') ? 'screenshot'
-        : [a.evidence, b.evidence].includes('audit') ? 'audit' : 'none';
-      writeYAML(path.join(DIRS.conflicts, `${id}.yml`), {
-        id,
-        status: 'pending',
-        fingerprint: fp,
-        detected_at: new Date().toISOString(),
-        evidence: ev,
-        sides: [
-          { key: 'A', source: a.source, rule_id: a.id, hash: a.hash, severity: a.severity, text: a.rule, text_zh: verdict.sides_zh?.A ?? null },
-          { key: 'B', source: b.source, rule_id: b.id, hash: b.hash, severity: b.severity, text: b.rule, text_zh: verdict.sides_zh?.B ?? null },
-        ],
-        ai_explanation: verdict.explanation ?? '',
-        ai_explanation_zh: verdict.explanation_zh ?? null,
-        suggestion: verdict.suggestion ?? null,
-        issue_url: null,
-      });
-      held.add(a.hash); held.add(b.hash);
-      log(`merge: new conflict ${id}`);
+      if (verdict.relationship === 'conflict') {
+        const id = nextId(DIRS.conflicts, 'conf');
+        const ev = [a.evidence, b.evidence].includes('recording') ? 'recording'
+          : [a.evidence, b.evidence].includes('screenshot') ? 'screenshot'
+          : [a.evidence, b.evidence].includes('audit') ? 'audit' : 'none';
+        writeYAML(path.join(DIRS.conflicts, `${id}.yml`), {
+          id,
+          status: 'pending',
+          fingerprint: fp,
+          detected_at: new Date().toISOString(),
+          evidence: ev,
+          sides: [
+            { key: 'A', source: a.source, rule_id: a.id, hash: a.hash, severity: a.severity, text: a.rule, text_zh: verdict.sides_zh?.A ?? null },
+            { key: 'B', source: b.source, rule_id: b.id, hash: b.hash, severity: b.severity, text: b.rule, text_zh: verdict.sides_zh?.B ?? null },
+          ],
+          ai_explanation: verdict.explanation ?? '',
+          ai_explanation_zh: verdict.explanation_zh ?? null,
+          suggestion: verdict.suggestion ?? null,
+          issue_url: null,
+        });
+        held.add(a.hash); held.add(b.hash);
+        log(`merge: new conflict ${id}`);
+      }
     }
   }
 
@@ -239,5 +253,9 @@ export async function merge({ applyOnly = false } = {}) {
 const severityRank = (s) => ({ floor: 0, reflex: 1, finish: 2, guidance: 3 }[s] ?? 4);
 
 if (process.argv[1] && import.meta.url.endsWith(path.basename(process.argv[1]))) {
-  await merge({ applyOnly: process.argv.includes('--apply-only') });
+  const i = process.argv.indexOf('--limit');
+  await merge({
+    applyOnly: process.argv.includes('--apply-only'),
+    limit: process.argv.includes('--all') ? Infinity : i !== -1 ? Number(process.argv[i + 1]) : MAX_PAIRS_PER_RUN,
+  });
 }
