@@ -49,11 +49,29 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
   };
   const body = (req) => new Promise((r) => { let b = ''; req.on('data', (c) => b += c); req.on('end', () => r(b || '{}')); });
 
+  // 请求 → 用户看得懂的动作；null = 静态资源/轮询等内部流量不打扰
+  const action = (req, u) => {
+    const p = u.pathname;
+    if (req.method === 'GET' && (p === '/' || p === '/index.html')) return '打开了网页';
+    if (req.method === 'GET' && p === '/api/state') return '刷新了页面数据';
+    if (req.method === 'GET' && p === '/api/probe') return '点了「扫描本机模型服务」';
+    if (req.method === 'POST' && p === '/api/config') return '保存了设置';
+    if (req.method === 'POST' && p === '/api/llm-smoke') return '点了「测试连接」';
+    if (req.method === 'POST' && p === '/api/models') return '验证密钥 / 读取模型列表';
+    if (req.method === 'POST' && p === '/api/targets') return '修改了 skill 的安装位置';
+    return null;
+  };
+
   const server = http.createServer(async (req, res) => {
     lastActive = Date.now();
-    const t0 = Date.now();
-    if (!quiet) res.on('finish', () => console.log(`  ${req.method} ${req.url.replace(/token=[^&\s]+/g, 'token=***')} → ${res.statusCode} ${Date.now() - t0}ms`));
     const u = new URL(req.url, 'http://x');
+    if (!quiet) res.on('finish', () => {
+      const a = req.logNote ?? action(req, u);
+      if (a == null) return;
+      const tail = res.statusCode === 401 ? '（被拒绝：链接已过期，重新打开）'
+        : res.statusCode >= 400 ? `（失败 ${res.statusCode}）` : '';
+      console.log(`  ${new Date().toTimeString().slice(0, 8)}  ${a}${tail}`);
+    });
     // auth：Bearer header 或 ?token=（SSE/img 用 query，服务端不下发 cookie）
     const authed = req.headers.authorization === `Bearer ${token}` || u.searchParams.get('token') === token;
     if (u.pathname === '/api/events') {                       // SSE
@@ -76,6 +94,7 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
             const c = loadConflicts(ctx.hub).find((x) => x.id === b.id);
             if (!c) { res.writeHead(404); return res.end('{"error":"not found"}'); }
             if (!b.reason?.trim()) { res.writeHead(400); return res.end('{"error":"reason required"}'); }
+            req.logNote = `裁决了一个冲突（${{ 'keep-a': '采用方案 A', 'keep-b': '采用方案 B', merge: '合并两条', dismissed: '其实不冲突' }[b.resolution] || b.resolution}）`;
             decide(ctx.hub, c, { resolution: b.resolution, custom: b.custom || null, reason: b.reason, by: 'web-ui' });
             c.status = 'resolved';
             const { writeConflict } = await import('../lib/conflicts.js');
@@ -121,6 +140,7 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
           }
           if (u.pathname === '/api/targets') {                        // web 改投影目标
             const name = b.name, targets = b.targets || [];
+            req.logNote = `修改了「${name}」的安装位置`;
             const lib = readLibrary(ctx.hub);
             const s = lib.skills?.[name];
             if (!s) { res.writeHead(404); return res.end('{"error":"not found"}'); }
