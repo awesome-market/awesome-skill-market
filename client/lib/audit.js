@@ -5,6 +5,9 @@ import { walk } from './package.js';
 import { writeYAMLFile } from './hub.js';
 
 const TEXT_EXT = /\.(md|txt|json|ya?ml|toml|mjs|cjs|js|ts|sh|py|html?|css)$/i;
+const DOC_EXT = /\.(md|markdown|txt|rst|adoc)$/i;
+// 文档语境豁免只对"下载型"curl 生效——真危险的是这些（管道执行/反弹shell/编码绕过）
+const EGRESS_DANGER = /\|\s*(?:sudo\s+)?(?:ba|z)?sh\b|\bnc\b\s+-|\/dev\/tcp\/|\bbase64\b/i;
 const STRIP_DIRS = /^(scripts?|bin|tools?|hooks?|install|\.github\/workflows)$/i;
 const EXEC_EXT = /\.(sh|bash|zsh|exe|bat|cmd|ps1|com|dll|so|dylib|app)$/i;
 
@@ -52,22 +55,29 @@ export function auditDir(dir, { strip = true } = {}) {
       lines.forEach((line, i) => {
         if (rule.re.test(line)) {
           const severe = rule.severe === true ? true : !!rule.severe?.test?.(line);
-          findings.push({ rule: rule.id, file: rel, line: i + 1, excerpt: line.trim().slice(0, 120), severe });
+          // 文档里的"下载型"curl 降级为 doc——记录但不单独定罪（维护说明/用户手册常见）
+          const doc = rule.id === 'egress-cmd' && DOC_EXT.test(base) && !EGRESS_DANGER.test(line);
+          findings.push({ rule: rule.id, file: rel, line: i + 1, excerpt: line.trim().slice(0, 120), severe, ...(doc ? { doc: true } : {}) });
         }
       });
     }
   }
 
-  // verdict 归并（代码判定，不是模型）
-  const has = (id) => findings.some((f) => f.rule === id);
-  const severe = findings.some((f) => f.severe);
-  const suspiciousCount = findings.reduce((n, f) => n + (RULES.find((r) => r.id === f.rule)?.weight ?? 1), 0);
-  let verdict = 'clean';
-  if (has('pii-harvest') || severe || (has('secret-pattern') && has('egress-cmd')) || suspiciousCount >= 5) verdict = 'malicious';
-  else if (findings.length || stripped.length) verdict = 'suspicious';
-
-  return { verdict, findings, stripped: strip ? stripped : [] };
+  return { verdict: verdictOf(findings, stripped), findings, stripped: strip ? stripped : [] };
 }
+
+// verdict 归并（代码判定，不是模型）。doc=文档语境误报，allowed=用户人工豁免——都不定罪但仍记录
+export function verdictOf(findings, stripped = []) {
+  const live = findings.filter((f) => !f.doc && !f.allowed);
+  const has = (id) => live.some((f) => f.rule === id);
+  const severe = live.some((f) => f.severe);
+  const suspiciousCount = live.reduce((n, f) => n + (RULES.find((r) => r.id === f.rule)?.weight ?? 1), 0);
+  if (has('pii-harvest') || severe || (has('secret-pattern') && has('egress-cmd')) || suspiciousCount >= 5) return 'malicious';
+  if (live.length || stripped.length) return 'suspicious';
+  return 'clean';
+}
+
+export const RULE_IDS = RULES.map((r) => r.id);
 
 // 剥离：copy 时排除 stripped 相对路径
 export function stripFilter(stripped) {
@@ -76,12 +86,13 @@ export function stripFilter(stripped) {
   return (rel) => !set.has(rel) && !tops.has(rel.split('/')[0]);
 }
 
-export function writeScan(hub, name, result, { llm = null } = {}) {
+export function writeScan(hub, name, result, { llm = null, allow = [] } = {}) {
   writeYAMLFile(path.join(hub, 'scans', `${name}.yml`), {
     name,
     scanned_at: new Date().toISOString(),
     static: { findings: result.findings, stripped: result.stripped },
     verdict: result.verdict,
+    ...(allow.length ? { allow } : {}),
     ...(llm ? { llm } : {}),
   });
 }

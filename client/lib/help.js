@@ -118,12 +118,15 @@ const H = {
   --dry-run reports without writing (also lists newly detected agents).`,
   },
   audit: {
-    zh: `用法: skillmkt audit <名字|--all> [--llm] [--json]
+    zh: `用法: skillmkt audit <名字|--all> [--llm] [--allow <规则id>] [--json]
   安全审核：scripts/密钥模式/外联指令等确定性检查；--llm 追加本地模型分析。
-  结论词：干净 / 可疑 / 已剔除 / 恶意 / 已隔离。`,
-    en: `usage: skillmkt audit <name|--all> [--llm] [--json]
+  --allow 豁免误报规则（该 skill 的重审/升级都认；规则 id: egress-cmd 等）。
+  文档里的下载型 curl 自动降级不计罪。结论词：干净 / 可疑 / 已剔除 / 恶意 / 已隔离。`,
+    en: `usage: skillmkt audit <name|--all> [--llm] [--allow <rule-id>] [--json]
   Security audit: deterministic checks for scripts/secret patterns/outbound
   instructions; --llm adds local-model analysis.
+  --allow suppresses a false-positive rule (sticks across re-audits/upgrades).
+  Download-style curl in docs is downgraded automatically.
   Verdicts: clean / suspicious / stripped / malicious / quarantined.`,
   },
   update: {
