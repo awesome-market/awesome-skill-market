@@ -103,8 +103,9 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
           }
           if (u.pathname === '/api/llm-smoke') {                      // init 冒烟
             const key = resolveKeyRef(b.api_key, ctx);                // env: 引用走 hub/.env 等解析链
-            const r = await chat({ base_url: b.base_url, model: b.model, api_key: key, timeout_ms: 15000 }, { user: 'Reply with exactly: OK', maxTokens: 8 });
-            return res.end(JSON.stringify({ ok: true, reply: r.trim().slice(0, 80) }));
+            const sent = 'Reply with exactly: OK';
+            const r = await chat({ base_url: b.base_url, model: b.model, api_key: key, timeout_ms: 15000 }, { user: sent, maxTokens: 64 });
+            return res.end(JSON.stringify({ ok: true, sent, reply: r.trim().slice(0, 200) }));
           }
           if (u.pathname === '/api/models') {                         // 指定端点+密钥拉模型列表
             const key = resolveKeyRef(b.api_key, ctx);

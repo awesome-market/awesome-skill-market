@@ -106,7 +106,8 @@ export async function chat(llm, { system = '', user, maxTokens = 64, temperature
     });
     if (!res.ok) throw new Error(`llm ${res.status}: ${(await res.text()).slice(0, 200)}`);
     const data = await res.json();
-    return data.choices?.[0]?.message?.content ?? '';
+    const msg = data.choices?.[0]?.message;
+    return msg?.content ?? msg?.reasoning_content ?? '';   // 思考型模型可能只回 reasoning_content
   } finally { clearTimeout(t); }
 }
 

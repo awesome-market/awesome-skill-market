@@ -148,12 +148,13 @@ async function render() {
         <div class="row"><button id="probe">扫描本机模型服务</button><span id="probe-out" class="mut"></span></div>
         <div id="eps"></div>
         <div class="frow"><span class="lab">服务地址</span><input type="text" id="murl" placeholder="http://localhost:1234/v1" value="${esc(cfg.llm?.base_url || '')}"></div>
-        <div class="frow" id="key-row" style="display:none"><span class="lab">访问密钥</span><input type="text" id="mkey" value="${esc(cfg.llm?.api_key || '')}"><span class="fhint" id="key-hint"></span></div>
-        <p class="mut" style="margin:8px 0 0">本机服务一般留空。填了密钥会用本机机器码加密后存入 config.yml——文件拷到别的机器解不开，换机需重填。</p>
+        <div class="frow" id="key-row" style="display:none"><span class="lab">访问密钥</span><input type="text" id="mkey" value="${esc(cfg.llm?.api_key || '')}"><span class="fhint" id="key-hint"></span>
+          <div class="fsub">填了密钥会用本机机器码加密后存入 config.yml——文件拷到别的机器解不开，换机需重填。</div></div>
         <div class="frow" id="model-box"><span class="lab">模型名称</span>
           <div class="combo"><input type="text" id="mmodel" autocomplete="off" placeholder="可输入关键字搜索，扫描后自动列出发现的模型" value="${esc(cfg.llm?.model || '')}">
           <div class="combo-list" id="model-drop" style="display:none"></div></div>
-          <button id="smoke">测试连接</button><span id="smoke-out" class="mut"></span></div></div>
+          <button id="smoke">测试连接</button>
+          <div id="smoke-out" class="fsub"></div></div></div>
       <div class="card"><h3>第 2 步 · skill 默认安装位置</h3>
         <p class="mut">勾选的 AI 工具会在你安装新 skill 时自动收到一份副本。已勾过的话保存即生效。</p>
         ${h.map((x) => `<label class="check"><input type="checkbox" data-h="${esc(x.id)}" ${sel.has(x.id) ? 'checked' : ''} ${x.state === 'absent' ? 'disabled' : ''}> ${esc(x.id)} ${pill(x.state)} <span class="mut">${esc(x.primaryDir || '')}</span></label>`).join('')}</div>
@@ -265,9 +266,12 @@ async function render() {
       renderDrop(); app.querySelector('#model-drop').style.display = 'block';
     });
     app.querySelector('#smoke').onclick = async () => {
-      app.querySelector('#smoke-out').textContent = '测试中…';
+      const out = app.querySelector('#smoke-out');
+      out.textContent = '测试中…';
       const r = await api('/llm-smoke', { method: 'POST', body: JSON.stringify({ base_url: app.querySelector('#murl').value, model: app.querySelector('#mmodel').value, api_key: app.querySelector('#mkey').value }) });
-      app.querySelector('#smoke-out').textContent = r.ok ? `连接成功，模型回复：${r.reply}` : `连接失败：${r.error}`;
+      out.innerHTML = r.ok
+        ? `连接成功<br>发送：${esc(r.sent)}<br>回复：${esc(r.reply || '（空回复）')}`
+        : `连接失败：${esc(r.error)}`;
     };
     app.querySelector('#save').onclick = async () => {
       const targets = [...app.querySelectorAll('[data-h]:checked')].map((x) => x.dataset.h);

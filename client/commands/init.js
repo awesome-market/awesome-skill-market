@@ -85,7 +85,7 @@ export async function run(ctx) {
     // 冒烟：真实 chat 调用
     try {
       const probe = { base_url, model, api_key: keyEnv.v ? process.env[keyEnv.v.slice(4)] ?? '' : '', timeout_ms: 15000 };
-      const reply = await chat(probe, { user: 'Reply with exactly: OK', maxTokens: 8 });
+      const reply = await chat(probe, { user: 'Reply with exactly: OK', maxTokens: 64 });
       ok(`llm smoke: ${reply.trim().slice(0, 40) || '(empty reply)'}`);
     } catch (e) {
       warn(`llm smoke failed: ${e.message}（配置已写入，功能将降级）`);
