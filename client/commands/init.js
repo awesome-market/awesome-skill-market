@@ -168,5 +168,15 @@ export async function run(ctx) {
 
   ok(`init done — default_targets: ${raw.default_targets.join(', ') || L('（无 installed harness，装好后 targets add）', '(no installed agent — use targets add later)')}`);
   info(`llm: ${model ? `${model} @ ${base_url}` : L('未配置（skillmkt init 随时重跑）', 'not configured (rerun skillmkt init anytime)')}`);
+
+  info(L('接下来怎么用：', 'What you can do next:'));
+  for (const [cmd, desc] of [
+    ['skillmkt install <路径>', L('收编一个本地 skill（目录或压缩包）', 'adopt a local skill (dir or archive)')],
+    ['skillmkt search <关键词>', L('搜远端 skill 市场', 'search the remote skill market')],
+    ['skillmkt list', L('看已管理的 skill', 'list managed skills')],
+    ['skillmkt serve', L('打开 Web 面板（冲突/裁决/合并可视化）', 'open the web panel (conflicts/decisions/merge)')],
+    ['skillmkt doctor', L('体检：配置、agent、端点连通性', 'health check: config, agents, endpoint')],
+    ['skillmkt --help', L('全部命令', 'all commands')],
+  ]) info(`    ${cmd.padEnd(30)} ${desc}`);
   return 0;
 }
