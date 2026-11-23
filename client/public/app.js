@@ -176,6 +176,7 @@ async function render() {
       const cur = app.querySelector('#murl').value.trim().replace(/\/+$/, '');
       const known = epsList.some((e) => sameBase(e.base_url, cur));
       curOpts = [...modelMap.keys()].filter((m) => !known || sameBase(modelMap.get(m), cur));
+      renderDrop();   // 数组变了 DOM 也要重建——verifyKey 等只调 refreshOpts 的路径才不会漏渲染
       return curOpts.length;
     };
     // 自绘搜索下拉（Safari 不支持 <datalist>，会把 option 当文本渲染盖住布局）
@@ -248,7 +249,9 @@ async function render() {
       if (!key) return;
       const out = app.querySelector('#smoke-out');
       out.textContent = '验证密钥…';
-      const r = await api('/models', { method: 'POST', body: JSON.stringify({ base_url: cur, api_key: key }) });
+      let r;
+      try { r = await api('/models', { method: 'POST', body: JSON.stringify({ base_url: cur, api_key: key }) }); }
+      catch (e) { out.textContent = `请求失败：${e.message}`; return; }
       if (r.models?.length) {
         keyOk = true; keyFailed = false;
         for (const m of r.models) { modelMap.set(m, cur); loadedModels.set(m, cur); }

@@ -183,6 +183,7 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
     }
     if (!fs.existsSync(file) || fs.statSync(file).isDirectory()) { res.writeHead(404); return res.end('nf'); }
     res.setHeader('content-type', MIME[path.extname(file)] || 'application/octet-stream');
+    res.setHeader('cache-control', 'no-store');              // 每次请求都读磁盘——迭代期不让浏览器拿缓存旧 app.js
     fs.createReadStream(file).pipe(res);
   });
 
