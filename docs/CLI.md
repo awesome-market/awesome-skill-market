@@ -24,6 +24,7 @@
 | `skillmkt show <name>` | 详情卡 / 原文 / 文件 / 规则 | 否 | 1 |
 | `skillmkt install <ref>` | 装 skill：拉取→审核→hub→投影 | 可选 | 1 |
 | `skillmkt remove <name>` | 卸 skill：删投影+hub 副本 | 否 | 1 |
+| `skillmkt targets <sub>` | `list/add/remove` 管理投影目标（含 adopt 新 harness） | 否 | 1 |
 | `skillmkt sync` | 从 hub+lock 重建全部投影 | 否 | 1 |
 | `skillmkt audit [name]` | 审核：静态+可选 LLM | 可选 | 1 |
 | `skillmkt update [--check]` | 上游漂移检测+更新 | 可选 | 2 |
@@ -185,7 +186,38 @@ $ skillmkt doctor
   → 跑 skillmkt init 一键配置
 ```
 
-检查项：node≥22、hub 可写、每个已知 harness 目录存在性+可写性+symlink 能力探测、registry 连通性、`.env` 端点。`--json` 给结构化结果供 `serve` 复用。
+检查项：node≥22、hub 可写、每个已知 harness 探测（见下）、registry 连通性、`.env` 端点。`--json` 给结构化结果供 `serve` 复用。
+
+#### Harness 探测矩阵——每次运行都活探，不是 init 快照
+
+对每条 harness 记录 `{id, bins[], dirs[], env_overrides[]}` 做双信号判定：
+
+| 状态 | 条件 | 语义 |
+|---|---|---|
+| `installed` | bin∈PATH 且配置目录存在 | 投影目标，直接可用 |
+| `available` | bin∈PATH 但目录未建 | 装了没用过——sync 时建目录 |
+| `likely` | 目录在但 bin 不在 | 装过/残留，doctor 提示确认 |
+| `absent` | 都没有 | 跳过 |
+
+- **env 覆盖优先**：`CLAUDE_CONFIG_DIR`、`CODEX_HOME` 等 harness 自带目录变量先查
+- **symlink 实测**：在目标目录建临时符号链接试，失败（Windows/权限）自动降级 copy 并记入 library——不写死平台假设
+- **共享目录去重**：codex/devin 都指 `~/.agents/skills/` 时矩阵只投一次
+- **动态 adopt**：init 后新装的 harness 自动出现在 `list`/`doctor`（`available`）；交互式 `sync` 询问是否把全部 skill 投过去；`skillmkt targets add <harness>` 写入 `default_targets` 并立即投影。**非交互/CI 永不自动扩面**——"出现在矩阵"自动，"成为目标"必须显式
+
+已知 harness 表（一行一条，新增 harness = 加一行）：
+
+| id | bin | 全局目录 | 项目级目录 | 传输 |
+|---|---|---|---|---|
+| claude-code | `claude` | `~/.claude/skills/` | `<repo>/.claude/skills/`（含 monorepo 嵌套级） | symlink |
+| codex | `codex` | `~/.agents/skills/`、`~/.codex/skills/` | `<repo>/.agents/skills/` | copy only |
+| opencode | `opencode` | `~/.config/opencode/skills/` | `<repo>/.opencode/` | symlink |
+| pi / dsh | `pi` | `~/.pi/agent/skills/` | `<repo>/.pi/` | symlink |
+| devin | `devin` | `~/.config/devin/skills/`、`~/.agents/skills/` | `<repo>/.devin/skills/` | symlink |
+| gemini | `gemini` | `~/.gemini/skills/` | `<repo>/.gemini/` | symlink |
+| cursor | `cursor` | `~/.cursor/skills/` | `<repo>/.cursor/` | symlink |
+| windsurf | — | `~/.codeium/windsurf/`（规则目录非 skills） | — | 仅探测不投影 |
+
+项目级语义（Claude Code 官方六级模型对齐）：**全局=symlink 到 hub**（本机私有），**项目级=copy 进仓库**（commit 共享团队——symlink 指向的 hub 路径在别人机器不存在）。项目级目标不参与 `default_targets`，必须 `--scope project` 显式指定。
 
 ### 3.2 `skillmkt search <query>`
 
@@ -271,6 +303,7 @@ resolve ref → adapter.fetch() → SkillPackage
 | flag | 说明 |
 |---|---|
 | `--target claude,codex` | 指定投影目标（默认：config 里 `default_targets`） |
+| `--scope project` | 项目级安装：copy 进 `<repo>/` 对应目录（不进 default_targets，随仓共享） |
 | `--yes` | 非交互；suspicious 时等同拒绝（安全默认） |
 | `--audit-only` | 走完审核就停，不落盘不投影 |
 | `--keep-scripts` | 显式保留 scripts/（写入 scans 标记，strict 策略下无效） |
