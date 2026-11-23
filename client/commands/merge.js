@@ -43,9 +43,12 @@ export async function run(ctx) {
   }
   const dir = mergedDir(ctx.hub);
   fs.mkdirSync(dir, { recursive: true });
+  fs.rmSync(path.join(dir, 'skill-out'), { recursive: true, force: true });   // 旧产物作废——rules 变了它就该重新 build，免得装进一个过期名字的 SKILL.md
   writeYAML(path.join(dir, 'rules.yml'), { name: outName, sources: names, merged_at: new Date().toISOString(), rules: dedup });
   ok(L(`合并完成：${dedup.length} 条规则（原始 ${rules.length} 条，去重 -${rules.length - dedup.length}）· 新冲突 ${news.length} 个`,
     `merged: ${dedup.length} rules (${rules.length} raw, deduped -${rules.length - dedup.length}) · new conflicts ${news.length}`));
-  if (news.length) info(L(`skillmkt conflicts 看队列；decide/resolve 裁决后跑 build`, `skillmkt conflicts to review; decide/resolve then build`));
+  info(news.length
+    ? L(`skillmkt conflicts 看队列；decide/resolve 裁决后跑 build`, `skillmkt conflicts to review; decide/resolve then build`)
+    : L(`skillmkt build 生成产物（${outName}）`, `skillmkt build to generate the artifact (${outName})`));
   return news.length ? 3 : 0;
 }
