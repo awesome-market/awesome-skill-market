@@ -78,7 +78,7 @@
 
 | # | 功能 | 说明 |
 |---|---|---|
-| ① | **搜索 skills.sh 市场** | 不自建公共索引——skills.sh 有公开 API `GET /api/search?q=`（Algolia，实测可用），客户端直接消费 + GitHub 兜底。等自有下载量起来再评估自建 |
+| ① | **搜索 skills.sh 市场** | 不自建公共索引——skills.sh 的 `GET /api/search?q=` 是官方 `npx skills` 同款端点（`SKILLS_API_URL` 可自托管），客户端直接消费 + GitHub 兜底。等自有下载量起来再评估自建 |
 | ② | **本地管理 + 版本 AI diff** | hub 管理全部已装 skill；同 skill 不同版本间做**语义 diff**（LLM 讲清"这版改了什么意图"）——现有工具全是行级/段级机械 diff，这是独占点 |
 | ③ | **按用户选择合并** | 用户圈定若干 skill → 冲突引擎仲裁 → 产出个人版 merged SKILL.md；或仅出冲突报告不合并 |
 | ④ | **导入/导出 + 企业市场连接** | 本地目录/Git URL 导入；连接企业自建 registry——**通过协议适配器（§8），不自建服务端** |

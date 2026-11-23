@@ -296,7 +296,7 @@ $ skillmkt doctor
 
 ### 3.2 `skillmkt search <query>`
 
-两级检索，本地优先。**远端实测**：skills.sh 有公开搜索 API `GET https://skills.sh/api/search?q=<query>`（Algolia 后端，返回 `{id: "owner/repo/skill-id", source, skillId, name, installs}`）——`--remote` 直接消费，无需自建爬虫桥接；若日后 API 收紧再降级 `gh search code filename:SKILL.md`：
+两级检索，本地优先。**远端=官方端点**：`GET https://skills.sh/api/search?q=<query>[&owner=<o>]` 就是 `npx skills find` 调的同款 API（vercel-labs/skills v1.9.0 源码确认），返回 `{id: "owner/repo/skill-id", source, skillId, name, installs}`；官方还内置 `SKILLS_API_URL` 环境变量支持自托管——是设计好的契约，非内部接口。参考实现同时学到：**多词查询降级策略**（精确结果<10 且 2-6 词时，逐个丢词跑子查询按命中数+排名+安装量归并）与 `gh search code filename:SKILL.md` 终极兜底：
 
 ```
 $ skillmkt search landing
