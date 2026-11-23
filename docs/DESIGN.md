@@ -6,6 +6,8 @@
 
 不建市场、不建安装器——安装已被 skills.sh 解决（40k star、月下载千万级）；市场的空白在 **兼容性 + 安全**。
 
+> CLI 命令、schema、模块划分、端到端工作流见 [CLI.md](./CLI.md)。
+
 ## 1. 为什么做这个项目
 
 `npx skills add`（skills.sh，覆盖 75+ agent）已经解决了**安装**。但没人解决：
