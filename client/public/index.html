@@ -32,7 +32,13 @@ nav button { background: none; border: 0; border-bottom: 2px solid transparent; 
   font: inherit; font-size: 16px; color: var(--color-ink-mut); cursor: pointer; }
 nav button.on { color: var(--color-ink); border-bottom-color: var(--color-accent); }
 nav button:hover { color: var(--color-ink); }
-#live { margin-left: auto; font-size: 14px; color: var(--color-ink-mut); padding-bottom: 12px; display: flex; align-items: center; gap: 7px; }
+#langsel { margin-left: auto; width: auto; font-size: 14px; padding: 5px 9px; align-self: center; }
+.seg { display: flex; gap: 0; }
+.seg button { border-radius: 0; margin-left: -1px; }
+.seg button:first-child { border-radius: 8px 0 0 8px; margin-left: 0; }
+.seg button:last-child { border-radius: 0 8px 8px 0; }
+.seg button.on { border-color: var(--color-accent); color: var(--color-accent); font-weight: 600; position: relative; z-index: 1; }
+#live { font-size: 14px; color: var(--color-ink-mut); padding-bottom: 12px; display: flex; align-items: center; gap: 7px; }
 #live .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-ok); }
 #live.off .dot { background: var(--color-bad); }
 
@@ -116,6 +122,7 @@ footer { padding: 22px 32px; border-top: 1px solid var(--color-line); font-size:
     <button data-t="review">安全审核</button>
     <button data-t="setup">设置</button>
   </nav>
+  <select id="langsel" aria-label="Language"><option value="zh">中文</option><option value="en">English</option></select>
   <span id="live"><span class="dot"></span>连接中…</span>
 </header>
 <main id="app"><p class="mut">载入中…</p></main>

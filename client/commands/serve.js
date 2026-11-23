@@ -29,8 +29,14 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
   const idleMs = (ctx.config.daemon?.idle_minutes ?? 30) * 60e3;
 
   const harnesses = ctx.harnesses ?? detectHarnesses();   // bareRun/init 路径 ctx 可能没 withState
+  // 界面默认语言跟着终端 locale：LANG/LC_* 以 zh 开头→中文，否则英文
+  const detectLang = () => {
+    const l = (process.env.LC_ALL || process.env.LC_MESSAGES || process.env.LANG || '').toLowerCase();
+    return l.startsWith('zh') ? 'zh' : 'en';
+  };
   const state = () => ({
     hub: ctx.hub,
+    lang: (() => readConfig(ctx.hub)._raw?.ui?.lang ?? detectLang())(),
     initialized: (() => { const r = readConfig(ctx.hub)._raw; return !!(r.ui || r.llm || r.default_targets); })(),
     library: readLibrary(ctx.hub), lock: readLock(ctx.hub),
     upstream: readUpstream(ctx.hub), conflicts: loadConflicts(ctx.hub),
@@ -109,7 +115,7 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
               }
               raw.llm = b.llm;
             }
-            if (b.ui !== undefined) raw.ui = b.ui;
+            if (b.ui !== undefined) raw.ui = { ...(raw.ui || {}), ...b.ui };   // 合并——写 lang 不抹掉 enabled
             if (b.default_targets !== undefined) raw.default_targets = b.default_targets;
             if (b.policy) raw.policy = b.policy;
             writeConfig(ctx.hub, raw);
