@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "type": "module",
   "description": "Local-first agent skill manager: install, audit, merge, distribute.",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/terry2010/awesome-skill-market.git" },
+  "bugs": "https://github.com/terry2010/awesome-skill-market/issues",
+  "homepage": "https://github.com/terry2010/awesome-skill-market#readme",
   "keywords": ["agent-skills", "skill-manager", "claude-code", "codex", "opencode", "devin", "skill-audit", "skill-merge", "anti-ai-slop"],
   "bin": {
     "skillmkt": "client/bin/skillmkt.js"

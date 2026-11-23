@@ -157,3 +157,58 @@ Both rules are held out of the merged skill, an issue is filed with A/B screensh
 - Output skill: [`skill/SKILL.md`](skill/SKILL.md)
 - Arbitration queue: [issues labeled `conflict`](https://github.com/terry2010/awesome-skill-market/issues?q=label%3Aconflict)
 - Upstreams: [taste-skill](https://github.com/Leonxlnx/taste-skill) · [hallmark](https://github.com/Nutlope/hallmark) · [frontend-design](https://github.com/anthropics/skills) · [web-design-guidelines](https://github.com/vercel-labs/agent-skills)
+
+---
+
+# skillmkt — the CLI
+
+`skillmkt` is the local-first skill manager from this project: install/adopt skills into `~/.skillmkt`, audit them before install, project copies into every agent's skill directory, detect upstream updates, merge skills with an arbitration queue, and review everything in a local web panel.
+
+```bash
+npm i -g skillmkt          # Node ≥ 22
+skillmkt doctor            # environment check
+skillmkt search design     # skills.sh official API
+skillmkt install vercel-labs/agent-skills --path web-design-guidelines
+skillmkt install ~/.codex/skills/my-local-skill   # adopt an existing dir
+skillmkt list              # matrix: managed / external / drifted
+skillmkt update && skillmkt outdated            # apt semantics
+skillmkt upgrade my-skill
+skillmkt merge a b         # extract → dedupe → conflict queue
+skillmkt resolve --auto    # LLM arbiter; leftover tradeoffs go to web UI
+skillmkt build             # pending conflicts stay OUT of the output
+skillmkt serve             # local web panel (skills/conflicts/review/setup)
+```
+
+## 中国用户 / China mirrors
+
+```bash
+# 1. 装 CLI（npmmirror 最稳）
+npm i -g skillmkt --registry=https://registry.npmmirror.com
+
+# 2. GitHub 拉取走镜像前缀（任意 ghproxy 风格反代均可）
+export SKILLMKT_FETCH_MIRROR=https://gh-proxy.com
+#    （或 config.yml 里写 fetch_mirror: https://gh-proxy.com）
+
+# 3. skills.sh 搜索不可达时：自建反代后指过去
+export SKILLMKT_SEARCH_API=https://your-mirror.example.com
+#    （SKILLS_API_URL 兼容官方 npx skills 的同名变量）
+
+# 4. 可选：把 clawhub 配为额外 registry（内容池与 skills.sh 不同）
+skillmkt registry add --type clawhub --url https://clawhub.ai --name clawhub
+skillmkt search design --registry clawhub
+```
+
+Fetch fallback order: GitHub tarball (`gh` → codeload → mirror prefix) → jsdelivr per-file. Search fallback: skills.sh official `/api/search` → `SKILLMKT_SEARCH_API`/`SKILLS_API_URL` mirror → `gh search code filename:SKILL.md` → local library only.
+
+## LLM features (optional, local-first)
+
+Semantic diff, LLM audit, auto-arbitration and merge explanations use any OpenAI-compatible endpoint — **never required** for deterministic operation:
+
+```bash
+export OMLX_BASE_URL=http://localhost:8001/v1
+export OMLX_MODEL=your-model
+export OMLX_API_KEY=env:MY_KEY    # env: references only — no keys in config
+skillmkt diff my-skill --semantic
+skillmkt audit --all --llm
+skillmkt resolve --auto            # confident verdicts auto-apply; real tradeoffs stay pending
+```
