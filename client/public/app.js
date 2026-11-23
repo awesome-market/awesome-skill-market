@@ -76,7 +76,7 @@ const I18N = {
     step_save: '第 4 步 · 保存', save_btn: '保存设置',
     saved: (enc) => `已保存到 config.yml${enc ? '，密钥已加密' : ''}`,
     save_fail: (e) => `保存失败：${e}`,
-    mk_h: 'Skill 市场', mk_desc: '搜索 skills.sh 公共市场；也可以直接粘贴 owner/repo、skills.sh 条目或本地路径来安装。',
+    mk_h: 'Skill 市场', mk_desc: '搜 skills.sh 公共市场，或直接粘 owner/repo / 本地路径。',
     mk_ph: '搜关键词，或粘 owner/repo / 绝对路径', mk_search: '搜索', mk_direct: '按输入直接安装', mk_install: '安装',
     mk_busy: '处理中…', ins_done: '完成', ins_fail: (c) => `失败（退出码 ${c}）`,
     mk_susp: '审核判为可疑——了解风险后仍要装？', mk_force: '仍要安装', ext_force: '仍要纳入',
@@ -161,7 +161,7 @@ const I18N = {
     step_save: 'Step 4 · Save', save_btn: 'Save settings',
     saved: (enc) => `Saved to config.yml${enc ? ' — key encrypted' : ''}`,
     save_fail: (e) => `Save failed: ${e}`,
-    mk_h: 'Skill market', mk_desc: 'Search the skills.sh public market, or paste an owner/repo, skills.sh entry, or local path to install directly.',
+    mk_h: 'Skill market', mk_desc: 'Search the skills.sh market, or paste owner/repo / local path.',
     mk_ph: 'keywords, or paste owner/repo / absolute path', mk_search: 'Search', mk_direct: 'Install input as ref/path', mk_install: 'Install',
     mk_busy: 'Working…', ins_done: 'Done', ins_fail: (c) => `Failed (exit ${c})`,
     mk_susp: 'Audit flagged this suspicious — install anyway?', mk_force: 'Install anyway', ext_force: 'Adopt anyway',
@@ -406,7 +406,7 @@ async function render() {
         const ref = repo || s.slug, sub = repo && s.slug.startsWith(src + '/') ? s.slug.slice(src.length + 1) : '';
         const done = mkState.installed.has(s.slug), perm = mkState.perm.has(s.slug);
         const label = done ? t('ins_done') : perm ? t('mk_force') : t('mk_install');
-        return `<div class="card"><div class="row"><b>${esc(s.name)}</b><span class="mut">${esc(s.slug)} · ${s.installs} installs${repo ? '' : ` · ${t('mk_privsrc')}`}</span>
+        return `<div class="card"><div class="row"><b>${esc(s.name)}</b><span class="mut"><a href="https://skills.sh/site/${esc(s.slug)}" target="_blank" rel="noopener">${esc(s.slug)}</a> · ${s.installs} installs${repo ? ` · <a href="https://github.com/${esc(src)}" target="_blank" rel="noopener">repo</a>` : ` · ${t('mk_privsrc')}`}</span>
           <button class="mk-i" style="margin-left:auto" data-s="${esc(s.slug)}" data-r="${esc(ref)}" data-p="${esc(sub)}" ${done ? 'disabled' : ''}>${label}</button>
           <span class="iout mut">${esc(mkState.status[s.slug] || '')}</span></div>
           <div class="dsc mut" data-slug="${esc(s.slug)}"></div></div>`;
