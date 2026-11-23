@@ -45,6 +45,7 @@ export async function run(ctx) {
   info(`${name}: pin ${src.pin?.slice(0, 7) ?? '-'} → ${L('上游', 'upstream')}${refArg ? `(${refArg.slice(0, 16)})` : ''} ${got.sha.slice(0, 7)}`);
   if (!refArg && src.pin && src.pin === got.sha) info(L('（pin 即上游当前版本——无差异属正常；要看旧版加 --ref <tag>）', '(pin equals upstream HEAD — empty diff expected; use --ref <tag> for older versions)'));
   info(`${L('文件', 'files')}: +${added.length} -${removed.length} ~${changed.length}`);
+  if (refArg && !added.length && !removed.length && !changed.length) info(L('（repo 的 tag 是全仓快照——该 commit 变的是别的文件，这个 skill 子目录与本地一致）', '(repo tags are whole-repo snapshots — that commit changed other files; this skill subdir is identical to local)'));
   if (secAdded.length) info(`${L('新增小节', 'sections +')}: ${secAdded.join(' | ')}`);
   if (secRemoved.length) info(`${L('删掉的小节', 'sections -')}: ${secRemoved.join(' | ')}`);
   if (ctx.flags.raw.semantic) {
