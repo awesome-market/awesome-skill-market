@@ -164,12 +164,18 @@ async function render() {
     const modelMap = new Map();   // model → base_url（选中模型自动回填地址）
     const loadedModels = new Map(); // 密钥端点拉到的模型——重扫后保留
     let epsList = [], lastScan = 0, scanning = false;
+    // localhost / 127.0.0.1 / ::1 视为同一台——配置和扫描报的写法可能不同
+    const LOOP = new Set(['localhost', '127.0.0.1', '::1', '[::1]']);
+    const sameBase = (a, b) => {
+      try { const x = new URL(a), y = new URL(b); return x.protocol === y.protocol && x.port === y.port && (x.hostname === y.hostname || (LOOP.has(x.hostname) && LOOP.has(y.hostname))); }
+      catch { return a === b; }
+    };
     // 模型下拉按当前服务地址过滤：地址匹配已扫描端点→只给它的模型；不匹配→给全部
     let curOpts = [];
     const refreshOpts = () => {
       const cur = app.querySelector('#murl').value.trim().replace(/\/+$/, '');
-      const known = epsList.some((e) => e.base_url === cur);
-      curOpts = [...modelMap.keys()].filter((m) => !known || modelMap.get(m) === cur);
+      const known = epsList.some((e) => sameBase(e.base_url, cur));
+      curOpts = [...modelMap.keys()].filter((m) => !known || sameBase(modelMap.get(m), cur));
       return curOpts.length;
     };
     // 自绘搜索下拉（Safari 不支持 <datalist>，会把 option 当文本渲染盖住布局）
@@ -199,7 +205,7 @@ async function render() {
       for (const e of eps) for (const m of e.models) if (!modelMap.has(m)) modelMap.set(m, e.base_url);
       for (const [m, b] of loadedModels) modelMap.set(m, b);
       if (cfg.llm?.model) modelMap.set(cfg.llm.model, cfg.llm?.base_url || '');   // 当前模型始终留在下拉里
-      const curEp = eps.find((e) => e.base_url === app.querySelector('#murl').value.trim().replace(/\/+$/, ''));
+      const curEp = eps.find((e) => sameBase(e.base_url, app.querySelector('#murl').value.trim().replace(/\/+$/, '')));
       if (curEp?.needs_key && realKey()) verifyKey();   // 配置的端点要密钥→自动用已存密钥拉模型回来
       refreshOpts(); renderDrop();
       app.querySelector('#eps').innerHTML = eps.map((e) => e.needs_key
@@ -211,7 +217,7 @@ async function render() {
         app.querySelectorAll('#eps .ep').forEach((x) => x.classList.remove('sel'));
         d.classList.add('sel');
         app.querySelector('#murl').value = d.dataset.b;
-        const ep = epsList.find((e) => e.base_url === d.dataset.b);
+        const ep = epsList.find((e) => sameBase(e.base_url, d.dataset.b));
         if (ep?.needs_key && realKey()) verifyKey();
         else markKeyNeed(ep?.needs_key);
         refreshOpts();
@@ -246,7 +252,7 @@ async function render() {
       if (r.models?.length) {
         keyOk = true; keyFailed = false;
         for (const m of r.models) { modelMap.set(m, cur); loadedModels.set(m, cur); }
-        const ep = epsList.find((e) => e.base_url === cur);
+        const ep = epsList.find((e) => sameBase(e.base_url, cur));
         if (ep) { ep.needs_key = false; ep.models = r.models; }
         markKeyNeed(true); refreshOpts();
         out.textContent = `密钥有效，已加载 ${r.models.length} 个模型`;
@@ -259,7 +265,7 @@ async function render() {
     app.querySelector('#murl').addEventListener('input', () => {
       keyOk = false; keyFailed = false;
       const cur = app.querySelector('#murl').value.trim().replace(/\/+$/, '');
-      markKeyNeed(epsList.find((e) => e.base_url === cur)?.needs_key);
+      markKeyNeed(epsList.find((e) => sameBase(e.base_url, cur))?.needs_key);
       refreshOpts(); renderDrop();
     });
     app.querySelector('#mmodel').addEventListener('input', () => { renderDrop(); app.querySelector('#model-drop').style.display = 'block'; });
@@ -273,11 +279,11 @@ async function render() {
     app.querySelector('#mkey').addEventListener('input', () => {
       keyOk = false; keyFailed = false;                                    // 密钥改动→回到未验证态，模型框收起
       const cur = app.querySelector('#murl').value.trim().replace(/\/+$/, '');
-      markKeyNeed(epsList.find((e) => e.base_url === cur)?.needs_key);
+      markKeyNeed(epsList.find((e) => sameBase(e.base_url, cur))?.needs_key);
     });
     app.querySelector('#murl').addEventListener('change', async () => {
       const cur = app.querySelector('#murl').value.trim().replace(/\/+$/, '');
-      const ep = epsList.find((e) => e.base_url === cur);
+      const ep = epsList.find((e) => sameBase(e.base_url, cur));
       const key = realKey();
       if (ep) {
         if (ep.needs_key && key) return verifyKey();
@@ -292,7 +298,7 @@ async function render() {
     // 需要密钥的端点：密钥填完自动验证
     app.querySelector('#mkey').addEventListener('change', async () => {
       const cur = app.querySelector('#murl').value.trim().replace(/\/+$/, '');
-      const ep = epsList.find((e) => e.base_url === cur);
+      const ep = epsList.find((e) => sameBase(e.base_url, cur));
       const key = realKey();
       if (!key || !(ep?.needs_key || (!ep && /^https?:\/\//.test(cur)))) return;
       await verifyKey();
