@@ -97,7 +97,12 @@ export async function run(ctx) {
         { label: L('现在粘贴进来（只输一次，自动加密保存）', 'Paste it now (entered once, saved encrypted)'), v: 'paste' },
         { label: L('从环境变量 SKILLMKT_API_KEY 读', 'Read env var SKILLMKT_API_KEY'), v: 'env:SKILLMKT_API_KEY' },
         { label: L('不需要密钥', 'No key needed'), v: null },
+        { label: L('退出向导', 'Quit wizard'), v: 'quit' },
       ]);
+      if (ks.v === 'quit') {
+        info(L('配好后重跑：skillmkt init', 'after fixing, rerun: skillmkt init'));
+        return 0;
+      }
       if (!ks.v) break;                                            // 不需要密钥 → 出循环
       if (ks.v === 'paste') {
         for (;;) {   // 粘贴后真验证：错密钥可重输，留空回上一步
@@ -131,15 +136,7 @@ export async function run(ctx) {
           warn(L(`用 ${vn} 验证失败（${e.message}）`, `key in ${vn} failed verification (${e.message})`));
         }
       }
-      const act = await choose(L('接下来怎么办？', 'What next?'), [
-        { label: L('换个方式（回上一步）', 'Pick another way (back)'), v: 'back' },
-        { label: L('退出向导，配好后重跑', 'Quit wizard — fix it, then rerun'), v: 'quit' },
-      ]);
-      if (act.v === 'quit') {
-        info(L(`终端里先执行 export ${vn}=你的key，再重跑：skillmkt init`, `run: export ${vn}=your-key, then rerun: skillmkt init`));
-        return 0;
-      }
-      // back → 回到外圈重选密钥来源
+      // 失败 → 直接回外圈重显示来源菜单（想退出选"退出向导"）
     }
   }
 
