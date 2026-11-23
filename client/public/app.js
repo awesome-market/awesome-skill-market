@@ -241,6 +241,8 @@ async function refresh() {
 }
 const syncTabs = () => document.querySelectorAll('nav [data-t]').forEach((x) => x.classList.toggle('on', x.dataset.t === tab));
 document.querySelectorAll('nav [data-t]').forEach((x) => x.onclick = () => { tab = x.dataset.t; location.hash = tab; syncTabs(); render(); });
+// hash 变化统一走这里——内联 location.hash 跳转、浏览器前进/后退都能触发重渲染
+window.addEventListener('hashchange', () => { const t2 = location.hash.slice(1).split('?')[0]; if (t2 && t2 !== tab) { tab = t2; syncTabs(); render(); } });
 const es = new EventSource(`/api/events?token=${T}`);
 es.addEventListener('decide', () => refresh());
 es.addEventListener('config', () => refresh());
