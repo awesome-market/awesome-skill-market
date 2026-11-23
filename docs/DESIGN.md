@@ -1,4 +1,4 @@
-# awesome-market — 设计文档
+# awesome-skill-market — 设计文档
 
 一个本地优先（local-first）的 skill 管理器、合并器、审核器，面向 Agent Skills 生态。
 
@@ -43,7 +43,7 @@
 | agent-skills-cli compose | 段级合并 | 同 skillhub 量级 |
 | skill-git | 版本控制 + 两两合并 | merge 相似 skill，无冲突语义 |
 | precedent | 规则优先级 | "谁赢"不合并、不仲裁内容 |
-| **awesome-market** | **检测 + 仲裁 + 裁决留痕 + 合并产物** | — |
+| **awesome-skill-market** | **检测 + 仲裁 + 裁决留痕 + 合并产物** | — |
 
 **结论：别人检测冲突，我们仲裁冲突。** 所有撞车项目最多做到"报告冲突给你自己看着办"或"AI 糊一个结果直接收"。我们独有：
 
@@ -64,7 +64,7 @@
 
 ## 3. 产品形态——已定
 
-**主力：Node 22 ESM CLI + 本地 Web 面板**（`npx skillmkt` → `skillmkt serve` 打开 `http://localhost:PORT`）。
+**主力：Node 22 ESM CLI + 本地 Web 面板**（`npx awesome-skill-market` → `skillmkt serve` 打开 `http://localhost:PORT`）。
 
 | 选项 | 结论 | 理由 |
 |---|---|---|
@@ -250,7 +250,7 @@ interface RegistryAdapter {
 
 ## 14. SEO / 发现渠道
 
-- skills.sh 自动索引 GitHub 上的 SKILL.md——`skill/` 留在仓库根目录，`npx skills add terry2010/awesome-market` 持续可用
+- skills.sh 自动索引 GitHub 上的 SKILL.md——`skill/` 留在仓库根目录，`npx skills add awesome-market/awesome-skill-market` 持续可用
 - 后期补 plugin manifest（`.claude-plugin/plugin.json`、`.codex-plugin/plugin.json`）进入 plugin 原生分发渠道
 - 实现 `/.well-known/agent-skills/index.json` 让 RFC 客户端也能发现我们（出站+入站双向兼容）
 - 描述关键词：skill manager、skill merge、skill audit、skill security、agent skills、anti-AI-slop、claude code、codex、opencode、pi、devin

@@ -1,16 +1,16 @@
 {
-  "name": "skillmkt",
-  "version": "0.5.1",
+  "name": "awesome-skill-market",
+  "version": "0.5.2",
   "type": "module",
   "description": "Local-first agent skill manager (skillmkt): search, install, audit and merge SKILL.md agent skills for Claude Code, Codex, Cursor, OpenCode, Devin — local web UI, conflict arbitration, version pinning.",
   "author": "terry2010",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/terry2010/awesome-market.git"
+    "url": "https://github.com/awesome-market/awesome-skill-market.git"
   },
-  "bugs": "https://github.com/terry2010/awesome-market/issues",
-  "homepage": "https://github.com/terry2010/awesome-market#readme",
+  "bugs": "https://github.com/awesome-market/awesome-skill-market/issues",
+  "homepage": "https://github.com/awesome-market/awesome-skill-market#readme",
   "keywords": [
     "agent-skills",
     "skill-manager",
@@ -32,7 +32,8 @@
     "coding-agent"
   ],
   "bin": {
-    "skillmkt": "client/bin/skillmkt.js"
+    "skillmkt": "client/bin/skillmkt.js",
+    "awesome-skill-market": "client/bin/skillmkt.js"
   },
   "files": [
     "client/",

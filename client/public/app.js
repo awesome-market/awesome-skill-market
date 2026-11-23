@@ -223,7 +223,7 @@ const I18N = {
 const t = (k, ...a) => { const v = (I18N[S?.lang] || I18N.zh)[k] ?? I18N.zh[k]; return typeof v === 'function' ? v(...a) : (v ?? k); };
 // 已安装名字 → 上游页面：github 用 pin+rpath（命中后的真实目录）锁到具体版本；无 rpath 退 repo@pin 根；wellknown → skills.sh site 页
 const skLink = (n, s) => {
-  const src = s?.source || {}, q = '?src=awesome-market';
+  const src = s?.source || {}, q = '?src=awesome-skill-market';
   if (src.registry === 'github' && src.ref) {
     const u = src.pin ? `https://github.com/${src.ref}/tree/${src.pin}${src.rpath ? `/${src.rpath}` : ''}` : `https://github.com/${src.ref}`;
     return `<a class="pg" href="${u}${q}" target="_blank" rel="noopener">${esc(n)}</a>`;
@@ -368,8 +368,8 @@ async function render() {
       const src = s?.source || {};
       const gh = src.registry === 'github' && src.ref;
       const page = gh ? `https://github.com/${src.ref}` : src.ref ? `https://www.skills.sh/site/${src.ref}` : '';
-      const srcHtml = page ? `<a href="${page}?src=awesome-market" target="_blank" rel="noopener">${esc(src.registry)} ${esc(src.ref)}</a>` : `${esc(src.registry || '')} ${esc(src.ref || '')}`;
-      const tagsHtml = gh ? ` · <a href="https://github.com/${src.ref}/tags?src=awesome-market" target="_blank" rel="noopener">${t('det_tags')}</a>` : '';
+      const srcHtml = page ? `<a href="${page}?src=awesome-skill-market" target="_blank" rel="noopener">${esc(src.registry)} ${esc(src.ref)}</a>` : `${esc(src.registry || '')} ${esc(src.ref || '')}`;
+      const tagsHtml = gh ? ` · <a href="https://github.com/${src.ref}/tags?src=awesome-skill-market" target="_blank" rel="noopener">${t('det_tags')}</a>` : '';
       box.style.display = 'block';
       box.innerHTML = `<p class="mut" style="margin:4px 0">${esc(d.description || '')} · ${t('det_files', d.fileCount ?? d.files?.length ?? 0)} · ${srcHtml}${src.pin ? ` · pin <code>${esc(String(src.pin).slice(0, 7))}</code>` : ''}${tagsHtml}</p>
         <div class="row">${s?.source?.registry === 'github' ? `<button class="df">${t('det_diff')}</button>` : ''}${S.hist?.[b.dataset.dt] ? `<button class="sw">${t('det_switch')}</button>` : `<span class="mut">${t('det_nosw')}</span>`}<span class="out mut"></span></div>
@@ -559,7 +559,7 @@ async function render() {
         const done = mkState.installed.has(s.slug), perm = mkState.perm.has(s.slug), frc = mkState.force.has(s.slug);
         const label = done ? t('ins_done') : frc ? t('mk_ow') : perm ? t('mk_force') : t('mk_install');
         // GitHub 源先链 repo 根（保底可开）；desc 接口返回命中路径后再升级成精确子目录链接
-        const page = `${repo ? `https://github.com/${src}` : `https://www.skills.sh/site/${s.slug}`}?src=awesome-market`;
+        const page = `${repo ? `https://github.com/${src}` : `https://www.skills.sh/site/${s.slug}`}?src=awesome-skill-market`;
         return `<div class="card"><div class="row"><b><a class="pg" href="${page}" target="_blank" rel="noopener">${esc(s.name)}</a></b><span class="mut">${esc(s.slug)} · ${s.installs} installs${repo ? '' : ` · ${t('mk_privsrc')}`}</span>
           <button class="mk-i" style="margin-left:auto" data-s="${esc(s.slug)}" data-r="${esc(ref)}" data-p="${esc(sub)}" ${done ? 'disabled' : ''}>${label}</button>
           <span class="iout mut" style="white-space:pre-wrap">${esc(mkState.status[s.slug] || '')}</span></div>
@@ -576,7 +576,7 @@ async function render() {
           const a = d.closest('.card').querySelector('.pg');
           if (a?.href.includes('github.com/')) {
             const m = a.href.match(/github\.com\/([^/]+\/[^/]+)/);
-            if (m) a.href = `https://github.com/${m[1]}/tree/${r.branch}/${r.rel}?src=awesome-market`;
+            if (m) a.href = `https://github.com/${m[1]}/tree/${r.branch}/${r.rel}?src=awesome-skill-market`;
           }
         }
       });

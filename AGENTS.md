@@ -1,4 +1,4 @@
-# awesome-market — agent notes
+# awesome-skill-market — agent notes
 
 ## What this repo is
 

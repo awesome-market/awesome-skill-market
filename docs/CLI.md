@@ -1,6 +1,6 @@
 # skillmkt CLI — 开发文档
 
-本文档是 `skillmkt`（awesome-market 客户端）的完整开发规格：命令面、输出契约、数据 schema、模块划分、工作流程。设计背景见 [DESIGN.md](./DESIGN.md)。
+本文档是 `skillmkt`（awesome-skill-market 客户端）的完整开发规格：命令面、输出契约、数据 schema、模块划分、工作流程。设计背景见 [DESIGN.md](./DESIGN.md)。
 
 **不变量**（与 AGENTS.md 一致，客户端额外遵守）：
 
@@ -306,7 +306,7 @@ $ skillmkt doctor
 |---|---|---|---|
 | gh-proxy.com | github 前缀代理 | 公益反代，可达但不稳（同族 mirror.ghproxy.com 已死） | `https://gh-proxy.com/<github-url>` |
 | fastly/testingcf.jsdelivr.net | GitHub 文件 CDN | cdn 主域间歇挂，此二变体社区公认可用 | `https://fastly.jsdelivr.net/gh/o/r@ref/path`——单文件，`data.jsdelivr.com` 可列目录 |
-| registry.npmmirror.com | npm 镜像 | 阿里 infra 最稳 | `npm i -g skillmkt --registry=https://registry.npmmirror.com`（本体分发建议进 README） |
+| registry.npmmirror.com | npm 镜像 | 阿里 infra 最稳 | `npm i -g awesome-skill-market --registry=https://registry.npmmirror.com`（本体分发建议进 README） |
 | clawhub.ai | 中文可达 registry | 实测可联调 | `--registry clawhub` 或设默认 search 源（中文内容池） |
 | modelscope / gitee | 国内平台 | 原生可达 | 二期观察源 |
 
@@ -346,7 +346,7 @@ weird-thing     —        ●       —      —         —     —      ⚠st
 
 ```
 $ skillmkt show deslop
-deslop 0.4.44 · terry2010/awesome-market@d2a5086
+deslop 0.4.44 · awesome-market/awesome-skill-market@d2a5086
 Anti-AI-slop design skill · 884 rules
 
 files     SKILL.md (57KB) + references/ ×9 (408KB)
@@ -558,7 +558,7 @@ $ skillmkt resolve
 ```yaml
 skills:
   deslop:
-    source: {registry: github, ref: "terry2010/awesome-market", path: "skill"}
+    source: {registry: github, ref: "awesome-market/awesome-skill-market", path: "skill"}
     version: "0.4.44"
     installed_at: "2026-11-23T…"
     targets: [claude, codex, pi]

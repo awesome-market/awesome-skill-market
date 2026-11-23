@@ -475,7 +475,7 @@ SPA 无构建：单 `app.js` fetch API 渲染（M5 时可用 AI 生成 UI，接�
 | 5 | extract/conflicts/decide/resolve/mergebuild | 静态引擎闭环：`conflicts`→`decide`→`build` |
 | 6 | llm.js + arbitrate + evidence（设计域）+ 语义 diff/audit | 真 Ornith 联调 `--llm`/`--semantic` |
 | 7 | daemon.js + serve/ 四屏 + CLI 接管 | `resolve --ui` 开页裁决落盘 |
-| 8 | npm publish + README 补 npmmirror/镜像说明 | `npm i -g skillmkt` 真装回测 |
+| 8 | npm publish + README 补 npmmirror/镜像说明 | `npm i -g awesome-skill-market` 真装回测 |
 
 依赖关系：1→2→3 是地基可连做；4 依赖 2；5 依赖 1+hub 数据；6 依赖 5；7 依赖 3+5；8 最后。
 

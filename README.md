@@ -1,12 +1,12 @@
-# awesome-market
+# awesome-skill-market
 
-**Deslop AI-generated UI. Manage, merge, audit and secure agent skills.** awesome-market is a **skill manager** and automated **skill merge** pipeline that distills the best agent design skills — taste-skill, Hallmark, Anthropic's frontend-design, Vercel's web-design-guidelines — into a single, continuously-updated `SKILL.md` for Claude Code, Cursor, Codex, OpenCode, Pi, Devin and other coding agents. Instead of installing 2–10 overlapping skills whose rules fight each other, you install one arbitrated skill where every conflict has been detected, screenshotted, and decided. On top of the merger it adds a local-first **skill audit** layer and **skill security** controls — static injection checks, capability stripping, version pinning — for every skill on your machine. It also ships **`skillmkt`** (`npm i -g skillmkt`) — a local-first CLI and web UI to search, install, audit, version-switch and merge *any* agent skill across Claude Code, Codex, Cursor, OpenCode, Pi and Devin.
+**Deslop AI-generated UI. Manage, merge, audit and secure agent skills.** awesome-skill-market is a **skill manager** and automated **skill merge** pipeline that distills the best agent design skills — taste-skill, Hallmark, Anthropic's frontend-design, Vercel's web-design-guidelines — into a single, continuously-updated `SKILL.md` for Claude Code, Cursor, Codex, OpenCode, Pi, Devin and other coding agents. Instead of installing 2–10 overlapping skills whose rules fight each other, you install one arbitrated skill where every conflict has been detected, screenshotted, and decided. On top of the merger it adds a local-first **skill audit** layer and **skill security** controls — static injection checks, capability stripping, version pinning — for every skill on your machine. It also ships **`skillmkt`** (`npm i -g awesome-skill-market`) — a local-first CLI and web UI to search, install, audit, version-switch and merge *any* agent skill across Claude Code, Codex, Cursor, OpenCode, Pi and Devin.
 
-[![npm](https://img.shields.io/npm/v/skillmkt.svg)](https://www.npmjs.com/package/skillmkt)
-[![npm downloads](https://img.shields.io/npm/dm/skillmkt.svg)](https://www.npmjs.com/package/skillmkt)
-[![ci](https://github.com/terry2010/awesome-market/actions/workflows/ci.yml/badge.svg)](https://github.com/terry2010/awesome-market/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/awesome-skill-market.svg)](https://www.npmjs.com/package/awesome-skill-market)
+[![npm downloads](https://img.shields.io/npm/dm/awesome-skill-market.svg)](https://www.npmjs.com/package/awesome-skill-market)
+[![ci](https://github.com/awesome-market/awesome-skill-market/actions/workflows/ci.yml/badge.svg)](https://github.com/awesome-market/awesome-skill-market/actions/workflows/ci.yml)
 [![license: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![conflicts](https://img.shields.io/github/issues-search/terry2010/awesome-market?query=label%3Aconflict&label=arbitration%20queue)](https://github.com/terry2010/awesome-market/issues?q=label%3Aconflict)
+[![conflicts](https://img.shields.io/github/issues-search/awesome-market/awesome-skill-market?query=label%3Aconflict&label=arbitration%20queue)](https://github.com/awesome-market/awesome-skill-market/issues?q=label%3Aconflict)
 
 ## Why does AI-generated UI all look the same?
 
@@ -14,7 +14,7 @@ Ask any coding agent for a landing page and you get the same output: purple-to-b
 
 The problem: the best skills contradict each other. taste-skill bans gradients entirely; ui-ux-pro-max ships 194 gradient palettes. Hallmark forbids eyebrow labels; other guides rely on them. Install several and the agent picks whichever rule it read last — you get slop with extra steps.
 
-## What awesome-market does differently
+## What awesome-skill-market does differently
 
 > 📐 Full product design (skill manager + merger + audit + market): [`docs/DESIGN.md`](docs/DESIGN.md)
 
@@ -42,14 +42,14 @@ No model, no pipeline, no keys. `skill/` is the finished product — a standard 
 **One command — installs to every agent it detects:**
 
 ```bash
-npx skills add terry2010/awesome-market -g        # global; add -a claude-code codex opencode pi to pick targets
+npx skills add awesome-market/awesome-skill-market -g        # global; add -a claude-code codex opencode pi to pick targets
 ```
 
 **Manual install** — the directory name must be `deslop` (it must match the `name:` field in SKILL.md):
 
 ```bash
-git clone https://github.com/terry2010/awesome-market
-S=awesome-market/skill
+git clone https://github.com/awesome-market/awesome-skill-market
+S=awesome-skill-market/skill
 
 cp -r $S ~/.agents/skills/deslop          # Codex · Devin · Pi · OpenCode (all scan this path)
 ln -sfn $PWD/$S ~/.claude/skills/deslop   # Claude Code (symlinks fine)
@@ -74,7 +74,7 @@ cp -r $S ~/.config/opencode/skills/deslop # OpenCode user-level
 ### B) Run the pipeline yourself (self-host)
 
 ```bash
-git clone https://github.com/terry2010/awesome-market && cd awesome-market
+git clone https://github.com/awesome-market/awesome-skill-market && cd awesome-skill-market
 npm run setup            # deps + Playwright chromium
 cp .env.example .env     # configure below
 gh auth login            # needs issue + push access
@@ -86,7 +86,7 @@ npm run daemon           # foreground loop: sync→extract→merge→evidence→
 | Var | What |
 |---|---|
 | `OMLX_BASE_URL` / `OMLX_API_KEY` / `OMLX_MODEL` | Any OpenAI-compatible chat endpoint — local (omlx, llama.cpp, vLLM, Ollama) or hosted |
-| `GITHUB_REPO` | **Your own repo** (`you/awesome-market`) — conflict issues get filed here |
+| `GITHUB_REPO` | **Your own repo** (`you/awesome-skill-market`) — conflict issues get filed here |
 | `GITHUB_BRANCH` | `main` |
 | `DAEMON_INTERVAL_MIN` | Cycle interval, default 30 |
 
@@ -94,7 +94,7 @@ Loop variants: `npm run once` (single cycle) · `npm run once -- --no-llm` (skip
 
 ## How is this different from installing taste-skill / Impeccable / Hallmark directly?
 
-| | Individual skills | awesome-market |
+| | Individual skills | awesome-skill-market |
 |---|---|---|
 | Rule conflicts | Resolved at runtime, silently, per-session | Resolved once, on the record, by a human |
 | Rule inventory | Frozen at install | Re-extracted on every upstream commit |
@@ -155,7 +155,7 @@ Both rules are held out of the merged skill, an issue is filed with A/B screensh
 **License?** MIT. Extracted rule text is rewritten (not verbatim) and every merged rule carries upstream `sources` provenance.
 
 **What is skillmkt?**
-The npm CLI shipped by this repo (`npm i -g skillmkt`, Node ≥ 22). A local-first manager for agent skills: it searches public skill markets (skills.sh, GitHub, private `.well-known/agent-skills` sources), installs skills into `~/.skillmkt`, audits them for supply-chain risk, projects them into every AI coding agent's skills directory, and merges multiple skills with human arbitration of contradictions. All state lives on your machine; the optional local web UI (`skillmkt serve`) auto-opens in a browser.
+The npm CLI shipped by this repo (`npm i -g awesome-skill-market`, Node ≥ 22). A local-first manager for agent skills: it searches public skill markets (skills.sh, GitHub, private `.well-known/agent-skills` sources), installs skills into `~/.skillmkt`, audits them for supply-chain risk, projects them into every AI coding agent's skills directory, and merges multiple skills with human arbitration of contradictions. All state lives on your machine; the optional local web UI (`skillmkt serve`) auto-opens in a browser.
 
 **How do I merge conflicting agent skills?**
 `skillmkt merge skill-a skill-b --name merged` extracts rules, deduplicates them, and queues genuinely contradictory pairs in `conflicts/`. You arbitrate each pending conflict in the web UI or with `skillmkt resolve` (optionally `--auto` for LLM-assisted verdicts), then `skillmkt build` writes the merged `SKILL.md`. Pending conflicts keep both sides out of the output — contradictions never silently ship.
@@ -166,7 +166,7 @@ skillmkt runs a deterministic static audit before install: it strips script-like
 ## Links
 
 - Output skill: [`skill/SKILL.md`](skill/SKILL.md)
-- Arbitration queue: [issues labeled `conflict`](https://github.com/terry2010/awesome-market/issues?q=label%3Aconflict)
+- Arbitration queue: [issues labeled `conflict`](https://github.com/awesome-market/awesome-skill-market/issues?q=label%3Aconflict)
 - Upstreams: [taste-skill](https://github.com/Leonxlnx/taste-skill) · [hallmark](https://github.com/Nutlope/hallmark) · [frontend-design](https://github.com/anthropics/skills) · [web-design-guidelines](https://github.com/vercel-labs/agent-skills)
 
 ---
@@ -176,7 +176,7 @@ skillmkt runs a deterministic static audit before install: it strips script-like
 `skillmkt` is the local-first skill manager from this project: install/adopt skills into `~/.skillmkt`, audit them before install, project copies into every agent's skill directory, detect upstream updates, merge skills with an arbitration queue, and review everything in a local web panel.
 
 ```bash
-npm i -g skillmkt          # Node ≥ 22
+npm i -g awesome-skill-market          # Node ≥ 22
 skillmkt doctor            # environment check
 skillmkt search design     # skills.sh official API
 skillmkt install vercel-labs/agent-skills --path web-design-guidelines
@@ -194,7 +194,7 @@ skillmkt serve             # local web panel (skills/conflicts/review/setup)
 
 ```bash
 # 1. 装 CLI（npmmirror 最稳）
-npm i -g skillmkt --registry=https://registry.npmmirror.com
+npm i -g awesome-skill-market --registry=https://registry.npmmirror.com
 
 # 2. GitHub 拉取走镜像前缀（任意 ghproxy 风格反代均可）
 export SKILLMKT_FETCH_MIRROR=https://gh-proxy.com
