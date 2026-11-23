@@ -85,7 +85,7 @@ const I18N = {
     mk_nosrc: '私有源暂不可装', mk_privsrc: '私有源',
     sk_remove: '移除', sk_remove_sure: '再点一次确认', sk_removed: '已移除', open_dir: '打开文件夹',
     det_btn: '详情', det_files: (n) => `${n} 个文件`, det_diff: '上游 diff', det_switch: '切换版本', det_tags: '找旧版→',
-    det_old: '装旧版', det_old_ph: 'tag 或 sha，如 agent-skills-6ec…', det_nosw: '无留档版本',
+    det_old: '装旧版', det_old_ph: 'tag 或 sha，如 agent-skills-6ec…', det_nosw: '无留档版本', det_odiff: '预览差异',
     sw_cur: '当前', sw_go: '切换', sw_empty: '无留档版本（每次版本变更会自动存一份）',
     ins_same: (p) => `已是该版本（pin ${p}）——换个 tag/sha 再装`,
     ext_h: (n) => `散落在 AI 工具里的 skill（${n}）`,
@@ -174,7 +174,7 @@ const I18N = {
     mk_nosrc: 'private source — N/A', mk_privsrc: 'private source',
     sk_remove: 'Remove', sk_remove_sure: 'Click again to confirm', sk_removed: 'Removed', open_dir: 'Open folder',
     det_btn: 'Details', det_files: (n) => `${n} files`, det_diff: 'Upstream diff', det_switch: 'Switch version', det_tags: 'older versions→',
-    det_old: 'Install older', det_old_ph: 'tag or sha, e.g. agent-skills-6ec…', det_nosw: 'no archived versions',
+    det_old: 'Install older', det_old_ph: 'tag or sha, e.g. agent-skills-6ec…', det_nosw: 'no archived versions', det_odiff: 'Preview diff',
     sw_cur: 'current', sw_go: 'Switch', sw_empty: 'No archived versions (one is saved on every version change)',
     ins_same: (p) => `Already at this version (pin ${p}) — pick a different tag/sha`,
     ext_h: (n) => `Unmanaged skills scattered in agent dirs (${n})`,
@@ -324,12 +324,14 @@ async function render() {
       box.innerHTML = `<p class="mut" style="margin:4px 0">${esc(d.description || '')} · ${t('det_files', d.fileCount ?? d.files?.length ?? 0)} · ${srcHtml}${src.pin ? ` · pin <code>${esc(String(src.pin).slice(0, 7))}</code>` : ''}${tagsHtml}</p>
         <div class="row">${s?.source?.registry === 'github' ? `<button class="df">${t('det_diff')}</button>` : ''}${S.hist?.[b.dataset.dt] ? `<button class="sw">${t('det_switch')}</button>` : `<span class="mut">${t('det_nosw')}</span>`}<span class="out mut"></span></div>
         <div class="vers" style="display:none"></div>
-        ${gh ? `<div class="row" style="margin-top:8px"><span class="mut">${t('det_old')}</span><input class="ot" placeholder="${t('det_old_ph')}" style="width:240px"><button class="od sm">${t('det_diff')}</button><button class="oi sm">${t('mk_install')}</button><span class="out2 mut"></span></div>` : ''}
+        ${gh ? `<div class="row" style="margin-top:8px"><span class="mut">${t('det_old')}</span><input class="ot" placeholder="${t('det_old_ph')}" style="width:240px"><button class="od sm">${t('det_odiff')}</button><button class="oi sm">${t('mk_install')}</button><span class="out2 mut"></span></div>` : ''}
         <pre class="pre mut" style="display:none;white-space:pre-wrap;font-size:13.5px;max-height:260px;overflow:auto"></pre>`;
       // 装旧版：tag/sha → install owner/repo@tag --path <sub>；已在管理→覆盖安装两段确认
+      // 输入归一化：抽出 40 位 sha（release 标题 "Agent Skills <sha>" 的粘贴）；含空格→小写连字符
+      const normTag = (s) => s.match(/[0-9a-f]{40}/)?.[0] || (s.includes(' ') ? s.trim().toLowerCase().replace(/\s+/g, '-') : s);
       let oForce = false, oPerm = false;
       box.querySelector('.oi')?.addEventListener('click', async (e) => {
-        const tag = box.querySelector('.ot').value.trim();
+        const tag = normTag(box.querySelector('.ot').value.trim());
         if (!tag) return;
         // 同版本短路：tag 里嵌的 sha 就是当前 pin（如 agent-skills-<pin>）——装了等于没装
         if (src.pin && (tag === src.pin || tag.endsWith(src.pin) || src.pin.startsWith(tag))) {
@@ -351,12 +353,12 @@ async function render() {
       });
       // 旧版预览 diff：同一个输入框的 tag → 比本地 vs 那个版本
       box.querySelector('.od')?.addEventListener('click', async (e) => {
-        const tag = box.querySelector('.ot').value.trim();
+        const tag = normTag(box.querySelector('.ot').value.trim());
         if (!tag) return;
         e.target.disabled = true; e.target.textContent = t('op_busy');
         const r = await api(`/diff?name=${encodeURIComponent(b.dataset.dt)}&ref=${encodeURIComponent(tag)}`);
         const pre = box.querySelector('.pre'); pre.style.display = 'block'; pre.textContent = r.out || '(no output)';
-        e.target.disabled = false; e.target.textContent = t('det_diff');
+        e.target.disabled = false; e.target.textContent = t('det_odiff');
       });
       box.querySelector('.df')?.addEventListener('click', async (e) => {
         e.target.disabled = true; e.target.textContent = t('op_busy');
