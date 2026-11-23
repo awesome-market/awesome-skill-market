@@ -50,8 +50,11 @@ export async function run(ctx) {
   };
   const body = (req) => new Promise((r) => { let b = ''; req.on('data', (c) => b += c); req.on('end', () => r(b || '{}')); });
 
+  const quiet = !!flags.daemon;
   const server = http.createServer(async (req, res) => {
     lastActive = Date.now();
+    const t0 = Date.now();
+    if (!quiet) res.on('finish', () => console.log(`  ${req.method} ${req.url} → ${res.statusCode} ${Date.now() - t0}ms`));
     const u = new URL(req.url, 'http://x');
     // auth：Bearer header 或 ?token=（SSE/img 用 query，服务端不下发 cookie）
     const authed = req.headers.authorization === `Bearer ${token}` || u.searchParams.get('token') === token;
@@ -134,8 +137,20 @@ export async function run(ctx) {
   fs.writeFileSync(daemonFile(ctx.hub), JSON.stringify({ pid: process.pid, port, token, started: new Date().toISOString() }));
   const idle = setInterval(() => { if (Date.now() - lastActive > idleMs) { server.close(); process.exit(0); } }, 60e3);
   idle.unref();
+
+  // 退出语义：SIGINT/SIGTERM/正常 close → 摘 daemon.json（前台模式主语义）
+  const shutdown = () => {
+    console.log('\nserve: shutting down…');
+    fs.rmSync(daemonFile(ctx.hub), { force: true });
+    server.close(() => process.exit(0));
+    setTimeout(() => process.exit(0), 800).unref();
+  };
+  process.on('SIGINT', shutdown);
+  process.on('SIGTERM', shutdown);
+
   if (flags.daemon) { console.log(`daemon ready :${port}`); await new Promise(() => {}); }
-  console.log(`serve: http://127.0.0.1:${port}?token=${token}（idle ${ctx.config.daemon?.idle_minutes ?? 30}m 自退；--stop 停止）`);
-  if (flags.wait !== false && !flags.daemon) await new Promise(() => {});
+  console.log(`serve: http://127.0.0.1:${port}?token=${token}`);
+  console.log(`  foreground — Ctrl-C 退出（idle ${ctx.config.daemon?.idle_minutes ?? 30}m 自退；分离模式见 --daemon）`);
+  await new Promise(() => {});
   return 0;
 }
