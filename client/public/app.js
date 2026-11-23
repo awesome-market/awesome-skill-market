@@ -180,14 +180,16 @@ async function render() {
       return curOpts.length;
     };
     // 自绘搜索下拉（Safari 不支持 <datalist>，会把 option 当文本渲染盖住布局）
+    let modelDirty = false;   // 只有用户敲过字才按输入过滤；点开展示全部（预填的模型名不当过滤条件）
     const renderDrop = () => {
-      const q = app.querySelector('#mmodel').value.trim().toLowerCase();
+      const q = modelDirty ? app.querySelector('#mmodel').value.trim().toLowerCase() : '';
       const list = curOpts.filter((m) => m.toLowerCase().includes(q)).slice(0, 60);
       const drop = app.querySelector('#model-drop');
       drop.innerHTML = list.map((m) => `<div class="opt" data-m="${esc(m)}">${esc(m)}</div>`).join('')
         || `<div class="none">${curOpts.length ? '无匹配' : (scanning ? '正在扫描本机服务…' : '暂无模型——先扫描或填密钥')}</div>`;
       drop.querySelectorAll('.opt').forEach((o) => o.onmousedown = (e) => {   // mousedown 先于 blur
         e.preventDefault();
+        modelDirty = false;
         app.querySelector('#mmodel').value = o.dataset.m;
         const b = modelMap.get(o.dataset.m);
         if (b) { app.querySelector('#murl').value = b; refreshOpts(); }
@@ -195,10 +197,10 @@ async function render() {
       });
     };
     if (cfg.llm?.model) { modelMap.set(cfg.llm.model, cfg.llm?.base_url || ''); refreshOpts(); }   // 初始：当前模型先入下拉
-    const doScan = async (quiet = false) => {
+    // 静默探测：只把模型喂进下拉，绝不渲染服务列表——点模型框触发的也走这条
+    const fetchEps = async () => {
       lastScan = Date.now();
-      scanning = true; renderDrop();
-      if (!quiet) app.querySelector('#probe-out').textContent = '扫描中…';
+      scanning = true; refreshOpts();
       const eps = await api('/probe');
       scanning = false;
       epsList = eps;
@@ -208,7 +210,13 @@ async function render() {
       if (cfg.llm?.model) modelMap.set(cfg.llm.model, cfg.llm?.base_url || '');   // 当前模型始终留在下拉里
       const curEp = eps.find((e) => sameBase(e.base_url, app.querySelector('#murl').value.trim().replace(/\/+$/, '')));
       if (curEp?.needs_key && realKey()) verifyKey();   // 配置的端点要密钥→自动用已存密钥拉模型回来
-      refreshOpts(); renderDrop();
+      refreshOpts();
+      return eps;
+    };
+    // 只有用户点「扫描」按钮才展示服务列表和统计
+    const doScan = async () => {
+      app.querySelector('#probe-out').textContent = '扫描中…';
+      const eps = await fetchEps();
       app.querySelector('#eps').innerHTML = eps.map((e) => e.needs_key
         ? `<div class="ep" data-b="${esc(e.base_url)}">${esc(e.name)}:${e.port} — <span class="mut">需要密钥（点这行填地址，再填密钥、测试连接）</span></div>`
         : `<div class="ep" data-b="${esc(e.base_url)}">${esc(e.name)}:${e.port} — ${e.models.length} 个模型（点这行选中，在「模型名称」下拉框里搜索）</div>`).join('')
@@ -271,8 +279,8 @@ async function render() {
       markKeyNeed(epsList.find((e) => sameBase(e.base_url, cur))?.needs_key);
       refreshOpts(); renderDrop();
     });
-    app.querySelector('#mmodel').addEventListener('input', () => { renderDrop(); app.querySelector('#model-drop').style.display = 'block'; });
-    app.querySelector('#mmodel').addEventListener('blur', () => setTimeout(() => { app.querySelector('#model-drop').style.display = 'none'; }, 120));
+    app.querySelector('#mmodel').addEventListener('input', () => { modelDirty = true; renderDrop(); app.querySelector('#model-drop').style.display = 'block'; });
+    app.querySelector('#mmodel').addEventListener('blur', () => setTimeout(() => { app.querySelector('#model-drop').style.display = 'none'; modelDirty = false; }, 120));
     // 已存的 enc: 密钥显示为「已加密保存」占位态：点击清空可输新密钥，留空失焦还原（不误删）
     const ENC_DISP = '已加密保存';
     const mk = app.querySelector('#mkey');
@@ -306,9 +314,9 @@ async function render() {
       if (!key || !(ep?.needs_key || (!ep && /^https?:\/\//.test(cur)))) return;
       await verifyKey();
     });
-    // 点进模型框时自动重扫——下载了新模型不用先点「扫描」
+    // 点进模型框静默刷新模型池（不显示服务列表）；点「扫描」按钮才展示
     app.querySelector('#mmodel').addEventListener('focus', () => {
-      if (Date.now() - lastScan > 10e3) doScan(true);
+      if (Date.now() - lastScan > 10e3) fetchEps();
       renderDrop(); app.querySelector('#model-drop').style.display = 'block';
     });
     app.querySelector('#smoke').onclick = async () => {
