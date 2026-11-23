@@ -12,6 +12,7 @@ import { primaryDir } from '../lib/scanner.js';
 import { cacheLookup } from '../lib/state.js';
 import { confirm, multiChoose } from '../lib/prompt.js';
 import { ok, warn, fail, info } from '../lib/render.js';
+import { L } from '../lib/i18n.js';
 
 // 来源取证：.git remote → skills-lock.json → .market-skills.json → frontmatter
 function recoverProvenance(dir, meta) {
@@ -87,7 +88,7 @@ export async function run(ctx) {
   }
 
   const pkg = readSkillDir(srcDir);
-  if (!pkg) { fail(`不是合法 skill（缺 SKILL.md）: ${srcDir}`); return 1; }
+  if (!pkg) { fail(L(`不是合法 skill（缺 SKILL.md）: ${srcDir}`, `not a valid skill (missing SKILL.md): ${srcDir}`)); return 1; }
   const name = pkg.name;
 
   // ② 审核闸门
@@ -105,7 +106,7 @@ export async function run(ctx) {
     warn(`suspicious: ${audit.findings.length} findings${audit.stripped.length ? `, stripping ${audit.stripped.length} files` : ''}`);
     audit.findings.slice(0, 5).forEach((f) => info(`${f.rule} ${f.file}:${f.line} — ${f.excerpt.slice(0, 80)}`));
     // --yes 不放大 suspicious（安全默认）；strict 直接拒
-    const proceed = ctx.config.policy === 'strict' ? false : await confirm(`继续安装 ${name}?`, { defaultYes: false });
+    const proceed = ctx.config.policy === 'strict' ? false : await confirm(L(`继续安装 ${name}?`, `Install ${name} anyway?`), { defaultYes: false });
     if (!proceed) { fail('install aborted'); return 2; }
   }
 
@@ -118,7 +119,7 @@ export async function run(ctx) {
     // 与现有 hub 副本内容对比：相同则跳过 copy
     const srcFilteredHash = (() => { const t = path.join(ctx.hub, 'cache', `__probe_${process.pid}`); rmDir(t); copyFiltered(srcDir, t, keep); const h = treeHash(t); rmDir(t); return h; })();
     if (srcFilteredHash !== freshHash() && !flags.force) {
-      warn(`${name} 已受管且内容不同——--force 覆盖，或 upgrade 流程`);
+      warn(L(`${name} 已受管且内容不同——--force 覆盖，或 upgrade 流程`, `${name} already managed with different content — --force to overwrite, or use upgrade`));
       return 1;
     }
   }
@@ -144,7 +145,7 @@ export async function run(ctx) {
     }
     if (pool.length) {
       const checked = pool.map((_, i) => i).slice(0, targets.length);
-      const idx = await multiChoose(`装到哪些位置？`, pool.map((t) => `${t.id} → ${t.dir}`), { checked });
+      const idx = await multiChoose(L(`装到哪些位置？`, `Install to which locations?`), pool.map((t) => `${t.id} → ${t.dir}`), { checked });
       targets = idx.map((i) => pool[i]);
     }
   }

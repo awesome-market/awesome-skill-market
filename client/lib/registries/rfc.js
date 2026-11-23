@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { L } from '../i18n.js';
 import { execFileSync } from 'node:child_process';
 
 export async function fetchIndex(reg) {
@@ -23,7 +24,7 @@ export async function search(query, ctx, reg) {
 export async function fetchSkill(ref, ctx, reg) {
   const entries = await fetchIndex(reg);
   const entry = entries.find((e) => e.name === ref.name);
-  if (!entry) throw new Error(`rfc index 无此 skill: ${ref.name}`);
+  if (!entry) throw new Error(L(`rfc index 无此 skill: ${ref.name}`, `skill not in rfc index: ${ref.name}`));
   const res = await fetch(entry.url, { signal: AbortSignal.timeout(20000) });
   if (!res.ok) throw new Error(`rfc fetch ${res.status}: ${entry.url}`);
   const buf = Buffer.from(await res.arrayBuffer());

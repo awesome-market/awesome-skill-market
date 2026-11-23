@@ -1,4 +1,5 @@
 // render.js — 终端表格/卡片/仪表盘；装饰全走 stderr，--json 时 stdout 纯数据
+import { L } from './i18n.js';
 const err = (...a) => console.error(...a);
 
 export function table(rows, cols) {
@@ -41,13 +42,13 @@ export function dashboard({ hub, library, scan, upstream, conflicts, llm, projec
     .map((h) => `${h.id}${h.state === 'installed' ? '●' : h.state === 'available' ? '○available' : '~likely'}`);
   if (hs.length) err(`harnesses   ${hs.join('  ')}`);
   if (project) err(`project     ${project.root}`);
-  if (pending) err(`conflicts   ${pending} pending — 需要裁决`);
-  if (externals) err(`external    ${externals} 未收编 — install <path> 纳入管理`);
+  if (pending) err(`conflicts   ${pending} pending — ${L('需要裁决', 'needs your decision')}`);
+  if (externals) err(`external    ${externals} ${L('未收编 — install <path> 纳入管理', 'unmanaged — `install <path>` to adopt')}`);
   err('');
   const hints = [];
-  if (pending) hints.push('skillmkt conflicts --ui    裁决冲突（开面板看图）');
-  if (updates) hints.push('skillmkt outdated          看可更新项');
-  if (externals) hints.push('skillmkt list              查看 ◌external 路径');
-  hints.push('skillmkt list              安装矩阵', 'skillmkt --help            全部命令');
+  if (pending) hints.push(L('skillmkt conflicts --ui    裁决冲突（开面板看图）', 'skillmkt conflicts --ui    decide conflicts (visual panel)'));
+  if (updates) hints.push(L('skillmkt outdated          看可更新项', 'skillmkt outdated          view updates'));
+  if (externals) hints.push(L('skillmkt list              查看 ◌external 路径', 'skillmkt list              view ◌external paths'));
+  hints.push(L('skillmkt list              安装矩阵', 'skillmkt list              install matrix'), L('skillmkt --help            全部命令', 'skillmkt --help            all commands'));
   hints.slice(0, 4).forEach((h) => err(h));
 }

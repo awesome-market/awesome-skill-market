@@ -7,6 +7,7 @@ import { updateLock } from '../lib/hub.js';
 import { readSkillDir } from '../lib/package.js';
 import { maybeHandoff } from '../lib/daemon.js';
 import fs from 'node:fs';
+import { L } from '../lib/i18n.js';
 
 export async function run(ctx) {
   const [sub, ...rest] = ctx.args;
@@ -69,7 +70,7 @@ export async function run(ctx) {
     if (raw.targets?.[id]) { delete raw.targets[id]; writeConfig(ctx.hub, raw); ok(`custom target removed: ${id}`); return 0; }
     raw.default_targets = (raw.default_targets || []).filter((t) => t !== id);
     writeConfig(ctx.hub, raw);
-    ok(`${id} removed from default_targets（已投影副本保留——skillmkt sync 可清）`);
+    ok(`${id} removed from default_targets${L('（已投影副本保留——skillmkt sync 可清）', ' (projected copies kept — skillmkt sync can clean)')}`);
     return 0;
   }
 

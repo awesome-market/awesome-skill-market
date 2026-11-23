@@ -6,13 +6,14 @@ import { unproject, targetDirFor } from '../lib/project.js';
 import { confirm } from '../lib/prompt.js';
 import { ok, warn, fail, info } from '../lib/render.js';
 import { rmDir } from '../lib/package.js';
+import { L } from '../lib/i18n.js';
 
 export async function run(ctx) {
   const name = ctx.args[0];
   if (!name) { fail('usage: skillmkt remove <name> [--purge] [--scope project]'); return 1; }
   const flags = ctx.flags.raw;
   const entry = ctx.library.skills?.[name];
-  if (!entry) { fail(`未受管: ${name}`); return 1; }
+  if (!entry) { fail(L(`未受管: ${name}`, `not managed: ${name}`)); return 1; }
 
   const projectOnly = flags.scope === 'project';
   const targets = Object.entries(ctx.lock.skills?.[name]?.targets || {})
@@ -26,7 +27,7 @@ export async function run(ctx) {
   }
 
   if (projectOnly) {
-    info('project copy removed; hub 不动');
+    info(L('project copy removed; hub 不动', 'project copy removed; hub copy kept'));
     return 0;
   }
 
@@ -38,7 +39,7 @@ export async function run(ctx) {
         const trash = trashPath(ctx.hub, name);
         rmDir(trash);
         fs.renameSync(hubDir, trash);
-        info(`→ .trash（恢复: mv 回 skills/ 或 skillmkt install <path>）`);
+        info(L(`→ .trash（恢复: mv 回 skills/ 或 skillmkt install <path>）`, `→ .trash (restore: mv back to skills/ or skillmkt install <path>)`));
       }
     }
     unregisterSkill(ctx.hub, name);

@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
+import { L } from '../i18n.js';
 import { treeHash, copyDir } from '../package.js';
 
 const sh = (cmd, args) => execFileSync(cmd, args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
@@ -49,7 +50,7 @@ async function fetchTarball(owner, repo, ref, { mirror = null } = {}) {
 export async function fetchSkill({ owner, repo, ref = null, path: sub = null, mirror = null }) {
   const sha = headSha(owner, repo, ref) || ref || 'HEAD';
   const got = await fetchTarball(owner, repo, sha, { mirror });
-  if (!got) throw new Error(`fetch failed: ${owner}/${repo}@${sha}（直连与镜像均不可达）`);
+  if (!got) throw new Error(`fetch failed: ${owner}/${repo}@${sha}${L('（直连与镜像均不可达）', ' (direct and mirror both unreachable)')}`);
   execFileSync('tar', ['xzf', got.tar, '-C', got.tmp]);
   const root = fs.readdirSync(got.tmp).find((d) => d.startsWith(`${owner.replace(/\W/g, '')}`) || d.includes('-'))
     ?? fs.readdirSync(got.tmp).find((d) => fs.statSync(path.join(got.tmp, d)).isDirectory());
@@ -60,7 +61,7 @@ export async function fetchSkill({ owner, repo, ref = null, path: sub = null, mi
     const cands = [sub, `skills/${sub}`, ...topDirs.map((d) => `${d}/${sub}`)];
     const hit = cands.find((c) => fs.existsSync(path.join(dir, c, 'SKILL.md')))
       ?? cands.find((c) => fs.existsSync(path.join(dir, c)));
-    if (!hit) throw new Error(`repo 内找不到: ${sub}（试了 ${cands.slice(0, 4).join(', ')} …）`);
+    if (!hit) throw new Error(L(`repo 内找不到: ${sub}（试了 ${cands.slice(0, 4).join(', ')} …）`, `not found in repo: ${sub} (tried ${cands.slice(0, 4).join(', ')} …)`));
     dir = path.join(dir, hit);
   }
   return {

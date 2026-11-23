@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
+import { L } from './i18n.js';
 
 export const daemonFile = (hub) => path.join(hub, 'daemon.json');
 export const pidAlive = (pid) => { try { process.kill(pid, 0); return true; } catch { return false; } };
@@ -26,14 +27,14 @@ export async function maybeHandoff(ctx, route = '/') {
   if (ctx.config?.ui?.enabled === 'never' || ctx.config?.ui?.enabled === false) return false;
   const d = readDaemon(ctx.hub);
   if (d && pidAlive(d.pid)) {
-    console.log(`opened ${openURL(d, route)}（服务已在跑，Ctrl-C 那个终端的 serve 可停）`);
+    console.log(`opened ${openURL(d, route)}${L('（服务已在跑，Ctrl-C 那个终端的 serve 可停）', ' (server already running — the serve in that terminal can be stopped)')}`);
     return true;
   }
   try {
     const { startServer } = await import('../commands/serve.js');
     const srv = await startServer(ctx, { quiet: false });
     console.log(`opened ${openURL({ port: srv.port, token: srv.token }, route)}`);
-    console.log('  服务前台运行中 — 操作日志见下方，Ctrl-C 退出');
+    console.log(L('  服务前台运行中 — 操作日志见下方，Ctrl-C 退出', '  server running in foreground — activity log below, Ctrl-C to exit'));
     await new Promise(() => {});          // 挂住：本进程=服务器
     return true;
   } catch { return false; }

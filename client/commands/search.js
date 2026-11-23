@@ -2,6 +2,7 @@
 import { scanAll } from '../lib/scanner.js';
 import { searchRemote } from '../lib/registries/skillssh.js';
 import { table, info, warn } from '../lib/render.js';
+import { L } from '../lib/i18n.js';
 
 export async function run(ctx) {
   const query = ctx.args.join(' ').trim();
@@ -35,7 +36,7 @@ export async function run(ctx) {
   if (wantRemote) {
     info('');
     info(`REMOTE ${remote.base || ''}`);
-    if (remoteErr) warn(`remote search failed: ${remoteErr}（本地结果可用）`);
+    if (remoteErr) warn(`remote search failed: ${remoteErr}${L('（本地结果可用）', ' (local results still shown)')}`);
     else if (remote.skills.length) {
       table(remote.skills.slice(0, 15).map((s) => ({ name: s.name, id: s.slug, installs: s.installs })),
         [{ key: 'name', title: 'skill' }, { key: 'id', title: 'id' }, { key: 'installs', title: 'installs' }]);

@@ -6,6 +6,7 @@ import { hubExists } from '../lib/hub.js';
 import { scanSkillDir } from '../lib/scanner.js';
 import { readSkillDir, treeHash } from '../lib/package.js';
 import { execFileSync } from 'node:child_process';
+import { L } from '../lib/i18n.js';
 
 const NODE_MIN = 22;
 
@@ -62,7 +63,7 @@ export async function run(ctx) {
     const dir = h.dirs.find((d) => d.exists) ?? h.dirs[0];
     const skills = dir?.exists ? scanSkillDir(dir.path).length : 0;
     const note = h.detectOnly ? 'detect-only' : h.state === 'available' ? 'bin only — dir will create'
-      : h.state === 'likely' ? 'dir only — 装过?' : h.state === 'absent' ? '' : `${skills} skills`;
+      : h.state === 'likely' ? L('dir only — 装过?', 'dir only — installed?') : h.state === 'absent' ? '' : `${skills} skills`;
     hrows.push({ id: h.id, dir: dir?.path ?? '-', state: h.state, note });
   }
   const hInstalled = hrows.filter((r) => r.state === 'installed').length;
@@ -89,8 +90,8 @@ export async function run(ctx) {
   // llm 已配状态（不探端口——探测只在 init/config）
   if (ctx.llm) say(true, `llm configured: ${ctx.llm.model} @ ${ctx.llm.base_url}`);
   else {
-    say('warn', 'llm not configured — LLM features disabled (audit/conflicts/diff 降级静态)');
-    info('→ 跑 skillmkt init 一键配置');
+    say('warn', L('llm not configured — LLM features disabled (audit/conflicts/diff 降级静态)', 'llm not configured — LLM features disabled (audit/conflicts/diff fall back to static)'));
+    info(L('→ 跑 skillmkt init 一键配置', '→ run skillmkt init for one-step setup'));
   }
 
   // drift

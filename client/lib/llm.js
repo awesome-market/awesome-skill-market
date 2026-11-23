@@ -5,6 +5,7 @@ import path from 'node:path';
 import os from 'node:os';
 import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
+import { L } from './i18n.js';
 
 function loadDotEnv(file) {
   try {
@@ -138,7 +139,7 @@ async function identifyImpl(port, timeoutMs) {
   };
   if ((await get('/api/version'))?.version) return 'Ollama';      // Ollama 原生 API
   if (await get('/api/v0/models')) return 'LM Studio API';        // 说 LM Studio 协议——也可能是 oMLX 等兼容实现
-  return 'OpenAI 兼容服务';
+  return L('OpenAI 兼容服务', 'OpenAI-compatible service');
 }
 
 // 仅 init/config 使用——候选端口 = 常见端口 ∪ 本机全部监听端口 ∪ env/config 已知 base_url 端口，

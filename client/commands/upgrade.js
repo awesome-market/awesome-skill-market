@@ -9,6 +9,7 @@ import { projectSkill, targetDirFor } from '../lib/project.js';
 import { registerSkill, updateLock } from '../lib/hub.js';
 import { fetchMirror } from '../lib/registries/index.js';
 import { ok, warn, fail, info } from '../lib/render.js';
+import { L } from '../lib/i18n.js';
 
 function copyFiltered(src, dst, keep) {
   fs.mkdirSync(dst, { recursive: true });
@@ -31,11 +32,11 @@ export async function run(ctx) {
   let upgraded = 0;
   for (const name of names) {
     const s = skills[name];
-    if (!s) { warn(`未受管: ${name}`); continue; }
+    if (!s) { warn(L(`未受管: ${name}`, `not managed: ${name}`)); continue; }
     const u = up.skills?.[name];
-    if (!u?.outdated && !flags.force) { info(`${name}: clean（update 先刷新）`); continue; }
+    if (!u?.outdated && !flags.force) { info(L(`${name}: clean（update 先刷新）`, `${name}: clean (run update first to refresh)`)); continue; }
     const src = s.source || {};
-    if (src.registry !== 'github' || !src.ref) { warn(`${name}: 无上游可升级`); continue; }
+    if (src.registry !== 'github' || !src.ref) { warn(L(`${name}: 无上游可升级`, `${name}: no upstream to upgrade from`)); continue; }
 
     const [owner, repo] = src.ref.split('/');
     info(`${name}: fetching ${src.ref} …`);
@@ -43,7 +44,7 @@ export async function run(ctx) {
       const got = await fetchSkill({ owner, repo, ref: null, path: src.path || null, mirror: fetchMirror(ctx) });
       const pkg = readSkillDir(got.dir);
       const audit = auditDir(got.dir, { strip: !flags.keepScripts });
-      if (audit.verdict === 'malicious') { warn(`${name}: 新版审核 malicious——保留旧版（quarantine 不收新版）`); continue; }
+      if (audit.verdict === 'malicious') { warn(L(`${name}: 新版审核 malicious——保留旧版（quarantine 不收新版）`, `${name}: new version audited malicious — keeping old version`)); continue; }
       if (ctx.flags.dryRun) {
         info(`[dry-run] ${name}: ${pkg?.fileCount ?? '?'} files, audit:${audit.verdict}${audit.stripped.length ? `,strip ${audit.stripped.length}` : ''}`);
         continue;

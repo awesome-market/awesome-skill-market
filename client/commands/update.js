@@ -5,6 +5,7 @@ import { remoteTree } from '../lib/registries/github.js';
 import { setUpstream, readUpstream, writeUpstream } from '../lib/state.js';
 import { gitTreeHash } from '../lib/githash.js';
 import { ok, warn, info } from '../lib/render.js';
+import { L } from '../lib/i18n.js';
 
 export async function run(ctx) {
   const skills = ctx.library.skills || {};
@@ -12,7 +13,7 @@ export async function run(ctx) {
   let n = 0, na = 0, errs = 0;
   for (const name of names) {
     const s = skills[name];
-    if (!s) { warn(`未受管: ${name}`); continue; }
+    if (!s) { warn(L(`未受管: ${name}`, `not managed: ${name}`)); continue; }
     const src = s.source || {};
     if (src.registry !== 'github' || !src.ref) { na++; continue; }   // adopted/local/rfc 无远端可查（rfc 走 registry 适配后续）
     try {

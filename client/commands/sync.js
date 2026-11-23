@@ -5,6 +5,7 @@ import { projectSkill, checkDrift, targetDirFor } from '../lib/project.js';
 import { updateLock } from '../lib/hub.js';
 import { confirm } from '../lib/prompt.js';
 import { ok, warn, info } from '../lib/render.js';
+import { L } from '../lib/i18n.js';
 
 export async function run(ctx) {
   const { library, lock } = ctx;
@@ -24,7 +25,7 @@ export async function run(ctx) {
   const avail = ctx.harnesses.filter((h) => h.state === 'available' && !h.detectOnly
     && !ctx.config.default_targets.includes(h.id));
   for (const h of avail) {
-    if (await confirm(`检测到新 harness ${h.id}（available）——纳入默认投影目标?`, { defaultYes: false })) {
+    if (await confirm(L(`检测到新 harness ${h.id}（available）——纳入默认投影目标?`, `New agent detected: ${h.id} (available) — add to default install locations?`), { defaultYes: false })) {
       const raw = ctx.config._raw;
       raw.default_targets = [...new Set([...(raw.default_targets || []), h.id])];
       const { writeConfig } = await import('../lib/hub.js');
@@ -36,13 +37,13 @@ export async function run(ctx) {
   let n = 0, repaired = 0;
   for (const [name, s] of Object.entries(library.skills || {})) {
     const src = path.join(ctx.hub, 'skills', name);
-    if (!fs.existsSync(src)) { warn(`${name}: hub 副本缺失`); continue; }
+    if (!fs.existsSync(src)) { warn(L(`${name}: hub 副本缺失`, `${name}: hub copy missing`)); continue; }
     const lockTargets = {};
     for (const t of s.targets || []) {
       const dir = targetDirFor(ctx, t, name);
       if (!dir) { warn(`${name}: unknown target ${t}`); continue; }
       const r = projectSkill(src, name, dir, { mode: s.transport?.[t] === 'link' ? 'link' : 'copy', force: !!ctx.flags.raw.force });
-      if (r.action === 'conflict') warn(`${name} @ ${t}: ${r.detail}（手动改过的内容不覆盖——--force 强制重建，或改回后 sync）`);
+      if (r.action === 'conflict') warn(`${name} @ ${t}: ${r.detail}${L('（手动改过的内容不覆盖——--force 强制重建，或改回后 sync）', ' (manual edits not overwritten — --force rebuilds, or revert then sync)')}`);
       else if (r.action !== 'skipped') { repaired++; info(`${name} → ${r.action} ${r.target}`); }
       lockTargets[t] = { hash: r.hash, projected_at: new Date().toISOString(), mode: r.mode };
       n++;

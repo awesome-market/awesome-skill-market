@@ -82,7 +82,7 @@ export function readConfig(hub) {
   const cfg = readYAMLFile(F(hub, 'config.yml'), {}) || {};
   return {
     llm: cfg.llm || null,
-    ui: { enabled: cfg.ui?.enabled ?? 'auto' },
+    ui: { enabled: cfg.ui?.enabled ?? 'auto', lang: cfg.ui?.lang },
     policy: cfg.policy ?? 'balanced',
     default_targets: cfg.default_targets ?? [],
     targets: cfg.targets ?? {},

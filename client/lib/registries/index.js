@@ -2,12 +2,13 @@
 import * as github from './github.js';
 import * as skillssh from './skillssh.js';
 import * as rfc from './rfc.js';
+import { L } from '../i18n.js';
 
 export const ADAPTERS = { github, skillssh, rfc, clawhub: null };
 
 export function adapterFor(type) {
   const a = ADAPTERS[type];
-  if (!a) throw new Error(`registry adapter 未实现: ${type}（二期）`);
+  if (!a) throw new Error(L(`registry adapter 未实现: ${type}（二期）`, `registry adapter not implemented: ${type} (phase 2)`));
   return a;
 }
 
@@ -23,15 +24,15 @@ export async function fetchRef(ref, ctx) {
   }
   if (ref.kind === 'named' && (!ref.registry || ref.registry === 'skillssh' || ref.registry === 'github')) {
     const coord = await skillssh.resolveNamed(ref.name, ctx);
-    if (!coord) throw new Error(`skills.sh 索引未收录: ${ref.name}——可试 skillmkt install owner/repo 直指`);
+    if (!coord) throw new Error(L(`skills.sh 索引未收录: ${ref.name}——可试 skillmkt install owner/repo 直指`, `not in the skills.sh index: ${ref.name} — try skillmkt install owner/repo`));
     return github.fetchSkill({ ...coord, ref: null, mirror });
   }
   if (ref.registry) {
     const reg = ctx.config.registries.find((r) => (r.name || r.type) === ref.registry);
-    if (!reg) throw new Error(`未配置 registry: ${ref.registry}`);
+    if (!reg) throw new Error(L(`未配置 registry: ${ref.registry}`, `registry not configured: ${ref.registry}`));
     const a = adapterFor(reg.type);
-    if (!a.fetchSkill) throw new Error(`registry ${reg.type} 不支持 fetch`);
+    if (!a.fetchSkill) throw new Error(L(`registry ${reg.type} 不支持 fetch`, `registry ${reg.type} does not support fetch`));
     return a.fetchSkill(ref, ctx, reg);
   }
-  throw new Error(`无法解析引用: ${JSON.stringify(ref)}`);
+  throw new Error(L(`无法解析引用: ${JSON.stringify(ref)}`, `cannot resolve ref: ${JSON.stringify(ref)}`));
 }

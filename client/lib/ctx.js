@@ -2,6 +2,7 @@
 import { hubPath, readConfig, readLibrary, readLock, expandHome } from './hub.js';
 import { detectHarnesses, detectProject } from './scanner.js';
 import { resolveLLM } from './llm.js';
+import { setUILang } from './i18n.js';
 
 const VALUE_FLAGS = new Set(['hub', 'base-url', 'model', 'api-key-env', 'from', 'to', 'target', 'scope', 'path', 'registry', 'name', 'resolution', 'reason', 'custom', 'port', 'project', 'type', 'url', 'token', 'out', 'limit']);
 const BOOL_FLAGS = new Set(['json', 'verbose', 'no-llm', 'dry-run', 'ui', 'cli', 'no-ui', 'yes', 'y', 'help', 'h', 'version', 'V', 'force', 'all', 'llm', 'semantic', 'raw', 'files', 'rules', 'audit-only', 'purge', 'link', 'remote', 'local', 'wait', 'stop', 'daemon', 'keep-scripts', 'report', 'check', 'once']);
@@ -44,6 +45,7 @@ export function makeCtx(argv, { wantProject = true } = {}) {
   const { flags, positional } = parseArgv(argv);
   const hub = hubPath(flags.hub);
   const config = readConfig(hub);
+  setUILang(config.ui?.lang);   // CLI 输出语言：config.ui.lang > 终端 locale
   const cwd = process.cwd();
   const ctx = {
     flags,

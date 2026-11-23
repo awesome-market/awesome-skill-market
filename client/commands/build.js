@@ -7,6 +7,7 @@ import { activeDecisions } from '../lib/decide.js';
 import { readYAML } from '../../pipeline/lib/util.js';
 import { ok, warn, fail, info } from '../lib/render.js';
 import { mergedDir } from './merge.js';
+import { L } from '../lib/i18n.js';
 
 export function buildSkill(hub) {
   const mPath = path.join(mergedDir(hub), 'rules.yml');
@@ -31,7 +32,7 @@ export function buildSkill(hub) {
 
 export async function run(ctx) {
   const b = buildSkill(ctx.hub);
-  if (!b) { fail('无 merged/rules.yml — 先 skillmkt merge'); return 1; }
+  if (!b) { fail(L('无 merged/rules.yml — 先 skillmkt merge', 'no merged/rules.yml — run skillmkt merge first')); return 1; }
   const { merged, kept, customs, pending } = b;
   // 渲染：域分组 + provenance 注释
   const byDom = new Map();
@@ -56,6 +57,6 @@ export async function run(ctx) {
   }
   fs.mkdirSync(outDir, { recursive: true });
   fs.writeFileSync(path.join(outDir, 'SKILL.md'), md);
-  ok(`built ${outDir}/SKILL.md — ${kept.length} rules${pending ? `，⚠ ${pending} pending 双边已排除` : ''}`);
+  ok(`built ${outDir}/SKILL.md — ${kept.length} rules${pending ? L(`，⚠ ${pending} pending 双边已排除`, ` — ⚠ ${pending} pending, both sides excluded`) : ''}`);
   return pending ? 3 : 0;
 }

@@ -7,6 +7,7 @@ import { detectConflicts } from '../lib/conflicts.js';
 import { autoArbitrate } from '../lib/autoarb.js';
 import { tokens, jaccard, writeYAML } from '../../pipeline/lib/util.js';
 import { ok, warn, fail, info } from '../lib/render.js';
+import { L } from '../lib/i18n.js';
 
 export const mergedDir = (hub) => path.join(hub, 'merged');
 
@@ -20,7 +21,7 @@ export async function run(ctx) {
   for (const name of names) {
     const dir = path.join(ctx.hub, 'skills', name);
     const f = path.join(dir, 'SKILL.md');
-    if (!fs.existsSync(f)) { fail(`未受管: ${name}`); return 1; }
+    if (!fs.existsSync(f)) { fail(L(`未受管: ${name}`, `not managed: ${name}`)); return 1; }
     let rs = null;
     if (useLlm) {
       try { rs = await extractRulesLLM(ctx.llm, fs.readFileSync(f, 'utf8'), name); } catch { /* 降级静态 */ }
@@ -38,12 +39,13 @@ export async function run(ctx) {
   // --auto：仲裁直接吃确定项（fresh-context per conflict）
   if (ctx.flags.raw.auto && ctx.llm && news.length) {
     const r = await autoArbitrate(ctx.hub, ctx.llm, news, { onProgress: (c, x) => info(`${c.id}: ${x?.verdict ?? '?'}@${x?.confidence ?? '?'}`) });
-    info(`auto-arbiter: ${r.auto} 已决，${r.human} 留人`);
+    info(`auto-arbiter: ${r.auto} ${L('已决', 'decided')}，${r.human} ${L('留人', 'left for you')}`);
   }
   const dir = mergedDir(ctx.hub);
   fs.mkdirSync(dir, { recursive: true });
   writeYAML(path.join(dir, 'rules.yml'), { name: outName, sources: names, merged_at: new Date().toISOString(), rules: dedup });
-  ok(`merged: ${dedup.length} rules（原始 ${rules.length}，去重 -${rules.length - dedup.length}）· 新冲突 ${news.length}`);
-  if (news.length) info(`skillmkt conflicts 查看队列；decide/resolve 裁决后 build`);
+  ok(L(`merged: ${dedup.length} rules（原始 ${rules.length}，去重 -${rules.length - dedup.length}）· 新冲突 ${news.length}`,
+    `merged: ${dedup.length} rules (${rules.length} raw, deduped -${rules.length - dedup.length}) · new conflicts ${news.length}`));
+  if (news.length) info(L(`skillmkt conflicts 查看队列；decide/resolve 裁决后 build`, `skillmkt conflicts to review; decide/resolve then build`));
   return news.length ? 3 : 0;
 }

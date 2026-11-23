@@ -14,6 +14,7 @@ import { probeEndpoints, chat, encryptSecret, resolveKeyRef } from '../lib/llm.j
 import { projectSkill, unproject, targetDirFor } from '../lib/project.js';
 import { treeHash } from '../lib/package.js';
 import { ok, info } from '../lib/render.js';
+import { L, detectLang } from '../lib/i18n.js';
 
 const PUB = path.join(new URL('.', import.meta.url).pathname, '../public');
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.svg': 'image/svg+xml' };
@@ -29,11 +30,7 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
   const idleMs = (ctx.config.daemon?.idle_minutes ?? 30) * 60e3;
 
   const harnesses = ctx.harnesses ?? detectHarnesses();   // bareRun/init 路径 ctx 可能没 withState
-  // 界面默认语言跟着终端 locale：LANG/LC_* 以 zh 开头→中文，否则英文
-  const detectLang = () => {
-    const l = (process.env.LC_ALL || process.env.LC_MESSAGES || process.env.LANG || '').toLowerCase();
-    return l.startsWith('zh') ? 'zh' : 'en';
-  };
+  // 界面默认语言跟终端 locale（SKILLMKT_LANG/LANG/LC_* 以 zh 开头→中文）
   const state = () => ({
     hub: ctx.hub,
     lang: (() => readConfig(ctx.hub)._raw?.ui?.lang ?? detectLang())(),
@@ -58,9 +55,9 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
   // 只记关键事件：打开网页 + 真正落盘的写操作；点击/读取/静态资源一律不打扰
   const action = (req, u) => {
     const p = u.pathname;
-    if (req.method === 'GET' && (p === '/' || p === '/index.html')) return '打开了网页';
-    if (req.method === 'POST' && p === '/api/config') return '保存了设置';
-    if (req.method === 'POST' && p === '/api/targets') return '修改了 skill 的安装位置';
+    if (req.method === 'GET' && (p === '/' || p === '/index.html')) return L('打开了网页', 'opened the page');
+    if (req.method === 'POST' && p === '/api/config') return L('保存了设置', 'saved settings');
+    if (req.method === 'POST' && p === '/api/targets') return L('修改了 skill 的安装位置', 'changed skill install locations');
     return null;
   };
 
@@ -70,8 +67,8 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
     if (!quiet) res.on('finish', () => {
       const a = req.logNote ?? action(req, u);
       if (a == null) return;
-      const tail = res.statusCode === 401 ? '（被拒绝：链接已过期，重新打开）'
-        : res.statusCode >= 400 ? `（失败 ${res.statusCode}）` : '';
+      const tail = res.statusCode === 401 ? L('（被拒绝：链接已过期，重新打开）', ' (rejected: link expired — reopen)')
+        : res.statusCode >= 400 ? L(`（失败 ${res.statusCode}）`, ` (failed ${res.statusCode})`) : '';
       console.log(`  ${new Date().toTimeString().slice(0, 8)}  ${a}${tail}`);
     });
     // auth：Bearer header 或 ?token=（SSE/img 用 query，服务端不下发 cookie）
@@ -96,7 +93,8 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
             const c = loadConflicts(ctx.hub).find((x) => x.id === b.id);
             if (!c) { res.writeHead(404); return res.end('{"error":"not found"}'); }
             if (!b.reason?.trim()) { res.writeHead(400); return res.end('{"error":"reason required"}'); }
-            req.logNote = `裁决了一个冲突（${{ 'keep-a': '采用方案 A', 'keep-b': '采用方案 B', merge: '合并两条', dismissed: '其实不冲突' }[b.resolution] || b.resolution}）`;
+            req.logNote = L(`裁决了一个冲突（${{ 'keep-a': '采用方案 A', 'keep-b': '采用方案 B', merge: '合并两条', dismissed: '其实不冲突' }[b.resolution] || b.resolution}）`,
+              `decided a conflict (${{ 'keep-a': 'kept A', 'keep-b': 'kept B', merge: 'merged', dismissed: 'not a conflict' }[b.resolution] || b.resolution})`);
             decide(ctx.hub, c, { resolution: b.resolution, custom: b.custom || null, reason: b.reason, by: 'web-ui' });
             c.status = 'resolved';
             const { writeConflict } = await import('../lib/conflicts.js');
@@ -142,7 +140,7 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
           }
           if (u.pathname === '/api/targets') {                        // web 改投影目标
             const name = b.name, targets = b.targets || [];
-            req.logNote = `修改了「${name}」的安装位置`;
+            req.logNote = L(`修改了「${name}」的安装位置`, `changed install locations for "${name}"`);
             const lib = readLibrary(ctx.hub);
             const s = lib.skills?.[name];
             if (!s) { res.writeHead(404); return res.end('{"error":"not found"}'); }
@@ -226,7 +224,7 @@ export async function run(ctx) {
   const d = await startServer(ctx, { quiet: !!flags.daemon, port: flags.port || 0 });
   if (flags.daemon) { console.log(`daemon ready :${d.port}`); await new Promise(() => {}); }
   console.log(`serve: http://127.0.0.1:${d.port}/?token=${d.token}`);
-  console.log(`  前台运行 — Ctrl-C 退出（idle ${ctx.config.daemon?.idle_minutes ?? 30}m 自退）`);
+  console.log(L(`  前台运行 — Ctrl-C 退出（idle ${ctx.config.daemon?.idle_minutes ?? 30}m 自退）`, `  running in foreground — Ctrl-C to exit (idle ${ctx.config.daemon?.idle_minutes ?? 30}m auto-stop)`));
   await new Promise(() => {});
   return 0;
 }

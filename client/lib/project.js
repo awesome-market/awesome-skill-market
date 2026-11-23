@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { treeHash, copyDir, rmDir, readSkillDir } from './package.js';
 import { primaryDir } from './scanner.js';
+import { L } from './i18n.js';
 
 // 投影单个 skill 到目标目录 → {target, hash, action}
 export function projectSkill(srcDir, name, targetDir, { mode = 'copy', dryRun = false, force = false, lockEntry = null } = {}) {
@@ -65,10 +66,10 @@ export function targetDirFor(ctx, target, _name) {
 // 解析目标集：--to/--target/--scope/default_targets
 export function resolveTargets(ctx, { allowAdopted = null } = {}) {
   const f = ctx.flags.raw;
-  if (f.to && f.target) throw new Error('--to 与 --target 互斥');
+  if (f.to && f.target) throw new Error(L('--to 与 --target 互斥', '--to and --target are mutually exclusive'));
   if (f.to) return [{ id: `custom:${path.resolve(expandTilde(f.to))}`, dir: path.resolve(expandTilde(f.to)), mode: f.link ? 'link' : 'copy' }];
   if (f.scope === 'project' || f.scope === 'repo') {
-    if (!ctx.project) throw new Error('--scope project 需在仓库目录内运行');
+    if (!ctx.project) throw new Error(L('--scope project 需在仓库目录内运行', '--scope project must run inside a repo directory'));
     const out = [];
     for (const h of ctx.harnesses) {
       if (h.detectOnly) continue;

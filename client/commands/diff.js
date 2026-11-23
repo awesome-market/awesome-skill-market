@@ -7,6 +7,7 @@ import { walk, treeHash } from '../lib/package.js';
 import { gitTreeHash } from '../lib/githash.js';
 import { info, warn, fail } from '../lib/render.js';
 import { semanticDiff } from '../lib/ai.js';
+import { L } from '../lib/i18n.js';
 
 function sectionsOf(dir) {
   const f = path.join(dir, 'SKILL.md');
@@ -17,9 +18,9 @@ function sectionsOf(dir) {
 export async function run(ctx) {
   const name = ctx.args[0];
   const s = ctx.library.skills?.[name];
-  if (!s) { fail(`未受管: ${name}`); return 1; }
+  if (!s) { fail(L(`未受管: ${name}`, `not managed: ${name}`)); return 1; }
   const src = s.source || {};
-  if (src.registry !== 'github' || !src.ref) { fail(`${name}: 无上游可比`); return 1; }
+  if (src.registry !== 'github' || !src.ref) { fail(L(`${name}: 无上游可比`, `${name}: no upstream to diff against`)); return 1; }
 
   const [owner, repo] = src.ref.split('/');
   const localDir = path.join(ctx.hub, 'skills', name);
@@ -44,9 +45,9 @@ export async function run(ctx) {
   if (secAdded.length) info(`sections +: ${secAdded.join(' | ')}`);
   if (secRemoved.length) info(`sections -: ${secRemoved.join(' | ')}`);
   if (ctx.flags.raw.semantic) {
-    if (!ctx.llm) { warn('--semantic 需要 LLM（config.llm 或 OMLX_*）——以上为结构 diff'); return 0; }
+    if (!ctx.llm) { warn(L('--semantic 需要 LLM（config.llm 或 OMLX_*）——以上为结构 diff', '--semantic needs an LLM (config.llm or OMLX_*) — structural diff shown above')); return 0; }
     const summary = await semanticDiff(ctx.llm, { name, added, removed, changed, secAdded, secRemoved }).catch(() => null);
-    info(summary ? `semantic: ${summary}` : 'semantic: LLM 不可用——结构 diff 如上');
+    info(summary ? `semantic: ${summary}` : L('semantic: LLM 不可用——结构 diff 如上', 'semantic: LLM unavailable — structural diff above'));
   }
   return 0;
 }

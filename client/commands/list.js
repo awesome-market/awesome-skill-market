@@ -3,6 +3,7 @@ import path from 'node:path';
 import { table, out, info } from '../lib/render.js';
 import { scanAll } from '../lib/scanner.js';
 import { listYAML } from '../lib/yamlls.js';
+import { L } from '../lib/i18n.js';
 
 export async function run(ctx) {
   const { hub, library, harnesses, project } = ctx;
@@ -35,12 +36,12 @@ export async function run(ctx) {
     json: ctx.flags.json,
     human: () => {
       if (tableRows.length) table(tableRows, cols);
-      else info('(empty — skillmkt search / install 开始)');
+      else info(L('(empty — skillmkt search / install 开始)', '(empty — skillmkt search / install to start)'));
       if (extRows.length) {
         info('');
-        info('external（未收编）:');
+        info(L('external（未收编）:', 'external (unmanaged):'));
         for (const e of extRows) info(`  ${e.name.padEnd(30)} ${e.dir}`);
-        info(`→ skillmkt install <path> 收编`);
+        info(L(`→ skillmkt install <path> 收编`, `→ skillmkt install <path> to adopt`));
       }
       if (ctx.project) {
         const projRows = rows.filter((r) => r.where === 'project');

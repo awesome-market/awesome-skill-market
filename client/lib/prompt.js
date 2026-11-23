@@ -1,5 +1,6 @@
 // prompt.js — TTY 确认/选择（非 TTY 一律安全默认）
 import readline from 'node:readline';
+import { L } from './i18n.js';
 
 export async function confirm(question, { defaultYes = false } = {}) {
   if (!process.stdin.isTTY) return defaultYes;
@@ -25,7 +26,7 @@ export async function choose(question, options) {
 export async function multiChoose(question, options, { checked = [] } = {}) {
   if (!process.stdin.isTTY) return checked;
   const rl = readline.createInterface({ input: process.stdin, output: process.stderr });
-  process.stderr.write(`${question}（序号逗号分隔，回车=当前勾选，0=全不装）\n`);
+  process.stderr.write(`${question}${L('（序号逗号分隔，回车=当前勾选，0=全不装）', ' (comma-separated numbers, Enter = keep checked, 0 = none)')}\n`);
   options.forEach((o, i) => process.stderr.write(`  ${checked.includes(i) ? '[x]' : '[ ]'} ${i + 1}. ${o.label || o}\n`));
   const ans = await new Promise((res) => rl.question('> ', res));
   rl.close();
