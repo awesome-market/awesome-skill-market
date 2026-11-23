@@ -7,7 +7,9 @@ let S = null, tab = location.hash.slice(1).split('?')[0] || 'skills';
 let saveMsg = '', saveMsgAt = 0;   // 保存结果提示——要挺过保存后的连续重渲染（自己 refresh + SSE config 事件）
 const mkState = { q: '', results: null, installed: new Set(), perm: new Set(), force: new Set(), keep: new Set(), status: {}, directOut: '', directPerm: false, directForce: false, directStrip: false };   // 市场页状态——SSE refresh 重渲染不丢
 let mgOut = '';   // 合并结果提示——同上
+const mgOpts = { llm: false, auto: false };   // AI 选项状态——重渲染后勾选项不丢
 let mgSout = '';  // 产物 build/install 反馈——SSE 'library' 会立刻触发 refresh，文本必须活在变量里才能挺过重渲染
+let cfOut = '';   // 冲突页 AI 裁决结果——同理
 const isSuspicious = (out) => /可疑|suspicious/i.test(out || '');   // 审核"可疑"→ 需用户知情确认才放行
 // 从 CLI 输出里抽可疑判定的原因：⚠ 行 + 紧跟的缩进详情行（命中规则/剥离清单），✗/✓ 开头即止
 const suspDetail = (out) => {
@@ -117,6 +119,8 @@ const I18N = {
     mg_busy: '合并中…', mg_few: '至少勾两个',
     mg_state: (n, r) => `当前合并产物：${n}（${r} 条规则）`,
     mg_build: '生成 SKILL.md', mg_install: '安装这个合并 skill', mg_inlist: (n) => `已装：${n}`, mg_notinst: '已生成，未装 →', mg_reinst: '重装', mg_clear: '丢弃', mg_to_conflicts: '有冲突待裁决 → 去「冲突处理」',
+    mg_llm: 'AI 抽规则（语义归组/改写措辞）', mg_auto: 'AI 自动裁决检出的新冲突', mg_nollm: '想让 AI 介入？去「设置」配好本地模型端点（base_url + model）后这里会出现 AI 选项',
+    cf_auto: (n) => `AI 裁决 ${n} 个待裁决冲突`,
     rv_reaudit: '重新审核',
   },
   en: {
@@ -207,6 +211,8 @@ const I18N = {
     mg_busy: 'Merging…', mg_few: 'Pick at least two',
     mg_state: (n, r) => `Current merged result: ${n} (${r} rules)`,
     mg_build: 'Build SKILL.md', mg_install: 'Install this merged skill', mg_inlist: (n) => `Installed: ${n}`, mg_notinst: 'built, not installed →', mg_reinst: 'Reinstall', mg_clear: 'Discard', mg_to_conflicts: 'Pending conflicts → go to "Conflicts"',
+    mg_llm: 'LLM rule extraction (semantic grouping/rewriting)', mg_auto: 'LLM auto-arbitrate new conflicts', mg_nollm: 'Want AI? Configure a local model endpoint (base_url + model) in Settings and AI options will appear here',
+    cf_auto: (n) => `LLM-arbitrate ${n} pending conflicts`,
     rv_reaudit: 'Re-audit',
   },
 };
@@ -605,7 +611,11 @@ async function render() {
       + (skills.map((n) => `<label class="check"><input type="checkbox" data-mg="${esc(n)}"> ${esc(n)}</label>`).join('')
         || `<div class="empty">${t('sk_empty')}</div>`)
       + `<div class="frow"><input type="text" id="mg-name" placeholder="${t('mg_name')}" style="flex:1">
-        <button class="primary" id="mg-go">${t('mg_go')}</button><span id="mg-out" class="mut">${esc(mgOut)}</span></div></div>`
+        <button class="primary" id="mg-go">${t('mg_go')}</button><span id="mg-out" class="mut">${esc(mgOut)}</span></div>`
+      + (S.llm
+        ? `<div class="frow"><label class="check"><input type="checkbox" id="mg-llm" ${mgOpts.llm ? 'checked' : ''}> ${t('mg_llm')}</label>
+          <label class="check"><input type="checkbox" id="mg-auto" ${mgOpts.auto ? 'checked' : ''}> ${t('mg_auto')}</label></div></div>`
+        : `<div class="frow"><span class="mut">${t('mg_nollm')}</span></div></div>`)
       + (mg ? `<div class="card"><div class="row"><b>${t('mg_state', esc(mg.name), mg.rules)}</b>
         <button id="mg-build" ${mg.built ? 'disabled' : ''}>${t('mg_build')}</button>
         ${mg.built ? (mg.skillName && (S.skills || {})[mg.skillName]
@@ -617,7 +627,9 @@ async function render() {
       const names = [...app.querySelectorAll('[data-mg]:checked')].map((x) => x.dataset.mg);
       if (names.length < 2) { app.querySelector('#mg-out').textContent = t('mg_few'); return; }
       e.target.disabled = true; e.target.textContent = t('mg_busy');
-      const r = await api('/merge', { method: 'POST', body: JSON.stringify({ names, name: app.querySelector('#mg-name').value.trim() || undefined }) });
+      mgOpts.llm = !!app.querySelector('#mg-llm')?.checked;
+      mgOpts.auto = !!app.querySelector('#mg-auto')?.checked;
+      const r = await api('/merge', { method: 'POST', body: JSON.stringify({ names, name: app.querySelector('#mg-name').value.trim() || undefined, llm: mgOpts.llm, auto: mgOpts.auto }) });
       mgOut = (r.out || '').split('\n').pop().slice(0, 140);
       app.querySelector('#mg-out').textContent = mgOut;
       e.target.disabled = false; e.target.textContent = t('mg_go');
@@ -647,7 +659,14 @@ async function render() {
     const cs = S.conflicts || [];
     const pendN = cs.filter((c) => c.status === 'pending').length;
     app.innerHTML = `<h2>${t('cf_h', pendN)}</h2>
-      <p class="desc">${t('cf_desc')}</p>`;
+      <p class="desc">${t('cf_desc')}</p>
+      ${S.llm && pendN ? `<div class="frow"><button id="cf-auto">${t('cf_auto', pendN)}</button><span id="cf-out" class="mut">${esc(cfOut)}</span></div>` : ''}`;
+    app.querySelector('#cf-auto')?.addEventListener('click', async (e) => {
+      e.target.disabled = true; e.target.textContent = t('op_busy');
+      const r = await api('/resolve-auto', { method: 'POST', body: '{}' });
+      cfOut = (r.out || '').split('\n').filter((l) => l.trim()).pop()?.slice(0, 140) || '';
+      refresh();   // 待裁决变少/文案留在 cfOut
+    });
     for (const c of cs) {
       const card = el(`<div class="card"><div class="row"><b>${esc(c.id)}</b>${pill(c.status)}<span class="mut">${esc(c.domain || '')}</span></div>
         <div class="side a"><span class="who">${t('side', 'A', esc(c.sides[0].source))}</span>${esc(c.sides[0].text)}</div>

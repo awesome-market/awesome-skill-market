@@ -45,6 +45,7 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
     hub: ctx.hub,
     lang: (() => readConfig(ctx.hub)._raw?.ui?.lang ?? detectLang())(),
     initialized: isInitialized(ctx.hub),
+    llm: !!ctx.llm,                                             // 本地模型端点可用——决定 merge/audit 等 AI 选项是否展示
     library: readLibrary(ctx.hub), lock: readLock(ctx.hub),
     hist: (() => {                                              // .history/<name> 存在才可回滚
       const d = path.join(ctx.hub, '.history');
@@ -263,6 +264,11 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
             if (r.code === 0) emit('library', {});
             return res.end(JSON.stringify(r));
           }
+          if (u.pathname === '/api/resolve-auto') {
+            const r = await cli(['resolve', '--auto']);
+            if (r.code === 0) emit('library', {});
+            return res.end(JSON.stringify(r));
+          }
           if (u.pathname === '/api/merge-clear') {
             const r = await cli(['merge', '--clear']);
             if (r.code === 0) emit('library', {});
@@ -272,6 +278,8 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
             const names = (b.names || []).map(String).filter(Boolean);
             const args = ['merge'];
             if (b.name) args.push('--name', String(b.name));
+            if (b.llm) args.push('--llm');                      // AI 抽规则（语义归组/改写）
+            if (b.auto) args.push('--auto');                    // AI 仲裁检出的新冲突
             args.push('--', ...names);
             const r = await cli(args);
             emit('library', {});
