@@ -254,6 +254,7 @@ const PILLS = {
     managed: '已纳入管理', external: '未管理', 'hub-untracked': '未登记',
     clean: '✓', suspicious: '可疑', malicious: '危险',
     pending: '待处理', decided: '已裁决', resolved: '已裁决', dismissed: '已忽略',
+    gone: '已卸载',
     outdated: '有更新', missing: '文件缺失', 'content-differs': '内容被改过', drifted: '有改动',
     'keep-a': '采用 A', 'keep-b': '采用 B', merge: '已合并', active: '生效中',
   },
@@ -262,6 +263,7 @@ const PILLS = {
     managed: 'Managed', external: 'Unmanaged', 'hub-untracked': 'Untracked',
     clean: '✓', suspicious: 'Suspicious', malicious: 'Malicious',
     pending: 'Pending', decided: 'Decided', resolved: 'Decided', dismissed: 'Dismissed',
+    gone: 'Uninstalled',
     outdated: 'Update', missing: 'Missing', 'content-differs': 'Modified', drifted: 'Drifted',
     'keep-a': 'Keep A', 'keep-b': 'Keep B', merge: 'Merged', active: 'Active',
   },
@@ -299,8 +301,8 @@ async function render() {
       <p class="desc">${t('sk_desc')}</p>`
       + (skills.map(([n, s]) => `
       <div class="card"><div class="sk-head"><b>${skLink(n, s)}</b><span class="mut">${esc(s.version && s.version !== '0.0.0' ? s.version : '—')}</span><span class="mut">${esc(srcLabel(s))}</span>${pill(s.audit || 'clean')}
-      <span class="trow">${(s.targets || []).map((x) => `<span class="tchip">${esc(x)}</span>`).join('') || `<span class="mut">${t('sk_hub')}</span>`}<button class="sm" data-tg="${esc(n)}">${t('sk_loc')}</button></span>
       <span class="acts"><button class="sm" data-open="${esc(`${S.hub}/skills/${n}`)}">${t('open_dir')}</button><button data-dt="${esc(n)}">${t('det_btn')}</button><button data-rm="${esc(n)}">${t('sk_remove')}</button></span></div>
+      <div class="trow">${(s.targets || []).map((x) => `<span class="tchip">${esc(x)}</span>`).join('') || `<span class="mut">${t('sk_hub')}</span>`}<button class="sm" data-tg="${esc(n)}">${t('sk_loc')}</button></div>
       <div class="tgbox" data-box="${esc(n)}" style="display:none;margin-top:10px"></div>
       <div class="dtbox" data-dbox="${esc(n)}" style="display:none;margin-top:10px"></div></div>`).join('')
       || `<div class="empty">${t('sk_empty')}</div>`)
@@ -682,8 +684,12 @@ async function render() {
     const scans = S.scans || [];
     app.innerHTML = `<h2>${t('rv_h', scans.length)}</h2>
       <p class="desc">${t('rv_desc')}</p>`
-      + (scans.map((s) => `<div class="card row"><b>${esc(s.skill || s.name || '')}</b>${pill(s.verdict)}<span class="mut">${t('findings', (s.findings || []).length)}${s.llm ? t('ai_rec', esc(CN(s.llm.verdict))) : ''}</span>
-        <button class="ra" data-n="${esc(s.skill || s.name || '')}" style="margin-left:auto">${t('rv_reaudit')}</button><span class="raout mut"></span></div>`).join('')
+      + (scans.map((s) => {
+        const nm = s.skill || s.name || '';
+        const gone = !(S.skills || {})[nm];   // 已卸载——记录保留（审核留痕）但不可重新审核
+        return `<div class="card row"${gone ? ' style="opacity:.55"' : ''}><b>${esc(nm)}</b>${gone ? pill('gone') : pill(s.verdict)}<span class="mut">${t('findings', (s.findings || []).length)}${s.llm ? t('ai_rec', esc(CN(s.llm.verdict))) : ''}</span>
+          ${gone ? '' : `<button class="ra" data-n="${esc(nm)}" style="margin-left:auto">${t('rv_reaudit')}</button>`}<span class="raout mut"></span></div>`;
+      }).join('')
         || `<div class="empty">${t('rv_empty')}</div>`);
     const decs = (S.decisions || []).filter((d) => d.status === 'active');
     if (decs.length) app.innerHTML += `<h2>${t('dec_h', decs.length)}</h2>
