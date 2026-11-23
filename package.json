@@ -1,6 +1,6 @@
 {
   "name": "skillmkt",
-  "version": "0.3.12",
+  "version": "0.3.13",
   "type": "module",
   "description": "Local-first agent skill manager: install, audit, merge, distribute.",
   "license": "MIT",

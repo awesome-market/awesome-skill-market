@@ -163,7 +163,7 @@ async function render() {
         <div class="row" style="gap:12px"><span id="save-out" class="mut"></span><button class="primary" id="save">保存设置</button></div></div></div>`;
     const modelMap = new Map();   // model → base_url（选中模型自动回填地址）
     const loadedModels = new Map(); // 密钥端点拉到的模型——重扫后保留
-    let epsList = [], lastScan = 0;
+    let epsList = [], lastScan = 0, scanning = false;
     // 模型下拉按当前服务地址过滤：地址匹配已扫描端点→只给它的模型；不匹配→给全部
     let curOpts = [];
     const refreshOpts = () => {
@@ -178,7 +178,7 @@ async function render() {
       const list = curOpts.filter((m) => m.toLowerCase().includes(q)).slice(0, 60);
       const drop = app.querySelector('#model-drop');
       drop.innerHTML = list.map((m) => `<div class="opt" data-m="${esc(m)}">${esc(m)}</div>`).join('')
-        || `<div class="none">${curOpts.length ? '无匹配' : '暂无模型——先扫描或填密钥'}</div>`;
+        || `<div class="none">${curOpts.length ? '无匹配' : (scanning ? '正在扫描本机服务…' : '暂无模型——先扫描或填密钥')}</div>`;
       drop.querySelectorAll('.opt').forEach((o) => o.onmousedown = (e) => {   // mousedown 先于 blur
         e.preventDefault();
         app.querySelector('#mmodel').value = o.dataset.m;
@@ -187,14 +187,20 @@ async function render() {
         drop.style.display = 'none';
       });
     };
+    if (cfg.llm?.model) { modelMap.set(cfg.llm.model, cfg.llm?.base_url || ''); refreshOpts(); }   // 初始：当前模型先入下拉
     const doScan = async (quiet = false) => {
       lastScan = Date.now();
+      scanning = true; renderDrop();
       if (!quiet) app.querySelector('#probe-out').textContent = '扫描中…';
       const eps = await api('/probe');
+      scanning = false;
       epsList = eps;
       modelMap.clear();
       for (const e of eps) for (const m of e.models) if (!modelMap.has(m)) modelMap.set(m, e.base_url);
       for (const [m, b] of loadedModels) modelMap.set(m, b);
+      if (cfg.llm?.model) modelMap.set(cfg.llm.model, cfg.llm?.base_url || '');   // 当前模型始终留在下拉里
+      const curEp = eps.find((e) => e.base_url === app.querySelector('#murl').value.trim().replace(/\/+$/, ''));
+      if (curEp?.needs_key && realKey()) verifyKey();   // 配置的端点要密钥→自动用已存密钥拉模型回来
       refreshOpts(); renderDrop();
       app.querySelector('#eps').innerHTML = eps.map((e) => e.needs_key
         ? `<div class="ep" data-b="${esc(e.base_url)}">${esc(e.name)}:${e.port} — <span class="mut">需要密钥（点这行填地址，再填密钥、测试连接）</span></div>`
