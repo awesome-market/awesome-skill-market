@@ -149,7 +149,7 @@ async function render() {
         <div class="row"><button id="probe">扫描本机模型服务</button><span id="probe-out" class="mut"></span></div>
         <div id="eps"></div>
         <div class="frow"><span class="lab">服务地址</span><input type="text" id="murl" placeholder="http://localhost:1234/v1" value="${esc(cfg.llm?.base_url || '')}"></div>
-        <div class="frow" id="key-row" style="display:none"><span class="lab">访问密钥</span><input type="text" id="mkey" value="${esc(cfg.llm?.api_key || '')}"><span class="fhint" id="key-hint"></span>
+        <div class="frow" id="key-row" style="display:none"><span class="lab">访问密钥</span><input type="text" id="mkey" value="${esc(cfg.llm?.api_key?.startsWith('enc:') ? '已加密保存' : (cfg.llm?.api_key || ''))}"><span class="fhint" id="key-hint"></span>
           <div class="fsub">填了密钥会用本机机器码加密后存入 config.yml——文件拷到别的机器解不开，换机需重填。</div></div>
         <div class="frow" id="model-box"><span class="lab">模型名称</span>
           <div class="combo"><input type="text" id="mmodel" autocomplete="off" placeholder="可输入关键字搜索，扫描后自动列出发现的模型" value="${esc(cfg.llm?.model || '')}">
@@ -206,7 +206,7 @@ async function render() {
         d.classList.add('sel');
         app.querySelector('#murl').value = d.dataset.b;
         const ep = epsList.find((e) => e.base_url === d.dataset.b);
-        if (ep?.needs_key && app.querySelector('#mkey').value.trim()) verifyKey();
+        if (ep?.needs_key && realKey()) verifyKey();
         else markKeyNeed(ep?.needs_key);
         refreshOpts();
       });
@@ -232,7 +232,7 @@ async function render() {
     // 拿密钥真发 /models——通过才收录模型并放出模型框；失败保持隐藏
     const verifyKey = async () => {
       const cur = app.querySelector('#murl').value.trim().replace(/\/+$/, '');
-      const key = app.querySelector('#mkey').value.trim();
+      const key = realKey();
       if (!key) return;
       const out = app.querySelector('#smoke-out');
       out.textContent = '验证密钥…';
@@ -258,6 +258,12 @@ async function render() {
     });
     app.querySelector('#mmodel').addEventListener('input', () => { renderDrop(); app.querySelector('#model-drop').style.display = 'block'; });
     app.querySelector('#mmodel').addEventListener('blur', () => setTimeout(() => { app.querySelector('#model-drop').style.display = 'none'; }, 120));
+    // 已存的 enc: 密钥显示为「已加密保存」占位态：点击清空可输新密钥，留空失焦还原（不误删）
+    const ENC_DISP = '已加密保存';
+    const mk = app.querySelector('#mkey');
+    const realKey = () => { const v = mk.value.trim(); return v === ENC_DISP ? (cfg.llm?.api_key || '') : v; };  // 占位态→回传原始 enc: 值（服务端可解）
+    mk.addEventListener('focus', () => { if (mk.value === ENC_DISP) mk.value = ''; });
+    mk.addEventListener('blur', () => { if (!mk.value.trim() && cfg.llm?.api_key?.startsWith('enc:')) mk.value = ENC_DISP; });
     app.querySelector('#mkey').addEventListener('input', () => {
       keyOk = false; keyFailed = false;                                    // 密钥改动→回到未验证态，模型框收起
       const cur = app.querySelector('#murl').value.trim().replace(/\/+$/, '');
@@ -266,7 +272,7 @@ async function render() {
     app.querySelector('#murl').addEventListener('change', async () => {
       const cur = app.querySelector('#murl').value.trim().replace(/\/+$/, '');
       const ep = epsList.find((e) => e.base_url === cur);
-      const key = app.querySelector('#mkey').value.trim();
+      const key = realKey();
       if (ep) {
         if (ep.needs_key && key) return verifyKey();
         return markKeyNeed(ep.needs_key);
@@ -281,7 +287,7 @@ async function render() {
     app.querySelector('#mkey').addEventListener('change', async () => {
       const cur = app.querySelector('#murl').value.trim().replace(/\/+$/, '');
       const ep = epsList.find((e) => e.base_url === cur);
-      const key = app.querySelector('#mkey').value.trim();
+      const key = realKey();
       if (!key || !(ep?.needs_key || (!ep && /^https?:\/\//.test(cur)))) return;
       await verifyKey();
     });
@@ -293,7 +299,7 @@ async function render() {
     app.querySelector('#smoke').onclick = async () => {
       const out = app.querySelector('#smoke-out');
       out.textContent = '测试中…';
-      const r = await api('/llm-smoke', { method: 'POST', body: JSON.stringify({ base_url: app.querySelector('#murl').value, model: app.querySelector('#mmodel').value, api_key: app.querySelector('#mkey').value }) });
+      const r = await api('/llm-smoke', { method: 'POST', body: JSON.stringify({ base_url: app.querySelector('#murl').value, model: app.querySelector('#mmodel').value, api_key: realKey() }) });
       out.innerHTML = r.ok
         ? `连接成功<br>发送：${esc(r.sent)}<br>回复：${esc(r.reply || '（空回复）')}`
         : `连接失败：${esc(r.error)}`;
@@ -302,7 +308,8 @@ async function render() {
     app.querySelector('#save').onclick = async () => {
       try {
         const targets = [...app.querySelectorAll('[data-h]:checked')].map((x) => x.dataset.h);
-        const r = await api('/config', { method: 'POST', body: JSON.stringify({ llm: { base_url: app.querySelector('#murl').value || null, model: app.querySelector('#mmodel').value || null, api_key: app.querySelector('#mkey').value || undefined, concurrency: 2, timeout_ms: 60000 }, default_targets: targets }) });
+        const api_key = realKey() || undefined;                                  // 占位态→回传原始 enc: 值，保持不变
+        const r = await api('/config', { method: 'POST', body: JSON.stringify({ llm: { base_url: app.querySelector('#murl').value || null, model: app.querySelector('#mmodel').value || null, api_key, concurrency: 2, timeout_ms: 60000 }, default_targets: targets }) });
         saveMsg = r.ok ? `已保存到 config.yml${r.key_enc ? '，密钥已加密' : ''}` : `保存失败：${r.error}`;
       } catch (e) { saveMsg = `保存失败：${e.message}`; }
       saveMsgAt = Date.now();
