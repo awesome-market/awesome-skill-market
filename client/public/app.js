@@ -289,7 +289,7 @@ async function render() {
     app.innerHTML = `<h2>${t('sk_h', skills.length)}</h2>
       <p class="desc">${t('sk_desc')}</p>`
       + (skills.map(([n, s]) => `
-      <div class="card"><div class="sk-head"><b>${skLink(n, s)}</b><span class="mut">${esc(s.version || '')}</span><span class="mut">${esc(s.source?.registry || '')}</span>${pill(s.audit || 'clean')}
+      <div class="card"><div class="sk-head"><b>${skLink(n, s)}</b><span class="mut">${esc(s.version && s.version !== '0.0.0' ? s.version : '—')}</span><span class="mut">${esc(s.source?.registry || '')}</span>${pill(s.audit || 'clean')}
       <span class="acts"><button class="sm" data-open="${esc(`${S.hub}/skills/${n}`)}">${t('open_dir')}</button><button data-dt="${esc(n)}">${t('det_btn')}</button><button data-rm="${esc(n)}">${t('sk_remove')}</button></span></div>
       <div class="trow">${(s.targets || []).map((x) => `<span class="tchip">${esc(x)}</span>`).join('') || `<span class="mut">${t('sk_hub')}</span>`}<button class="sm" data-tg="${esc(n)}">${t('sk_loc')}</button></div>
       <div class="tgbox" data-box="${esc(n)}" style="display:none;margin-top:10px"></div>

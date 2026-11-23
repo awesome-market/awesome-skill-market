@@ -9,7 +9,7 @@ import { choose } from '../lib/prompt.js';
 import { ok, fail, info } from '../lib/render.js';
 import { L } from '../lib/i18n.js';
 
-const label = (v) => `${v.key}${v.version ? ` · ${v.version}` : ''}${v.source?.pin ? ` · pin ${String(v.source.pin).slice(0, 7)}` : ''}`;
+const label = (v) => `${v.key}${v.version && v.version !== '0.0.0' ? ` · ${v.version}` : ''}${v.source?.pin ? ` · pin ${String(v.source.pin).slice(0, 7)}` : ''}`;
 
 // 应用一次切换：当前内容先补档（key 已有则跳过）→ 恢复目标 → 重投影 → 元数据回写
 export function applySwitch(ctx, name, pick) {

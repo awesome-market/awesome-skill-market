@@ -43,7 +43,7 @@ export async function run(ctx) {
     ...(entry ? { source: entry.source, targets: entry.targets, audit: entry.audit, installed_at: entry.installed_at } : {}),
   };
   if (ctx.flags.json) { console.log(JSON.stringify(card, null, 2)); return 0; }
-  info(`${card.name}  v${card.version}`);
+  info(`${card.name}${card.version && card.version !== '0.0.0' ? `  v${card.version}` : `  ${L('（未声明版本）', ' (no version declared)')}`}`);
   info(`${card.description}`);
   info(`${L('位置', 'where')}: ${card.where} · ${card.path}`);
   info(`${L('文件数', 'files')}: ${card.files}`);

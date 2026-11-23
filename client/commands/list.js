@@ -19,7 +19,7 @@ export async function run(ctx) {
   // 列：name + 每个出现过为 target 的 harness + audit + conflicts + source
   const allTargets = [...new Set(Object.values(skills).flatMap((s) => s.targets || []))];
   const tableRows = Object.entries(skills).map(([name, s]) => {
-    const row = { name, version: s.version || '-', audit: s.audit || '-', conflicts: pendingBySide.get(name) || 0, source: s.source?.registry || '?' };
+    const row = { name, version: s.version && s.version !== '0.0.0' ? s.version : '-', audit: s.audit || '-', conflicts: pendingBySide.get(name) || 0, source: s.source?.registry || '?' };
     for (const t of allTargets) row[`t_${t}`] = (s.targets || []).includes(t) ? `●${(s.transport?.[t] || 'copy').slice(0, 4)}` : '—';
     return row;
   });
