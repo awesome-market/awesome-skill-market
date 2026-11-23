@@ -49,15 +49,11 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
   };
   const body = (req) => new Promise((r) => { let b = ''; req.on('data', (c) => b += c); req.on('end', () => r(b || '{}')); });
 
-  // 请求 → 用户看得懂的动作；null = 静态资源/轮询等内部流量不打扰
+  // 只记关键事件：打开网页 + 真正落盘的写操作；点击/读取/静态资源一律不打扰
   const action = (req, u) => {
     const p = u.pathname;
     if (req.method === 'GET' && (p === '/' || p === '/index.html')) return '打开了网页';
-    if (req.method === 'GET' && p === '/api/state') return '刷新了页面数据';
-    if (req.method === 'GET' && p === '/api/probe') return '点了「扫描本机模型服务」';
     if (req.method === 'POST' && p === '/api/config') return '保存了设置';
-    if (req.method === 'POST' && p === '/api/llm-smoke') return '点了「测试连接」';
-    if (req.method === 'POST' && p === '/api/models') return '验证密钥 / 读取模型列表';
     if (req.method === 'POST' && p === '/api/targets') return '修改了 skill 的安装位置';
     return null;
   };
