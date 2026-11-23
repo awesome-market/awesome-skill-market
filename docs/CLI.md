@@ -66,6 +66,7 @@ skillmkt <cmd> [args] [--json] [--hub <path>] [--verbose] [--no-llm]
 | 1 | 一般错误（参数错、网络失败） |
 | 2 | **审核闸门拒绝**（quarantine/malicious——CI 可据此阻断） |
 | 3 | 存在 pending 冲突（`conflicts`/`build` 用于断言场景） |
+| 4 | **存在可更新项**（`outdated` 专用——npm outdated exit 1 语义的单列版；`sync --check` 投影漂移同用） |
 
 **hub 目录**（对应 DESIGN.md §6，名字以实际为准）：
 
@@ -404,7 +405,7 @@ deslop       clean
 taste-skill  upstream changed (a3f2 → 9c11) · rules +12/-3 · re-audit required
 ```
 
-- `outdated [name]`：只查不动（npm outdated 语义）——CI 可用 `--json` + 退出码断言
+- `outdated [name]`：只查不动（npm outdated 语义）——**发现有更新项时 exit 4**，CI 直接 `skillmkt outdated || notify` 断言；`--json` 输出结构化列表
 - `update [name|--all]`：拉新 → **`--semantic` diff 摘要** → 重过审 → 重投影 → 改 lock
 - `diff <name>`：当前 pin vs 上游 HEAD。默认结构 diff（节增删/计数）；`--semantic` 走 LLM 出"意图变化"摘要（**独占功能**，无模型降级行级）
 - `rollback`：hub 里留一版历史副本（`.history/<name>/`），一键换回
@@ -649,7 +650,8 @@ skillmkt publish my-design --to clawhub   → 适配器 publish() 发回企业�
 ```bash
 skillmkt install deslop --yes              # suspicious 即失败(exit 2)
 skillmkt conflicts --json | jq '.pending | length'
-skillmkt sync --check                      # 投影漂移 → exit 1
+skillmkt sync --check                      # 投影漂移 → exit 4
+skillmkt outdated                          # 有可更新项 → exit 4
 ```
 
 ### 流程 F：CLI→Web 接力（daemon 自动接管）
