@@ -50,7 +50,8 @@ async function fetchTarball(owner, repo, ref, { mirror = null } = {}) {
 export async function fetchSkill({ owner, repo, ref = null, path: sub = null, mirror = null }) {
   const sha = headSha(owner, repo, ref) || ref || 'HEAD';
   const got = await fetchTarball(owner, repo, sha, { mirror });
-  if (!got) throw new Error(`fetch failed: ${owner}/${repo}@${sha}${L('（直连与镜像均不可达）', ' (direct and mirror both unreachable)')}`);
+  const hint = /\./.test(owner) ? L(`（${owner} 看着是私有源域名，不是 GitHub 组织——skills.sh 私有源 skill 目前装不了）`, ` (${owner} looks like a private registry domain, not a GitHub owner — private-source skills aren't installable yet)`) : '';
+  if (!got) throw new Error(`fetch failed: ${owner}/${repo}@${sha}${L('（直连与镜像均不可达）', ' (direct and mirror both unreachable)')}${hint}`);
   execFileSync('tar', ['xzf', got.tar, '-C', got.tmp]);
   const root = fs.readdirSync(got.tmp).find((d) => d.startsWith(`${owner.replace(/\W/g, '')}`) || d.includes('-'))
     ?? fs.readdirSync(got.tmp).find((d) => fs.statSync(path.join(got.tmp, d)).isDirectory());
