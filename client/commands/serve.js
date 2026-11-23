@@ -6,7 +6,7 @@ import crypto from 'node:crypto';
 import { daemonFile, readDaemon } from '../lib/daemon.js';
 import { loadConflicts } from '../lib/conflicts.js';
 import { loadDecisions, decide } from '../lib/decide.js';
-import { readLibrary, readLock, readConfig, writeConfig, registerSkill, updateLock } from '../lib/hub.js';
+import { readLibrary, readLock, readConfig, writeConfig, registerSkill, updateLock, ensureHub } from '../lib/hub.js';
 import { readUpstream } from '../lib/state.js';
 import { readYAML } from '../../pipeline/lib/util.js';
 import { scanAll } from '../lib/scanner.js';
@@ -20,6 +20,7 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
 
 export async function run(ctx) {
   const flags = ctx.flags.raw;
+  ensureHub(ctx.hub);   // 未 init 也能起面板（setup 页完成初始化）
   if (flags.stop) {
     const d = readDaemon(ctx.hub);
     if (d) { try { process.kill(d.pid); } catch { /* dead */ } fs.rmSync(daemonFile(ctx.hub), { force: true }); ok('daemon stopped'); }
@@ -34,7 +35,9 @@ export async function run(ctx) {
   const idleMs = (ctx.config.daemon?.idle_minutes ?? 30) * 60e3;
 
   const state = () => ({
-    hub: ctx.hub, library: readLibrary(ctx.hub), lock: readLock(ctx.hub),
+    hub: ctx.hub,
+    initialized: (() => { const r = readConfig(ctx.hub)._raw; return !!(r.ui || r.llm || r.default_targets); })(),
+    library: readLibrary(ctx.hub), lock: readLock(ctx.hub),
     upstream: readUpstream(ctx.hub), conflicts: loadConflicts(ctx.hub),
     decisions: loadDecisions(ctx.hub), harnesses: ctx.harnesses,
     scans: fs.existsSync(path.join(ctx.hub, 'scans')) ? fs.readdirSync(path.join(ctx.hub, 'scans')).map((f) => readYAML(path.join(ctx.hub, 'scans', f))).filter(Boolean) : [],
@@ -149,7 +152,7 @@ export async function run(ctx) {
   process.on('SIGTERM', shutdown);
 
   if (flags.daemon) { console.log(`daemon ready :${port}`); await new Promise(() => {}); }
-  console.log(`serve: http://127.0.0.1:${port}?token=${token}`);
+  console.log(`serve: http://127.0.0.1:${port}/?token=${token}`);
   console.log(`  foreground — Ctrl-C 退出（idle ${ctx.config.daemon?.idle_minutes ?? 30}m 自退；分离模式见 --daemon）`);
   await new Promise(() => {});
   return 0;

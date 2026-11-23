@@ -3,12 +3,13 @@ const T = new URLSearchParams(location.search).get('token') || '';
 const api = async (p, opt) => (await fetch(`/api${p}${p.includes('?') ? '&' : '?'}token=${T}`, { headers: { authorization: `Bearer ${T}` }, ...opt })).json();
 const el = (h) => { const d = document.createElement('div'); d.innerHTML = h; return d.firstElementChild; };
 const esc = (s) => String(s ?? '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
-let S = null, tab = location.hash.slice(1) || 'skills';
+let S = null, tab = location.hash.slice(1).split('?')[0] || 'skills';
 
 async function refresh() {
   try { S = await api('/state'); }
   catch (e) { document.getElementById('app').innerHTML = `<p class="pill bad">/api/state 请求失败：${esc(e.message)}——daemon 挂了？重跑 skillmkt serve</p>`; return; }
   if (S?.error) { document.getElementById('app').innerHTML = `<p class="pill bad">${esc(S.error)}——URL 里的 token 已失效，重跑 skillmkt serve 拿新链接</p>`; return; }
+  if (!location.hash && !S.initialized) { tab = 'setup'; location.hash = 'setup'; }   // 未初始化→setup
   render();
 }
 const syncTabs = () => document.querySelectorAll('nav [data-t]').forEach((x) => x.classList.toggle('on', x.dataset.t === tab));

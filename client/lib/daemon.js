@@ -29,7 +29,9 @@ export async function ensureDaemon(ctx) {
 }
 
 export function openURL(d, route = '/') {
-  const url = `http://127.0.0.1:${d.port}${route}?token=${d.token}`;
+  // token 必须进 ?search（location.search 可读）；#fragment 只带 tab 名
+  const frag = route.includes('#') ? `#${route.split('#')[1]}` : '';
+  const url = `http://127.0.0.1:${d.port}/?token=${d.token}${frag}`;
   try { execFileSync('open', [url]); } catch { /* linux: xdg-open */ try { execFileSync('xdg-open', [url]); } catch { /* noop */ } }
   return url;
 }
