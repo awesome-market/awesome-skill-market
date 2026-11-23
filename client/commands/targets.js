@@ -5,11 +5,14 @@ import { readConfig, writeConfig, expandHome } from '../lib/hub.js';
 import { projectSkill } from '../lib/project.js';
 import { updateLock } from '../lib/hub.js';
 import { readSkillDir } from '../lib/package.js';
+import { maybeHandoff } from '../lib/daemon.js';
 import fs from 'node:fs';
 
 export async function run(ctx) {
   const [sub, ...rest] = ctx.args;
   const flags = ctx.flags.raw;
+
+  if ((!sub || sub === 'list') && !ctx.flags.json && await maybeHandoff(ctx, '/#skills')) return 0;
 
   if (!sub || sub === 'list') {
     const rows = ctx.harnesses.map((h) => ({

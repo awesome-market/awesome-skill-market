@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import { ensureHub, writeConfig, readConfig } from '../lib/hub.js';
 import { probeEndpoints, chat } from '../lib/llm.js';
+import { ensureDaemon, openURL } from '../lib/daemon.js';
 import { choose, confirm } from '../lib/prompt.js';
 import { ok, warn, fail, info } from '../lib/render.js';
 
@@ -21,10 +22,19 @@ export async function run(ctx) {
 
   const raw = readConfig(ctx.hub)._raw;
   raw.ui = { ...(raw.ui || {}), enabled: mode === 'web' ? 'always' : 'auto' };
+  writeConfig(ctx.hub, raw);   // ui 偏好先落盘（web 页内继续改其余键）
 
   if (mode === 'web') {
-    // M5 daemon 就绪前：标记偏好，走终端向导完成本次
-    warn('Web 初始化依赖 daemon（M5 提供）——本次先用终端向导完成，偏好已记录');
+    // daemon 就绪：setup 页完成探测+选模型+harness 勾选，全部经 /api/config 落盘
+    try {
+      const d = await ensureDaemon(ctx);
+      const url = openURL(d, '/#setup');
+      ok(`Web 初始化已打开: ${url}`);
+      info('setup 页内：探测端点 → 选模型 → 勾 harness → 保存（写入 config.yml）');
+      return 0;
+    } catch (e) {
+      warn(`daemon 不可用（${e.message.slice(0, 60)}）——回退终端向导`);
+    }
   }
 
   // LLM 端点探测（只在用户进入配置步骤时探测——铁律）

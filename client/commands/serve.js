@@ -6,10 +6,13 @@ import crypto from 'node:crypto';
 import { daemonFile, readDaemon } from '../lib/daemon.js';
 import { loadConflicts } from '../lib/conflicts.js';
 import { loadDecisions, decide } from '../lib/decide.js';
-import { readLibrary, readLock } from '../lib/hub.js';
+import { readLibrary, readLock, readConfig, writeConfig, registerSkill, updateLock } from '../lib/hub.js';
 import { readUpstream } from '../lib/state.js';
 import { readYAML } from '../../pipeline/lib/util.js';
 import { scanAll } from '../lib/scanner.js';
+import { probeEndpoints, chat } from '../lib/llm.js';
+import { projectSkill, targetDirFor } from '../lib/project.js';
+import { treeHash } from '../lib/package.js';
 import { ok, info, fail } from '../lib/render.js';
 
 const PUB = path.join(new URL('.', import.meta.url).pathname, '../public');
@@ -42,7 +45,10 @@ export async function run(ctx) {
     'GET /api/state': () => state(),
     'GET /api/conflicts': () => loadConflicts(ctx.hub),
     'GET /api/decisions': () => loadDecisions(ctx.hub),
+    'GET /api/config': () => readConfig(ctx.hub)._raw,
+    'GET /api/probe': async () => probeEndpoints(),                    // init 用：探测 LLM 端点
   };
+  const body = (req) => new Promise((r) => { let b = ''; req.on('data', (c) => b += c); req.on('end', () => r(b || '{}')); });
 
   const server = http.createServer(async (req, res) => {
     lastActive = Date.now();
@@ -60,21 +66,57 @@ export async function run(ctx) {
     if (u.pathname.startsWith('/api/')) {
       if (!authed) { res.writeHead(401, { 'content-type': 'application/json' }); return res.end('{"error":"unauthorized"}'); }
       res.setHeader('content-type', 'application/json');
-      if (req.method === 'POST' && u.pathname === '/api/decide') {
-        const body = JSON.parse(await new Promise((r) => { let b = ''; req.on('data', (c) => b += c); req.on('end', () => r(b || '{}')); }));
-        const c = loadConflicts(ctx.hub).find((x) => x.id === body.id);
-        if (!c) { res.writeHead(404); return res.end('{"error":"not found"}'); }
+      if (req.method === 'POST') {
+        const b = JSON.parse(await body(req));
         try {
-          decide(ctx.hub, c, { resolution: body.resolution, custom: body.custom || null, reason: body.reason || 'web decision', by: 'web-ui' });
-          c.status = 'resolved';
-          const { writeConflict } = await import('../lib/conflicts.js');
-          writeConflict(ctx.hub, c);
-          emit('decide', { id: c.id });
-          return res.end('{"ok":true}');
+          if (u.pathname === '/api/decide') {
+            const c = loadConflicts(ctx.hub).find((x) => x.id === b.id);
+            if (!c) { res.writeHead(404); return res.end('{"error":"not found"}'); }
+            decide(ctx.hub, c, { resolution: b.resolution, custom: b.custom || null, reason: b.reason || 'web decision', by: 'web-ui' });
+            c.status = 'resolved';
+            const { writeConflict } = await import('../lib/conflicts.js');
+            writeConflict(ctx.hub, c);
+            emit('decide', { id: c.id });
+            return res.end('{"ok":true}');
+          }
+          if (u.pathname === '/api/config') {                         // init：合并写 config
+            const raw = readConfig(ctx.hub)._raw;
+            if (b.llm !== undefined) raw.llm = b.llm;
+            if (b.ui !== undefined) raw.ui = b.ui;
+            if (b.default_targets !== undefined) raw.default_targets = b.default_targets;
+            if (b.policy) raw.policy = b.policy;
+            writeConfig(ctx.hub, raw);
+            emit('config', {});
+            return res.end('{"ok":true}');
+          }
+          if (u.pathname === '/api/llm-smoke') {                      // init 冒烟
+            const key = b.api_key?.startsWith('env:') ? process.env[b.api_key.slice(4)] ?? '' : b.api_key || '';
+            const r = await chat({ base_url: b.base_url, model: b.model, api_key: key, timeout_ms: 15000 }, { user: 'Reply with exactly: OK', maxTokens: 8 });
+            return res.end(JSON.stringify({ ok: true, reply: r.trim().slice(0, 80) }));
+          }
+          if (u.pathname === '/api/targets') {                        // web 改投影目标
+            const name = b.name, targets = b.targets || [];
+            const lib = readLibrary(ctx.hub);
+            const s = lib.skills?.[name];
+            if (!s) { res.writeHead(404); return res.end('{"error":"not found"}'); }
+            const dest = path.join(ctx.hub, 'skills', name);
+            const lockTargets = {};
+            for (const t of targets) {
+              const dir = targetDirFor(ctx, t, name);
+              if (!dir) continue;
+              const r = projectSkill(dest, name, dir, { mode: 'copy' });
+              lockTargets[t] = { hash: r.hash, projected_at: new Date().toISOString(), mode: 'copy' };
+            }
+            registerSkill(ctx.hub, name, { ...s, targets });
+            updateLock(ctx.hub, name, treeHash(dest), lockTargets);
+            emit('targets', { name });
+            return res.end('{"ok":true}');
+          }
         } catch (e) { res.writeHead(400); return res.end(JSON.stringify({ error: e.message })); }
+        res.writeHead(404); return res.end('{"error":"not found"}');
       }
       const h = routes[`${req.method} ${u.pathname}`];
-      if (h) return res.end(JSON.stringify(h()));
+      if (h) return res.end(JSON.stringify(await h()));
       res.writeHead(404); return res.end('{"error":"not found"}');
     }
     // 静态：public/ + evidence 文件（冲突截图）

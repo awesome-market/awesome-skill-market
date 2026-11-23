@@ -1,9 +1,11 @@
-// conflicts — 队列列表；pending>0 exit3；--json
+// conflicts — 队列列表；pending>0 exit3；--json；TTY 下 pending 时接管 Web
 import { loadConflicts } from '../lib/conflicts.js';
+import { maybeHandoff } from '../lib/daemon.js';
 import { table } from '../lib/render.js';
 
 export async function run(ctx) {
   const all = loadConflicts(ctx.hub);
+  if (!ctx.flags.json && all.some((c) => c.status === 'pending') && await maybeHandoff(ctx, '/#conflicts')) return 0;
   const pending = all.filter((c) => c.status === 'pending');
   if (ctx.flags.json) { console.log(JSON.stringify(all, null, 2)); return pending.length ? 3 : 0; }
   if (!all.length) { console.log('no conflicts recorded — run: skillmkt merge <a> <b>'); return 0; }
