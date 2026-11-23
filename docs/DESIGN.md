@@ -167,7 +167,7 @@ registries:
 |---|---|---|---|
 | **github** | 事实标准 | 拉取即安装 | 极简（git clone / tarball） |
 | **rfc-discovery**（Cloudflare） | draft v0.2.0；`.well-known` 合入 PR 仍 open，v0.1→v0.2 已破过兼容 | **只读**：`/.well-known/agent-skills/index.json` 列 name/url/sha256——无搜索（索引内本地过滤）、无发布、无认证 | 极简（fetch + sha256 校验 + `$schema` 版本探测降级） |
-| **clawhub** | OpenAPI spec 现成（`/api/v1/openapi.json`） | **全功能**：search/versions/download + `POST /skills` 发布 + Bearer 鉴权 + moderation badges | ~200 行，spec 可生成客户端 |
+| **clawhub** | OpenAPI spec 现成（`/api/v1/openapi.json`）；**公共实例 clawhub.ai 实测可联调** | **全功能**：`/packages/search`（含 score/categories/official 标）/versions/download + `POST /skills` 发布 + Bearer 鉴权 + `/security` 平台安检数据 | ~200 行，spec 可生成客户端 |
 | iflytek 私有 API | 私有 | — | 遇到真实部署再写 |
 
 统一接口：
