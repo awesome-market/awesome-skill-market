@@ -1,5 +1,7 @@
 # awesome-skill-market
 
+**English** · [中文](https://github.com/awesome-market/awesome-skill-market/blob/main/README.zh-CN.md)
+
 **Deslop AI-generated UI. Manage, merge, audit and secure agent skills.** awesome-skill-market is a **skill manager** and automated **skill merge** pipeline that distills the best agent design skills — taste-skill, Hallmark, Anthropic's frontend-design, Vercel's web-design-guidelines — into a single, continuously-updated `SKILL.md` for Claude Code, Cursor, Codex, OpenCode, Pi, Devin and other coding agents. Instead of installing 2–10 overlapping skills whose rules fight each other, you install one arbitrated skill where every conflict has been detected, screenshotted, and decided. On top of the merger it adds a local-first **skill audit** layer and **skill security** controls — static injection checks, capability stripping, version pinning — for every skill on your machine. It also ships **`skillmkt`** (`npm i -g awesome-skill-market`) — a local-first CLI and web UI to search, install, audit, version-switch and merge *any* agent skill across Claude Code, Codex, Cursor, OpenCode, Pi and Devin.
 
 [![npm](https://img.shields.io/npm/v/awesome-skill-market.svg)](https://www.npmjs.com/package/awesome-skill-market)
