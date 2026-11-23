@@ -170,7 +170,7 @@ async function render() {
       app.querySelector('#eps').innerHTML = eps.map((e) => e.needs_key
         ? `<div class="ep" data-b="${esc(e.base_url)}">${esc(e.name)}:${e.port} — <span class="mut">需要密钥（点这行填地址，再填密钥、测试连接）</span></div>`
         : `<div class="ep" data-b="${esc(e.base_url)}">${esc(e.name)}:${e.port} — ${e.models.length} 个模型（在下方「模型名称」下拉框里搜索）</div>`).join('')
-        || '<p class="mut" style="margin-top:8px">没扫到——请确认模型服务已启动（会检查 8001 / 11434 / 1234 / 8000 / 8080 / 1337 / 5000 端口）</p>';
+        || '<p class="mut" style="margin-top:8px">没扫到——已尝试本机所有监听端口。确认模型服务已启动，或直接把服务地址填到下面</p>';
       app.querySelector('#probe-out').textContent = `发现 ${eps.length} 个服务、${modelMap.size} 个模型`;
       app.querySelectorAll('#eps [data-b]').forEach((d) => d.onclick = () => {
         app.querySelectorAll('#eps .ep').forEach((x) => x.classList.remove('sel'));

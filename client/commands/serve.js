@@ -45,7 +45,7 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
     'GET /api/conflicts': () => loadConflicts(ctx.hub),
     'GET /api/decisions': () => loadDecisions(ctx.hub),
     'GET /api/config': () => readConfig(ctx.hub)._raw,
-    'GET /api/probe': async () => probeEndpoints(),                    // init 用：探测 LLM 端点
+    'GET /api/probe': async () => probeEndpoints(400, { extraBases: [readConfig(ctx.hub).llm?.base_url] }),
   };
   const body = (req) => new Promise((r) => { let b = ''; req.on('data', (c) => b += c); req.on('end', () => r(b || '{}')); });
 

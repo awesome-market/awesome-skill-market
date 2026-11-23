@@ -2,6 +2,7 @@
 // 批次6 补：chatJSON 真调用、probeEndpoints、端口探测。铁律：非 init/config 零探测。
 import fs from 'node:fs';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 
 function loadDotEnv(cwd) {
   try {
@@ -57,6 +58,21 @@ export async function chat(llm, { system = '', user, maxTokens = 64, temperature
 
 export const LLM_PROBES = [8001, 11434, 1234, 8000, 8080, 1337, 5000];
 
+// 本机所有 LISTEN 端口（lsof）——模型服务换任意端口都能被扫到；拿不到就只用固定列表
+function listeningPorts() {
+  try {
+    const out = execFileSync('lsof', ['-nP', '-iTCP', '-sTCP:LISTEN'], { encoding: 'utf8', timeout: 4000 });
+    const ports = new Set();
+    for (const line of out.split('\n')) {
+      const m = line.match(/(?:127\.0\.0\.1|localhost|\*|\[?::1\]?):(\d+)/i);
+      if (m) ports.add(+m[1]);
+    }
+    return [...ports];
+  } catch { return []; }
+}
+
+const portOf = (base) => { try { return +(new URL(base).port || 0) || null; } catch { return null; } };
+
 // 识别服务实现——有特征端点才冠名，认不出如实标"OpenAI 兼容服务"（oMLX 跑在 1234 时不该叫 LM Studio）
 async function identifyImpl(port, timeoutMs) {
   const get = async (p) => {
@@ -70,11 +86,16 @@ async function identifyImpl(port, timeoutMs) {
   return 'OpenAI 兼容服务';
 }
 
-// 仅 init/config 使用——并发扫端口。/v1/models 通了即收录；
+// 仅 init/config 使用——候选端口 = 常见端口 ∪ 本机全部监听端口 ∪ env/config 已知 base_url 端口，
+// 并发试 /v1/models。响应里 data 不是数组则不算 LLM 端点（防止 dev server 等返回 200 被误收录）；
 // 401/403 时用已知环境 key 重试，仍不通则标 needs_key 保留（别静默漏掉 oMLX 这类要 key 的本地服务）
-export async function probeEndpoints(timeoutMs = 400) {
+export async function probeEndpoints(timeoutMs = 400, { extraBases = [] } = {}) {
+  const candidates = new Set(LLM_PROBES);
+  for (const p of listeningPorts()) candidates.add(p);
+  for (const v of ['SKILLMKT_LLM_BASE_URL', 'OMLX_BASE_URL']) { const p = portOf(process.env[v]); if (p) candidates.add(p); }
+  for (const b of extraBases) { const p = portOf(b); if (p) candidates.add(p); }
   const envKeys = ['SKILLMKT_LLM_API_KEY', 'OMLX_API_KEY'].map((v) => process.env[v]).filter(Boolean);
-  const results = await Promise.allSettled(LLM_PROBES.map(async (port) => {
+  const results = await Promise.allSettled([...candidates].map(async (port) => {
     const base = `http://localhost:${port}/v1`;
     const tryModels = async (key) => {
       const ctrl = new AbortController();
@@ -91,10 +112,17 @@ export async function probeEndpoints(timeoutMs = 400) {
     if (res.status === 401 || res.status === 403) {
       for (const k of envKeys) { res = await tryModels(k); if (res?.ok) break; }
     }
+    if (!res.ok) {
+      // 只有 OpenAI 风格错误体（{"error":{...}}）才算"要 key 的 LLM 端点"——普通鉴权服务不误报
+      const err = await res.json().catch(() => null);
+      if (!err?.error) return null;
+      const name = await identifyImpl(port, timeoutMs);
+      return { name, port, base_url: base, models: [], needs_key: true };
+    }
+    const data = await res.json().catch(() => null);
+    if (!Array.isArray(data?.data)) return null;          // 200 但不是 OpenAI models 响应 → 非 LLM 端点
     const name = await identifyImpl(port, timeoutMs);
-    if (!res.ok) return { name, port, base_url: base, models: [], needs_key: true };
-    const data = await res.json();
-    return { name, port, base_url: base, models: (data.data || []).map((m) => m.id) };
+    return { name, port, base_url: base, models: data.data.map((m) => m.id) };
   }));
   return results.map((r) => r.value).filter(Boolean);
 }

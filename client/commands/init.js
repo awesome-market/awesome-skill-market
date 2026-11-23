@@ -47,7 +47,7 @@ export async function run(ctx) {
 
   // LLM 端点探测（只在用户进入配置步骤时探测——铁律）
   info('探测本地 LLM 服务…');
-  const found = await probeEndpoints();
+  const found = await probeEndpoints(400, { extraBases: [ctx.config.llm?.base_url] });
   let base_url = null, model = null;
 
   if (found.length) {
@@ -69,7 +69,7 @@ export async function run(ctx) {
       ({ base_url, model } = sel.v);
     }
   } else {
-    info('未发现本地 LLM 服务（8001/11434/1234/8000/8080/1337/5000）');
+    info('未发现本地 LLM 服务（已扫本机所有监听端口）');
     info('→ 手动：skillmkt config set llm.base_url http://host:port/v1');
   }
 
