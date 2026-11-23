@@ -204,7 +204,8 @@ $ skillmkt init
 
 | 步 | 实现 |
 |---|---|
-| 探测 | 并发 HEAD 常见端口：`8001`(OMLX) `11434`(Ollama) `1234`(LM Studio) `8000`(vLLM)；存活端点拉 `/v1/models` 填模型列表 |
+| 探测 | 并发探测（300ms 超时）常见本地服务：**端口探测为主、服务识别为辅**——能回 `/v1/models` 即可用端点，存活端点拉模型列表填选择 |
+| 探测清单 | `8001` OMLX · `11434` Ollama（`GET /api/version` 特征端点识别，走 `/v1`）· `1234` LM Studio · `8000` vLLM · `8080` mlx-lm/llama.cpp/LocalAI（撞端口不分辨，谁应答谁可用）· `1337` Jan · `5000` text-gen-webui |
 | 手动输入 | 先 `GET /v1/models` 验证再进选择——URL 打错当场报错，不存坏配置 |
 | 落盘 | 写 `config.yml`（key 存 `env:` 引用）+ 真 `/v1/chat` 冒烟 + shell rc export 建议 |
 | 全空 | 探测零命中直接跳"手动输入/跳过" |
@@ -361,6 +362,8 @@ resolve ref → adapter.fetch() → SkillPackage
 | `--yes` | 非交互；suspicious 时等同拒绝（安全默认） |
 | `--audit-only` | 走完审核就停，不落盘不投影 |
 | `--keep-scripts` | 显式保留 scripts/（写入 scans 标记，strict 策略下无效） |
+
+**未初始化行为**：`--to` 支持 **stateless 模式**——无 hub 也可执行：fetch → 静态闸门 → 剥 scripts/ → 写目录，不登记 library/lock（提示"unmanaged：不追踪更新，`init` 后可受管"）。受管安装（`--target`/`--scope`/默认）仍需 hub：无 hub 时静默建最小骨架（目录+harness 探测，不配 LLM）后继续。**审核闸门两种模式都不绕。**
 
 输出收尾：`✓ installed deslop → claude(sym) codex(copy) · audit:clean · locked 9f3e`
 
