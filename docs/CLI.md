@@ -296,7 +296,9 @@ $ skillmkt doctor
 
 ### 3.2 `skillmkt search <query>`
 
-两级检索，本地优先。**远端=官方端点**：`GET https://skills.sh/api/search?q=<query>[&owner=<o>]` 就是 `npx skills find` 调的同款 API（vercel-labs/skills v1.9.0 源码确认），返回 `{id: "owner/repo/skill-id", source, skillId, name, installs}`；官方还内置 `SKILLS_API_URL` 环境变量支持自托管——是设计好的契约，非内部接口。参考实现同时学到：**多词查询降级策略**（精确结果<10 且 2-6 词时，逐个丢词跑子查询按命中数+排名+安装量归并）与 `gh search code filename:SKILL.md` 终极兜底：
+两级检索，本地优先。**远端=官方端点**：`GET https://skills.sh/api/search?q=<query>[&owner=<o>]` 就是 `npx skills find` 调的同款 API（vercel-labs/skills v1.9.0 源码确认），返回 `{id: "owner/repo/skill-id", source, skillId, name, installs}`；官方还内置 `SKILLS_API_URL` 环境变量支持自托管——是设计好的契约，非内部接口。参考实现同时学到：**多词查询降级策略**（精确结果<10 且 2-6 词时，逐个丢词跑子查询按命中数+排名+安装量归并）与 `gh search code filename:SKILL.md` 终极兜底。
+
+**国内可达性**：skills.sh 托管于 Vercel（`server: Vercel` 实测），大陆访问间歇性不通；GitHub 拉取面（`api.github.com`/`codeload`）历史周期性 DNS 污染——影响 install 而不止 search。回退链：**skillssh API → 镜像（`SKILLMKT_SEARCH_API`/`registries[].url` 指向自建反代，nginx `proxy_pass` 即可，二期 VPS 部署）→ `gh search` → 本地降级**；install 的 fetch 层预留 mirror 前缀参数（ghproxy/jsdelivr 风格），默认直连。
 
 ```
 $ skillmkt search landing
