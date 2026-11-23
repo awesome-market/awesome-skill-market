@@ -6,7 +6,7 @@
 
 - hub（`~/.skillmkt/`）是唯一可写副本；harness 目录只投影不回写
 - 所有中间态都是 YAML/JSON 文件——中断可恢复，无隐藏进程态
-- 任何来源（search/install/registry/adopt）的 skill 都必须过审核闸门才可落盘
+- 任何来源（search/install/registry）的 skill 都必须过审核闸门才可落盘
 - LLM 永远可选：无 `OMLX_*` 配置时确定性功能全部可用
 - 所有命令支持 `--json`；人读输出走 stderr 装饰、数据走 stdout，可 pipe
 
@@ -22,10 +22,9 @@
 | `skillmkt search <q>` | 本地+远端检索 skill | 否 | 1 |
 | `skillmkt list` | 已装 skill × harness 矩阵（别名 `ls`） | 否 | 1 |
 | `skillmkt show <name>` | 详情卡 / 原文 / 文件 / 规则（别名 `view`/`info`） | 否 | 1 |
-| `skillmkt install <ref>` | 装 skill：拉取→审核→hub→投影（hub 缺席时静默自建） | 可选 | 1 |
-| `skillmkt adopt [name]` | 收编 harness 里已装的外部 skill 进 hub | 否 | 1 |
+| `skillmkt install <ref>` | 装 skill：拉取→审核→hub→投影（hub 缺席时静默自建；`<path>` 收编已装外部 skill） | 可选 | 1 |
 | `skillmkt remove <name>` | 卸 skill：删投影+hub 副本（别名 `uninstall`/`un`/`rm`） | 否 | 1 |
-| `skillmkt targets <sub>` | `list/add/remove` 管理投影目标（含 adopt 新 harness） | 否 | 1 |
+| `skillmkt targets <sub>` | `list/add/remove` 管理投影目标（含纳入新 harness） | 否 | 1 |
 | `skillmkt sync` | 从 hub+lock 重建全部投影 | 否 | 1 |
 | `skillmkt audit [name]` | 审核：静态+可选 LLM | 可选 | 1 |
 | `skillmkt outdated` | 只查过期不执行（=npm outdated 语义） | 可选 | 2 |
@@ -258,7 +257,7 @@ $ skillmkt doctor
 - **env 覆盖优先**：`CLAUDE_CONFIG_DIR`、`CODEX_HOME` 等 harness 自带目录变量先查
 - **symlink 实测**：在目标目录建临时符号链接试，失败（Windows/权限）自动降级 copy 并记入 library——不写死平台假设
 - **共享目录去重**：codex/devin 都指 `~/.agents/skills/` 时矩阵只投一次
-- **动态 adopt**：init 后新装的 harness 自动出现在 `list`/`doctor`（`available`）；交互式 `sync` 询问是否把全部 skill 投过去；`skillmkt targets add <harness>` 写入 `default_targets` 并立即投影。**非交互/CI 永不自动扩面**——"出现在矩阵"自动，"成为目标"必须显式
+- **动态纳入**：init 后新装的 harness 自动出现在 `list`/`doctor`（`available`）；交互式 `sync` 询问是否把全部 skill 投过去；`skillmkt targets add <harness>` 写入 `default_targets` 并立即投影。**非交互/CI 永不自动扩面**——"出现在矩阵"自动，"成为目标"必须显式
 
 已知 harness 表（一行一条，新增 harness = 加一行）：
 
@@ -307,6 +306,8 @@ weird-thing     —        ●       —      —         —     —      ⚠st
 
 `●sym`=symlink 落位、`●copy`=copy、`—`=未装、`⚠strip`=scripts/ 已剥离。冲突列 = 与其他已装 skill 的 pending 冲突数。
 
+`◌external` 行尾部显示实际路径并给提示：`→ skillmkt install ~/.claude/skills/x 收编`。批量收编用管道：`skillmkt list --json | jq -r '.external[].path' | xargs -n1 skillmkt install`。
+
 ### 3.4 `skillmkt show <name>`
 
 详情卡（默认）：
@@ -340,6 +341,7 @@ skillmkt install owner/repo --path skills/foo  # monorepo 子目录
 skillmkt install owner/repo@v1.2.0             # ref/tag/sha
 skillmkt install corp:auth-skill               # 命名 registry 前缀
 skillmkt install ./local/dir                   # 本地目录（npm install ./dir 语义）
+skillmkt install ~/.claude/skills/x            # harness 里的 external = 收编（§3.5b）
 skillmkt install git@github.com:o/r.git        # git URL
 skillmkt install <name> --from skills.sh       # 指定适配器
 ```
@@ -370,17 +372,16 @@ resolve ref → adapter.fetch() → SkillPackage
 
 输出收尾：`✓ installed deslop → claude(sym) codex(copy) · audit:clean · locked 9f3e`
 
-### 3.5b `skillmkt adopt`——收编已装的外部 skill
+### 3.5b 收编已装的外部 skill——`install <path>`
 
-scanner 在 harness 目录发现的非受管 skill 标记 `◌external`；`adopt` 收编：
+scanner 在 harness 目录发现的非受管 skill 标记 `◌external`；收编**就是 `install` 本地路径**（npm install ./dir 语义）：
 
 ```bash
-skillmkt adopt                 # 列出全部 external，交互挑选
-skillmkt adopt taste-skill     # 单收编
-skillmkt adopt --all           # 全收编
+skillmkt install ~/.claude/skills/weird-thing    # 收编单个
+skillmkt list --json | jq -r '.external[].path' | xargs -n1 skillmkt install   # 批量
 ```
 
-流程：读原目录 → **尽力恢复来源**（目录内 `.git` remote、skills.sh 的 `skills-lock.json`、frontmatter homepage/repo 字段）→ 过静态审核闸门 → copy 进 `skills/<name>/` → 原位目录换成 symlink 指回 hub（transport 升级，harness 无感）→ library 登记 `adopted_from: <原路径>` + `adopted_at`。
+流程：读原目录 → **尽力恢复来源**（目录内 `.git` remote、skills.sh 的 `skills-lock.json`、frontmatter homepage/repo 字段）→ 过静态审核闸门 → copy 进 `skills/<name>/` → 原位目录换成 symlink 指回 hub（transport 升级，harness 无感）→ library 登记 `adopted_from: <原路径>` + `adopted_at`。源路径已是 hub 内 symlink 时跳过（幂等）。
 
 | 来源恢复 | 结果 |
 |---|---|
@@ -563,7 +564,7 @@ client/
 ├── commands/
 │   ├── init.js    config.js  doctor.js  search.js
 │   ├── list.js    show.js    install.js remove.js
-│   ├── adopt.js   targets.js sync.js    audit.js
+│   ├── targets.js sync.js    audit.js
 │   ├── outdated.js update.js diff.js    rollback.js
 │   ├── conflicts.js resolve.js decide.js merge.js build.js
 │   ├── pack.js    publish.js registry.js serve.js
@@ -670,7 +671,7 @@ skillmkt build                    → CLI 纯确定性产出 → 投影+lock
 | 里程碑 | 范围 | 验收 |
 |---|---|---|
 | **M1 骨架** | bin/dispatch、`doctor`、`scanner`、`hub`、github 适配器、`install`（静态闸门+投影）、`list`、`show` | `doctor` 全绿；`install owner/repo` 真装一个 skill 到 claude+codex，`list` 矩阵正确 |
-| **M2 管理面** | `remove`/`sync`/`outdated`/`update`/`rollback`/`diff`（行级）、`adopt`、`registry add/list`、rfc 适配器 | drift 检测正确（tree-hash 粒度）；rfc 服务器可列可装 |
+| **M2 管理面** | `remove`/`sync`/`outdated`/`update`/`rollback`/`diff`（行级）、收编（install 路径语义）、`registry add/list`、rfc 适配器 | drift 检测正确（tree-hash 粒度）；rfc 服务器可列可装 |
 | **M3 冲突** | `extract`/`conflicts`/`decide`/`resolve`/`merge`/`build`——引擎从 pipeline 平移 | 两个真 skill 跑通全链，pending 不泄漏，`build` 产物可装 |
 | **M4 智能** | LLM 审核、semantic diff、arbitrate 平移 | 接 OMLX 端点全链路；断网降级验证 |
 | **M5 面板** | `serve` daemon + 自动接管（§3.11）：矩阵/冲突裁决/审核报告三屏 | 浏览器完成一次完整 resolve 走查；`resolve` 从 CLI 自动开页 |
