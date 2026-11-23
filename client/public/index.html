@@ -23,7 +23,7 @@
 * { box-sizing: border-box; }
 body { margin: 0; font: var(--font-body); background: var(--color-paper); color: var(--color-ink); }
 
-header { display: flex; align-items: baseline; gap: 30px; padding: 22px 32px 0; border-bottom: 1px solid var(--color-line); flex-wrap: wrap; }
+header { display: flex; align-items: baseline; gap: 30px; padding: 22px 32px 0; border-bottom: 1px solid var(--color-line); flex-wrap: wrap; max-width: 1060px; margin-inline: auto; }
 header .brand { display: flex; align-items: baseline; gap: 12px; }
 header h1 { font: 600 24px/1 var(--font-display); margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
 header .tag { font-size: 14px; color: var(--color-ink-mut); }
@@ -36,7 +36,7 @@ nav button:hover { color: var(--color-ink); }
 #live .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-ok); }
 #live.off .dot { background: var(--color-bad); }
 
-main { padding: 30px 32px 80px; max-width: 1060px; }
+main { padding: 30px 32px 80px; max-width: 1060px; margin-inline: auto; }
 h2 { font: 600 21px/1.3 var(--font-display); margin: 38px 0 4px; text-wrap: balance; }
 h2:first-child { margin-top: 0; }
 .desc { margin: 0 0 18px; color: var(--color-ink-mut); font-size: 15.5px; max-width: 64ch; }
@@ -89,7 +89,7 @@ td, th { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--col
 th { font-size: 14px; color: var(--color-ink-mut); font-weight: 500; }
 .empty { padding: 26px 20px; color: var(--color-ink-mut); }
 .empty code { font-size: 14.5px; }
-footer { padding: 22px 32px; border-top: 1px solid var(--color-line); font-size: 14px; color: var(--color-ink-mut); }
+footer { padding: 22px 32px; border-top: 1px solid var(--color-line); font-size: 14px; color: var(--color-ink-mut); max-width: 1060px; margin-inline: auto; }
 </style></head><body>
 <header>
   <div class="brand"><h1>awesome-skill-market</h1><span class="tag">skillmkt 本地管理面板</span></div>
