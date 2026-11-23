@@ -38,7 +38,7 @@
 | `skillmkt import <src>` | 本地目录/git URL 导入 | 否 | 1 |
 | `skillmkt export <name>` | 导出/发布到 registry | 否 | 4 |
 | `skillmkt registry <sub>` | registry 适配器管理 | 否 | 1 |
-| `skillmkt serve` | 本地 Web 面板 | — | 3 |
+| `skillmkt serve` | 本地 Web 面板 + daemon（长任务自动拉起，§3.11） | — | 3 |
 
 ---
 
@@ -55,6 +55,7 @@ skillmkt <cmd> [args] [--json] [--hub <path>] [--verbose] [--no-llm]
 | `--hub <path>` | 覆盖默认 `~/.skillmkt/`（测试/多库场景） |
 | `--no-llm` | 本次运行禁一切 LLM 调用（即便端点已配） |
 | `--verbose` | 打印每个决策点的理由到 stderr |
+| `--ui` / `--cli` | 强制走 Web 面板 / 强制留终端（覆盖 §3.11 自动判定） |
 
 **退出码**：
 
@@ -77,6 +78,7 @@ skillmkt <cmd> [args] [--json] [--hub <path>] [--verbose] [--no-llm]
 ├── decisions/<id>.yml       # 裁决记录
 ├── merged/                  # 合并产物中间态
 ├── quarantine/              # 隔离区
+├── daemon.json              # {pid, port, token, started_at}——serve 单例锁
 └── config.yml               # 端点、registries、策略
 ```
 
@@ -304,6 +306,7 @@ resolve ref → adapter.fetch() → SkillPackage
 |---|---|
 | `--target claude,codex` | 指定投影目标（默认：config 里 `default_targets`） |
 | `--scope project` | 项目级安装：copy 进 `<repo>/` 对应目录（不进 default_targets，随仓共享） |
+| `--to <dir>` | 直指路径安装：落成 `<dir>/<name>/`，默认 copy，`--link` 强制 symlink；与 `--target` 互斥；登记为 `custom:<abs>` 目标纳入 sync/update/remove |
 | `--yes` | 非交互；suspicious 时等同拒绝（安全默认） |
 | `--audit-only` | 走完审核就停，不落盘不投影 |
 | `--keep-scripts` | 显式保留 scripts/（写入 scans 标记，strict 策略下无效） |
@@ -382,6 +385,35 @@ skillmkt build                                              # 产出
 - `import <dir|git-url>`：包成 SkillPackage 走**同一条审核闸门**入 hub
 - `export <name> [--to <registry>]`：打包 hub 目录；`--to clawhub:xxx` 走适配器 `publish()`（阶段 4）
 - `registry add <url> --type clawhub` / `list` / `remove <alias>`：管理 config.yml 的 registries
+- `targets list` / `targets add <harness>` / `targets add --path <dir> <alias>` / `targets remove <name>`：自定义路径目标写进 `config.yml` 的 `targets:`（`{path, transport, scope}`），之后当内置 harness 用
+
+### 3.11 `skillmkt serve` + daemon 自动接管
+
+**分工规则：终端干得快的事留在终端；要交互/要看图/跑得久的事自动开网页。**
+
+| 触发命令 | 网页接管内容 |
+|---|---|
+| `merge` / `resolve` / `conflicts` | 证据截图并排 + 批量裁决 + 实时进度 |
+| `install --to` / `targets` | 路径 picker + harness 勾选矩阵 |
+| `diff --semantic` / `update` | 语义 diff 双栏 + 审阅→确认→重分发流 |
+| `init --ui` | 端点探测/模型选择做成表单（CLI 向导保留给纯终端） |
+| 长任务（extract/arbitrate） | SSE 实时进度/日志，断线重连不丢 |
+
+**生命周期**：
+
+```
+$ skillmkt resolve
+  → 读 ~/.skillmkt/daemon.json {pid, port, token}
+  → 未跑：spawn 后台 `skillmkt serve --daemon`
+  → open http://localhost:PORT/resolve?t=<token>（darwin open/linux xdg-open）
+  → CLI 打印 URL 兜底 → 默认立即返回；--wait 阻塞轮询到任务完
+```
+
+- **单例**：daemon.json 先查活再拉，不重复启动；僵死记录自动清理重启
+- **token 鉴权**：localhost 也不裸奔——开页 URL 带一次性 token，API 请求全部校验（防本地任意网页 POST）
+- **状态即文件**：daemon 无内存真理——`decisions/`、`merged/` 落盘即持久；daemon 崩溃 CLI 照读，重启续跑。**CLI 和 Web 是同一个文件系统的两个视图**
+- **退出**：`skillmkt serve --stop`；或 `daemon.idle_minutes`（config，默认 30）无活动自退
+- **边界**：非 TTY（CI/pipe/`--cli`）永不自动开浏览器；daemon 里跑的 LLM 工作遵守 `llm.concurrency` 限流，Ctrl-C `serve` 前台模式 = 全停
 
 ---
 
@@ -541,6 +573,18 @@ skillmkt conflicts --json | jq '.pending | length'
 skillmkt sync --check                      # 投影漂移 → exit 1
 ```
 
+### 流程 F：CLI→Web 接力（daemon 自动接管）
+
+```
+skillmkt merge taste-skill ui-ux-pro-max --name mine
+   → CLI 内跑确定性阶段（extract/dedupe/候选）
+   → 进入 LLM judge 长任务：自动拉起 daemon + open 浏览器到进度页
+   → 浏览器看实时进度；跑完停在冲突裁决页
+   → 用户看图裁决 3 条 → decisions/ 落盘
+skillmkt build                    → CLI 纯确定性产出 → 投影+lock
+（中途关浏览器？再跑 skillmkt conflicts --ui 重开同队列，状态零丢失）
+```
+
 ---
 
 ## 7. 开发顺序
@@ -551,6 +595,6 @@ skillmkt sync --check                      # 投影漂移 → exit 1
 | **M2 管理面** | `remove`/`sync`/`update`/`rollback`/`diff`（行级）、`import`、`registry add/list`、rfc 适配器 | drift 检测正确（tree-hash 粒度）；rfc 服务器可列可装 |
 | **M3 冲突** | `extract`/`conflicts`/`decide`/`resolve`/`merge`/`build`——引擎从 pipeline 平移 | 两个真 skill 跑通全链，pending 不泄漏，`build` 产物可装 |
 | **M4 智能** | LLM 审核、semantic diff、arbitrate 平移 | 接 OMLX 端点全链路；断网降级验证 |
-| **M5 面板** | `serve`：矩阵/冲突裁决/审核报告三屏 | 浏览器完成一次完整 resolve 走查 |
+| **M5 面板** | `serve` daemon + 自动接管（§3.11）：矩阵/冲突裁决/审核报告三屏 | 浏览器完成一次完整 resolve 走查；`resolve` 从 CLI 自动开页 |
 
 M1 是纯确定性代码、零 LLM、零 registry 魔法——先把"装得进、看得见"跑通。
