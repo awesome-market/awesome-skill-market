@@ -159,12 +159,10 @@ async function render() {
       <div class="card"><h3>第 3 步 · 保存</h3>
         <div class="row"><button class="primary" id="save">保存设置</button><span id="save-out" class="mut"></span></div></div>`;
     const modelMap = new Map();   // 扫描后填充：model → base_url（选中模型自动回填地址）
-    app.querySelector('#mmodel').addEventListener('input', (e) => {
-      const b = modelMap.get(e.target.value);
-      if (b) app.querySelector('#murl').value = b;
-    });
-    app.querySelector('#probe').onclick = async () => {
-      app.querySelector('#probe-out').textContent = '扫描中…';
+    let lastScan = 0;
+    const doScan = async (quiet = false) => {
+      lastScan = Date.now();
+      if (!quiet) app.querySelector('#probe-out').textContent = '扫描中…';
       const eps = await api('/probe');
       modelMap.clear();
       for (const e of eps) for (const m of e.models) if (!modelMap.has(m)) modelMap.set(m, e.base_url);
@@ -180,6 +178,13 @@ async function render() {
         app.querySelector('#murl').value = d.dataset.b;
       });
     };
+    app.querySelector('#probe').onclick = () => doScan();
+    app.querySelector('#mmodel').addEventListener('input', (e) => {
+      const b = modelMap.get(e.target.value);
+      if (b) app.querySelector('#murl').value = b;
+    });
+    // 点进模型框时自动重扫——下载了新模型不用先点「扫描」
+    app.querySelector('#mmodel').addEventListener('focus', () => { if (Date.now() - lastScan > 10e3) doScan(true); });
     app.querySelector('#smoke').onclick = async () => {
       app.querySelector('#smoke-out').textContent = '测试中…';
       const r = await api('/llm-smoke', { method: 'POST', body: JSON.stringify({ base_url: app.querySelector('#murl').value, model: app.querySelector('#mmodel').value, api_key: app.querySelector('#mkey').value }) });
