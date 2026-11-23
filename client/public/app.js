@@ -406,7 +406,9 @@ async function render() {
         const ref = repo || s.slug, sub = repo && s.slug.startsWith(src + '/') ? s.slug.slice(src.length + 1) : '';
         const done = mkState.installed.has(s.slug), perm = mkState.perm.has(s.slug);
         const label = done ? t('ins_done') : perm ? t('mk_force') : t('mk_install');
-        return `<div class="card"><div class="row"><b>${esc(s.name)}</b><span class="mut"><a href="https://skills.sh/site/${esc(s.slug)}" target="_blank" rel="noopener">${esc(s.slug)}</a> · ${s.installs} installs${repo ? ` · <a href="https://github.com/${esc(src)}" target="_blank" rel="noopener">repo</a>` : ` · ${t('mk_privsrc')}`}</span>
+        // GitHub 源详情页是 skills.sh/<slug>；私有源在 skills.sh/site/<slug>（无前缀会 404）
+        const page = repo ? `https://skills.sh/${s.slug}` : `https://www.skills.sh/site/${s.slug}`;
+        return `<div class="card"><div class="row"><b><a href="${page}" target="_blank" rel="noopener">${esc(s.name)}</a></b><span class="mut">${esc(s.slug)} · ${s.installs} installs${repo ? '' : ` · ${t('mk_privsrc')}`}</span>
           <button class="mk-i" style="margin-left:auto" data-s="${esc(s.slug)}" data-r="${esc(ref)}" data-p="${esc(sub)}" ${done ? 'disabled' : ''}>${label}</button>
           <span class="iout mut">${esc(mkState.status[s.slug] || '')}</span></div>
           <div class="dsc mut" data-slug="${esc(s.slug)}"></div></div>`;
