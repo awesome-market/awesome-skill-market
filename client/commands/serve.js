@@ -10,7 +10,7 @@ import { readLibrary, readLock, readConfig, writeConfig, registerSkill, updateLo
 import { readUpstream } from '../lib/state.js';
 import { readYAML } from '../../pipeline/lib/util.js';
 import { detectHarnesses } from '../lib/scanner.js';
-import { probeEndpoints, chat, encryptSecret, resolveKeyRef } from '../lib/llm.js';
+import { probeEndpoints, chat, encryptSecret, resolveKeyRef, listModels } from '../lib/llm.js';
 import { projectSkill, unproject, targetDirFor } from '../lib/project.js';
 import { treeHash } from '../lib/package.js';
 import { ok, info } from '../lib/render.js';
@@ -129,13 +129,7 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
           if (u.pathname === '/api/models') {                         // 指定端点+密钥拉模型列表
             const key = resolveKeyRef(b.api_key, ctx);
             try {
-              const r = await fetch(`${String(b.base_url || '').replace(/\/+$/, '')}/models`, {
-                headers: key ? { authorization: `Bearer ${key}` } : {},
-                signal: AbortSignal.timeout(8000),
-              });
-              if (!r.ok) return res.end(JSON.stringify({ models: [], error: `http ${r.status}` }));
-              const d = await r.json();
-              return res.end(JSON.stringify({ models: (d.data || []).map((m) => m.id) }));
+              return res.end(JSON.stringify({ models: await listModels(b.base_url, key) }));
             } catch (e) { return res.end(JSON.stringify({ models: [], error: e.message.slice(0, 80) })); }
           }
           if (u.pathname === '/api/targets') {                        // web 改投影目标

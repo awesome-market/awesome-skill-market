@@ -112,6 +112,17 @@ export async function chat(llm, { system = '', user, maxTokens = 64, temperature
   } finally { clearTimeout(t); }
 }
 
+// OpenAI 兼容 /models 列表（指定端点+密钥）——web 与 init 向导共用
+export async function listModels(baseUrl, apiKey = '') {
+  const r = await fetch(`${String(baseUrl || '').replace(/\/+$/, '')}/models`, {
+    headers: apiKey ? { authorization: `Bearer ${apiKey}` } : {},
+    signal: AbortSignal.timeout(8000),
+  });
+  if (!r.ok) throw new Error(`http ${r.status}`);
+  const d = await r.json();
+  return (d.data || []).map((m) => m.id);
+}
+
 export const LLM_PROBES = [8001, 11434, 1234, 8000, 8080, 1337, 5000];
 
 // 本机所有 LISTEN 端口（lsof）——模型服务换任意端口都能被扫到；拿不到就只用固定列表

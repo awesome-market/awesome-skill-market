@@ -1,7 +1,7 @@
 // init — 交互式初始化：形态选择（Web/终端）→ LLM 探测→选模型→冒烟→写配置→harness 默认目标
 import fs from 'node:fs';
 import { ensureHub, writeConfig, readConfig } from '../lib/hub.js';
-import { probeEndpoints, chat } from '../lib/llm.js';
+import { probeEndpoints, chat, encryptSecret, listModels } from '../lib/llm.js';
 import { openURL, readDaemon, pidAlive } from '../lib/daemon.js';
 import { choose, confirm, ask } from '../lib/prompt.js';
 import { ok, warn, fail, info } from '../lib/render.js';
@@ -61,45 +61,66 @@ export async function run(ctx) {
   // LLM 端点探测（只在用户进入配置步骤时探测——铁律）
   info(L('探测本地 LLM 服务…', 'Probing local LLM services…'));
   const found = await probeEndpoints(400, { extraBases: [ctx.config.llm?.base_url] });
-  let base_url = null, model = null;
+  let base_url = null, model = null, ep = null;
 
   if (found.length) {
-    const opts = [
-      ...found.flatMap((f) => f.models.slice(0, 6).map((m) => ({
-        label: `${f.name}:${f.port} — ${m}`, v: { base_url: f.base_url, model: m },
-      }))),
+    // 与 web 同构：先选服务（每端点一行）→ 需要密钥才问密钥 → 再选模型
+    const epOpts = [
+      ...found.map((f) => ({
+        label: `${f.name}:${f.port} — ${f.needs_key ? L('需要密钥', 'key required') : L(`${f.models.length} 个模型`, `${f.models.length} models`)}`,
+        v: f,
+      })),
       { label: L('手动输入端点', 'Enter endpoint manually'), v: 'manual' },
       { label: L('跳过（确定性功能照常用）', 'Skip (deterministic features still work)'), v: 'skip' },
     ];
-    for (const f of found.filter((x) => x.needs_key)) {
-      info(L(`发现 ${f.name}:${f.port}（需要密钥，模型列表读不出）——选"手动输入端点"后填 ${f.base_url}`, `found ${f.name}:${f.port} (key required, can't list models) — pick "manual" and enter ${f.base_url}`));
-    }
-    const sel = await choose(L('选择模型端点：', 'Choose a model endpoint:'), opts);
-    if (sel.v === 'manual') {
-      base_url = (await ask(L('  服务地址 > ', '  Service URL > '))).trim() || null;
-      if (base_url) model = (await ask(L('  模型名称 > ', '  Model name > '))).trim() || null;
-    } else if (sel.v !== 'skip') {
-      ({ base_url, model } = sel.v);
-    }
+    const sel = await choose(L('选择服务：', 'Choose a service:'), epOpts);
+    if (sel.v === 'manual') base_url = (await ask(L('  服务地址 > ', '  Service URL > '))).trim() || null;
+    else if (sel.v !== 'skip') { ep = sel.v; base_url = ep.base_url; }
   } else {
     info(L('未发现本地 LLM 服务（已扫本机所有监听端口）', 'No local LLM service found (all listening ports probed)'));
     base_url = (await ask(L('  服务地址（留空跳过）> ', '  Service URL (empty to skip) > '))).trim() || null;
-    if (base_url) model = (await ask(L('  模型名称 > ', '  Model name > '))).trim() || null;
   }
 
-  // API key 环境变量引用（不存真值）
-  if (base_url) {
-    const keyEnv = await choose(L('API key 来源？', 'API key source?'), [
-      { label: L('无需 key（本地端点常见）', 'No key needed (common for local endpoints)'), v: null },
+  // 模型探测：已知端点给列表；手输地址先裸探——401/403 → 需要密钥（和 web 的自动检测一致）
+  let models = ep?.models || [];
+  let needKey = !!ep?.needs_key;
+  if (base_url && !models.length && !ep?.needs_key) {
+    try { models = await listModels(base_url, ''); }
+    catch (e) { if (/401|403/.test(e.message)) needKey = true; }
+  }
+
+  // 密钥：只在需要时问；粘贴的密钥用本机机器码加密存 config.yml
+  let api_key = null, keyPlain = '';
+  if (base_url && needKey) {
+    const ks = await choose(L('API key 来源？', 'API key source?'), [
+      { label: L('粘贴密钥（机器码加密后存入 config.yml）', 'Paste a key (encrypted into config.yml with this machine’s ID)'), v: 'paste' },
       { label: 'SKILLMKT_API_KEY', v: 'env:SKILLMKT_API_KEY' },
       { label: 'OMLX_API_KEY', v: 'env:OMLX_API_KEY' },
+      { label: L('无需 key', 'No key needed'), v: null },
     ]);
-    raw.llm = { base_url, model, ...(keyEnv.v ? { api_key: keyEnv.v } : {}), concurrency: 2, timeout_ms: 60000 };
+    if (ks.v === 'paste') {
+      keyPlain = (await ask(L('  密钥 > ', '  Key > '))).trim();
+      if (keyPlain) api_key = encryptSecret(keyPlain);
+    } else if (ks.v) api_key = ks.v;
+    if (!keyPlain && api_key?.startsWith('env:')) keyPlain = process.env[api_key.slice(4)] ?? '';
+    if (keyPlain) { try { models = await listModels(base_url, keyPlain); } catch { /* 密钥无效→手填模型 */ } }
+  }
+
+  // 模型：拉到了就列出来选，拉不到手填
+  if (base_url && !model) {
+    if (models.length) {
+      model = (await choose(L('选择模型：', 'Choose a model:'), models.map((m) => ({ label: m, v: m })))).v;
+    } else {
+      model = (await ask(L('  模型名称 > ', '  Model name > '))).trim() || null;
+    }
+  }
+
+  if (base_url) {
+    raw.llm = { base_url, model, ...(api_key ? { api_key } : {}), concurrency: 2, timeout_ms: 60000 };
 
     // 冒烟：真实 chat 调用
     try {
-      const probe = { base_url, model, api_key: keyEnv.v ? process.env[keyEnv.v.slice(4)] ?? '' : '', timeout_ms: 15000 };
-      const reply = await chat(probe, { user: 'Reply with exactly: OK', maxTokens: 64 });
+      const reply = await chat({ base_url, model, api_key: keyPlain, timeout_ms: 15000 }, { user: 'Reply with exactly: OK', maxTokens: 64 });
       ok(`llm smoke: ${reply.trim().slice(0, 40) || '(empty reply)'}`);
     } catch (e) {
       warn(L(`llm smoke failed: ${e.message}（配置已写入，功能将降级）`, `llm smoke failed: ${e.message} (config saved; features will degrade)`));
