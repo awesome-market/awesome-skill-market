@@ -319,7 +319,7 @@ async function render() {
       box.style.display = 'block';
       box.innerHTML = `<p class="mut" style="margin:4px 0">${esc(d.description || '')} · ${t('det_files', d.fileCount ?? d.files?.length ?? 0)} · ${srcHtml}${src.pin ? ` · pin <code>${esc(String(src.pin).slice(0, 7))}</code>` : ''}${tagsHtml}</p>
         <div class="row">${s?.source?.registry === 'github' ? `<button class="df">${t('det_diff')}</button>` : ''}${S.hist?.[b.dataset.dt] ? `<button class="rb">${t('det_rollback')}</button>` : `<span class="mut">${t('det_noroll')}</span>`}<span class="out mut"></span></div>
-        ${gh ? `<div class="row" style="margin-top:8px"><span class="mut">${t('det_old')}</span><input class="ot" placeholder="${t('det_old_ph')}" style="width:240px"><button class="oi sm">${t('mk_install')}</button><span class="out2 mut"></span></div>` : ''}
+        ${gh ? `<div class="row" style="margin-top:8px"><span class="mut">${t('det_old')}</span><input class="ot" placeholder="${t('det_old_ph')}" style="width:240px"><button class="od sm">${t('det_diff')}</button><button class="oi sm">${t('mk_install')}</button><span class="out2 mut"></span></div>` : ''}
         <pre class="pre mut" style="display:none;white-space:pre-wrap;font-size:13.5px;max-height:260px;overflow:auto"></pre>`;
       // 装旧版：tag/sha → install owner/repo@tag --path <sub>；已在管理→覆盖安装两段确认
       let oForce = false, oPerm = false;
@@ -334,6 +334,15 @@ async function render() {
         if (isSuspicious(r.out) && !oPerm) { oPerm = true; e.target.textContent = t('mk_force'); box.querySelector('.out2').textContent = t('mk_susp'); return; }
         e.target.textContent = t('mk_install');
         box.querySelector('.out2').textContent = (r.out || '').split('\n').filter((l) => l.trim()).pop()?.slice(0, 120) || t('ins_fail', r.code);
+      });
+      // 旧版预览 diff：同一个输入框的 tag → 比本地 vs 那个版本
+      box.querySelector('.od')?.addEventListener('click', async (e) => {
+        const tag = box.querySelector('.ot').value.trim();
+        if (!tag) return;
+        e.target.disabled = true; e.target.textContent = t('op_busy');
+        const r = await api(`/diff?name=${encodeURIComponent(b.dataset.dt)}&ref=${encodeURIComponent(tag)}`);
+        const pre = box.querySelector('.pre'); pre.style.display = 'block'; pre.textContent = r.out || '(no output)';
+        e.target.disabled = false; e.target.textContent = t('det_diff');
       });
       box.querySelector('.df')?.addEventListener('click', async (e) => {
         e.target.disabled = true; e.target.textContent = t('op_busy');

@@ -134,7 +134,7 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
       const pkg = readSkillDir(path.join(ctx.hub, 'skills', n));
       return pkg ? { ...pkg, library: readLibrary(ctx.hub).skills?.[n] || null } : { error: 'not found' };
     },
-    'GET /api/diff': async (u) => cli(['diff', '--', u.searchParams.get('name') || '']),
+    'GET /api/diff': async (u) => cli(['diff', ...(u.searchParams.get('ref') ? ['--ref', u.searchParams.get('ref')] : []), '--', u.searchParams.get('name') || '']),
   };
   const body = (req) => new Promise((r) => { let b = ''; req.on('data', (c) => b += c); req.on('end', () => r(b || '{}')); });
 

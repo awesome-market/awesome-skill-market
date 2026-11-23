@@ -173,12 +173,13 @@ const H = {
   hits the cache.`,
   },
   diff: {
-    zh: `用法: skillmkt diff <名字> [--semantic]
+    zh: `用法: skillmkt diff <名字> [--ref <tag|sha>] [--semantic]
   上游对比：本地 hub 版 vs 远端最新——文件增删改的结构 diff；
-  --semantic 追加 LLM 语义解读（改了什么行为而不只是哪些行）。`,
-    en: `usage: skillmkt diff <name> [--semantic]
+  --ref 换成和指定版本比（看旧版跟你差什么）；--semantic 追加 LLM 语义解读。`,
+    en: `usage: skillmkt diff <name> [--ref <tag|sha>] [--semantic]
   Upstream diff: local hub copy vs latest remote — structural file-level
-  changes; --semantic adds an LLM explanation of behavioral changes.`,
+  changes; --ref compares against a specific version instead of HEAD;
+  --semantic adds an LLM explanation of behavioral changes.`,
   },
   rollback: {
     zh: `用法: skillmkt rollback <名字>
