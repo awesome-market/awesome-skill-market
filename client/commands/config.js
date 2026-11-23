@@ -1,6 +1,7 @@
 // config — get/set/list config.yml 点路径键（脚本友好）
 import { readConfig, writeConfig, setConfigKey, getConfigKey, ensureHub } from '../lib/hub.js';
 import { ok, fail, info } from '../lib/render.js';
+import { L } from '../lib/i18n.js';
 import YAML from 'yaml';
 
 export async function run(ctx) {
@@ -30,6 +31,20 @@ export async function run(ctx) {
     console.log(YAML.stringify(raw).trim() || '# empty');
     return 0;
   }
-  fail(L('用法: skillmkt config [list] | get <键> | set <键> <值>', 'usage: skillmkt config [list] | get <key> | set <key> <value>'));
+  // 快捷式：config <键> <值> = set；config <键> = get
+  if (key) {
+    const value = [key, ...rest].join(' ');
+    let v = value;
+    try { v = JSON.parse(value); } catch { /* string */ }
+    setConfigKey(raw, sub, v);
+    writeConfig(ctx.hub, raw);
+    ok(`${sub} = ${YAML.stringify(v).trim()}`);
+    return 0;
+  }
+  {
+    const v = getConfigKey(raw, sub);
+    if (v !== undefined) { console.log(typeof v === 'object' ? YAML.stringify(v).trim() : String(v)); return 0; }
+  }
+  fail(L('用法: skillmkt config [list] | get <键> | set <键> <值>（set/get 可省略：config <键> [值]）', 'usage: skillmkt config [list] | get <key> | set <key> <value> (set/get optional: config <key> [value])'));
   return 1;
 }

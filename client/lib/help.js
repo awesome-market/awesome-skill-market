@@ -11,15 +11,16 @@ const H = {
   agents → write config.yml. Bare-run on an uninitialized hub lands here too.`,
   },
   config: {
-    zh: `用法: skillmkt config [list] | get <键> | set <键> <值>
-  读写 config.yml。键示例: llm.base_url / llm.model / llm.api_key / default_targets / ui.lang
+    zh: `用法: skillmkt config [list] | get <键> | set <键> <值> | <键> <值>
+  读写 config.yml；set 可省略（config ui.lang en 就行）。
+  键示例: llm.base_url / llm.model / llm.api_key / default_targets / ui.lang
   例: skillmkt config set llm.model qwen3-32b
-      skillmkt config set llm.api_key env:SKILLMKT_API_KEY`,
-    en: `usage: skillmkt config [list] | get <key> | set <key> <value>
-  Read/write config.yml. Keys: llm.base_url / llm.model / llm.api_key /
-  default_targets / ui.lang
+      skillmkt config llm.api_key env:SKILLMKT_API_KEY`,
+    en: `usage: skillmkt config [list] | get <key> | set <key> <value> | <key> <value>
+  Read/write config.yml; 'set' is optional (config ui.lang en works).
+  Keys: llm.base_url / llm.model / llm.api_key / default_targets / ui.lang
   e.g. skillmkt config set llm.model qwen3-32b
-       skillmkt config set llm.api_key env:SKILLMKT_API_KEY`,
+       skillmkt config llm.api_key env:SKILLMKT_API_KEY`,
   },
   doctor: {
     zh: `用法: skillmkt doctor
