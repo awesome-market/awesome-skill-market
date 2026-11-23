@@ -19,6 +19,13 @@ const suspDetail = (out) => {
 };
 const isManaged = (out) => /已在管理|already managed/i.test(out || '');   // 已管理且内容不同（装旧版）→ --force 确认
 const hasStrip = (out) => /不装的有|excluded:/i.test(out || '');          // 输出含剥离清单 → 可疑判定源于脚本文件，可提供"含脚本装"选项
+// 来源标签：wellknown→源站域名；adopted/local/cache→人话；github 等原样
+const srcLabel = (s) => {
+  const reg = s.source?.registry || '';
+  if (reg === 'wellknown') return String(s.source?.ref || '').split('/')[0] || 'wellknown';
+  const v = t(`src_${reg}`);
+  return v !== `src_${reg}` ? v : reg;
+};
 
 const I18N = {
   zh: {
@@ -94,6 +101,7 @@ const I18N = {
     mk_mng: '已在管理且内容不同（装旧版？）——覆盖现有副本？', mk_ow: '覆盖安装',
     mk_nosrc: '私有源暂不可装', mk_privsrc: '私有源',
     sk_remove: '移除', sk_remove_sure: '确认移除？', sk_removed: '已移除', open_dir: '打开文件夹',
+    src_adopted: '本地收编', src_local: '本地', src_cache: '缓存',
     det_btn: '详情', det_files: (n) => `${n} 个文件`, det_diff: '上游 diff', det_switch: '切换版本', det_tags: '找旧版→',
     det_old: '装旧版', det_old_ph: 'tag 或 sha，如 agent-skills-6ec…', det_nosw: '无留档版本', det_odiff: '预览差异',
     sw_cur: '当前', sw_go: '切换', sw_empty: '无留档版本（每次版本变更会自动存一份）',
@@ -183,6 +191,7 @@ const I18N = {
     mk_mng: 'Already managed with different content (older version?) — overwrite?', mk_ow: 'Overwrite',
     mk_nosrc: 'private source — N/A', mk_privsrc: 'private source',
     sk_remove: 'Remove', sk_remove_sure: 'Confirm remove?', sk_removed: 'Removed', open_dir: 'Open folder',
+    src_adopted: 'adopted', src_local: 'local', src_cache: 'cache',
     det_btn: 'Details', det_files: (n) => `${n} files`, det_diff: 'Upstream diff', det_switch: 'Switch version', det_tags: 'older versions→',
     det_old: 'Install older', det_old_ph: 'tag or sha, e.g. agent-skills-6ec…', det_nosw: 'no archived versions', det_odiff: 'Preview diff',
     sw_cur: 'current', sw_go: 'Switch', sw_empty: 'No archived versions (one is saved on every version change)',
@@ -289,7 +298,7 @@ async function render() {
     app.innerHTML = `<h2>${t('sk_h', skills.length)}</h2>
       <p class="desc">${t('sk_desc')}</p>`
       + (skills.map(([n, s]) => `
-      <div class="card"><div class="sk-head"><b>${skLink(n, s)}</b><span class="mut">${esc(s.version && s.version !== '0.0.0' ? s.version : '—')}</span><span class="mut">${esc(s.source?.registry === 'wellknown' ? String(s.source?.ref || '').split('/')[0] || 'wellknown' : s.source?.registry || '')}</span>${pill(s.audit || 'clean')}
+      <div class="card"><div class="sk-head"><b>${skLink(n, s)}</b><span class="mut">${esc(s.version && s.version !== '0.0.0' ? s.version : '—')}</span><span class="mut">${esc(srcLabel(s))}</span>${pill(s.audit || 'clean')}
       <span class="acts"><button class="sm" data-open="${esc(`${S.hub}/skills/${n}`)}">${t('open_dir')}</button><button data-dt="${esc(n)}">${t('det_btn')}</button><button data-rm="${esc(n)}">${t('sk_remove')}</button></span></div>
       <div class="trow">${(s.targets || []).map((x) => `<span class="tchip">${esc(x)}</span>`).join('') || `<span class="mut">${t('sk_hub')}</span>`}<button class="sm" data-tg="${esc(n)}">${t('sk_loc')}</button></div>
       <div class="tgbox" data-box="${esc(n)}" style="display:none;margin-top:10px"></div>
