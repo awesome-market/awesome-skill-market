@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import { ensureHub, writeConfig, readConfig } from '../lib/hub.js';
 import { probeEndpoints, chat, encryptSecret, listModels } from '../lib/llm.js';
 import { openURL, readDaemon, pidAlive } from '../lib/daemon.js';
-import { choose, confirm, ask } from '../lib/prompt.js';
+import { choose, confirm, ask, askSecret } from '../lib/prompt.js';
 import { ok, warn, fail, info } from '../lib/render.js';
 import { L, lang, setUILang } from '../lib/i18n.js';
 
@@ -99,7 +99,7 @@ export async function run(ctx) {
       { label: L('无需 key', 'No key needed'), v: null },
     ]);
     if (ks.v === 'paste') {
-      keyPlain = (await ask(L('  密钥 > ', '  Key > '))).trim();
+      keyPlain = (await askSecret(L('  密钥 > ', '  Key > '))).trim();
       if (keyPlain) api_key = encryptSecret(keyPlain);
     } else if (ks.v) api_key = ks.v;
     if (!keyPlain && api_key?.startsWith('env:')) keyPlain = process.env[api_key.slice(4)] ?? '';

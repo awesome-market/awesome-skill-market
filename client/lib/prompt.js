@@ -31,6 +31,32 @@ export async function ask(question) {
   return ans;
 }
 
+// 密钥输入：raw 模式逐字符读，回显 *（粘贴整块也不回显真值）；非 TTY 返回空串
+export async function askSecret(question) {
+  if (!process.stdin.isTTY) return '';
+  process.stderr.write(question);
+  return new Promise((res) => {
+    const stdin = process.stdin;
+    const wasRaw = stdin.isRaw;
+    let buf = '';
+    stdin.setRawMode(true);
+    stdin.resume();
+    stdin.setEncoding('utf8');
+    const onData = (ch) => {
+      if (ch === '\u0003') { cleanup(); process.stderr.write('\n'); process.exit(130); }
+      if (ch === '\r' || ch === '\n') { cleanup(); process.stderr.write('\n'); return res(buf); }
+      if (ch === '\u007f' || ch === '\b') {
+        if (buf.length) { buf = buf.slice(0, -1); process.stderr.write('\b \b'); }
+        return;
+      }
+      buf += ch;
+      process.stderr.write('*'.repeat([...ch].length));   // 粘贴一次来整块→按字符数回星
+    };
+    const cleanup = () => { stdin.off('data', onData); stdin.setRawMode(wasRaw ?? false); stdin.pause(); };
+    stdin.on('data', onData);
+  });
+}
+
 // 多选：序号逗号/空格分隔；回车=保持预勾选；0/none=全不选。返回选中的下标数组
 export async function multiChoose(question, options, { checked = [] } = {}) {
   if (!process.stdin.isTTY) return checked;
