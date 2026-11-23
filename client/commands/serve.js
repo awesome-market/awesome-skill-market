@@ -324,6 +324,11 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
   const idle = setInterval(() => { if (Date.now() - lastActive > idleMs) { server.close(); process.exit(0); } }, 60e3);
   idle.unref();
 
+  // 启动即后台刷新上游（只查不升）——完成后推 SSE，面板的「有更新可用」自动出现
+  cli(['update'], 300e3)
+    .then(() => { emit('library', {}); if (!quiet) console.log(`  ${new Date().toTimeString().slice(0, 8)}  ${L('上游信息已刷新', 'upstream info refreshed')}`); })
+    .catch(() => {});
+
   const shutdown = () => {
     clearInterval(idle);
     fs.rmSync(daemonFile(ctx.hub), { force: true });
