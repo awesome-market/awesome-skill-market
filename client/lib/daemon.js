@@ -36,14 +36,22 @@ export function openURL(d, route = '/') {
   return url;
 }
 
-// CLI 自动接管：TTY + 未禁 ui + daemon 可用 → 开浏览器返回 true；否则 false 走终端
+// CLI 接管：有活 daemon→开页复用（返回 true 让调用方退出）；
+// 没有→当前进程前台起服务+开页+挂住流日志（Ctrl-C 连服务一起退，永不返回）
 export async function maybeHandoff(ctx, route = '/') {
   if (!process.stdout.isTTY || ctx.flags.raw.cli || ctx.flags.raw.noUi) return false;
   if (ctx.flags.raw.ui === false) return false;
+  const d = readDaemon(ctx.hub);
+  if (d && alive(d.pid)) {
+    console.log(`opened ${openURL(d, route)}（服务已在跑，Ctrl-C 那个终端的 serve 可停）`);
+    return true;
+  }
   try {
-    const d = await ensureDaemon(ctx);
-    const url = openURL(d, route);
-    console.log(`opened ${url}`);
+    const { startServer } = await import('../commands/serve.js');
+    const srv = await startServer(ctx, { quiet: false });
+    console.log(`opened ${openURL({ port: srv.port, token: srv.token }, route)}`);
+    console.log('  服务前台运行中 — 操作日志见下方，Ctrl-C 退出');
+    await new Promise(() => {});          // 挂住：本进程=服务器
     return true;
   } catch { return false; }
 }

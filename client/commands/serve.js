@@ -18,16 +18,10 @@ import { ok, info, fail } from '../lib/render.js';
 const PUB = path.join(new URL('.', import.meta.url).pathname, '../public');
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.svg': 'image/svg+xml' };
 
-export async function run(ctx) {
+// startServer — 可复用：serve 命令与 CLI 接管共用。返回 {port, token, server, emit, shutdown}
+export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
+  ensureHub(ctx.hub);
   const flags = ctx.flags.raw;
-  ensureHub(ctx.hub);   // 未 init 也能起面板（setup 页完成初始化）
-  if (flags.stop) {
-    const d = readDaemon(ctx.hub);
-    if (d) { try { process.kill(d.pid); } catch { /* dead */ } fs.rmSync(daemonFile(ctx.hub), { force: true }); ok('daemon stopped'); }
-    else info('no daemon');
-    return 0;
-  }
-
   const token = crypto.randomBytes(16).toString('hex');
   const sse = new Set();
   const emit = (type, data) => { for (const res of sse) res.write(`event: ${type}\ndata: ${JSON.stringify(data)}\n\n`); };
@@ -53,7 +47,6 @@ export async function run(ctx) {
   };
   const body = (req) => new Promise((r) => { let b = ''; req.on('data', (c) => b += c); req.on('end', () => r(b || '{}')); });
 
-  const quiet = !!flags.daemon;
   const server = http.createServer(async (req, res) => {
     lastActive = Date.now();
     const t0 = Date.now();
@@ -135,25 +128,40 @@ export async function run(ctx) {
     fs.createReadStream(file).pipe(res);
   });
 
-  await new Promise((r) => server.listen(flags.port || 0, '127.0.0.1', r));
-  const port = server.address().port;
-  fs.writeFileSync(daemonFile(ctx.hub), JSON.stringify({ pid: process.pid, port, token, started: new Date().toISOString() }));
+  await new Promise((r) => server.listen(port, '127.0.0.1', r));
+  const realPort = server.address().port;
+  fs.writeFileSync(daemonFile(ctx.hub), JSON.stringify({ pid: process.pid, port: realPort, token, started: new Date().toISOString() }));
   const idle = setInterval(() => { if (Date.now() - lastActive > idleMs) { server.close(); process.exit(0); } }, 60e3);
   idle.unref();
 
-  // 退出语义：SIGINT/SIGTERM/正常 close → 摘 daemon.json（前台模式主语义）
   const shutdown = () => {
-    console.log('\nserve: shutting down…');
+    clearInterval(idle);
     fs.rmSync(daemonFile(ctx.hub), { force: true });
     server.close(() => process.exit(0));
     setTimeout(() => process.exit(0), 800).unref();
   };
   process.on('SIGINT', shutdown);
   process.on('SIGTERM', shutdown);
+  return { server, port: realPort, token, emit, shutdown };
+}
 
-  if (flags.daemon) { console.log(`daemon ready :${port}`); await new Promise(() => {}); }
-  console.log(`serve: http://127.0.0.1:${port}/?token=${token}`);
-  console.log(`  foreground — Ctrl-C 退出（idle ${ctx.config.daemon?.idle_minutes ?? 30}m 自退；分离模式见 --daemon）`);
+export async function run(ctx) {
+  const flags = ctx.flags.raw;
+  if (flags.stop) {
+    const d = readDaemon(ctx.hub);
+    if (d) { try { process.kill(d.pid); } catch { /* dead */ } fs.rmSync(daemonFile(ctx.hub), { force: true }); ok('daemon stopped'); }
+    else info('no daemon');
+    return 0;
+  }
+  // 已有前台/分离实例在跑 → 不重复起，报地址
+  const existing = readDaemon(ctx.hub);
+  if (existing && existing.pid !== process.pid) {
+    try { process.kill(existing.pid, 0); info(`已在跑: http://127.0.0.1:${existing.port}/?token=${existing.token}（--stop 停掉）`); return 0; } catch { /* stale */ }
+  }
+  const d = await startServer(ctx, { quiet: !!flags.daemon, port: flags.port || 0 });
+  if (flags.daemon) { console.log(`daemon ready :${d.port}`); await new Promise(() => {}); }
+  console.log(`serve: http://127.0.0.1:${d.port}/?token=${d.token}`);
+  console.log(`  前台运行 — Ctrl-C 退出（idle ${ctx.config.daemon?.idle_minutes ?? 30}m 自退）`);
   await new Promise(() => {});
   return 0;
 }

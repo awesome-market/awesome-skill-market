@@ -2,7 +2,7 @@
 import fs from 'node:fs';
 import { ensureHub, writeConfig, readConfig } from '../lib/hub.js';
 import { probeEndpoints, chat } from '../lib/llm.js';
-import { ensureDaemon, openURL } from '../lib/daemon.js';
+import { openURL, readDaemon } from '../lib/daemon.js';
 import { choose, confirm } from '../lib/prompt.js';
 import { ok, warn, fail, info } from '../lib/render.js';
 
@@ -25,15 +25,24 @@ export async function run(ctx) {
   writeConfig(ctx.hub, raw);   // ui 偏好先落盘（web 页内继续改其余键）
 
   if (mode === 'web') {
-    // daemon 就绪：setup 页完成探测+选模型+harness 勾选，全部经 /api/config 落盘
+    // 前台语义：本进程=服务器，开页后挂住流日志，Ctrl-C 连服务一起退
     try {
-      const d = await ensureDaemon(ctx);
-      const url = openURL(d, '/#setup');
+      const alive = (() => { const d = readDaemon(ctx.hub); return d && (() => { try { process.kill(d.pid, 0); return true; } catch { return false; } })() ? d : null; })();
+      if (alive) {
+        const url = openURL(alive, '/#setup');
+        ok(`Web 初始化已打开: ${url}（服务已在别的终端跑）`);
+        return 0;
+      }
+      const { startServer } = await import('./serve.js');
+      const srv = await startServer(ctx, { quiet: false });
+      const url = openURL({ port: srv.port, token: srv.token }, '/#setup');
       ok(`Web 初始化已打开: ${url}`);
-      info('setup 页内：探测端点 → 选模型 → 勾 harness → 保存（写入 config.yml）');
+      info('setup 页内：扫描端点 → 选模型 → 勾 agent → 保存（写入 config.yml）');
+      info('服务前台运行中 — Ctrl-C 退出');
+      await new Promise(() => {});
       return 0;
     } catch (e) {
-      warn(`daemon 不可用（${e.message.slice(0, 60)}）——回退终端向导`);
+      warn(`服务起不来（${e.message.slice(0, 60)}）——回退终端向导`);
     }
   }
 
