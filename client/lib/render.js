@@ -56,9 +56,7 @@ export function dashboard({ hub, library, scan, upstream, conflicts, llm, llmVia
   if (!configFile) hints.push(llmVia
     ? L('skillmkt init              把设置写进 config.yml（现在全靠环境变量兜底）', 'skillmkt init              write settings to config.yml (currently env-only)')
     : L('skillmkt init              初始化设置（语言/模型/目标 agent）', 'skillmkt init              set up language/model/agents'));
-  hints.push(externals
-    ? L('skillmkt list              每个 skill 装在哪些 agent（◌=未收编）', 'skillmkt list              which agents each skill is in (◌ = unmanaged)')
-    : L('skillmkt list              每个 skill 装在哪些 agent', 'skillmkt list              which agents each skill is in'));
+  hints.push(L('skillmkt list              列出所有 skill 及各自安装位置', 'skillmkt list              list all skills and where they are installed'));
   hints.push(L('skillmkt --help            全部命令', 'skillmkt --help            all commands'));
   hints.slice(0, 4).forEach((h) => err(h));
 }
