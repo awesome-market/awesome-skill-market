@@ -153,12 +153,12 @@ async function render() {
         <div id="model-box"><label class="field">模型名称</label>
           <div class="combo"><input type="text" id="mmodel" autocomplete="off" placeholder="可输入关键字搜索，扫描后自动列出发现的模型" value="${esc(cfg.llm?.model || '')}">
           <div class="combo-list" id="model-drop" style="display:none"></div></div></div>
-        <div class="row"><button id="smoke">测试连接</button><span id="smoke-out" class="mut"></span></div></div>
+        <div class="row end" style="margin-top:14px"><span id="smoke-out" class="mut"></span><button id="smoke">测试连接</button></div></div>
       <div class="card"><h3>第 2 步 · skill 默认安装位置</h3>
         <p class="mut">勾选的 AI 工具会在你安装新 skill 时自动收到一份副本。已勾过的话保存即生效。</p>
         ${h.map((x) => `<label class="check"><input type="checkbox" data-h="${esc(x.id)}" ${sel.has(x.id) ? 'checked' : ''} ${x.state === 'absent' ? 'disabled' : ''}> ${esc(x.id)} ${pill(x.state)} <span class="mut">${esc(x.primaryDir || '')}</span></label>`).join('')}</div>
       <div class="card"><h3>第 3 步 · 保存</h3>
-        <div class="row"><button class="primary" id="save">保存设置</button><span id="save-out" class="mut"></span></div></div>`;
+        <div class="row end"><span id="save-out" class="mut"></span><button class="primary" id="save">保存设置</button></div></div>`;
     const modelMap = new Map();   // model → base_url（选中模型自动回填地址）
     const loadedModels = new Map(); // 密钥端点拉到的模型——重扫后保留
     let epsList = [], lastScan = 0;
