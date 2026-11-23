@@ -5,7 +5,12 @@ const el = (h) => { const d = document.createElement('div'); d.innerHTML = h; re
 const esc = (s) => String(s ?? '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
 let S = null, tab = 'skills';
 
-async function refresh() { S = await api('/state'); render(); }
+async function refresh() {
+  try { S = await api('/state'); }
+  catch (e) { document.getElementById('app').innerHTML = `<p class="pill bad">/api/state failed: ${esc(e.message)} — daemon 挂了？skillmkt serve --stop 后重开</p>`; return; }
+  if (S?.error) { document.getElementById('app').innerHTML = `<p class="pill bad">${esc(S.error)} — URL 里的 token 过期了，重跑 skillmkt serve 拿新链接</p>`; return; }
+  render();
+}
 document.querySelectorAll('.tab').forEach((t) => t.onclick = () => { document.querySelectorAll('.tab').forEach((x) => x.classList.remove('on')); t.classList.add('on'); tab = t.dataset.t; render(); });
 const es = new EventSource(`/api/events?token=${T}`);
 es.addEventListener('decide', () => refresh());
@@ -14,7 +19,7 @@ es.onerror = () => document.getElementById('live').textContent = '○offline';
 
 const pill = (v) => `<span class="pill ${v === 'clean' || v === 'installed' || v === 'active' ? 'ok' : v === 'malicious' || v === 'pending' ? 'bad' : 'warn'}">${esc(v)}</span>`;
 
-function render() {
+async function render() {
   const app = document.getElementById('app');
   if (!S) return;
   if (tab === 'skills') {
