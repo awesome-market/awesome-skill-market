@@ -45,6 +45,7 @@
 
 ```
 skillmkt <cmd> [args] [--json] [--hub <path>] [--verbose] [--no-llm]
+                     [--base-url <url>] [--model <id>] [--api-key-env <NAME>]
 ```
 
 | 参数 | 说明 |
@@ -93,6 +94,29 @@ llm:
 ```
 
 **LLM 需求边界**：`init`/`audit --llm`/`conflicts`(语义判定)/`diff --semantic`/`merge` 需要端点；其余命令永远不需要。端点不可达时非 `--llm` 命令降级静态模式+stderr 提示；显式 `--llm` 才硬失败。
+
+**命令行参数配置**（最高优先级，单次生效不写盘）：
+
+```bash
+# 临时换端点/模型——本次运行覆盖 config.yml
+skillmkt conflicts --base-url http://localhost:11434/v1 --model qwen3:32b
+skillmkt audit deslop --llm --base-url https://api.openai.com/v1 \
+                   --model gpt-5 --api-key-env OPENAI_API_KEY
+
+# 纯环境变量（CI/容器场景，连 config 都不用写）
+SKILLMKT_LLM_BASE_URL=http://gpu-box:8000/v1 \
+SKILLMKT_LLM_API_KEY=$KEY \
+SKILLMKT_LLM_MODEL=qwen3 \
+  skillmkt audit --all --llm
+```
+
+| flag | env | config.yml 键 | 说明 |
+|---|---|---|---|
+| `--base-url` | `SKILLMKT_LLM_BASE_URL`（兼容 `OMLX_BASE_URL`） | `llm.base_url` | OpenAI 兼容端点根 |
+| `--model` | `SKILLMKT_LLM_MODEL`（兼容 `OMLX_MODEL`） | `llm.model` | 模型 id |
+| `--api-key-env` | `SKILLMKT_LLM_API_KEY`（兼容 `OMLX_API_KEY`） | `llm.api_key` | flag 形式传的是**变量名**不是 key 本体：`--api-key-env OPENAI_API_KEY` |
+| — | — | `llm.concurrency` | 本地模型并发上限（默认 2） |
+| — | — | `llm.timeout_ms` | 单次调用超时（默认 60000） |
 
 ---
 
