@@ -251,6 +251,10 @@ async function render() {
 
   if (tab === 'skills') {
     const skills = Object.entries(S.library.skills || {});
+    // 先取数据再拼整页——innerHTML 只能赋一次；分段 += 会重建 DOM 冲掉已绑事件
+    const ext = await api('/scan');
+    const up = S.upstream.skills || {};
+    const outs = Object.entries(up).filter(([, u]) => u.outdated);
     app.innerHTML = `<h2>${t('sk_h', skills.length)}</h2>
       <p class="desc">${t('sk_desc')}</p>`
       + (skills.map(([n, s]) => `
@@ -259,7 +263,17 @@ async function render() {
       <button data-tg="${esc(n)}">${t('sk_loc')}</button><button data-dt="${esc(n)}">${t('det_btn')}</button><button data-rm="${esc(n)}">${t('sk_remove')}</button></div>
       <div class="tgbox" data-box="${esc(n)}" style="display:none;margin-top:10px"></div>
       <div class="dtbox" data-dbox="${esc(n)}" style="display:none;margin-top:10px"></div></div>`).join('')
-      || `<div class="empty">${t('sk_empty')}</div>`);
+      || `<div class="empty">${t('sk_empty')}</div>`)
+      + `<h2>${t('agents_h')}</h2>
+      <p class="desc">${t('agents_desc')}</p>`
+      + (S.harnesses || []).map((h) => `<div class="card row"><b>${esc(h.id)}</b>${pill(h.state)}<span class="mut">${esc(h.primaryDir || h.dirs?.[0]?.path || '')}</span></div>`).join('')
+      + `<h2>${t('maint_h')}</h2>
+      <div class="card row"><button id="m-upd">${t('upd_refresh')}</button><button id="m-sync">${t('sync_btn')}</button>
+      ${outs.length ? `<button id="m-upg" class="primary">${t('upd_all')}（${outs.length}）</button>` : ''}<span id="m-out" class="mut"></span></div>`
+      + (outs.length ? outs.map(([n]) => `<div class="card row"><b>${esc(n)}</b>${pill('outdated')}<button class="upg" data-n="${esc(n)}" style="margin-left:auto">${t('upd_one')}</button><span class="uout mut"></span></div>`).join('') : '')
+      + (ext?.length ? `<h2>${t('ext_h', ext.length)}</h2><p class="desc">${t('ext_desc')}</p>`
+        + ext.map((e) => `<div class="card row"><b>${esc(e.name)}</b><span class="mut">${esc(e.where)} · ${esc(e.dir)}</span>
+          <button class="adopt" data-d="${esc(e.path || '')}" style="margin-left:auto">${t('ext_adopt')}</button><span class="aout mut"></span></div>`).join('') : '');
     // 移除：两段式确认（第一下变确认文案，3 秒内再点才真删）
     app.querySelectorAll('[data-rm]').forEach((b) => {
       let armed = false, timer = null;
@@ -311,15 +325,6 @@ async function render() {
         refresh();
       };
     });
-    app.innerHTML += `<h2>${t('agents_h')}</h2>
-      <p class="desc">${t('agents_desc')}</p>`
-      + (S.harnesses || []).map((h) => `<div class="card row"><b>${esc(h.id)}</b>${pill(h.state)}<span class="mut">${esc(h.primaryDir || h.dirs?.[0]?.path || '')}</span></div>`).join('');
-    const up = S.upstream.skills || {};
-    const outs = Object.entries(up).filter(([, u]) => u.outdated);
-    app.innerHTML += `<h2>${t('maint_h')}</h2>
-      <div class="card row"><button id="m-upd">${t('upd_refresh')}</button><button id="m-sync">${t('sync_btn')}</button>
-      ${outs.length ? `<button id="m-upg" class="primary">${t('upd_all')}（${outs.length}）</button>` : ''}<span id="m-out" class="mut"></span></div>`
-      + (outs.length ? outs.map(([n]) => `<div class="card row"><b>${esc(n)}</b>${pill('outdated')}<button class="upg" data-n="${esc(n)}" style="margin-left:auto">${t('upd_one')}</button><span class="uout mut"></span></div>`).join('') : '');
     const runOp = async (btn, path, body) => {
       btn.disabled = true; const old = btn.textContent; btn.textContent = t('op_busy');
       const r = await api(path, { method: 'POST', body: JSON.stringify(body || {}) });
@@ -329,34 +334,27 @@ async function render() {
     app.querySelector('#m-upd').onclick = async (e) => { const r = await runOp(e.target, '/update'); app.querySelector('#m-out').textContent = (r.out || '').split('\n').pop().slice(0, 100); refresh(); };
     app.querySelector('#m-sync').onclick = async (e) => { const r = await runOp(e.target, '/sync'); app.querySelector('#m-out').textContent = (r.out || '').split('\n').pop().slice(0, 100); };
     app.querySelector('#m-upg')?.addEventListener('click', async (e) => { await runOp(e.target, '/upgrade'); refresh(); });
-    app.querySelectorAll('.upg').forEach((b) => b.onclick = async (e) => {
+    app.querySelectorAll('.upg').forEach((b) => b.onclick = async () => {
       const r = await runOp(e.target, '/upgrade', { name: b.dataset.n });
       const o = b.parentElement.querySelector('.uout'); if (o) o.textContent = r.code === 0 ? t('op_done') : (r.out || '').slice(0, 100);
       if (r.code === 0) refresh();
     });
-
-    // 收编区：agent 目录里没收编的 skill（主动拉 /api/scan 才显示）
-    const ext = await api('/scan');
-    if (ext?.length) {
-      app.innerHTML += `<h2>${t('ext_h', ext.length)}</h2><p class="desc">${t('ext_desc')}</p>`
-        + ext.map((e) => `<div class="card row"><b>${esc(e.name)}</b><span class="mut">${esc(e.where)} · ${esc(e.dir)}</span>
-          <button class="adopt" data-d="${esc(e.path || '')}" style="margin-left:auto">${t('ext_adopt')}</button><span class="aout mut"></span></div>`).join('');
-      app.querySelectorAll('.adopt').forEach((b) => b.onclick = async () => {
-        b.disabled = true; b.textContent = t('op_busy');
-        const permissive = b.dataset.perm === '1';
-        const r = await api('/install', { method: 'POST', body: JSON.stringify({ ref: b.dataset.d, permissive }) });
-        const o = b.parentElement.querySelector('.aout');
-        if (r.code === 0) { if (o) o.textContent = t('op_done'); refresh(); return; }
-        b.disabled = false;
-        if (isSuspicious(r.out) && !permissive) {
-          b.dataset.perm = '1'; b.textContent = t('ext_force');
-          if (o) o.textContent = t('mk_susp');
-        } else {
-          b.textContent = t('ext_adopt');
-          if (o) o.textContent = (r.out || '').split('\n').filter((l) => l.trim()).pop()?.slice(0, 100);
-        }
-      });
-    }
+    // 收编：可疑→"仍要收编"知情确认
+    app.querySelectorAll('.adopt').forEach((b) => b.onclick = async () => {
+      b.disabled = true; b.textContent = t('op_busy');
+      const permissive = b.dataset.perm === '1';
+      const r = await api('/install', { method: 'POST', body: JSON.stringify({ ref: b.dataset.d, permissive }) });
+      const o = b.parentElement.querySelector('.aout');
+      if (r.code === 0) { if (o) o.textContent = t('op_done'); refresh(); return; }
+      b.disabled = false;
+      if (isSuspicious(r.out) && !permissive) {
+        b.dataset.perm = '1'; b.textContent = t('ext_force');
+        if (o) o.textContent = t('mk_susp');
+      } else {
+        b.textContent = t('ext_adopt');
+        if (o) o.textContent = (r.out || '').split('\n').filter((l) => l.trim()).pop()?.slice(0, 100);
+      }
+    });
   }
 
   if (tab === 'market') {
@@ -521,6 +519,10 @@ async function render() {
       + (scans.map((s) => `<div class="card row"><b>${esc(s.skill || s.name || '')}</b>${pill(s.verdict)}<span class="mut">${t('findings', (s.findings || []).length)}${s.llm ? t('ai_rec', esc(CN(s.llm.verdict))) : ''}</span>
         <button class="ra" data-n="${esc(s.skill || s.name || '')}" style="margin-left:auto">${t('rv_reaudit')}</button><span class="raout mut"></span></div>`).join('')
         || `<div class="empty">${t('rv_empty')}</div>`);
+    const decs = (S.decisions || []).filter((d) => d.status === 'active');
+    if (decs.length) app.innerHTML += `<h2>${t('dec_h', decs.length)}</h2>
+      <p class="desc">${t('dec_desc')}</p>`
+      + decs.map((d) => `<div class="card"><div class="row"><b>${esc(d.id)}</b>${pill(d.resolution)}<span class="mut">via ${esc(d.decided_by)}</span></div><p class="mut">${esc(d.reason)}</p></div>`).join('');
     app.querySelectorAll('.ra').forEach((b) => b.onclick = async () => {
       b.disabled = true; const old = b.textContent; b.textContent = t('op_busy');
       const r = await api('/audit', { method: 'POST', body: JSON.stringify({ name: b.dataset.n }) });
@@ -528,10 +530,6 @@ async function render() {
       b.parentElement.querySelector('.raout').textContent = (r.out || '').split('\n').pop().slice(0, 80);
       if (r.code === 0) refresh();
     });
-    const decs = (S.decisions || []).filter((d) => d.status === 'active');
-    if (decs.length) app.innerHTML += `<h2>${t('dec_h', decs.length)}</h2>
-      <p class="desc">${t('dec_desc')}</p>`
-      + decs.map((d) => `<div class="card"><div class="row"><b>${esc(d.id)}</b>${pill(d.resolution)}<span class="mut">via ${esc(d.decided_by)}</span></div><p class="mut">${esc(d.reason)}</p></div>`).join('');
   }
 
   if (tab === 'setup') {
