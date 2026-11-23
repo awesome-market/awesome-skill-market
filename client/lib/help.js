@@ -64,6 +64,8 @@ const H = {
     skillmkt install owner/repo                    # GitHub 仓库（默认源）
     skillmkt install owner/repo --path skills/foo  # monorepo 子目录
     skillmkt install owner/repo@v1.2.0             # 指定 tag/sha/branch
+    skillmkt install owner/repo/sub/dir@v1.2.0     # skills.sh 全 slug + 版本（子目录内嵌）
+    skillmkt install 'github.com/o/r/tree/v1/sub'  # 浏览器复制的 tree 页 URL 也行
     skillmkt install corp:auth-skill               # 命名 registry 前缀
     skillmkt install git@github.com:o/r.git        # git URL
     skillmkt install ./local/dir                   # 本地目录
@@ -80,6 +82,8 @@ const H = {
     skillmkt install owner/repo                    # GitHub repo (default)
     skillmkt install owner/repo --path skills/foo  # monorepo subdir
     skillmkt install owner/repo@v1.2.0             # tag/sha/branch
+    skillmkt install owner/repo/sub/dir@v1.2.0     # full skills.sh slug + version
+    skillmkt install 'github.com/o/r/tree/v1/sub'  # pasted tree-page URL works too
     skillmkt install corp:auth-skill               # named registry prefix
     skillmkt install git@github.com:o/r.git        # git URL
     skillmkt install ./local/dir                   # local directory
