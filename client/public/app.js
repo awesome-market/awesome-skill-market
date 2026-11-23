@@ -115,7 +115,7 @@ const I18N = {
     mg_pick: '选择要合并的 skill（≥2）', mg_name: '新 skill 名字（可选，默认自动生成）', mg_go: '开始合并',
     mg_busy: '合并中…', mg_few: '至少勾两个',
     mg_state: (n, r) => `当前合并产物：${n}（${r} 条规则）`,
-    mg_build: '生成 SKILL.md', mg_install: '安装这个合并 skill', mg_to_conflicts: '有冲突待裁决 → 去「冲突处理」',
+    mg_build: '生成 SKILL.md', mg_install: '安装这个合并 skill', mg_inlist: (n) => `已装：${n}`, mg_notinst: '已生成，未装 →', mg_reinst: '重装', mg_to_conflicts: '有冲突待裁决 → 去「冲突处理」',
     rv_reaudit: '重新审核',
   },
   en: {
@@ -205,7 +205,7 @@ const I18N = {
     mg_pick: 'Skills to merge (≥2)', mg_name: 'New skill name (optional)', mg_go: 'Merge',
     mg_busy: 'Merging…', mg_few: 'Pick at least two',
     mg_state: (n, r) => `Current merged result: ${n} (${r} rules)`,
-    mg_build: 'Build SKILL.md', mg_install: 'Install this merged skill', mg_to_conflicts: 'Pending conflicts → go to "Conflicts"',
+    mg_build: 'Build SKILL.md', mg_install: 'Install this merged skill', mg_inlist: (n) => `Installed: ${n}`, mg_notinst: 'built, not installed →', mg_reinst: 'Reinstall', mg_to_conflicts: 'Pending conflicts → go to "Conflicts"',
     rv_reaudit: 'Re-audit',
   },
 };
@@ -607,7 +607,9 @@ async function render() {
         <button class="primary" id="mg-go">${t('mg_go')}</button><span id="mg-out" class="mut">${esc(mgOut)}</span></div></div>`
       + (mg ? `<div class="card"><div class="row"><b>${t('mg_state', esc(mg.name), mg.rules)}</b>
         <button id="mg-build" ${mg.built ? 'disabled' : ''}>${t('mg_build')}</button>
-        ${mg.built ? `<button class="primary" id="mg-inst">${t('mg_install')}</button>` : ''}
+        ${mg.built ? (mg.skillName && (S.skills || {})[mg.skillName]
+          ? `<span class="pill ok">${t('mg_inlist', esc(mg.skillName))}</span><button class="sm" id="mg-inst">${t('mg_reinst')}</button>`
+          : `<span class="mut">${t('mg_notinst')}</span><button class="primary" id="mg-inst">${t('mg_install')}</button>`) : ''}
         <span id="mg-sout" class="mut"></span></div></div>` : '')
       + (pendN ? `<div class="card row"><span class="pill warn">${pendN} pending</span><button onclick="location.hash='conflicts'">${t('mg_to_conflicts')}</button></div>` : '');
     app.querySelector('#mg-go').onclick = async (e) => {

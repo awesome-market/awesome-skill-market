@@ -59,8 +59,14 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
       const f = path.join(ctx.hub, 'merged', 'rules.yml');
       if (!fs.existsSync(f)) return null;
       const y = readYAML(f) || {};
+      const sk = path.join(ctx.hub, 'merged', 'skill-out', 'SKILL.md');
+      let skillName = null;
+      if (fs.existsSync(sk)) {
+        const m = fs.readFileSync(sk, 'utf8').match(/^name:\s*["']?(.+?)["']?\s*$/m);
+        skillName = m?.[1] || null;   // 装进列表时用的名字（frontmatter name）
+      }
       return { name: y.name, sources: y.sources || [], rules: (y.rules || []).length,
-        built: fs.existsSync(path.join(ctx.hub, 'merged', 'skill-out', 'SKILL.md')) };
+        built: fs.existsSync(sk), skillName };
     })(),
   });
 
