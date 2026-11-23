@@ -124,6 +124,7 @@ const I18N = {
     mg_llm: 'AI 抽规则（语义归组/改写措辞）', mg_auto: 'AI 自动裁决检出的新冲突', mg_nollm: '想让 AI 介入？去「设置」配好本地模型端点（base_url + model）后这里会出现 AI 选项',
     cf_auto: (n) => `AI 裁决 ${n} 个待裁决冲突`,
     pg_boot: '启动中', pg_extract: 'AI 抽规则', pg_arb: 'AI 仲裁', pg_used: '已用', pg_eta: '预计剩', pg_tok: '消耗',
+    cf_hist: (n) => `已处理历史（${n}）——留着防止同一对冲突重复问你`,
     rv_reaudit: '重新审核',
   },
   en: {
@@ -217,6 +218,7 @@ const I18N = {
     mg_llm: 'LLM rule extraction (semantic grouping/rewriting)', mg_auto: 'LLM auto-arbitrate new conflicts', mg_nollm: 'Want AI? Configure a local model endpoint (base_url + model) in Settings and AI options will appear here',
     cf_auto: (n) => `LLM-arbitrate ${n} pending conflicts`,
     pg_boot: 'starting', pg_extract: 'LLM extracting', pg_arb: 'LLM arbitrating', pg_used: 'elapsed', pg_eta: 'eta', pg_tok: 'tokens',
+    cf_hist: (n) => `Resolved history (${n}) — kept so the same pair never asks twice`,
     rv_reaudit: 'Re-audit',
   },
 };
@@ -694,7 +696,7 @@ async function render() {
       cfOut = (r.out || '').split('\n').filter((l) => l.trim()).pop()?.slice(0, 140) || '';
       refresh();   // 待裁决变少/文案留在 cfOut
     });
-    for (const c of cs) {
+    const mkCard = (c) => {
       const card = el(`<div class="card"><div class="row"><b>${esc(c.id)}</b>${pill(c.status)}<span class="mut">${esc(c.domain || '')}</span></div>
         <div class="side a"><span class="who">${t('side', 'A', esc(c.sides[0].source))}</span>${esc(c.sides[0].text)}</div>
         <div class="side b"><span class="who">${t('side', 'B', esc(c.sides[1].source))}</span>${esc(c.sides[1].text)}</div>
@@ -730,7 +732,15 @@ async function render() {
       });
       card.querySelector('.editbox .go')?.addEventListener('click', () => post('merge', card.querySelector('.mtext').value.trim()));
       card.querySelector('.editbox .cancel')?.addEventListener('click', () => { card.querySelector('.editbox').style.display = 'none'; });
-      app.appendChild(card);
+      return card;
+    };
+    // pending 直接列；已裁决的收进折叠历史——留着去重锚点但不占视觉
+    const hist = cs.filter((c) => c.status !== 'pending');
+    for (const c of cs.filter((c) => c.status === 'pending')) app.appendChild(mkCard(c));
+    if (hist.length) {
+      const det = el(`<details class="card"><summary class="mut">${t('cf_hist', hist.length)}</summary></details>`);
+      for (const c of hist) det.appendChild(mkCard(c));
+      app.appendChild(det);
     }
     if (!cs.length) app.innerHTML += `<div class="empty">${t('cf_empty')}</div>`;
   }
