@@ -22,7 +22,8 @@
 | `skillmkt search <q>` | 本地+远端检索 skill | 否 | 1 |
 | `skillmkt list` | 已装 skill × harness 矩阵 | 否 | 1 |
 | `skillmkt show <name>` | 详情卡 / 原文 / 文件 / 规则 | 否 | 1 |
-| `skillmkt install <ref>` | 装 skill：拉取→审核→hub→投影 | 可选 | 1 |
+| `skillmkt install <ref>` | 装 skill：拉取→审核→hub→投影（hub 缺席时静默自建） | 可选 | 1 |
+| `skillmkt adopt [name]` | 收编 harness 里已装的外部 skill 进 hub | 否 | 1 |
 | `skillmkt remove <name>` | 卸 skill：删投影+hub 副本 | 否 | 1 |
 | `skillmkt targets <sub>` | `list/add/remove` 管理投影目标（含 adopt 新 harness） | 否 | 1 |
 | `skillmkt sync` | 从 hub+lock 重建全部投影 | 否 | 1 |
@@ -88,7 +89,7 @@ skillmkt <cmd> [args] [--json] [--hub <path>] [--verbose] [--no-llm]
 
 | 状态 | 行为 |
 |---|---|
-| 未初始化（无 hub） | TTY 直接接进 `init`；非 TTY 打 `run 'skillmkt init'` exit 1 |
+| 未初始化（无 hub） | 打欢迎卡：`install <ref>` 开始装 skill / `init` 配 LLM（可选）——**init 非前置** |
 | 已初始化 + TTY | **状态仪表盘**：只显示"需要注意力"的项（pending 冲突/可更新/审核告警置前）+ 下一步命令建议 |
 | `ui.enabled: always` | 拉起 daemon 开面板首页，不打终端仪表盘 |
 | 非 TTY | 单行状态摘要 exit 0 |
@@ -165,7 +166,7 @@ SKILLMKT_LLM_MODEL=qwen3 \
 
 ## 3. 命令详规
 
-### 3.0 `skillmkt init`——交互式初始化（用户唯一入口）
+### 3.0 `skillmkt init`——交互式配置（LLM/偏好，非装 skill 前置）
 
 **首问选形态**（TTY 且未给 `--ui/--cli` 时）：
 
@@ -204,7 +205,7 @@ $ skillmkt init
 
 | 步 | 实现 |
 |---|---|
-| 探测 | 并发探测（300ms 超时）常见本地服务：**端口探测为主、服务识别为辅**——能回 `/v1/models` 即可用端点，存活端点拉模型列表填选择 |
+| 探测 | **只在用户进入"添加 LLM 配置"步骤时探测**——doctor/裸跑/其余命令只读 config 状态永不主动扫。探测方式：并发 300ms 扫常见端口，能回 `/v1/models` 即可用端点，服务名仅作展示标签 |
 | 探测清单 | `8001` OMLX · `11434` Ollama（`GET /api/version` 特征端点识别，走 `/v1`）· `1234` LM Studio · `8000` vLLM · `8080` mlx-lm/llama.cpp/LocalAI（撞端口不分辨，谁应答谁可用）· `1337` Jan · `5000` text-gen-webui |
 | 手动输入 | 先 `GET /v1/models` 验证再进选择——URL 打错当场报错，不存坏配置 |
 | 落盘 | 写 `config.yml`（key 存 `env:` 引用）+ 真 `/v1/chat` 冒烟 + shell rc export 建议 |
@@ -363,9 +364,28 @@ resolve ref → adapter.fetch() → SkillPackage
 | `--audit-only` | 走完审核就停，不落盘不投影 |
 | `--keep-scripts` | 显式保留 scripts/（写入 scans 标记，strict 策略下无效） |
 
-**未初始化行为**：`--to` 支持 **stateless 模式**——无 hub 也可执行：fetch → 静态闸门 → 剥 scripts/ → 写目录，不登记 library/lock（提示"unmanaged：不追踪更新，`init` 后可受管"）。受管安装（`--target`/`--scope`/默认）仍需 hub：无 hub 时静默建最小骨架（目录+harness 探测，不配 LLM）后继续。**审核闸门两种模式都不绕。**
+**无前置要求**：`install` 永远能跑——hub 缺席时静默创建骨架（仅建目录+harness 探测，不触发任何向导）。`init` 只负责 LLM 配置与偏好，**不是装 skill 的前置**。`--to`/`--scope`/`--target` 只是目的地修饰，安装语义不变：fetch → 审核闸门 → hub 登记 → 投影。
 
 输出收尾：`✓ installed deslop → claude(sym) codex(copy) · audit:clean · locked 9f3e`
+
+### 3.5b `skillmkt adopt`——收编已装的外部 skill
+
+scanner 在 harness 目录发现的非受管 skill 标记 `◌external`；`adopt` 收编：
+
+```bash
+skillmkt adopt                 # 列出全部 external，交互挑选
+skillmkt adopt taste-skill     # 单收编
+skillmkt adopt --all           # 全收编
+```
+
+流程：读原目录 → **尽力恢复来源**（目录内 `.git` remote、skills.sh 的 `skills-lock.json`、frontmatter homepage/repo 字段）→ 过静态审核闸门 → copy 进 `skills/<name>/` → 原位目录换成 symlink 指回 hub（transport 升级，harness 无感）→ library 登记 `adopted_from: <原路径>` + `adopted_at`。
+
+| 来源恢复 | 结果 |
+|---|---|
+| 成功（git remote/lock 记录/frontmatter） | 完全受管：`update`/`diff`/`rollback` 可用 |
+| 失败 | `source: adopted`——sync/conflicts/audit 参与，`update` 显示 `n/a`，`show` 里标注"来源不明建议重装" |
+
+本地有改动也收——当前内容就是被管版本；恢复出 upstream 后 `update --check` 会显示与上游的 diff 供取舍。
 
 ### 3.6 `skillmkt remove <name>` / `sync` / `audit`
 
