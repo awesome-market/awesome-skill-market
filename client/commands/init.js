@@ -89,53 +89,35 @@ export async function run(ctx) {
     catch (e) { if (/401|403/.test(e.message)) needKey = true; }
   }
 
-  // 密钥：只在需要时问；失败不默默继续——给"换个方式 / 退出向导"选择
+  // 密钥：先自动试 SKILLMKT_API_KEY（设了且能用就直接走）；不行才引导粘贴
   let api_key = null, keyPlain = '';
   if (base_url && needKey) {
-    for (;;) {   // 密钥来源循环：任何一步失败都回到这里重选
-      const ks = await choose(L('这个服务需要访问密钥，怎么提供？', 'This service needs an access key — how should it be provided?'), [
-        { label: L('现在粘贴进来（只输一次，自动加密保存）', 'Paste it now (entered once, saved encrypted)'), v: 'paste' },
-        { label: L('从环境变量 SKILLMKT_API_KEY 读', 'Read env var SKILLMKT_API_KEY'), v: 'env:SKILLMKT_API_KEY' },
-        { label: L('退出向导', 'Quit wizard'), v: 'quit' },
-      ]);
-      if (ks.v === 'quit') {
+    const vn = 'SKILLMKT_API_KEY';
+    keyPlain = process.env[vn] ?? '';
+    if (keyPlain) {
+      try {
+        models = await listModels(base_url, keyPlain);
+        api_key = `env:${vn}`;
+        ok(L(`已用环境变量 ${vn} 验证，加载 ${models.length} 个模型`, `verified via env ${vn} — loaded ${models.length} models`));
+      } catch (e) {
+        warn(L(`${vn} 已设置但验证失败（${e.message}）——改用手动粘贴`, `${vn} is set but failed verification (${e.message}) — paste a key instead`));
+        keyPlain = '';
+      }
+    }
+    while (!api_key) {   // 粘贴后真验证：错密钥可重输，留空退出
+      keyPlain = (await askSecret(L(`  密钥（留空退出——也可先 export ${vn} 再重跑）> `, `  Key (empty to quit — or export ${vn} and rerun) > `))).trim();
+      if (!keyPlain) {
         info(L('配好后重跑：skillmkt init', 'after fixing, rerun: skillmkt init'));
         return 0;
       }
-      if (!ks.v) break;                                            // 不需要密钥 → 出循环
-      if (ks.v === 'paste') {
-        for (;;) {   // 粘贴后真验证：错密钥可重输，留空回上一步
-          keyPlain = (await askSecret(L('  密钥 > ', '  Key > '))).trim();
-          if (!keyPlain) break;
-          try {
-            models = await listModels(base_url, keyPlain);
-            api_key = encryptSecret(keyPlain);
-            ok(L(`密钥有效，已加载 ${models.length} 个模型`, `Key valid — loaded ${models.length} models`));
-            break;
-          } catch (e) {
-            warn(L(`密钥错误（${e.message}）——重输，或留空返回上一步`, `Wrong key (${e.message}) — re-enter, or leave empty to go back`));
-            keyPlain = '';
-          }
-        }
-        if (api_key) break;
-        continue;
+      try {
+        models = await listModels(base_url, keyPlain);
+        api_key = encryptSecret(keyPlain);
+        ok(L(`密钥有效，已加载 ${models.length} 个模型`, `Key valid — loaded ${models.length} models`));
+      } catch (e) {
+        warn(L(`密钥错误（${e.message}）——重输，或留空退出`, `Wrong key (${e.message}) — re-enter, or leave empty to quit`));
+        keyPlain = '';
       }
-      // env:VAR —— 没设/验证失败时给明确指引：本进程读不到事后 export 的值，只能换方式或退出
-      const vn = ks.v.slice(4);
-      keyPlain = process.env[vn] ?? '';
-      if (!keyPlain) {
-        warn(L(`环境变量 ${vn} 没设置——本向导运行中设了也读不到（环境变量只在启动时继承）`, `env var ${vn} is not set — exporting it now won't reach this wizard (env is inherited at launch)`));
-      } else {
-        try {
-          models = await listModels(base_url, keyPlain);
-          api_key = `env:${vn}`;
-          ok(L(`已用 ${vn} 验证，加载 ${models.length} 个模型`, `verified with ${vn} — loaded ${models.length} models`));
-          break;
-        } catch (e) {
-          warn(L(`用 ${vn} 验证失败（${e.message}）`, `key in ${vn} failed verification (${e.message})`));
-        }
-      }
-      // 失败 → 直接回外圈重显示来源菜单（想退出选"退出向导"）
     }
   }
 
