@@ -278,8 +278,8 @@ async function render() {
     app.querySelectorAll('[data-rm]').forEach((b) => {
       let armed = false, timer = null;
       b.onclick = async () => {
-        if (!armed) { armed = true; b.textContent = t('sk_remove_sure'); b.style.borderColor = 'var(--color-bad)'; timer = setTimeout(() => { armed = false; b.textContent = t('sk_remove'); b.style.borderColor = ''; }, 3000); return; }
-        clearTimeout(timer); b.disabled = true; b.textContent = t('op_busy');
+        if (!armed) { armed = true; b.textContent = t('sk_remove_sure'); b.classList.add('danger'); timer = setTimeout(() => { armed = false; b.textContent = t('sk_remove'); b.classList.remove('danger'); }, 3000); return; }
+        clearTimeout(timer); b.disabled = true; b.classList.remove('danger'); b.textContent = t('op_busy');
         const r = await api('/remove', { method: 'POST', body: JSON.stringify({ name: b.dataset.rm }) });
         b.textContent = r.code === 0 ? t('sk_removed') : t('ins_fail', r.code);
         if (r.code === 0) refresh();
