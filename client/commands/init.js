@@ -92,11 +92,9 @@ export async function run(ctx) {
   // 密钥：只在需要时问；粘贴的密钥用本机机器码加密存 config.yml
   let api_key = null, keyPlain = '';
   if (base_url && needKey) {
-    // 只列当前 shell 真设了的环境变量，加自填项——不再硬塞用户看不懂的名字
-    const envCands = ['SKILLMKT_API_KEY', 'OPENAI_API_KEY', 'OMLX_API_KEY'].filter((v) => process.env[v]);
     const ks = await choose(L('这个服务需要访问密钥，怎么提供？', 'This service needs an access key — how should it be provided?'), [
       { label: L('现在粘贴进来（只输一次，自动加密保存）', 'Paste it now (entered once, saved encrypted)'), v: 'paste' },
-      ...envCands.map((v) => ({ label: L(`从环境变量 ${v} 读（当前 shell 已设置）`, `Read env var ${v} (set in this shell)`), v: `env:${v}` })),
+      { label: L('从环境变量 SKILLMKT_API_KEY 读', 'Read env var SKILLMKT_API_KEY'), v: 'env:SKILLMKT_API_KEY' },
       { label: L('从别的环境变量读（自己填变量名）', 'Read another env var (type the name yourself)'), v: 'env-custom' },
       { label: L('不需要密钥', 'No key needed'), v: null },
     ]);
