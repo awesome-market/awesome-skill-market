@@ -8,6 +8,7 @@ import { execFileSync } from 'node:child_process';
 import { loadConflicts, writeConflict } from '../lib/conflicts.js';
 import { decide } from '../lib/decide.js';
 import { autoArbitrate } from '../lib/autoarb.js';
+import { maybeHandoff } from '../lib/daemon.js';
 import { ok, fail, info, warn } from '../lib/render.js';
 
 const edit = (seed) => {
@@ -18,6 +19,8 @@ const edit = (seed) => {
 };
 
 export async function run(ctx) {
+  // TTY 默认接管到 Web 裁决（--cli 留在终端；--auto/--evidence 先跑 CLI 部分）
+  if (!ctx.flags.raw.auto && !ctx.flags.raw.evidence && !ctx.flags.raw.cli && await maybeHandoff(ctx, '/#conflicts')) return 0;
   let queue = loadConflicts(ctx.hub, { pendingOnly: true });
   // --auto：fresh-context 仲裁先吃掉确定项，剩余真价值权衡留人
   if (ctx.flags.raw.auto) {

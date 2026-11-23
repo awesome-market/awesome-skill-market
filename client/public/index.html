@@ -1,0 +1,21 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>skillmkt</title>
+<style>
+:root{color-scheme:dark;--bg:#0d1117;--fg:#e6edf3;--mut:#8b949e;--acc:#58a6ff;--warn:#d29922;--bad:#f85149;--ok:#3fb950;--card:#161b22;--brd:#30363d}
+*{box-sizing:border-box}body{margin:0;font:14px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--bg);color:var(--fg)}
+header{display:flex;gap:4px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--brd)}
+header b{margin-right:16px}.tab{padding:6px 14px;border-radius:6px;cursor:pointer;color:var(--mut)}
+.tab.on{background:var(--card);color:var(--fg)}main{padding:16px;max-width:1100px}
+.card{background:var(--card);border:1px solid var(--brd);border-radius:8px;padding:12px 14px;margin-bottom:10px}
+table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:4px 10px;border-bottom:1px solid var(--brd);font-size:13px}
+th{color:var(--mut);font-weight:600}.mut{color:var(--mut)}.pill{display:inline-block;padding:1px 8px;border-radius:10px;font-size:11px;border:1px solid var(--brd)}
+.pill.ok{color:var(--ok)}.pill.warn{color:var(--warn)}.pill.bad{color:var(--bad)}
+button{background:#21262d;color:var(--fg);border:1px solid var(--brd);border-radius:6px;padding:5px 12px;cursor:pointer}
+button:hover{border-color:var(--acc)}input,textarea{background:#0d1117;color:var(--fg);border:1px solid var(--brd);border-radius:6px;padding:6px 10px;width:100%;font:inherit}
+.side{padding:8px 10px;border-left:3px solid var(--brd);margin:6px 0;font-size:13px}
+.side.a{border-color:var(--acc)}.side.b{border-color:var(--warn)}img.ev{max-width:340px;border:1px solid var(--brd);border-radius:6px;margin:4px}
+h3{margin:6px 0}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+</style></head><body>
+<header><b>skillmkt</b><span class="tab on" data-t="skills">skills</span><span class="tab" data-t="conflicts">conflicts</span><span class="tab" data-t="review">review</span><span class="tab" data-t="setup">setup</span><span id="live" class="mut" style="margin-left:auto"></span></header>
+<main id="app">loading…</main>
+<script src="/app.js"></script></body></html>
