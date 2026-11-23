@@ -99,11 +99,28 @@ export async function run(ctx) {
       { label: L('不需要密钥', 'No key needed'), v: null },
     ]);
     if (ks.v === 'paste') {
-      keyPlain = (await askSecret(L('  密钥 > ', '  Key > '))).trim();
-      if (keyPlain) api_key = encryptSecret(keyPlain);
-    } else if (ks.v) api_key = ks.v;
-    if (!keyPlain && api_key?.startsWith('env:')) keyPlain = process.env[api_key.slice(4)] ?? '';
-    if (keyPlain) { try { models = await listModels(base_url, keyPlain); } catch { /* 密钥无效→手填模型 */ } }
+      for (;;) {   // 粘贴后真验证：错密钥报"密钥错误"可重输，对了才放行
+        keyPlain = (await askSecret(L('  密钥 > ', '  Key > '))).trim();
+        if (!keyPlain) break;                                       // 留空放弃
+        try {
+          models = await listModels(base_url, keyPlain);
+          api_key = encryptSecret(keyPlain);
+          ok(L(`密钥有效，已加载 ${models.length} 个模型`, `Key valid — loaded ${models.length} models`));
+          break;
+        } catch (e) {
+          warn(L(`密钥错误（${e.message}）——重输，或留空改手填`, `Wrong key (${e.message}) — re-enter, or leave empty to type the model yourself`));
+          keyPlain = '';
+        }
+      }
+    } else if (ks.v) {
+      api_key = ks.v;
+      keyPlain = process.env[api_key.slice(4)] ?? '';
+      if (!keyPlain) warn(L(`环境变量 ${api_key.slice(4)} 没设置——先 export 再重跑，或改选粘贴`, `env var ${api_key.slice(4)} is not set — export it first, or pick paste instead`));
+      else {
+        try { models = await listModels(base_url, keyPlain); }
+        catch (e) { warn(L(`用 ${api_key.slice(4)} 验证失败（${e.message}）——配置照存，模型手填`, `key in ${api_key.slice(4)} failed verification (${e.message}) — config saved anyway, type the model manually`)); }
+      }
+    }
   }
 
   // 模型：拉到了就列出来选，拉不到手填
