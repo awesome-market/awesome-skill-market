@@ -4,6 +4,7 @@ const api = async (p, opt) => (await fetch(`/api${p}${p.includes('?') ? '&' : '?
 const el = (h) => { const d = document.createElement('div'); d.innerHTML = h; return d.firstElementChild; };
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 let S = null, tab = location.hash.slice(1).split('?')[0] || 'skills';
+let saveMsg = '', saveMsgAt = 0;   // 保存结果提示——要挺过保存后的连续重渲染（自己 refresh + SSE config 事件）
 
 async function refresh() {
   try { S = await api('/state'); }
@@ -297,11 +298,15 @@ async function render() {
         ? `连接成功<br>发送：${esc(r.sent)}<br>回复：${esc(r.reply || '（空回复）')}`
         : `连接失败：${esc(r.error)}`;
     };
+    if (saveMsg && Date.now() - saveMsgAt < 6000) { const o = app.querySelector('#save-out'); if (o) o.textContent = saveMsg; }
     app.querySelector('#save').onclick = async () => {
-      const targets = [...app.querySelectorAll('[data-h]:checked')].map((x) => x.dataset.h);
-      const r = await api('/config', { method: 'POST', body: JSON.stringify({ llm: { base_url: app.querySelector('#murl').value || null, model: app.querySelector('#mmodel').value || null, api_key: app.querySelector('#mkey').value || undefined, concurrency: 2, timeout_ms: 60000 }, default_targets: targets }) });
-      app.querySelector('#save-out').textContent = r.ok ? `已保存到 config.yml${r.key_enc ? '，密钥已加密' : ''}` : `保存失败：${r.error}`;
-      refresh();
+      try {
+        const targets = [...app.querySelectorAll('[data-h]:checked')].map((x) => x.dataset.h);
+        const r = await api('/config', { method: 'POST', body: JSON.stringify({ llm: { base_url: app.querySelector('#murl').value || null, model: app.querySelector('#mmodel').value || null, api_key: app.querySelector('#mkey').value || undefined, concurrency: 2, timeout_ms: 60000 }, default_targets: targets }) });
+        saveMsg = r.ok ? `已保存到 config.yml${r.key_enc ? '，密钥已加密' : ''}` : `保存失败：${r.error}`;
+      } catch (e) { saveMsg = `保存失败：${e.message}`; }
+      saveMsgAt = Date.now();
+      await refresh();   // 重渲染会把 save-out 抹掉——上面的 flash 负责补回来
     };
   }
 }
