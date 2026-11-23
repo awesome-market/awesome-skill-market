@@ -321,7 +321,7 @@ async function render() {
         <div class="row"><button id="probe">${t('probe_btn')}</button><span id="probe-out" class="mut"></span></div>
         <div id="eps"></div>
         <div class="frow"><span class="lab" style="width:96px">${t('l_url')}</span><input type="text" id="murl" autocomplete="off" placeholder="http://localhost:1234/v1" value="${esc(cfg.llm?.base_url || '')}"></div>
-        <div class="frow" id="key-row" style="display:none"><span class="lab" style="width:96px">${t('l_key')}</span><input type="text" id="mkey" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-form-type="other" value="${esc(cfg.llm?.api_key?.startsWith('enc:') ? t('enc_disp') : (cfg.llm?.api_key || ''))}"><span class="fhint" id="key-hint"></span>
+        <div class="frow" id="key-row" style="display:none"><span class="lab" style="width:96px">${t('l_key')}</span><input type="password" id="mkey" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-form-type="other" value="${esc(cfg.llm?.api_key?.startsWith('enc:') ? t('enc_disp') : (cfg.llm?.api_key || ''))}"><span class="fhint" id="key-hint"></span>
           <div class="fsub">${t('key_sub')}</div></div>
         <div class="frow" id="model-box"><span class="lab" style="width:96px">${t('l_model')}</span>
           <div class="combo"><input type="text" id="mmodel" autocomplete="off" placeholder="${t('model_ph')}" value="${esc(cfg.llm?.model || '')}">
