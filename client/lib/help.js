@@ -104,10 +104,20 @@ const H = {
   targets: {
     zh: `用法: skillmkt targets [list] | add <id> | add --path <目录> <名字> | remove <id>
   安装位置矩阵：每个 skill 装到了哪些 agent；增删目标。
-  add <id> 用探测到的 agent id（claude/codex/…）；--path 自定义目录。`,
+  add <id> 用探测到的 agent id（claude/codex/…）；--path 自定义目录。
+
+  单个 skill 的目标：
+    skillmkt targets <skill>                    # 看它装在哪些目标
+    skillmkt targets <skill> add <id> [id…]     # 给它加 agent（立即投影）
+    skillmkt targets <skill> remove <id> [id…]  # 给它删 agent（删副本）`,
     en: `usage: skillmkt targets [list] | add <id> | add --path <dir> <name> | remove <id>
   Install-location matrix: which agents each skill goes to; add/remove targets.
-  add <id> uses a detected agent id (claude/codex/…); --path takes a dir.`,
+  add <id> uses a detected agent id (claude/codex/…); --path takes a dir.
+
+  Per-skill targets:
+    skillmkt targets <skill>                    # show its targets
+    skillmkt targets <skill> add <id> [id…]     # add agents (projects immediately)
+    skillmkt targets <skill> remove <id> [id…]  # remove agents (deletes copies)`,
   },
   sync: {
     zh: `用法: skillmkt sync [--dry-run]

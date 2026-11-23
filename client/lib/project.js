@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { treeHash, copyDir, rmDir, readSkillDir } from './package.js';
 import { primaryDir } from './scanner.js';
+import { registerSkill, updateLock, readLibrary } from './hub.js';
 import { L } from './i18n.js';
 
 // 投影单个 skill 到目标目录 → {target, hash, action}
@@ -61,6 +62,34 @@ export function targetDirFor(ctx, target, _name) {
   if (target.startsWith('project:')) return target.slice(8);
   const h = ctx.harnesses.find((x) => x.id === target);
   return h ? primaryDir(h) : null;
+}
+
+// 单 skill 重设目标集（web /api/targets 与 CLI targets <skill> 共用）：
+// 取消的目标物理删副本，新增的补投影，同步 library.yml + lock.yml
+export function setSkillTargets(ctx, name, targets, { mode = 'copy', dryRun = false } = {}) {
+  const lib = readLibrary(ctx.hub);
+  const s = lib.skills?.[name];
+  if (!s) throw new Error(L(`没纳入管理: ${name}`, `not managed: ${name}`));
+  const dest = path.join(ctx.hub, 'skills', name);
+  const lockTargets = {};
+  const out = [];
+  for (const t of s.targets || []) {
+    if (targets.includes(t)) continue;
+    const dir = targetDirFor(ctx, t, name);
+    if (dir) out.push({ t, ...unproject(name, dir, { dryRun }) });
+  }
+  for (const t of targets) {
+    const dir = targetDirFor(ctx, t, name);
+    if (!dir) { out.push({ t, action: 'unknown-target' }); continue; }
+    const r = projectSkill(dest, name, dir, { mode, dryRun });
+    out.push({ t, ...r });
+    lockTargets[t] = { hash: r.hash, projected_at: new Date().toISOString(), mode };
+  }
+  if (!dryRun) {
+    registerSkill(ctx.hub, name, { ...s, targets });
+    updateLock(ctx.hub, name, treeHash(dest), lockTargets);
+  }
+  return out;
 }
 
 // 解析目标集：--to/--target/--scope/default_targets

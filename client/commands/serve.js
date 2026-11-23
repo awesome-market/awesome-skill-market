@@ -11,8 +11,8 @@ import { readUpstream } from '../lib/state.js';
 import { readYAML } from '../../pipeline/lib/util.js';
 import { detectHarnesses, scanAll } from '../lib/scanner.js';
 import { probeEndpoints, chat, encryptSecret, resolveKeyRef, listModels } from '../lib/llm.js';
-import { projectSkill, unproject, targetDirFor } from '../lib/project.js';
-import { readSkillDir, treeHash } from '../lib/package.js';
+import { setSkillTargets } from '../lib/project.js';
+import { readSkillDir } from '../lib/package.js';
 import { searchRemote } from '../lib/registries/skillssh.js';
 import { execFile } from 'node:child_process';
 import { ok, info } from '../lib/render.js';
@@ -221,25 +221,7 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
           if (u.pathname === '/api/targets') {                        // web 改投影目标
             const name = b.name, targets = b.targets || [];
             req.logNote = L(`修改了「${name}」的安装位置`, `changed install locations for "${name}"`);
-            const lib = readLibrary(ctx.hub);
-            const s = lib.skills?.[name];
-            if (!s) { res.writeHead(404); return res.end('{"error":"not found"}'); }
-            const dest = path.join(ctx.hub, 'skills', name);
-            const lockTargets = {};
-            // 取消勾选的目标：删掉已复制的副本（否则孤儿文件遗留且 drift 检不出）
-            for (const t of s.targets || []) {
-              if (targets.includes(t)) continue;
-              const dir = targetDirFor(ctx, t, name);
-              if (dir) unproject(name, dir);
-            }
-            for (const t of targets) {
-              const dir = targetDirFor(ctx, t, name);
-              if (!dir) continue;
-              const r = projectSkill(dest, name, dir, { mode: 'copy' });
-              lockTargets[t] = { hash: r.hash, projected_at: new Date().toISOString(), mode: 'copy' };
-            }
-            registerSkill(ctx.hub, name, { ...s, targets });
-            updateLock(ctx.hub, name, treeHash(dest), lockTargets);
+            setSkillTargets(ctx, name, targets.map(String));
             emit('targets', { name });
             return res.end('{"ok":true}');
           }

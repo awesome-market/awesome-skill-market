@@ -1,8 +1,9 @@
 // targets — list / add <harness> / add --path <dir> <name> / remove <id>
+//          <skill> [add|remove <id>…] —— 单个 skill 的投影目标
 import path from 'node:path';
 import { table, ok, fail, info } from '../lib/render.js';
 import { readConfig, writeConfig, expandHome } from '../lib/hub.js';
-import { projectSkill } from '../lib/project.js';
+import { projectSkill, setSkillTargets, targetDirFor } from '../lib/project.js';
 import { updateLock } from '../lib/hub.js';
 import { readSkillDir } from '../lib/package.js';
 import { maybeHandoff } from '../lib/daemon.js';
@@ -12,6 +13,41 @@ import { L } from '../lib/i18n.js';
 export async function run(ctx) {
   const [sub, ...rest] = ctx.args;
   const flags = ctx.flags.raw;
+
+  // ── per-skill：targets <skill> [add|remove <id>…]
+  if (sub && ctx.library.skills?.[sub]) {
+    const name = sub;
+    const s = ctx.library.skills[name];
+    const verb = rest[0];
+    if (!verb) {                                   // 只看这个 skill 的目标
+      const rows = (s.targets || []).map((t) => ({ target: t, dir: targetDirFor(ctx, t, name) || '—' }));
+      if (!rows.length) info(L(`${name}: 没有投影目标（只在 hub 仓库里）`, `${name}: no targets — hub only`));
+      else table(rows, [{ key: 'target', title: L('目标', 'target') }, { key: 'dir', title: L('目录', 'dir') }]);
+      return 0;
+    }
+    if (!['add', 'remove', 'rm'].includes(verb)) {
+      fail(L(`用法: targets ${name} [add|remove <id>…]`, `usage: targets ${name} [add|remove <id>…]`));
+      return 1;
+    }
+    const ids = rest.slice(1);
+    if (!ids.length) { fail(L(`用法: targets ${name} ${verb} <id>`, `usage: targets ${name} ${verb} <id>`)); return 1; }
+    const toId = (id) => {                          // harness id 或登记的自定义目标名
+      if (ctx.harnesses.some((h) => h.id === id)) return id;
+      const c = ctx.config.targets[id];
+      if (c) return `custom:${path.resolve(expandHome(c.path))}`;   // 同 resolveTargets 的落库格式
+      return null;
+    };
+    const bad = ids.filter((id) => !toId(id));
+    if (bad.length) { fail(L(`未知目标: ${bad.join(', ')}`, `unknown target: ${bad.join(', ')}`)); return 1; }
+    const next = new Set(s.targets || []);
+    for (const id of ids) { const tid = toId(id); if (verb === 'add') next.add(tid); else next.delete(tid); }
+    const rs = setSkillTargets(ctx, name, [...next], { dryRun: ctx.flags.dryRun });
+    const actZh = { removed: '已删', copied: '已装', skipped: '已在', absent: '本来没有', 'would-remove': '将删', 'would-create': '将装', 'would-update': '将更新', 'unknown-target': '未知目标', conflict: '冲突' };
+    for (const r of rs) info(`${r.t} → ${L(actZh[r.action] ?? r.action, r.action)} ${r.target || ''}`);
+    ok(L(`${name} 目标已更新`, `${name} targets updated`));
+    return 0;
+  }
+
 
   if ((!sub || sub === 'list') && !ctx.flags.json && await maybeHandoff(ctx, '/#skills')) return 0;
 
