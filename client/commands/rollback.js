@@ -5,7 +5,7 @@ import { historyRestore, historyMeta } from '../lib/state.js';
 import { historyDir, registerSkill } from '../lib/hub.js';
 import { projectSkill, targetDirFor } from '../lib/project.js';
 import { updateLock } from '../lib/hub.js';
-import { treeHash, readSkillDir } from '../lib/package.js';
+import { treeHash, readSkillDir, rmDir } from '../lib/package.js';
 import { ok, fail } from '../lib/render.js';
 import { L } from '../lib/i18n.js';
 
@@ -30,6 +30,10 @@ export async function run(ctx) {
     const meta = historyMeta(ctx.hub, name);
     const restored = readSkillDir(dest);
     registerSkill(ctx.hub, name, { ...s, ...(meta?.source ? { source: meta.source } : {}), version: meta?.version || restored?.version || s.version });
+    // 快照是"一版深度"——回滚完即最旧态，消费掉防止再滚成同一个副本
+    rmDir(historyDir(ctx.hub, name));
+    const mf = `${historyDir(ctx.hub, name)}.meta.yml`;
+    if (fs.existsSync(mf)) fs.rmSync(mf);
   }
   ok(`${ctx.flags.dryRun ? '[dry-run] ' : ''}${L(`已回滚 ${name}`, `rolled back ${name}`)}`);
   return 0;
