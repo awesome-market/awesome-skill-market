@@ -4,7 +4,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { L } from '../i18n.js';
-import { treeHash, copyDir } from '../package.js';
+import { parseFrontmatter } from '../package.js';
 
 const sh = (cmd, args) => execFileSync(cmd, args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
 
@@ -60,9 +60,34 @@ export async function fetchSkill({ owner, repo, ref = null, path: sub = null, mi
     // slug 与仓库路径不总一致（skills.sh slug 常省略 skills/ 前缀）——多级回退定位
     const topDirs = fs.readdirSync(dir, { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name);
     const cands = [sub, `skills/${sub}`, ...topDirs.map((d) => `${d}/${sub}`)];
-    hit = cands.find((c) => fs.existsSync(path.join(dir, c, 'SKILL.md')))
-      ?? cands.find((c) => fs.existsSync(path.join(dir, c)));
-    if (!hit) throw new Error(L(`repo 内找不到: ${sub}（试了 ${cands.slice(0, 4).join(', ')} …）`, `not found in repo: ${sub} (tried ${cands.slice(0, 4).join(', ')} …)`));
+    hit = cands.find((c) => fs.existsSync(path.join(dir, c, 'SKILL.md')));
+    if (!hit) {
+      // 插件仓布局更深（.claude/skills/<name>、cli/assets/skills/<name>）——限深递归搜 SKILL.md，
+      // 父目录名或 frontmatter name 命中 sub 即算找到；全部列出供报错提示
+      const all = [], matches = [];
+      const walkSk = (d, depth) => {
+        if (depth > 5) return;
+        for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+          if (!e.isDirectory() || e.name === '.git' || e.name === 'node_modules') continue;
+          const p = path.join(d, e.name), rel = path.relative(dir, p).split(path.sep).join('/');
+          const sf = path.join(p, 'SKILL.md');
+          if (fs.existsSync(sf)) {
+            let metaName = null;
+            try { metaName = parseFrontmatter(sf).meta?.name; } catch { /* 解析不了就用目录名 */ }
+            all.push(rel);
+            if (e.name === sub || metaName === sub) matches.push(rel);
+          }
+          walkSk(p, depth + 1);
+        }
+      };
+      walkSk(dir, 1);
+      matches.sort((a, b) => a.split('/').length - b.split('/').length);  // 命中多个取最浅的
+      hit = matches[0];
+      if (!hit) {
+        const list = all.slice(0, 10).join(', ');
+        throw new Error(L(`repo 内找不到: ${sub}${all.length ? `——发现的 skills: ${list}${all.length > 10 ? ' …' : ''}` : ''}`, `not found in repo: ${sub}${all.length ? ` — skills found: ${list}${all.length > 10 ? ' …' : ''}` : ''}`));
+      }
+    }
     dir = path.join(dir, hit);
   }
   return {

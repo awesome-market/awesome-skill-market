@@ -26,7 +26,7 @@ export async function run(ctx) {
   const [owner, repo] = src.ref.split('/');
   const refArg = ctx.flags.raw.ref || null;          // --ref <tag/sha>：与任意上游版本比，默认 HEAD
   const localDir = path.join(ctx.hub, 'skills', name);
-  const got = await fetchSkill({ owner, repo, ref: refArg, path: src.path || null, mirror: fetchMirror(ctx) });
+  const got = await fetchSkill({ owner, repo, ref: refArg, path: src.rpath || src.path || null, mirror: fetchMirror(ctx) });
 
   const localFiles = new Set([...walk(localDir)].map((p) => path.relative(localDir, p)));
   const remoteFiles = new Set([...walk(got.dir)].map((p) => path.relative(got.dir, p)));

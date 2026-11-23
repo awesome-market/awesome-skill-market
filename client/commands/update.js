@@ -23,7 +23,7 @@ export async function run(ctx) {
     try {
       const [owner, repo] = src.ref.split('/');
       // 与 HEAD 比（null→默认分支头）：pin 是固定 sha，拿它当 ref 永远查不到"上游有新版"
-      const remote = await remoteTree(owner, repo, null, src.path || null);
+      const remote = await remoteTree(owner, repo, null, src.rpath || src.path || null);
       const localDir = path.join(ctx.hub, 'skills', name);
       const localTree = fs.existsSync(localDir) ? gitTreeHash(localDir) : null;
       setUpstream(ctx.hub, name, {

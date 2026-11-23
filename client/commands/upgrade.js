@@ -42,7 +42,7 @@ export async function run(ctx) {
     const [owner, repo] = src.ref.split('/');
     info(`${name}: ${L(`正在拉取 ${src.ref} …`, `fetching ${src.ref} …`)}`);
     try {
-      const got = await fetchSkill({ owner, repo, ref: null, path: src.path || null, mirror: fetchMirror(ctx) });
+      const got = await fetchSkill({ owner, repo, ref: null, path: src.rpath || src.path || null, mirror: fetchMirror(ctx) });
       const pkg = readSkillDir(got.dir);
       const audit = auditDir(got.dir, { strip: !flags.keepScripts });
       if (audit.verdict === 'malicious') { warn(L(`${name}: 新版判定为恶意——保留旧版`, `${name}: new version audited malicious — keeping old version`)); continue; }

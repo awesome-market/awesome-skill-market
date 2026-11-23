@@ -26,7 +26,16 @@ export function remoteTreeHash(tree, sub = null) {
   }
   const tops = new Set((tree || []).map((e) => e.path.split('/')[0]));
   const cands = [sub, `skills/${sub}`, ...[...tops].map((d) => `${d}/${sub}`)];
-  const hit = cands.find((c) => tree.some((e) => e.path === c || e.path.startsWith(`${c}/`)));
+  let hit = cands.find((c) => tree.some((e) => e.path === `${c}/SKILL.md`));
+  if (!hit) {
+    // 插件仓布局更深（.claude/skills/<name>）——远端 tree 是全量路径，直接找父目录名===sub 的 SKILL.md
+    const matches = (tree || [])
+      .filter((e) => e.type === 'blob' && e.path.endsWith('/SKILL.md'))
+      .map((e) => e.path.slice(0, -'/SKILL.md'.length))
+      .filter((d) => d.split('/').pop() === sub);
+    matches.sort((a, b) => a.split('/').length - b.split('/').length);
+    hit = matches[0];
+  }
   if (!hit) return 'sha1:' + crypto.createHash('sha1').digest('hex'); // 未命中→空树 hash（必然≠本地，outdated 会标 changed）
   const entries = (tree || [])
     .filter((e) => e.type === 'blob' && (e.path === hit || e.path.startsWith(`${hit}/`)))
