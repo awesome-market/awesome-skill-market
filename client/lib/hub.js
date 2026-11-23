@@ -23,6 +23,7 @@ export function hubExists(hub) {
 
 export function ensureHub(hub) {
   for (const d of SUBDIRS) fs.mkdirSync(path.join(hub, d), { recursive: true });
+  if (!fs.existsSync(F(hub, 'library.yml'))) writeYAMLFile(F(hub, 'library.yml'), { version: 1, skills: {} });   // 让 hubExists 对"只初始化没装过"的 hub 也成立
   return hub;
 }
 

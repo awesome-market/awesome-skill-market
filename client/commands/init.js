@@ -5,7 +5,7 @@ import { probeEndpoints, chat } from '../lib/llm.js';
 import { openURL, readDaemon, pidAlive } from '../lib/daemon.js';
 import { choose, confirm, ask } from '../lib/prompt.js';
 import { ok, warn, fail, info } from '../lib/render.js';
-import { L } from '../lib/i18n.js';
+import { L, lang, setUILang } from '../lib/i18n.js';
 
 export async function run(ctx) {
   ensureHub(ctx.hub);
@@ -15,11 +15,23 @@ export async function run(ctx) {
   }
 
   // 首问：初始化形态（写 ui.enabled——§3.11 自动接管与裸跑形态听它的）
-  const mode = ctx.flags.ui === 'force' ? 'web' : ctx.flags.ui === 'off' ? 'cli'
-    : (await choose(L('初始化方式？', 'Init method?'), [
-        { label: L('Web 面板（推荐——探测结果、模型列表、harness 勾选可视化）', 'Web panel (recommended — visual probe results, model list, agent checkboxes)'), v: 'web' },
-        { label: L('终端向导（纯键盘，SSH/无浏览器环境）', 'Terminal wizard (keyboard-only, for SSH/no-browser setups)'), v: 'cli' },
-      ])).v;
+  let mode = ctx.flags.ui === 'force' ? 'web' : ctx.flags.ui === 'off' ? 'cli' : null;
+  while (!mode) {
+    const sel = await choose(L('初始化方式？', 'Init method?'), [
+      { label: L('Web 面板（推荐——探测结果、模型列表、harness 勾选可视化）', 'Web panel (recommended — visual probe results, model list, agent checkboxes)'), v: 'web' },
+      { label: L('终端向导（纯键盘，SSH/无浏览器环境）', 'Terminal wizard (keyboard-only, for SSH/no-browser setups)'), v: 'cli' },
+      { label: L('切换语言 / Switch language', 'Switch language / 切换语言'), v: 'lang' },
+    ]);
+    if (sel.v === 'lang') {   // 立刻 zh↔en：写 config + 换语言重问
+      const next = lang() === 'zh' ? 'en' : 'zh';
+      const r = readConfig(ctx.hub)._raw;
+      r.ui = { ...(r.ui || {}), lang: next };
+      writeConfig(ctx.hub, r);
+      setUILang(next);
+      continue;
+    }
+    mode = sel.v;
+  }
 
   const raw = readConfig(ctx.hub)._raw;
   raw.ui = { ...(raw.ui || {}), enabled: mode === 'web' ? 'always' : 'auto' };
