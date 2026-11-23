@@ -81,6 +81,12 @@ datalist { display: none; }
 .combo-list .opt { padding: 9px 13px; cursor: pointer; font-size: 15px; }
 .combo-list .opt:hover { background: color-mix(in oklch, var(--color-accent) 10%, var(--color-surface)); }
 .combo-list .none { padding: 9px 13px; color: var(--color-ink-mut); font-size: 14px; }
+/* 横向表单行：label 定宽右对齐，input 自适应 */
+.frow { display: flex; align-items: center; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+.frow .lab { flex: none; width: 76px; text-align: right; font-size: 15px; color: var(--color-ink-mut); }
+.frow input[type=text], .frow input:not([type]), .frow .combo { flex: 1; min-width: 0; }
+.frow button { flex: none; }
+.fhint { flex: none; font-size: 14px; color: var(--color-accent); font-weight: 600; }
 label.check { display: flex; gap: 10px; align-items: center; padding: 7px 4px; cursor: pointer; border-radius: 6px; }
 label.check:hover { background: color-mix(in oklch, var(--color-ink) 4%, var(--color-surface)); }
 

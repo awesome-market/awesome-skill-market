@@ -147,18 +147,18 @@ async function render() {
         <p class="mut">点「扫描」自动发现本机正在运行的模型服务（LM Studio、Ollama、oMLX 等）。${cfg.llm?.model ? `当前使用：<code>${esc(cfg.llm.model)}</code>` : ''}</p>
         <div class="row"><button id="probe">扫描本机模型服务</button><span id="probe-out" class="mut"></span></div>
         <div id="eps"></div>
-        <label class="field">服务地址</label><input type="text" id="murl" placeholder="http://localhost:1234/v1" value="${esc(cfg.llm?.base_url || '')}">
-        <label class="field">访问密钥 <span class="field-hint" id="key-hint"></span></label><input type="text" id="mkey" value="${esc(cfg.llm?.api_key || '')}">
-        <p class="mut">本机服务一般留空。填了密钥会用本机机器码加密后存入 config.yml——文件拷到别的机器解不开，换机需重填。</p>
-        <div id="model-box"><label class="field">模型名称</label>
+        <div class="frow"><span class="lab">服务地址</span><input type="text" id="murl" placeholder="http://localhost:1234/v1" value="${esc(cfg.llm?.base_url || '')}"></div>
+        <div class="frow" id="key-row" style="display:none"><span class="lab">访问密钥</span><input type="text" id="mkey" value="${esc(cfg.llm?.api_key || '')}"><span class="fhint" id="key-hint"></span></div>
+        <p class="mut" style="margin:8px 0 0">本机服务一般留空。填了密钥会用本机机器码加密后存入 config.yml——文件拷到别的机器解不开，换机需重填。</p>
+        <div class="frow" id="model-box"><span class="lab">模型名称</span>
           <div class="combo"><input type="text" id="mmodel" autocomplete="off" placeholder="可输入关键字搜索，扫描后自动列出发现的模型" value="${esc(cfg.llm?.model || '')}">
-          <div class="combo-list" id="model-drop" style="display:none"></div></div></div>
-        <div class="row end" style="margin-top:14px"><span id="smoke-out" class="mut"></span><button id="smoke">测试连接</button></div></div>
+          <div class="combo-list" id="model-drop" style="display:none"></div></div>
+          <button id="smoke">测试连接</button><span id="smoke-out" class="mut"></span></div></div>
       <div class="card"><h3>第 2 步 · skill 默认安装位置</h3>
         <p class="mut">勾选的 AI 工具会在你安装新 skill 时自动收到一份副本。已勾过的话保存即生效。</p>
         ${h.map((x) => `<label class="check"><input type="checkbox" data-h="${esc(x.id)}" ${sel.has(x.id) ? 'checked' : ''} ${x.state === 'absent' ? 'disabled' : ''}> ${esc(x.id)} ${pill(x.state)} <span class="mut">${esc(x.primaryDir || '')}</span></label>`).join('')}</div>
-      <div class="card"><h3>第 3 步 · 保存</h3>
-        <div class="row end"><span id="save-out" class="mut"></span><button class="primary" id="save">保存设置</button></div></div>`;
+      <div class="card"><div class="row" style="justify-content:space-between;align-items:center"><h3 style="margin:0">第 3 步 · 保存</h3>
+        <div class="row" style="gap:12px"><span id="save-out" class="mut"></span><button class="primary" id="save">保存设置</button></div></div></div>`;
     const modelMap = new Map();   // model → base_url（选中模型自动回填地址）
     const loadedModels = new Map(); // 密钥端点拉到的模型——重扫后保留
     let epsList = [], lastScan = 0;
@@ -216,10 +216,12 @@ async function render() {
     const markKeyNeed = (need) => {
       const has = !!app.querySelector('#mkey').value.trim();
       const want = !!need && !has;
+      app.querySelector('#key-row').style.display = (need || has) ? '' : 'none';   // 无需密钥→整行不显示
       app.querySelector('#mkey').classList.toggle('req', want);
-      app.querySelector('#key-hint').textContent = want ? '← 此服务需要密钥' : '';
-      app.querySelector('#model-box').style.display = want ? 'none' : '';   // 要密钥→先藏起来，填完再出现
+      app.querySelector('#key-hint').textContent = want ? '← 需要密钥' : '';
+      app.querySelector('#model-box').style.display = want ? 'none' : '';
     };
+    markKeyNeed(false);                                                    // 初始：无密钥需求→藏密钥行
     app.querySelector('#murl').addEventListener('input', () => { refreshOpts(); renderDrop(); });
     app.querySelector('#mmodel').addEventListener('input', () => { renderDrop(); app.querySelector('#model-drop').style.display = 'block'; });
     app.querySelector('#mmodel').addEventListener('blur', () => setTimeout(() => { app.querySelector('#model-drop').style.display = 'none'; }, 120));
