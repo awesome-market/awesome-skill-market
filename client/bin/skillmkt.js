@@ -36,9 +36,11 @@ async function bareRun(ctx) {
       process.exit(1);
     }
     const mod = await import('../commands/init.js');
+    withState(ctx);
     return mod.run(ctx);
   }
   const { renderDashboard } = await import('../lib/dashboard.js');
+  withState(ctx);
   return renderDashboard(ctx);
 }
 

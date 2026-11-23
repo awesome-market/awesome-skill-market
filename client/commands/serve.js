@@ -9,7 +9,7 @@ import { loadDecisions, decide } from '../lib/decide.js';
 import { readLibrary, readLock, readConfig, writeConfig, registerSkill, updateLock, ensureHub } from '../lib/hub.js';
 import { readUpstream } from '../lib/state.js';
 import { readYAML } from '../../pipeline/lib/util.js';
-import { scanAll } from '../lib/scanner.js';
+import { scanAll, detectHarnesses } from '../lib/scanner.js';
 import { probeEndpoints, chat } from '../lib/llm.js';
 import { projectSkill, targetDirFor } from '../lib/project.js';
 import { treeHash } from '../lib/package.js';
@@ -28,14 +28,15 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
   let lastActive = Date.now();
   const idleMs = (ctx.config.daemon?.idle_minutes ?? 30) * 60e3;
 
+  const harnesses = ctx.harnesses ?? detectHarnesses();   // bareRun/init 路径 ctx 可能没 withState
   const state = () => ({
     hub: ctx.hub,
     initialized: (() => { const r = readConfig(ctx.hub)._raw; return !!(r.ui || r.llm || r.default_targets); })(),
     library: readLibrary(ctx.hub), lock: readLock(ctx.hub),
     upstream: readUpstream(ctx.hub), conflicts: loadConflicts(ctx.hub),
-    decisions: loadDecisions(ctx.hub), harnesses: ctx.harnesses,
+    decisions: loadDecisions(ctx.hub), harnesses,
     scans: fs.existsSync(path.join(ctx.hub, 'scans')) ? fs.readdirSync(path.join(ctx.hub, 'scans')).map((f) => readYAML(path.join(ctx.hub, 'scans', f))).filter(Boolean) : [],
-    scans_all: scanAll(ctx.hub, ctx.harnesses, readLibrary(ctx.hub), ctx.cwd),
+    scans_all: scanAll(ctx.hub, harnesses, readLibrary(ctx.hub), ctx.cwd),
   });
 
   const routes = {
@@ -115,7 +116,10 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
         res.writeHead(404); return res.end('{"error":"not found"}');
       }
       const h = routes[`${req.method} ${u.pathname}`];
-      if (h) return res.end(JSON.stringify(await h()));
+      if (h) {
+        try { return res.end(JSON.stringify(await h())); }
+        catch (e) { res.writeHead(500); return res.end(JSON.stringify({ error: e.message })); }
+      }
       res.writeHead(404); return res.end('{"error":"not found"}');
     }
     // 静态：public/ + evidence 文件（冲突截图）
