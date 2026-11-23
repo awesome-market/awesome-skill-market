@@ -29,8 +29,8 @@ export async function run(ctx) {
 
   info(L('本地', 'LOCAL'));
   if (local.length) {
-    table(local.map((r) => ({ name: r.name, where: `${r.where}${r.state === 'external' ? ' (external)' : ''}`, ver: r.version })),
-      [{ key: 'name', title: 'skill' }, { key: 'where', title: 'where' }, { key: 'ver', title: 'ver' }]);
+    table(local.map((r) => ({ name: r.name, where: `${r.where}${r.state === 'external' ? ` ${L('（未管理）', '(external)')}` : ''}`, ver: r.version, desc: (r.description || '').slice(0, 50) })),
+      [{ key: 'name', title: 'skill' }, { key: 'where', title: L('位置', 'where') }, { key: 'ver', title: 'ver' }, { key: 'desc', title: L('说明', 'desc') }]);
   } else info(L('  （本地没匹配到）', '  (no local match)'));
 
   if (wantRemote) {
