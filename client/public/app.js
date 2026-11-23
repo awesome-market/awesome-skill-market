@@ -407,7 +407,7 @@ async function render() {
         const done = mkState.installed.has(s.slug), perm = mkState.perm.has(s.slug);
         const label = done ? t('ins_done') : perm ? t('mk_force') : t('mk_install');
         // GitHub 源先链 repo 根（保底可开）；desc 接口返回命中路径后再升级成精确子目录链接
-        const page = repo ? `https://github.com/${src}` : `https://www.skills.sh/site/${s.slug}`;
+        const page = `${repo ? `https://github.com/${src}` : `https://www.skills.sh/site/${s.slug}`}?src=awesome-skill-market`;
         return `<div class="card"><div class="row"><b><a class="pg" href="${page}" target="_blank" rel="noopener">${esc(s.name)}</a></b><span class="mut">${esc(s.slug)} · ${s.installs} installs${repo ? '' : ` · ${t('mk_privsrc')}`}</span>
           <button class="mk-i" style="margin-left:auto" data-s="${esc(s.slug)}" data-r="${esc(ref)}" data-p="${esc(sub)}" ${done ? 'disabled' : ''}>${label}</button>
           <span class="iout mut">${esc(mkState.status[s.slug] || '')}</span></div>
@@ -424,7 +424,7 @@ async function render() {
           const a = d.closest('.card').querySelector('.pg');
           if (a?.href.includes('github.com/')) {
             const m = a.href.match(/github\.com\/([^/]+\/[^/]+)/);
-            if (m) a.href = `https://github.com/${m[1]}/tree/${r.branch}/${r.rel}`;
+            if (m) a.href = `https://github.com/${m[1]}/tree/${r.branch}/${r.rel}?src=awesome-skill-market`;
           }
         }
       });
