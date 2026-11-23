@@ -4,19 +4,19 @@ import fs from 'node:fs';
 import { auditDir, writeScan } from '../lib/audit.js';
 import { llmAudit } from '../lib/ai.js';
 import { walk } from '../lib/package.js';
-import { ok, warn, fail, info } from '../lib/render.js';
+import { ok, warn, fail, info, auditTag } from '../lib/render.js';
 import { L } from '../lib/i18n.js';
 
 export async function run(ctx) {
   const flags = ctx.flags.raw;
   const skills = ctx.library.skills || {};
   const names = flags.all ? Object.keys(skills) : ctx.args;
-  if (!names.length) { fail('usage: skillmkt audit <name|--all> [--llm]'); return 1; }
+  if (!names.length) { fail(L('用法: skillmkt audit <名字|--all> [--llm]', 'usage: skillmkt audit <name|--all> [--llm]')); return 1; }
   let worst = 'clean';
   const order = { clean: 0, suspicious: 1, stripped: 1, malicious: 2 };
   for (const name of names) {
     const dir = path.join(ctx.hub, 'skills', name);
-    if (!fs.existsSync(dir)) { warn(L(`未受管: ${name}`, `not managed: ${name}`)); continue; }
+    if (!fs.existsSync(dir)) { warn(L(`没纳入管理: ${name}`, `not managed: ${name}`)); continue; }
     const r = auditDir(dir, { strip: false });
     // --llm：additive 语义审（静态结论之上，降级安全）
     if (flags.llm && ctx.llm) {
@@ -24,12 +24,12 @@ export async function run(ctx) {
         .map((p) => ({ path: path.relative(dir, p), content: fs.readFileSync(p, 'utf8') }));
       const lr = await llmAudit(ctx.llm, { name, files }).catch(() => null);
       if (lr) { r.llm = lr; info(`  llm: ${lr.verdict}${lr.reasons?.length ? ` — ${lr.reasons.join('; ')}` : ''}`); }
-      else warn(L('  llm audit 不可用——保留静态结论', '  llm audit unavailable — keeping static verdict'));
+      else warn(L('  LLM 审核不可用——沿用静态检查结论', '  llm audit unavailable — keeping static verdict'));
     }
     writeScan(ctx.hub, name, r);
     if (order[r.verdict] > order[worst]) worst = r.verdict;
-    info(`${name}: ${r.verdict}${r.findings.length ? ` (${r.findings.length} findings)` : ''}`);
+    info(`${name}: ${auditTag(r.verdict)}${r.findings.length ? L(`（${r.findings.length} 处发现）`, ` (${r.findings.length} findings)`) : ''}`);
   }
-  ok('audit done');
+  ok(L('审核完成', 'audit done'));
   return worst === 'malicious' ? 2 : 0;
 }

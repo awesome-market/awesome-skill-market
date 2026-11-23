@@ -4,11 +4,12 @@ import path from 'node:path';
 import { readSkillDir, parseFrontmatter } from '../lib/package.js';
 import { scanAll } from '../lib/scanner.js';
 import { readYAMLFile } from '../lib/hub.js';
-import { info, fail } from '../lib/render.js';
+import { info, fail, auditTag } from '../lib/render.js';
+import { L } from '../lib/i18n.js';
 
 export async function run(ctx) {
   const name = ctx.args[0];
-  if (!name) { fail('usage: skillmkt show <name> [--raw|--files|--audit]'); return 1; }
+  if (!name) { fail(L('用法: skillmkt show <名字> [--raw|--files|--audit]', 'usage: skillmkt show <name> [--raw|--files|--audit]')); return 1; }
   const flags = ctx.flags.raw;
 
   // 受管 → hub；否则 external 中找
@@ -18,7 +19,7 @@ export async function run(ctx) {
   if (!fs.existsSync(path.join(dir, 'SKILL.md'))) {
     const ext = scanAll(ctx.hub, ctx.harnesses, ctx.library, ctx.project?.root)
       .find((r) => r.name === name && r.state === 'external');
-    if (!ext) { fail(`not found: ${name}`); return 1; }
+    if (!ext) { fail(L(`没找到: ${name}`, `not found: ${name}`)); return 1; }
     dir = ext.path; where = `${ext.where} (external)`;
   }
   const pkg = readSkillDir(dir);
@@ -28,8 +29,8 @@ export async function run(ctx) {
   if (flags.audit) {
     const scan = readYAMLFile(path.join(ctx.hub, 'scans', `${name}.yml`), null);
     if (ctx.flags.json) { console.log(JSON.stringify(scan)); return 0; }
-    if (!scan) { info('no scan record'); return 0; }
-    info(`verdict: ${scan.verdict} @ ${scan.scanned_at}`);
+    if (!scan) { info(L('没有审核记录', 'no scan record')); return 0; }
+    info(`${L('结论', 'verdict')}: ${auditTag(scan.verdict)} @ ${scan.scanned_at}`);
     (scan.static?.findings || []).forEach((f) => info(`  ${f.rule} ${f.file}:${f.line}`));
     return 0;
   }
@@ -42,11 +43,11 @@ export async function run(ctx) {
   if (ctx.flags.json) { console.log(JSON.stringify(card, null, 2)); return 0; }
   info(`${card.name}  v${card.version}`);
   info(`${card.description}`);
-  info(`where: ${card.where} · ${card.path}`);
-  info(`files: ${card.files}`);
+  info(`${L('位置', 'where')}: ${card.where} · ${card.path}`);
+  info(`${L('文件数', 'files')}: ${card.files}`);
   if (entry) {
-    info(`source: ${entry.source?.registry} ${entry.source?.ref || ''}${entry.source?.path ? ` (${entry.source.path})` : ''}${entry.source?.adopted_from ? ` adopted_from ${entry.source.adopted_from}` : ''}`);
-    info(`targets: ${(entry.targets || []).join(', ') || 'hub only'} · audit: ${entry.audit}`);
+    info(`${L('来源', 'source')}: ${entry.source?.registry} ${entry.source?.ref || ''}${entry.source?.path ? ` (${entry.source.path})` : ''}${entry.source?.adopted_from ? ` adopted_from ${entry.source.adopted_from}` : ''}`);
+    info(`${L('装到', 'targets')}: ${(entry.targets || []).join(', ') || L('只在 hub', 'hub only')} · ${L('审核', 'audit')}: ${auditTag(entry.audit)}`);
   }
   return 0;
 }

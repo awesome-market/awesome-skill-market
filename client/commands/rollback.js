@@ -12,7 +12,7 @@ import { L } from '../lib/i18n.js';
 export async function run(ctx) {
   const name = ctx.args[0];
   const s = ctx.library.skills?.[name];
-  if (!s) { fail(L(`未受管: ${name}`, `not managed: ${name}`)); return 1; }
+  if (!s) { fail(L(`没纳入管理: ${name}`, `not managed: ${name}`)); return 1; }
   if (!fs.existsSync(historyDir(ctx.hub, name))) { fail(L(`${name}: 无历史副本（upgrade 后才有一版深度）`, `${name}: no history copy (one version deep, only after upgrade)`)); return 1; }
   if (!ctx.flags.dryRun) {
     historyRestore(ctx.hub, name);
@@ -26,6 +26,6 @@ export async function run(ctx) {
     }
     updateLock(ctx.hub, name, treeHash(dest), lockTargets);
   }
-  ok(`${ctx.flags.dryRun ? '[dry-run] ' : ''}rolled back ${name}`);
+  ok(`${ctx.flags.dryRun ? '[dry-run] ' : ''}${L(`已回滚 ${name}`, `rolled back ${name}`)}`);
   return 0;
 }

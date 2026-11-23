@@ -19,6 +19,13 @@ export function out(data, { json = false, human = null } = {}) {
   }
 }
 
+// 审核结论词 → 当前语言（clean/suspicious/stripped/malicious/quarantined）
+export const auditTag = (v) => L({ clean: '干净', suspicious: '可疑', stripped: '已剔除', malicious: '恶意', quarantined: '已隔离' }[v] ?? v, v);
+
+// 按终端显示宽度对齐（CJK 字符算 2 列）
+const w = (s) => [...s].reduce((n, c) => n + (c.codePointAt(0) > 0x2e7f ? 2 : 1), 0);
+export const pad = (s, n) => s + ' '.repeat(Math.max(0, n - w(s)));
+
 export const ok = (s) => err(`✓ ${s}`);
 export const warn = (s) => err(`⚠ ${s}`);
 export const fail = (s) => err(`✗ ${s}`);
@@ -37,17 +44,17 @@ export function dashboard({ hub, library, scan, upstream, conflicts, llm, llmVia
 
   err(`skillmkt · hub ${hub}${llm ? ` · llm ${llm.model} ✓${llmVia ? L(`（来自 ${llmVia}，未写 config.yml）`, ` (from ${llmVia}, not in config.yml)`) : ''}` : ''}`);
   err('');
-  err(`skills      ${skills.length} installed${updates ? ` · ${updates} update available` : ''} · audit ${audits.length - bad}✓${bad ? `/${bad}⚠` : ''}`);
+  err(`${pad(L('skill', 'skills'), 11)}${L(`${skills.length} 个已管理`, `${skills.length} installed`)}${updates ? ` · ${L(`${updates} 个可更新`, `${updates} update available`)}` : ''} · ${L(`审核`, 'audit')} ${audits.length - bad}✓${bad ? `/${bad}⚠` : ''}`);
   // 按状态分组展示（已装/可装；likely 探测不确定不显示）
   const grp = (st) => scan.harnesses.filter((h) => h.state === st).map((h) => h.id);
   const parts = [
     grp('installed').length && `${L('已装', 'installed')} ${grp('installed').join(' ')}`,
     grp('available').length && `${L('可装', 'installable')} ${grp('available').join(' ')}`,
   ].filter(Boolean);
-  if (parts.length) err(`agents      ${parts.join(' · ')}`);
-  if (project) err(`project     ${project.root}`);
-  if (pending) err(`conflicts   ${pending} pending — ${L('需要裁决', 'needs your decision')}`);
-  if (externals) err(`external    ${externals} ${L('未收编 — install <path> 纳入管理', 'unmanaged — `install <path>` to adopt')}`);
+  if (parts.length) err(`${pad(L('agent', 'agents'), 11)}${parts.join(' · ')}`);
+  if (project) err(`${pad(L('项目', 'project'), 11)}${project.root}`);
+  if (pending) err(`${pad(L('冲突', 'conflicts'), 11)}${L(`${pending} 个待裁决`, `${pending} pending`)} — ${L('需要裁决', 'needs your decision')}`);
+  if (externals) err(`${pad(L('agent目录', 'agent dirs'), 11)}${L(`${externals} 个 skill 但没被管理`, `${externals} skills, unmanaged`)} — ${L('install <path> 收进来', '`install <path>` to manage')}`);
   err('');
   const hints = [];
   if (pending) hints.push(L('skillmkt conflicts --ui    裁决冲突（开面板看图）', 'skillmkt conflicts --ui    decide conflicts (visual panel)'));

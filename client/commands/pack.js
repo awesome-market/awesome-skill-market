@@ -8,9 +8,9 @@ import { L } from '../lib/i18n.js';
 
 export async function run(ctx) {
   const name = ctx.args[0];
-  if (!name) { fail('usage: skillmkt pack <name>'); return 1; }
+  if (!name) { fail(L('用法: skillmkt pack <名字>', 'usage: skillmkt pack <name>')); return 1; }
   const src = path.join(ctx.hub, 'skills', name);
-  if (!fs.existsSync(path.join(src, 'SKILL.md'))) { fail(L(`未受管: ${name}`, `not managed: ${name}`)); return 1; }
+  if (!fs.existsSync(path.join(src, 'SKILL.md'))) { fail(L(`没纳入管理: ${name}`, `not managed: ${name}`)); return 1; }
   const ver = ctx.library.skills?.[name]?.version || '0.0.0';
   const out = path.resolve(`${name}-${ver}.tar.gz`);
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'skillmkt-pack-'));
@@ -18,6 +18,6 @@ export async function run(ctx) {
   execFileSync('cp', ['-R', src + '/', path.join(tmp, name)]);
   execFileSync('tar', ['czf', out, '-C', tmp, name]);
   fs.rmSync(tmp, { recursive: true, force: true });
-  ok(`packed ${out} (${(fs.statSync(out).size / 1024).toFixed(1)} KB)`);
+  ok(L(`已打包 ${out}（${(fs.statSync(out).size / 1024).toFixed(1)} KB）`, `packed ${out} (${(fs.statSync(out).size / 1024).toFixed(1)} KB)`));
   return 0;
 }

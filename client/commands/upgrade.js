@@ -8,7 +8,7 @@ import { readSkillDir, walk, rmDir, treeHash } from '../lib/package.js';
 import { projectSkill, targetDirFor } from '../lib/project.js';
 import { registerSkill, updateLock } from '../lib/hub.js';
 import { fetchMirror } from '../lib/registries/index.js';
-import { ok, warn, fail, info } from '../lib/render.js';
+import { ok, warn, fail, info, auditTag } from '../lib/render.js';
 import { L } from '../lib/i18n.js';
 
 function copyFiltered(src, dst, keep) {
@@ -27,26 +27,26 @@ export async function run(ctx) {
   const up = readUpstream(ctx.hub);
   const skills = ctx.library.skills || {};
   const names = flags.all ? Object.keys(skills) : ctx.args;
-  if (!names.length) { fail('usage: skillmkt upgrade <name|--all>'); return 1; }
+  if (!names.length) { fail(L('用法: skillmkt upgrade <名字|--all>', 'usage: skillmkt upgrade <name|--all>')); return 1; }
 
   let upgraded = 0;
   for (const name of names) {
     const s = skills[name];
-    if (!s) { warn(L(`未受管: ${name}`, `not managed: ${name}`)); continue; }
+    if (!s) { warn(L(`没纳入管理: ${name}`, `not managed: ${name}`)); continue; }
     const u = up.skills?.[name];
     if (!u?.outdated && !flags.force) { info(L(`${name}: clean（update 先刷新）`, `${name}: clean (run update first to refresh)`)); continue; }
     const src = s.source || {};
     if (src.registry !== 'github' || !src.ref) { warn(L(`${name}: 无上游可升级`, `${name}: no upstream to upgrade from`)); continue; }
 
     const [owner, repo] = src.ref.split('/');
-    info(`${name}: fetching ${src.ref} …`);
+    info(`${name}: ${L(`正在拉取 ${src.ref} …`, `fetching ${src.ref} …`)}`);
     try {
       const got = await fetchSkill({ owner, repo, ref: null, path: src.path || null, mirror: fetchMirror(ctx) });
       const pkg = readSkillDir(got.dir);
       const audit = auditDir(got.dir, { strip: !flags.keepScripts });
-      if (audit.verdict === 'malicious') { warn(L(`${name}: 新版审核 malicious——保留旧版（quarantine 不收新版）`, `${name}: new version audited malicious — keeping old version`)); continue; }
+      if (audit.verdict === 'malicious') { warn(L(`${name}: 新版判定为恶意——保留旧版`, `${name}: new version audited malicious — keeping old version`)); continue; }
       if (ctx.flags.dryRun) {
-        info(`[dry-run] ${name}: ${pkg?.fileCount ?? '?'} files, audit:${audit.verdict}${audit.stripped.length ? `,strip ${audit.stripped.length}` : ''}`);
+        info(`[dry-run] ${name}: ${L(`${pkg?.fileCount ?? '?'} 个文件，审核:${auditTag(audit.verdict)}`, `${pkg?.fileCount ?? '?'} files, audit:${audit.verdict}`)}${audit.stripped.length ? L(`，剔除 ${audit.stripped.length} 个`, `, strip ${audit.stripped.length}`) : ''}`);
         continue;
       }
       historySnapshot(ctx.hub, name);
@@ -66,11 +66,11 @@ export async function run(ctx) {
       updateLock(ctx.hub, name, treeHash(dest), lockTargets);
       setUpstream(ctx.hub, name, { ref: got.sha, outdated: false });
       upgraded++;
-      ok(`${name} → ${got.sha.slice(0, 7)} audit:${audit.verdict}`);
+      ok(`${name} → ${got.sha.slice(0, 7)} ${L('审核', 'audit')}:${auditTag(audit.verdict)}`);
     } catch (e) {
-      warn(`${name}: upgrade failed — ${e.message.slice(0, 100)}`);
+      warn(`${name}: ${L('升级失败', 'upgrade failed')} — ${e.message.slice(0, 100)}`);
     }
   }
-  ok(`upgrade done: ${upgraded} applied`);
+  ok(L(`upgrade 完成：应用了 ${upgraded} 个`, `upgrade done: ${upgraded} applied`));
   return 0;
 }

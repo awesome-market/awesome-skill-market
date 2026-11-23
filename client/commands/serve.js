@@ -206,14 +206,14 @@ export async function run(ctx) {
   const flags = ctx.flags.raw;
   if (flags.stop) {
     const d = readDaemon(ctx.hub);
-    if (d) { try { process.kill(d.pid); } catch { /* dead */ } fs.rmSync(daemonFile(ctx.hub), { force: true }); ok('daemon stopped'); }
-    else info('no daemon');
+    if (d) { try { process.kill(d.pid); } catch { /* dead */ } fs.rmSync(daemonFile(ctx.hub), { force: true }); ok(L('daemon 已停', 'daemon stopped')); }
+    else info(L('没有 daemon 在跑', 'no daemon running'));
     return 0;
   }
   // 已有前台/分离实例在跑 → 不重复起，报地址
   const existing = readDaemon(ctx.hub);
   if (existing && existing.pid !== process.pid) {
-    try { process.kill(existing.pid, 0); info(`已在跑: http://127.0.0.1:${existing.port}/?token=${existing.token}（--stop 停掉）`); return 0; } catch { /* stale */ }
+    try { process.kill(existing.pid, 0); info(L(`已在跑: http://127.0.0.1:${existing.port}/?token=${existing.token}（--stop 停掉）`, `already running: http://127.0.0.1:${existing.port}/?token=${existing.token} (use --stop to stop)`)); return 0; } catch { /* stale */ }
   }
   const d = await startServer(ctx, { quiet: !!flags.daemon, port: flags.port || 0 });
   if (flags.daemon) { console.log(`daemon ready :${d.port}`); await new Promise(() => {}); }

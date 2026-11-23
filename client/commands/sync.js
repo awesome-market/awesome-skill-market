@@ -13,11 +13,11 @@ export async function run(ctx) {
   if (ctx.flags.dryRun) {
     const drift = checkDrift(ctx);
     if (drift.length) {
-      for (const d of drift) info(`${d.name} @ ${d.target}: ${d.issue}`);
-      warn(`${drift.length} drift — run 'skillmkt sync' to repair`);
+      for (const d of drift) info(`${d.name} @ ${d.target}: ${d.issue === 'missing' ? L('目标里没了', 'missing') : L('内容不一致', 'content differs')}`);
+      warn(L(`${drift.length} 处漂移——跑 skillmkt sync 修复`, `${drift.length} drift — run 'skillmkt sync' to repair`));
       return 4;
     }
-    ok('projections in sync');
+    ok(L('投影一致，无需修复', 'projections in sync'));
     return 0;
   }
 
@@ -30,7 +30,7 @@ export async function run(ctx) {
       raw.default_targets = [...new Set([...(raw.default_targets || []), h.id])];
       const { writeConfig } = await import('../lib/hub.js');
       writeConfig(ctx.hub, raw);
-      info(`${h.id} → default_targets`);
+      info(`${h.id} → ${L('加入默认目标', 'added to default targets')}`);
     }
   }
 
@@ -41,15 +41,15 @@ export async function run(ctx) {
     const lockTargets = {};
     for (const t of s.targets || []) {
       const dir = targetDirFor(ctx, t, name);
-      if (!dir) { warn(`${name}: unknown target ${t}`); continue; }
+      if (!dir) { warn(`${name}: ${L(`未知目标 ${t}`, `unknown target ${t}`)}`); continue; }
       const r = projectSkill(src, name, dir, { mode: s.transport?.[t] === 'link' ? 'link' : 'copy', force: !!ctx.flags.raw.force });
       if (r.action === 'conflict') warn(`${name} @ ${t}: ${r.detail}${L('（手动改过的内容不覆盖——--force 强制重建，或改回后 sync）', ' (manual edits not overwritten — --force rebuilds, or revert then sync)')}`);
-      else if (r.action !== 'skipped') { repaired++; info(`${name} → ${r.action} ${r.target}`); }
+      else if (r.action !== 'skipped') { repaired++; info(`${name} → ${r.action === 'copied' ? L('已重建', 'rebuilt') : r.action} ${r.target}`); }
       lockTargets[t] = { hash: r.hash, projected_at: new Date().toISOString(), mode: r.mode };
       n++;
     }
     if (Object.keys(lockTargets).length) updateLock(ctx.hub, name, lock.skills?.[name]?.content_hash ?? 'sha256:', lockTargets);
   }
-  ok(`sync done: ${n} targets checked, ${repaired} (re)projected`);
+  ok(L(`sync 完成：检查了 ${n} 个目标，修了 ${repaired} 个`, `sync done: ${n} targets checked, ${repaired} (re)projected`));
   return 0;
 }

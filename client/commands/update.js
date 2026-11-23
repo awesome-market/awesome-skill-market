@@ -13,7 +13,7 @@ export async function run(ctx) {
   let n = 0, na = 0, errs = 0;
   for (const name of names) {
     const s = skills[name];
-    if (!s) { warn(L(`未受管: ${name}`, `not managed: ${name}`)); continue; }
+    if (!s) { warn(L(`没纳入管理: ${name}`, `not managed: ${name}`)); continue; }
     const src = s.source || {};
     if (src.registry !== 'github' || !src.ref) { na++; continue; }   // adopted/local/rfc 无远端可查（rfc 走 registry 适配后续）
     try {
@@ -26,7 +26,7 @@ export async function run(ctx) {
         outdated: localTree !== null && localTree !== remote.tree_hash,
       });
       n++;
-      if (localTree !== remote.tree_hash) info(`${name}: upstream changed`);
+      if (localTree !== remote.tree_hash) info(`${name}: ${L('上游有更新', 'upstream changed')}`);
     } catch (e) {
       errs++;
       warn(`${name}: ${e.message.slice(0, 80)}`);
@@ -35,6 +35,6 @@ export async function run(ctx) {
   const u = readUpstream(ctx.hub);
   u.refreshed_at = new Date().toISOString();
   writeUpstream(ctx.hub, u);
-  ok(`update done: ${n} refreshed${na ? `, ${na} n/a(adopted/local)` : ''}${errs ? `, ${errs} errors` : ''}`);
+  ok(L(`update 完成：刷新了 ${n} 个${na ? `，${na} 个无上游可比（本地收的）` : ''}${errs ? `，${errs} 个失败` : ''}`, `update done: ${n} refreshed${na ? `, ${na} n/a (adopted/local)` : ''}${errs ? `, ${errs} errors` : ''}`));
   return errs ? 1 : 0;
 }

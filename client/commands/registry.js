@@ -16,14 +16,14 @@ export async function run(ctx) {
   }
 
   if (sub === 'add') {
-    if (!flags.type) { fail('usage: registry add --type <github|rfc|clawhub|skillssh> [--url u] [--name n] [--token env:X]'); return 1; }
+    if (!flags.type) { fail(L('用法: registry add --type <github|rfc|clawhub|skillssh> [--url u] [--name n] [--token env:X]', 'usage: registry add --type <github|rfc|clawhub|skillssh> [--url u] [--name n] [--token env:X]')); return 1; }
     const entry = { type: flags.type };
     if (flags.url) entry.url = flags.url;
     if (flags.name) entry.name = flags.name;
     if (flags.token) entry.token = flags.token.startsWith('env:') ? flags.token : `env:${flags.token}`;
     raw.registries.push(entry);
     writeConfig(ctx.hub, raw);
-    ok(`registry added: ${flags.type}${flags.url ? ` ${flags.url}` : ''}${flags.name ? ` (${flags.name})` : ''}`);
+    ok(L(`registry 已添加: ${flags.type}`, `registry added: ${flags.type}`) + `${flags.url ? ` ${flags.url}` : ''}${flags.name ? ` (${flags.name})` : ''}`);
     return 0;
   }
 
@@ -31,12 +31,12 @@ export async function run(ctx) {
     const id = rest[0];
     const before = raw.registries.length;
     raw.registries = raw.registries.filter((r) => (r.name || r.type) !== id);
-    if (raw.registries.length === before) { fail(`not found: ${id}`); return 1; }
+    if (raw.registries.length === before) { fail(L(`没找到: ${id}`, `not found: ${id}`)); return 1; }
     writeConfig(ctx.hub, raw);
-    ok(`registry removed: ${id}`);
+    ok(L(`registry 已删: ${id}`, `registry removed: ${id}`));
     return 0;
   }
 
-  fail('usage: registry [list] | add --type … | remove <name>');
+  fail(L('用法: registry [list] | add --type … | remove <名字>', 'usage: registry [list] | add --type … | remove <name>'));
   return 1;
 }

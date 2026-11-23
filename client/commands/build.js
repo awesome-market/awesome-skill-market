@@ -52,11 +52,11 @@ export async function run(ctx) {
   if (ctx.flags.raw.check) {
     const f = path.join(outDir, 'SKILL.md');
     const same = fs.existsSync(f) && fs.readFileSync(f, 'utf8') === md;
-    console.log(same ? 'build --check: ok' : 'build --check: STALE');
+    console.log(same ? L('build --check: 一致', 'build --check: ok') : L('build --check: 已过期——先跑 skillmkt build', 'build --check: STALE'));
     return same ? 0 : 1;
   }
   fs.mkdirSync(outDir, { recursive: true });
   fs.writeFileSync(path.join(outDir, 'SKILL.md'), md);
-  ok(`built ${outDir}/SKILL.md — ${kept.length} rules${pending ? L(`，⚠ ${pending} pending 双边已排除`, ` — ⚠ ${pending} pending, both sides excluded`) : ''}`);
+  ok(L(`已生成 ${outDir}/SKILL.md——${kept.length} 条规则`, `built ${outDir}/SKILL.md — ${kept.length} rules`) + (pending ? L(`，⚠ ${pending} 个待裁决冲突两边都没收`, ` — ⚠ ${pending} pending conflicts, both sides excluded`) : ''));
   return pending ? 3 : 0;
 }

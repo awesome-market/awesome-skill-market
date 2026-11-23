@@ -18,7 +18,7 @@ export async function run(ctx) {
   let mode = ctx.flags.ui === 'force' ? 'web' : ctx.flags.ui === 'off' ? 'cli' : null;
   while (!mode) {
     const sel = await choose(L('初始化方式？', 'Init method?'), [
-      { label: L('Web 面板（推荐——探测结果、模型列表、harness 勾选可视化）', 'Web panel (recommended — visual probe results, model list, agent checkboxes)'), v: 'web' },
+      { label: L('Web 面板（推荐——探测结果、模型列表、agent 勾选可视化）', 'Web panel (recommended — visual probe results, model list, agent checkboxes)'), v: 'web' },
       { label: L('终端向导（纯键盘，SSH/无浏览器环境）', 'Terminal wizard (keyboard-only, for SSH/no-browser setups)'), v: 'cli' },
       { label: L('切换语言 / Switch language', 'Switch language / 切换语言'), v: 'lang' },
     ]);
@@ -136,7 +136,7 @@ export async function run(ctx) {
     // 冒烟：真实 chat 调用
     try {
       const reply = await chat({ base_url, model, api_key: keyPlain, timeout_ms: 15000 }, { user: 'Reply with exactly: OK', maxTokens: 64 });
-      ok(`llm smoke: ${reply.trim().slice(0, 40) || '(empty reply)'}`);
+      ok(L(`llm 冒烟: ${reply.trim().slice(0, 40) || '(空回复)'}`, `llm smoke: ${reply.trim().slice(0, 40) || '(empty reply)'}`));
     } catch (e) {
       warn(L(`llm smoke failed: ${e.message}（配置已写入，功能将降级）`, `llm smoke failed: ${e.message} (config saved; features will degrade)`));
     }

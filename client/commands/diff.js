@@ -18,7 +18,7 @@ function sectionsOf(dir) {
 export async function run(ctx) {
   const name = ctx.args[0];
   const s = ctx.library.skills?.[name];
-  if (!s) { fail(L(`未受管: ${name}`, `not managed: ${name}`)); return 1; }
+  if (!s) { fail(L(`没纳入管理: ${name}`, `not managed: ${name}`)); return 1; }
   const src = s.source || {};
   if (src.registry !== 'github' || !src.ref) { fail(L(`${name}: 无上游可比`, `${name}: no upstream to diff against`)); return 1; }
 
@@ -40,14 +40,14 @@ export async function run(ctx) {
   const report = { name, sha: got.sha, files: { added, removed, changed }, sections: { added: secAdded, removed: secRemoved } };
   if (ctx.flags.json) { console.log(JSON.stringify(report, null, 2)); return 0; }
 
-  info(`${name}: pin ${src.pin?.slice(0, 7) ?? '-'} → upstream ${got.sha.slice(0, 7)}`);
-  info(`files: +${added.length} -${removed.length} ~${changed.length}`);
-  if (secAdded.length) info(`sections +: ${secAdded.join(' | ')}`);
-  if (secRemoved.length) info(`sections -: ${secRemoved.join(' | ')}`);
+  info(`${name}: pin ${src.pin?.slice(0, 7) ?? '-'} → ${L('上游', 'upstream')} ${got.sha.slice(0, 7)}`);
+  info(`${L('文件', 'files')}: +${added.length} -${removed.length} ~${changed.length}`);
+  if (secAdded.length) info(`${L('新增小节', 'sections +')}: ${secAdded.join(' | ')}`);
+  if (secRemoved.length) info(`${L('删掉的小节', 'sections -')}: ${secRemoved.join(' | ')}`);
   if (ctx.flags.raw.semantic) {
-    if (!ctx.llm) { warn(L('--semantic 需要 LLM（config.llm 或 OMLX_*）——以上为结构 diff', '--semantic needs an LLM (config.llm or OMLX_*) — structural diff shown above')); return 0; }
+    if (!ctx.llm) { warn(L('--semantic 需要 LLM——先跑 skillmkt init；上面是结构 diff', '--semantic needs an LLM — run skillmkt init; structural diff shown above')); return 0; }
     const summary = await semanticDiff(ctx.llm, { name, added, removed, changed, secAdded, secRemoved }).catch(() => null);
-    info(summary ? `semantic: ${summary}` : L('semantic: LLM 不可用——结构 diff 如上', 'semantic: LLM unavailable — structural diff above'));
+    info(summary ? `semantic: ${summary}` : L('semantic: LLM 不可用——上面是结构 diff', 'semantic: LLM unavailable — structural diff above'));
   }
   return 0;
 }

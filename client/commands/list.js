@@ -48,7 +48,7 @@ export async function run(ctx) {
         const projRows = rows.filter((r) => r.where === 'project');
         if (projRows.length) {
           info('');
-          info(`project ${ctx.project.root}:`);
+          info(L(`项目 ${ctx.project.root}:`, `project ${ctx.project.root}:`));
           for (const r of projRows) info(`  ${r.state === 'managed' ? '●' : '◌'} ${r.name}  ${r.targetDir}`);
         }
       }

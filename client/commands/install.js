@@ -57,7 +57,7 @@ function copyFiltered(src, dst, keep) {
 
 export async function run(ctx) {
   const input = ctx.args[0];
-  if (!input) { fail('usage: skillmkt install <ref|path|owner/repo>'); return 1; }
+  if (!input) { fail(L('用法: skillmkt install <ref|路径|owner/repo>', 'usage: skillmkt install <ref|path|owner/repo>')); return 1; }
   const flags = ctx.flags.raw;
 
   const ref = parseRef(input, flags, { harnesses: ctx.harnesses, registries: ctx.config.registries });
@@ -76,11 +76,11 @@ export async function run(ctx) {
     // download 缓存命中：cache/<name>-*/ 存在即复用不重复拉
     const cached = ref.kind === 'named' ? cacheLookup(ctx.hub, ref.name) : null;
     if (cached) {
-      info(`cache hit: ${cached}`);
+      info(L(`缓存命中: ${cached}`, `cache hit: ${cached}`));
       srcDir = cached;
       provenance = { registry: 'cache', adopted_from: cached };
     } else {
-      info(`fetching ${input} …`);
+      info(L(`正在拉取 ${input} …`, `fetching ${input} …`));
       const got = await fetchRef(ref, ctx);
       srcDir = got.dir; tmp = got.tmp;
       provenance = got.provenance;
@@ -99,15 +99,15 @@ export async function run(ctx) {
       copyDir(srcDir, quarantinePath(ctx.hub, name));
       writeScan(ctx.hub, name, audit);
     }
-    fail(`malicious — quarantined: ${name}（${audit.findings.length} findings）`);
+    fail(L(`判定为恶意——已隔离: ${name}（${audit.findings.length} 处发现）`, `malicious — quarantined: ${name} (${audit.findings.length} findings)`));
     return 2;
   }
   if (audit.verdict === 'suspicious' && ctx.config.policy !== 'permissive') {
-    warn(`suspicious: ${audit.findings.length} findings${audit.stripped.length ? `, stripping ${audit.stripped.length} files` : ''}`);
+    warn(L(`可疑：发现 ${audit.findings.length} 处${audit.stripped.length ? `，已剔除 ${audit.stripped.length} 个文件` : ''}`, `suspicious: ${audit.findings.length} findings${audit.stripped.length ? `, stripping ${audit.stripped.length} files` : ''}`));
     audit.findings.slice(0, 5).forEach((f) => info(`${f.rule} ${f.file}:${f.line} — ${f.excerpt.slice(0, 80)}`));
     // --yes 不放大 suspicious（安全默认）；strict 直接拒
     const proceed = ctx.config.policy === 'strict' ? false : await confirm(L(`继续安装 ${name}?`, `Install ${name} anyway?`), { defaultYes: false });
-    if (!proceed) { fail('install aborted'); return 2; }
+    if (!proceed) { fail(L('已取消', 'install aborted')); return 2; }
   }
 
   // ③ 落 hub（stripped 过滤）
@@ -119,7 +119,7 @@ export async function run(ctx) {
     // 与现有 hub 副本内容对比：相同则跳过 copy
     const srcFilteredHash = (() => { const t = path.join(ctx.hub, 'cache', `__probe_${process.pid}`); rmDir(t); copyFiltered(srcDir, t, keep); const h = treeHash(t); rmDir(t); return h; })();
     if (srcFilteredHash !== freshHash() && !flags.force) {
-      warn(L(`${name} 已受管且内容不同——--force 覆盖，或 upgrade 流程`, `${name} already managed with different content — --force to overwrite, or use upgrade`));
+      warn(L(`${name} 已在管理、但内容不同——--force 覆盖，或走 skillmkt upgrade`, `${name} already managed with different content — --force to overwrite, or use upgrade`));
       return 1;
     }
   }
@@ -160,7 +160,7 @@ export async function run(ctx) {
       lockEntry: lockT ? { hash: lockT.hash } : null,
     });
     results.push({ ...r, id: t.id });
-    if (r.action === 'conflict') warn(`${name} → ${t.dir}: ${r.detail}`);
+    if (r.action === 'conflict') warn(`${name} → ${t.dir}: ${L('目标目录里已有别的内容且不一样——--force 覆盖', 'unmanaged content differs — --force to overwrite')}`);
     else lockTargets[t.id] = { hash: r.hash, projected_at: new Date().toISOString(), mode: r.mode };
   }
 
@@ -181,7 +181,8 @@ export async function run(ctx) {
     if (Object.keys(lockTargets).length) updateLock(ctx.hub, name, treeHash(dest), lockTargets);
   }
 
-  const mark = results.map((r) => `${r.id.split(':')[0]}(${r.action === 'copied' ? 'copy' : r.action === 'linked' ? 'sym' : r.action})`).join(' ');
-  ok(`${ctx.flags.dryRun ? '[dry-run] ' : ''}installed ${name} → ${mark || 'hub only'} · audit:${audit.stripped.length ? 'stripped' : audit.verdict} · locked ${treeHash(dest).slice(7, 15)}`);
+  const actZh = { conflict: '冲突', exists: '已有', skipped: '跳过', absent: '缺', removed: '已删' };
+  const mark = results.map((r) => `${r.id.split(':')[0]}(${r.action === 'copied' ? 'copy' : r.action === 'linked' ? 'sym' : L(actZh[r.action] ?? r.action, r.action)})`).join(' ');
+  ok(`${ctx.flags.dryRun ? '[dry-run] ' : ''}${L('已装', 'installed')} ${name} → ${mark || L('只进 hub', 'hub only')} · ${L('审核', 'audit')}:${audit.stripped.length ? 'stripped' : audit.verdict} · ${L('锁定', 'locked')} ${treeHash(dest).slice(7, 15)}`);
   return 0;
 }

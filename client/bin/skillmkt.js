@@ -81,7 +81,7 @@ async function main() {
     mod = await import(`../commands/${name}.js`);
   } catch (e) {
     if (e.code === 'ERR_MODULE_NOT_FOUND') {
-      console.error(`${name}: not implemented yet`);
+      console.error(`${name}: ${L('还没实现', 'not implemented yet')}`);
       process.exit(1);
     }
     throw e;

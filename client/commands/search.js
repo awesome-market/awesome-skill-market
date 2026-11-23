@@ -6,7 +6,7 @@ import { L } from '../lib/i18n.js';
 
 export async function run(ctx) {
   const query = ctx.args.join(' ').trim();
-  if (!query) { warn('usage: skillmkt search <query> [--local|--remote] [--json]'); return 1; }
+  if (!query) { warn(L('用法: skillmkt search <关键词> [--local|--remote] [--json]', 'usage: skillmkt search <query> [--local|--remote] [--json]')); return 1; }
   const flags = ctx.flags.raw;
   const q = query.toLowerCase();
 
@@ -27,21 +27,21 @@ export async function run(ctx) {
     return 0;
   }
 
-  info('LOCAL');
+  info(L('本地', 'LOCAL'));
   if (local.length) {
     table(local.map((r) => ({ name: r.name, where: `${r.where}${r.state === 'external' ? ' (external)' : ''}`, ver: r.version })),
       [{ key: 'name', title: 'skill' }, { key: 'where', title: 'where' }, { key: 'ver', title: 'ver' }]);
-  } else info('  (no local match)');
+  } else info(L('  （本地没匹配到）', '  (no local match)'));
 
   if (wantRemote) {
     info('');
-    info(`REMOTE ${remote.base || ''}`);
-    if (remoteErr) warn(`remote search failed: ${remoteErr}${L('（本地结果可用）', ' (local results still shown)')}`);
+    info(L(`远端 ${remote.base || ''}`, `REMOTE ${remote.base || ''}`));
+    if (remoteErr) warn(L(`远端搜索失败: ${remoteErr}（本地结果仍可用）`, `remote search failed: ${remoteErr} (local results still shown)`));
     else if (remote.skills.length) {
       table(remote.skills.slice(0, 15).map((s) => ({ name: s.name, id: s.slug, installs: s.installs })),
         [{ key: 'name', title: 'skill' }, { key: 'id', title: 'id' }, { key: 'installs', title: 'installs' }]);
       info(`→ skillmkt install ${remote.skills[0].slug.split('/').slice(0, 2).join('/')} --path ${remote.skills[0].slug.split('/').slice(2).join('/')}`);
-    } else info('  (no remote match)');
+    } else info(L('  （远端没匹配到）', '  (no remote match)'));
   }
   return 0;
 }
