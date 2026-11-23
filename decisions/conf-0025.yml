@@ -1,0 +1,11 @@
+id: conf-0025
+status: active
+resolution: merge
+custom: Lead with the true difference and its proof in objective third-person framing, including testimonials only when the brief supplies them each with a name, role, or town and treating zero as normal, while writing the body in first person with a named enemy, the reader's own pain, a purposeful refrain, and a plain human sign-off inside the body text rather than the footer.
+reason: "auto-accepted keep-b: Rule A governs testimonial content and its sourcing while Rule B governs body-copy voice, so they can be merged by keeping objective third-person lead sections with sourced testimonials and first-person narrative in the body."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-23T06:08:53.558Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

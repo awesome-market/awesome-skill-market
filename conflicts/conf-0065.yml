@@ -1,5 +1,6 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0065.yml
 id: conf-0065
-status: pending
+status: dismissed
 fingerprint: 68ea867ee116
 detected_at: 2026-11-22T23:33:20.384Z
 evidence: screenshot
@@ -30,3 +31,4 @@ evidence_files:
   - option-b.png
   - option-a-mobile.png
   - option-b-mobile.png
+dismiss_reason: Rule A's 'resolve instantly' is satisfied by a 150ms opacity crossfade, which is a fast resolution rather than motion that persists, so it is compatible with Rule B's small-accent, fallback-providing guidance rather than contradicting it.

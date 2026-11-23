@@ -1,0 +1,11 @@
+id: conf-0022
+status: active
+resolution: merge
+custom: Anything still moving five seconds after first sight gets one 32px pause button 12px from the bottom-right of its panel or card, and auto-rotating content pauses on hover and focus regardless of device; the phone slow-turn exception in l0c1 does not apply once motion exceeds five seconds.
+reason: "auto-accepted keep-b: l0c2's mandatory pause-on-interaction requirement overrides l0c1's phone slow-turn exception, since the two rules address different scopes (general accessibility vs. mobile slow-turn allowance) and the longer-duration motion should always pause on hover/focus."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-23T06:08:43.995Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

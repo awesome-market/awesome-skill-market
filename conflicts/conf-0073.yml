@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0073.yml
+id: conf-0073
+status: decided
+fingerprint: 6015b6998ca1
+detected_at: 2026-11-23T06:18:45.165Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--1274
+    hash: 3e9e3747b79d
+    severity: floor
+    text: Contacts must include street number, postcode, coordinates, company number, and phone number as specified in rule 9.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--1236
+    hash: 9938da2abfb2
+    severity: floor
+    text: Show only street and district for addresses, omitting house numbers, postcodes, coordinates, register or VAT numbers, and real phone formats, and place contacts on .example domains.
+    text_zh: null
+ai_explanation: copy-l2c1 demands printing full street number, postcode, coordinates, and real phone number on the page, while copy-l2c2 explicitly forbids house numbers, postcodes, coordinates, and real phone formats, showing only street and district on .example domains. These directly contradict for the same contact block and cannot both be satisfied.
+ai_explanation_zh: copy-l2c1 要求页面打印完整门牌号、邮编、坐标和真实电话号码，而 copy-l2c2 明确禁止门牌号、邮编、坐标和真实电话格式，仅显示街道和区域。两者在同一联系区块中直接矛盾，无法同时满足。
+suggestion:
+  kind: scope-split
+  note: Apply full-details rule for production pages with verified client contact data; apply street-and-district rule for comps, examples, and sample data.
+  note_zh: 对使用已验证客户联系数据的上线页面应用完整细节规则；对样例、示例和占位数据应用街道与区域规则。
+issue_url: null

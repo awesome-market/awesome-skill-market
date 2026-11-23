@@ -1,5 +1,6 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0060.yml
 id: conf-0060
-status: pending
+status: dismissed
 fingerprint: ef0e19cc598c
 detected_at: 2026-11-22T23:22:06.054Z
 evidence: screenshot
@@ -30,3 +31,4 @@ evidence_files:
   - option-b.png
   - option-a-mobile.png
   - option-b-mobile.png
+dismiss_reason: Rule A governs cross-section repetition of factual/structural elements (prices, times, dates, counts, headings) while Rule B governs density and hero layout, so they address different scopes and do not actually contradict.

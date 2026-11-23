@@ -1,5 +1,6 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0045.yml
 id: conf-0045
-status: pending
+status: dismissed
 fingerprint: 84692bfdff35
 detected_at: 2026-11-22T22:39:38.859Z
 evidence: screenshot
@@ -30,3 +31,4 @@ evidence_files:
   - option-b.png
   - option-a-mobile.png
   - option-b-mobile.png
+dismiss_reason: Rule A and Rule B both mandate a single quiet entrance and are fully compatible; the AI's hero-vs-below-fold contradiction is a misreading of scope, not a real conflict.

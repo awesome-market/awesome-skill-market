@@ -1,6 +1,12 @@
-version: 0.1.33
-built_at: 2026-11-22T23:56:59.002Z
+version: 0.2.44
+built_at: 2026-11-23T06:33:21.554Z
 decisions:
+  - id: conf-0002
+    resolution: merge
+    at: 2026-11-23T06:08:29.412Z
+  - id: conf-0005
+    resolution: merge
+    at: 2026-11-23T06:08:35.020Z
   - id: conf-0008
     resolution: merge
     at: 2026-11-22T21:43:53.196Z
@@ -31,9 +37,15 @@ decisions:
   - id: conf-0020
     resolution: merge
     at: 2026-11-22T22:07:43.529Z
+  - id: conf-0022
+    resolution: merge
+    at: 2026-11-23T06:08:43.995Z
   - id: conf-0024
     resolution: merge
     at: 2026-11-22T23:11:17.284Z
+  - id: conf-0025
+    resolution: merge
+    at: 2026-11-23T06:08:53.558Z
   - id: conf-0026
     resolution: merge
     at: 2026-11-22T22:07:53.950Z
@@ -73,18 +85,30 @@ decisions:
   - id: conf-0044
     resolution: merge
     at: 2026-11-22T22:49:39.459Z
+  - id: conf-0046
+    resolution: merge
+    at: 2026-11-23T06:20:54.951Z
   - id: conf-0052
     resolution: B
     at: 2026-11-22T23:11:32.975Z
   - id: conf-0053
     resolution: merge
     at: 2026-11-22T23:11:35.269Z
+  - id: conf-0054
+    resolution: merge
+    at: 2026-11-23T06:09:15.829Z
+  - id: conf-0056
+    resolution: merge
+    at: 2026-11-23T06:09:21.471Z
   - id: conf-0057
     resolution: merge
     at: 2026-11-22T23:28:17.254Z
   - id: conf-0059
     resolution: merge
     at: 2026-11-22T23:28:20.984Z
+  - id: conf-0063
+    resolution: merge
+    at: 2026-11-23T06:09:35.426Z
   - id: conf-0064
     resolution: merge
     at: 2026-11-22T23:54:46.278Z
@@ -100,6 +124,15 @@ decisions:
   - id: conf-0070
     resolution: B
     at: 2026-11-22T23:54:53.316Z
+  - id: conf-0071
+    resolution: merge
+    at: 2026-11-23T06:21:11.281Z
+  - id: conf-0072
+    resolution: merge
+    at: 2026-11-23T06:21:13.668Z
+  - id: conf-0073
+    resolution: merge
+    at: 2026-11-23T06:21:16.668Z
 rules:
   - id: a11y--a11y-l0c1-focus-visible-essential
     rule: Give every interactive element an instantly visible :focus-visible state, never removing outline without replacing it with an equivalent focus style.

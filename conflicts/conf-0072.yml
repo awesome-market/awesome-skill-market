@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0072.yml
+id: conf-0072
+status: decided
+fingerprint: baaa3e5a770d
+detected_at: 2026-11-23T06:12:28.635Z
+evidence: screenshot
+sides:
+  - key: A
+    source: taste-skill
+    rule_id: taste--164
+    hash: 26846d16dd50
+    severity: reflex
+    text: Make liquid pause under reduced motion and hold still when motion is reduced.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-269
+    hash: 7a53fec25e08
+    severity: reflex
+    text: Use only --dur-micro and --dur-short motion in app screens, treating motion as state rather than decoration.
+    text_zh: null
+ai_explanation: l0c1 mandates that under reduced motion/small screens, everything rests and reveal animations on catalogue pages are disabled, producing a fully static experience. l0c4 permits up to three functional motion primitives per page (including one functional loop and reveals), which can still introduce motion even when reduced motion is active, directly contradicting l0c1's 'rest everything' and 'keep nothing hidden' requirement.
+ai_explanation_zh: l0c1 要求在减少 motion 或小屏下所有 motion 静止、目录页禁用揭示动画；l0c4 每页却允许最多三个功能性 motion 原语（含一个功能性循环和揭示），可能与减少 motion 下的完全静止相矛盾。
+suggestion:
+  kind: keep-a
+  note: Under reduced motion, l0c1's stillness must win; l0c4 primitives must be gated behind a reduced-motion check.
+  note_zh: 减少 motion 时，l0c1 的静止优先；l0c4 原语须受减少 motion 检查限制。
+issue_url: null

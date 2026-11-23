@@ -12,11 +12,13 @@ import { ghApi } from './lib/gh.js';
 
 const SYSTEM = `You are an INDEPENDENT arbiter for UI-design rule conflicts. You did not write the analysis below — evaluate it cold.
 
-Two rules are claimed to contradict, and a suggestion was made to resolve them. Three verdicts:
+Two rules are claimed to contradict, and a suggestion was made to resolve them. Your DEFAULT job is to RESOLVE this yourself. Three verdicts:
 
-- "dismiss" — the pair is NOT a real contradiction: actually compatible, restatements, or they govern different scopes. The conflict should not exist; both rules just merge.
-- "approve" — a genuine contradiction AND the suggestion resolves it soundly and completely. keep-a/keep-b must pick the defensibly better rule; for merge/scope-split you write the resolved combined rule in "rule". Only approve calls you could defend to upstream authors.
-- "human" — a genuine contradiction BUT the suggestion is wrong, incomplete, or you are uncertain. A human will arbitrate.`;
+- "dismiss" — the pair is NOT a real contradiction under any reasonable reading: compatible statements, restatements, complementary concerns, different scopes/elements/timing, or one rule is a subset of the other. Apply this aggressively — most apparent conflicts are just different scopes.
+- "approve" — a genuine contradiction AND you can produce a resolution a reasonable designer would ship. keep-a/keep-b picks the better rule; merge/scope-split combines them (write the resolved text in "rule"). You MAY improve on the suggestion: if its direction is right but incomplete, supply the complete merged text in "rule" yourself rather than punting to a human.
+- "human" — ONLY for true either/or value tradeoffs: both readings are defensible, they genuinely contradict in the same scope, and no merged wording covers both. Reserve for cases where picking a side permanently discards a legitimate design intent.
+
+When torn between approve and human, prefer approve — every verdict is recorded and humans can overturn it later.`;
 
 const SHAPE = `{"verdict":"approve|dismiss|human","reason":"one sentence","rule":"resolved combined rule text — required only for approve on merge/scope-split; null otherwise"}`;
 
@@ -29,14 +31,16 @@ export async function arbitrate() {
   }));
   const pending = listYAMLFiles(DIRS.conflicts)
     .map((f) => ({ file: f, ...readYAML(f) }))
-    .filter((c) => c.status === 'pending' && c.suggestion?.kind && KIND_TO_RES[c.suggestion.kind]);
+    .filter((c) => c.status === 'pending' && (!c.suggestion || KIND_TO_RES[c.suggestion.kind]));
 
   log(`arbitrate: ${pending.length} suggested pending conflicts to review`);
   let accepted = 0, dismissed = 0;
 
   for (const conf of pending) {
     const [A, B] = conf.sides;
-    const user = `RULE A: ${A.text}\nRULE B: ${B.text}\n\nAI EXPLANATION: ${conf.ai_explanation}\n\nSUGGESTION: ${conf.suggestion.kind}${conf.suggestion.note ? ` — ${conf.suggestion.note}` : ''}`;
+    const user = `RULE A: ${A.text}\nRULE B: ${B.text}\n\nAI EXPLANATION: ${conf.ai_explanation}\n\n` + (conf.suggestion?.kind
+      ? `SUGGESTION: ${conf.suggestion.kind}${conf.suggestion.note ? ` — ${conf.suggestion.note}` : ''}`
+      : 'NO SUGGESTION WAS PROVIDED. Resolve directly: "dismiss" if this is not a real contradiction; "approve" with your own resolved text in "rule" if you can settle it; "human" only for a true value tradeoff.');
     let verdict;
     try {
       verdict = await chatJSON({
@@ -44,8 +48,8 @@ export async function arbitrate() {
         thinking: false, temperature: 0.2, maxTokens: 4096,
         validate: (o) => {
           if (!['approve', 'dismiss', 'human'].includes(o?.verdict)) return 'verdict must be approve|dismiss|human';
-          if (o.verdict === 'approve' && conf.suggestion.kind !== 'keep-a' && conf.suggestion.kind !== 'keep-b' && !o.rule) {
-            return 'merge/scope-split approval requires "rule" text';
+          if (o.verdict === 'approve' && !['keep-a', 'keep-b'].includes(conf.suggestion?.kind) && !o.rule) {
+            return 'merge/scope-split/no-suggestion approval requires "rule" text';
           }
           return true;
         },
@@ -82,15 +86,17 @@ export async function arbitrate() {
       continue;
     }
 
-    const resolution = KIND_TO_RES[conf.suggestion.kind];
-    const custom = resolution === 'merge' ? (verdict.rule || conf.suggestion.note) : null;
+    // arbiter-supplied "rule" text wins over the suggestion's kind — it is a self-contained
+    // resolution, so record it as a merge/custom decision regardless of suggestion.kind
+    const resolution = verdict.rule ? 'merge' : KIND_TO_RES[conf.suggestion?.kind];
+    const custom = resolution === 'merge' ? (verdict.rule || conf.suggestion?.note) : null;
     const prev = decisions.get(conf.id);
     writeYAML(path.join(DIRS.decisions, `${conf.id}.yml`), {
       id: conf.id,
       status: 'active',
       resolution,
       custom,
-      reason: `auto-accepted ${conf.suggestion.kind}: ${verdict.reason}`,
+      reason: `auto-accepted ${conf.suggestion?.kind ?? 'arbiter-resolved'}: ${verdict.reason}`,
       alternatives_rejected: [],
       trigger: 'auto-arbiter',
       decided_at: new Date().toISOString(),
@@ -109,7 +115,7 @@ export async function arbitrate() {
       try {
         ghApi(`repos/${CFG.githubRepo}/issues/${num}/comments`, {
           method: 'POST',
-          fields: { body: `✅ 自动裁决 Auto-arbitrated：**${resolution}**${custom ? ` — ${custom}` : ''}\n\n独立仲裁器认可了 AI 建议（${conf.suggestion.kind}）。An independent arbiter approved the AI suggestion (${conf.suggestion.kind}).\n理由 Reason：${verdict.reason}\n\n推翻 Overturn：reopen 本 issue 回复 \`a\`/\`b\`/\`merge ...\`/\`custom ...\`，或直接改 \`decisions/${conf.id}.yml\`。` },
+          fields: { body: `✅ 自动裁决 Auto-arbitrated：**${resolution}**${custom ? ` — ${custom}` : ''}\n\n独立仲裁器认可了 AI 建议（${conf.suggestion?.kind ?? 'direct resolution'}）。An independent arbiter approved the AI suggestion (${conf.suggestion?.kind ?? 'direct resolution'}).\n理由 Reason：${verdict.reason}\n\n推翻 Overturn：reopen 本 issue 回复 \`a\`/\`b\`/\`merge ...\`/\`custom ...\`，或直接改 \`decisions/${conf.id}.yml\`。` },
         });
         ghApi(`repos/${CFG.githubRepo}/issues/${num}`, { method: 'PATCH', fields: { state: 'closed' } });
         ghApi(`repos/${CFG.githubRepo}/issues/${num}/labels`, { method: 'POST', fields: { 'labels[]': 'decided' } });

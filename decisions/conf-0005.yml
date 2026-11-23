@@ -1,0 +1,11 @@
+id: conf-0005
+status: active
+resolution: merge
+custom: Define all colors in OKLCH (l2c2); when a palette includes saturated consumer pinks or violets as accents or grounds, declare a specific posture (l2c1) before using them.
+reason: "auto-accepted scope-split: The two rules operate on different scopes—l2c1 governs when saturated pinks/violets may appear (requiring a declared posture) while l2c2 governs how all colors are defined (OKLCH), so splitting them by posture type resolves the apparent conflict without discarding either intent."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-23T06:08:35.020Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

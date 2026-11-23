@@ -1,0 +1,11 @@
+id: conf-0002
+status: active
+resolution: merge
+custom: Use exactly one display-type moment per page; render the letter's salutation as display italic at 1.5 to 2 times body size as that single display moment, and set the hero to body/lead sizes instead of display.
+reason: "auto-accepted keep-b: The salutation is itself a display-type moment, so treating it as the single allowed display moment satisfies the one-display rule while preserving the salutation styling."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-23T06:08:29.412Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

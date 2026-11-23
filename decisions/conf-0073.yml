@@ -1,0 +1,11 @@
+id: conf-0073
+status: active
+resolution: merge
+custom: For production pages with verified client contact data, include the full address and contact details (street number, postcode, coordinates, company/VAT number, and real phone number) as specified in rule 9; for comps, examples, and sample data served on .example domains, show only street and district and omit house numbers, postcodes, coordinates, register/VAT numbers, and real phone formats.
+reason: "auto-accepted scope-split: The two rules target different data states (verified production vs. placeholder/example), so a scope-split resolves them cleanly by applying full details only when real contact data exists and truncation to street/district on .example domains otherwise."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-23T06:21:16.668Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

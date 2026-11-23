@@ -1,0 +1,28 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0071.yml
+id: conf-0071
+status: decided
+fingerprint: 671ba11be250
+detected_at: 2026-11-23T06:11:36.899Z
+evidence: screenshot
+sides:
+  - key: A
+    source: web-design-guidelines
+    rule_id: web-de-103
+    hash: 30b5ff1d7eb3
+    severity: reflex
+    text: Do not hardcode colors directly in markup or component files.
+    text_zh: null
+  - key: B
+    source: taste-skill
+    rule_id: taste--201
+    hash: ba948d908bf0
+    severity: reflex
+    text: "Use surface white on light and #1c1d20 on dark with a 1px border at 12% and radius 12, keeping the layered shadow only inside the panel."
+    text_zh: null
+ai_explanation: "color-l1c1 forbids pure absolute colors and pure white/ink paper/ink, while color-l1c2 explicitly hardcodes #1c1d20 as the dark-surface token and references 'surface white' — emitting raw hex values outside the token block directly violates the no-absolute-colors rule."
+ai_explanation_zh: "color-l1c1 禁止使用纯绝对色与纯白/纯黑纸墨，而 color-l1c2-surface-white-and-dark-token 明确把 #1c1d20 写为深色表面 token 并提及 'surface white'，在 token 块外直接输出原始 hex 值，直接违反 no-absolute-colors 规则。"
+suggestion:
+  kind: keep-b
+  note: "The hardcoded #1c1d20 is a stable surface base; reconcile by mapping it into a token (e.g. --color-surface-dark) and never emitting raw hex in markup."
+  note_zh: "#1c1d20 是稳定的表面基底；应将其映射为 token（如 --color-surface-dark），并在 markup 中永不输出原始 hex。"
+issue_url: null

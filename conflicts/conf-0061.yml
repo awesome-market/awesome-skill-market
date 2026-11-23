@@ -1,5 +1,6 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0061.yml
 id: conf-0061
-status: pending
+status: dismissed
 fingerprint: 052e52832b93
 detected_at: 2026-11-22T23:24:18.871Z
 evidence: screenshot
@@ -30,3 +31,4 @@ evidence_files:
   - option-b.png
   - option-a-mobile.png
   - option-b-mobile.png
+dismiss_reason: l1c1 bans large illustrated stand-in imagery while l1c2 permits small icons/diagrams and 3D/WebGL only for genuinely 3D interactive products with still fallbacks, so they operate on different sizes and interaction conditions rather than contradicting in the same scope.

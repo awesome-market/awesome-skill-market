@@ -1,5 +1,6 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0047.yml
 id: conf-0047
-status: pending
+status: dismissed
 fingerprint: 1d97e12d3a42
 detected_at: 2026-11-22T22:45:45.901Z
 evidence: screenshot
@@ -30,3 +31,4 @@ evidence_files:
   - option-b.png
   - option-a-mobile.png
   - option-b-mobile.png
+dismiss_reason: The two rules operate on different scopes—A governs overall image-to-type balance and size thresholds while B governs section-level bleed layout—so they are complementary rather than contradictory.

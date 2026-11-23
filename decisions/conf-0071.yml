@@ -1,0 +1,11 @@
+id: conf-0071
+status: active
+resolution: merge
+custom: "Do not emit raw color hexes in markup or components; instead define surface tokens (e.g. --color-surface-dark: #1c1d20) and use them, keeping surface white on light, #1c1d20 on dark, a 1px border at 12% opacity, radius 12, and layered shadow scoped inside the panel."
+reason: "auto-accepted keep-b: Rule A's no-hardcoded-colors requirement and Rule B's concrete surface values are compatible once B's hex is routed through a token, which the suggestion correctly specifies."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-23T06:21:11.281Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

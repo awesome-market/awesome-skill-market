@@ -1,5 +1,6 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0015.yml
 id: conf-0015
-status: pending
+status: dismissed
 fingerprint: 2235bd4003b6
 detected_at: 2026-11-22T21:43:27.565Z
 evidence: screenshot
@@ -27,3 +28,4 @@ evidence_files:
   - option-b.png
   - option-a-mobile.png
   - option-b-mobile.png
+dismiss_reason: Rule A caps narration length while Rule B preserves structural outputs (Floor, stamp, tokens.css, log, contrast checks) that are not themselves three-line narration, so the cap and the keep-list operate on different things and can coexist.

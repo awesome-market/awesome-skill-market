@@ -1,0 +1,11 @@
+id: conf-0054
+status: active
+resolution: merge
+custom: Use the theme's frame with its radius and an inset ink outline at 6 to 10 percent, and never combine a border with a wide shadow; keep non-hero images within their frames and never full-bleed them, but allow hero or full-bleed photographs at least 2400px on their long side, treating smaller ones as soft past 1920px.
+reason: "auto-accepted scope-split: l1c1's 'never full-bleed' governs general content images while l1c2's hero/full-bleed requirement governs hero imagery, so the scope-split cleanly separates them."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-23T06:09:15.829Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

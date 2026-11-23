@@ -1,0 +1,11 @@
+id: conf-0046
+status: active
+resolution: merge
+custom: Use example.com and clearly sample values in built product data, never figures a visitor could take as claims; when the brief supplies a quote but omits its attribution or avatar, render the quote exactly as supplied while leaving the attribution and avatar/logo fields empty — never invent customer marks or a 'Trusted by' line when no logo row material was supplied.
+reason: "auto-accepted arbiter-resolved: When a brief supplies a quote but omits its attribution or avatar, ship the quote text exactly as given but leave the attribution and avatar/logo fields empty rather than inventing them."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-23T06:20:54.951Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

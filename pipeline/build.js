@@ -29,7 +29,8 @@ function render(rules, version) {
   let md = `---
 name: deslop
 description: "Anti-AI-slop design skill. Use when building, redesigning, reviewing, or auditing web/app UI. Distilled from multiple upstream design skills with human-arbitrated conflict resolution; covers aesthetic direction, hard floor rules, motion/a11y craft details."
-version: "${version}"
+metadata:
+  version: "${version}"
 ---
 
 # Deslop

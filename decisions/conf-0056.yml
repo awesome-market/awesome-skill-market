@@ -1,0 +1,11 @@
+id: conf-0056
+status: active
+resolution: merge
+custom: "Keep the interface 90-95% neutral using a single near-black ink that is never #000; when text sits within 5% lightness and 0.05 chroma of its fill, adjust the single ink's lightness/chroma to maintain at least 4.5:1 body contrast (3:1 for large text) rather than emitting paired ink tokens or swapping per-surface inks."
+reason: "auto-accepted keep-b: l1c2's single near-black ink and 90-95% neutral mandate overrides l1c1's paired-ink-token emission and per-surface ink swapping."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-23T06:09:21.471Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

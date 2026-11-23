@@ -1,0 +1,11 @@
+id: conf-0063
+status: active
+resolution: merge
+custom: l1c1's two fixed, non-animated radial blooms (20–30% of the canvas, flat, single accent) are allowed as a focal ground only when the canvas itself is the design; elsewhere, apply l1c2's ban on glossy 3D blobs and non-canvas ambient effects.
+reason: "auto-accepted scope-split: l1c1's two fixed, non-animated radial blooms are explicitly permitted as a focal ground sized 20–30% of the canvas, while l1c2 only bans glossy 3D blobs and non-canvas ambient effects, so they are complementary rather than contradictory once scoped to the design canvas."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-23T06:09:35.426Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null

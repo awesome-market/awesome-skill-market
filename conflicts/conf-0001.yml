@@ -1,5 +1,6 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0001.yml
 id: conf-0001
-status: pending
+status: dismissed
 fingerprint: 5fb1f9b8d02e
 detected_at: 2026-11-22T20:27:38.532Z
 evidence: screenshot
@@ -30,3 +31,4 @@ evidence_files:
   - option-b.png
   - option-a-mobile.png
   - option-b-mobile.png
+dismiss_reason: The two rules describe mutually exclusive paper/neutral specs but are scoped to different design systems (a warm-tinted paper system vs. a clean white system), so they are complementary variants rather than a same-scope contradiction.

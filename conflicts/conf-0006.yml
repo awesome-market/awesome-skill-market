@@ -1,5 +1,6 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0006.yml
 id: conf-0006
-status: pending
+status: dismissed
 fingerprint: ff1dec62aba8
 detected_at: 2026-11-22T20:56:30.171Z
 evidence: screenshot
@@ -27,3 +28,4 @@ evidence_files:
   - option-b.png
   - option-a-mobile.png
   - option-b-mobile.png
+dismiss_reason: Rule A governs the choice of display typeface (which face to use), while Rule B governs typographic system quality (avoiding overused defaults and establishing scale/weights/spacing); they address different aspects of typography and are fully compatible.

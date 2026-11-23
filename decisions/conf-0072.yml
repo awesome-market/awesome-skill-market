@@ -1,0 +1,11 @@
+id: conf-0072
+status: active
+resolution: merge
+custom: When reduced motion is active, all functional motion primitives (including functional loops and reveals) must be paused or disabled so the screen remains still, while stillness itself remains the default state under reduced motion.
+reason: "auto-accepted keep-a: l0c1's reduced-motion stillness and l0c4's functional motion primitives genuinely conflict, so l0c4 primitives must be gated behind a reduced-motion check to honor l0c1's stillness requirement."
+alternatives_rejected: []
+trigger: auto-arbiter
+decided_at: 2026-11-23T06:21:13.668Z
+decided_by: auto-arbiter
+comment_url: null
+supersedes: null
