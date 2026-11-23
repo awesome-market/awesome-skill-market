@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>skillmkt — skills 管理面板</title>
+<title>skillmkt — 本地 skill 管理面板</title>
 <style>
 /* skillmkt panel — 依 skill/SKILL.md 规则：light-first、OKLCH 角色 token、单强调色、
    无玻璃/渐变/emoji 图标、可见标签、focus-visible ring、每屏至多一个填充主按钮 */
@@ -8,83 +8,98 @@
   --color-paper: oklch(0.975 0.008 95);
   --color-surface: oklch(0.995 0.004 95);
   --color-ink: oklch(0.24 0.02 75);
-  --color-ink-mut: oklch(0.52 0.02 75);
+  --color-ink-mut: oklch(0.50 0.02 75);
   --color-line: oklch(0.88 0.01 85);
   --color-accent: oklch(0.52 0.14 55);          /* 烧橙——唯一强调色 */
   --color-accent-ink: oklch(0.99 0.01 90);
   --color-ok: oklch(0.52 0.11 155);
   --color-warn: oklch(0.55 0.13 80);
   --color-bad: oklch(0.50 0.17 28);
-  --font-body: 15px/1.6 -apple-system, "SF Pro", "PingFang SC", "Noto Sans CJK SC", sans-serif;
+  --font-body: 17px/1.7 -apple-system, "SF Pro", "PingFang SC", "Noto Sans CJK SC", sans-serif;
   --font-display: ui-serif, Georgia, "Songti SC", serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
-  --radius: 8px;
+  --radius: 10px;
 }
 * { box-sizing: border-box; }
 body { margin: 0; font: var(--font-body); background: var(--color-paper); color: var(--color-ink); }
 
-header { display: flex; align-items: baseline; gap: 26px; padding: 18px 28px 0; border-bottom: 1px solid var(--color-line); }
-header h1 { font: 600 22px/1 var(--font-display); margin: 0 4px 0 0; letter-spacing: -0.01em; text-wrap: balance; }
-nav { display: flex; gap: 4px; }
-nav button { background: none; border: 0; border-bottom: 2px solid transparent; padding: 8px 14px 10px;
-  font: inherit; color: var(--color-ink-mut); cursor: pointer; }
+header { display: flex; align-items: baseline; gap: 30px; padding: 22px 32px 0; border-bottom: 1px solid var(--color-line); flex-wrap: wrap; }
+header .brand { display: flex; align-items: baseline; gap: 12px; }
+header h1 { font: 600 24px/1 var(--font-display); margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+header .tag { font-size: 14px; color: var(--color-ink-mut); }
+nav { display: flex; gap: 6px; }
+nav button { background: none; border: 0; border-bottom: 2px solid transparent; padding: 10px 18px 12px;
+  font: inherit; font-size: 16px; color: var(--color-ink-mut); cursor: pointer; }
 nav button.on { color: var(--color-ink); border-bottom-color: var(--color-accent); }
 nav button:hover { color: var(--color-ink); }
-#live { margin-left: auto; font-size: 13px; color: var(--color-ink-mut); padding-bottom: 10px; }
+#live { margin-left: auto; font-size: 14px; color: var(--color-ink-mut); padding-bottom: 12px; display: flex; align-items: center; gap: 7px; }
+#live .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-ok); }
+#live.off .dot { background: var(--color-bad); }
 
-main { padding: 24px 28px 60px; max-width: 1080px; }
-h2 { font: 600 17px/1.3 var(--font-body); margin: 26px 0 10px; text-wrap: balance; }
+main { padding: 30px 32px 80px; max-width: 1060px; }
+h2 { font: 600 21px/1.3 var(--font-display); margin: 38px 0 4px; text-wrap: balance; }
 h2:first-child { margin-top: 0; }
+.desc { margin: 0 0 18px; color: var(--color-ink-mut); font-size: 15.5px; max-width: 64ch; }
 .mut { color: var(--color-ink-mut); }
-code { font-family: var(--font-mono); font-size: 0.92em; }
+code { font-family: var(--font-mono); font-size: 0.9em; background: color-mix(in oklch, var(--color-ink) 5%, var(--color-paper)); padding: 1px 5px; border-radius: 4px; }
 
 .card { background: var(--color-surface); border: 1px solid var(--color-line); border-radius: var(--radius);
-  padding: 14px 16px; margin-bottom: 10px; }
-.row { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+  padding: 18px 20px; margin-bottom: 14px; }
+.card h3 { font: 600 17px/1.3 var(--font-body); margin: 0 0 6px; }
+.row { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
 .row.end { justify-content: flex-end; }
 
-.pill { display: inline-block; padding: 1px 9px; border: 1px solid var(--color-line); border-radius: 99px;
-  font-size: 12px; line-height: 1.5; color: var(--color-ink-mut); }
+.pill { display: inline-block; padding: 2px 11px; border: 1px solid var(--color-line); border-radius: 99px;
+  font-size: 13.5px; line-height: 1.6; color: var(--color-ink-mut); white-space: nowrap; }
 .pill.ok { color: var(--color-ok); border-color: color-mix(in oklch, var(--color-ok) 40%, var(--color-line)); }
 .pill.warn { color: var(--color-warn); border-color: color-mix(in oklch, var(--color-warn) 45%, var(--color-line)); }
 .pill.bad { color: var(--color-bad); border-color: color-mix(in oklch, var(--color-bad) 45%, var(--color-line)); }
 
-button { font: inherit; padding: 6px 14px; border: 1px solid var(--color-line); border-radius: 6px;
+button { font: inherit; font-size: 15.5px; padding: 8px 18px; border: 1px solid var(--color-line); border-radius: 8px;
   background: var(--color-surface); color: var(--color-ink); cursor: pointer; }
 button:hover { border-color: var(--color-ink-mut); }
-button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
   outline: 2px solid var(--color-accent); outline-offset: 2px; }
 button.primary { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-ink); }
 button.primary:hover { filter: brightness(0.94); }
+button:disabled { opacity: 0.45; cursor: default; }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 
-label.field { display: block; margin: 10px 0 2px; font-size: 13px; color: var(--color-ink-mut); }
+label.field { display: block; margin: 14px 0 4px; font-size: 14.5px; color: var(--color-ink-mut); }
 input[type=text], input:not([type]), textarea, select {
-  width: 100%; font: inherit; padding: 7px 10px; border: 1px solid var(--color-line);
-  border-radius: 6px; background: var(--color-paper); color: var(--color-ink); }
-textarea { min-height: 6rem; resize: vertical; font-family: var(--font-mono); font-size: 13px; }
+  width: 100%; font: inherit; font-size: 16px; padding: 9px 13px; border: 1px solid var(--color-line);
+  border-radius: 8px; background: var(--color-paper); color: var(--color-ink); }
+textarea { min-height: 7rem; resize: vertical; font-family: var(--font-mono); font-size: 14.5px; }
+input[type=checkbox] { width: 17px; height: 17px; accent-color: var(--color-accent); margin-right: 2px; }
+label.check { display: flex; gap: 10px; align-items: center; padding: 7px 4px; cursor: pointer; border-radius: 6px; }
+label.check:hover { background: color-mix(in oklch, var(--color-ink) 4%, var(--color-surface)); }
 
-.side { padding: 10px 12px; border-left: 2px solid var(--color-line); margin: 8px 0; font-size: 14px; }
+.side { padding: 14px 16px; border-left: 3px solid var(--color-line); margin: 10px 0; font-size: 15.5px;
+  background: color-mix(in oklch, var(--color-ink) 3%, var(--color-surface)); border-radius: 0 8px 8px 0; }
+.side .who { display: block; font-size: 14px; font-weight: 600; margin-bottom: 4px; }
 .side.a { border-color: var(--color-accent); }
 .side.b { border-color: var(--color-warn); }
-img.ev { max-width: 360px; width: 100%; border: 1px solid var(--color-line); border-radius: 6px; margin: 6px 8px 0 0; }
+img.ev { max-width: 420px; width: 100%; border: 1px solid var(--color-line); border-radius: 8px; margin: 8px 10px 0 0; }
 
-.ep { cursor: pointer; padding: 5px 10px; border-radius: 6px; }
+.ep { cursor: pointer; padding: 8px 12px; border-radius: 8px; font-size: 15.5px; }
 .ep:hover { background: var(--color-paper); }
-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-td, th { text-align: left; padding: 5px 10px; border-bottom: 1px solid var(--color-line); }
-th { font-size: 13px; color: var(--color-ink-mut); font-weight: 500; }
-footer { padding: 20px 28px; border-top: 1px solid var(--color-line); font-size: 13px; color: var(--color-ink-mut); }
+.ep.sel { background: color-mix(in oklch, var(--color-accent) 10%, var(--color-surface)); }
+table { width: 100%; border-collapse: collapse; font-size: 15.5px; }
+td, th { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--color-line); }
+th { font-size: 14px; color: var(--color-ink-mut); font-weight: 500; }
+.empty { padding: 26px 20px; color: var(--color-ink-mut); }
+.empty code { font-size: 14.5px; }
+footer { padding: 22px 32px; border-top: 1px solid var(--color-line); font-size: 14px; color: var(--color-ink-mut); }
 </style></head><body>
 <header>
-  <h1>awesome-skill-market</h1>
+  <div class="brand"><h1>awesome-skill-market</h1><span class="tag">skillmkt 本地管理面板</span></div>
   <nav>
-    <button class="on" data-t="skills">skills</button>
-    <button data-t="conflicts">conflicts</button>
-    <button data-t="review">review</button>
-    <button data-t="setup">setup</button>
+    <button class="on" data-t="skills">已安装</button>
+    <button data-t="conflicts">冲突处理</button>
+    <button data-t="review">安全审核</button>
+    <button data-t="setup">设置</button>
   </nav>
-  <span id="live"></span>
+  <span id="live"><span class="dot"></span>连接中…</span>
 </header>
 <main id="app"><p class="mut">载入中…</p></main>
 <footer id="foot"></footer>

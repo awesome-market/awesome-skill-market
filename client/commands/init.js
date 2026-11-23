@@ -2,7 +2,7 @@
 import fs from 'node:fs';
 import { ensureHub, writeConfig, readConfig } from '../lib/hub.js';
 import { probeEndpoints, chat } from '../lib/llm.js';
-import { openURL, readDaemon } from '../lib/daemon.js';
+import { openURL, readDaemon, pidAlive } from '../lib/daemon.js';
 import { choose, confirm } from '../lib/prompt.js';
 import { ok, warn, fail, info } from '../lib/render.js';
 
@@ -27,10 +27,9 @@ export async function run(ctx) {
   if (mode === 'web') {
     // 前台语义：本进程=服务器，开页后挂住流日志，Ctrl-C 连服务一起退
     try {
-      const alive = (() => { const d = readDaemon(ctx.hub); return d && (() => { try { process.kill(d.pid, 0); return true; } catch { return false; } })() ? d : null; })();
-      if (alive) {
-        const url = openURL(alive, '/#setup');
-        ok(`Web 初始化已打开: ${url}（服务已在别的终端跑）`);
+      const d = readDaemon(ctx.hub);
+      if (d && pidAlive(d.pid)) {
+        ok(`Web 初始化已打开: ${openURL(d, '/#setup')}（服务已在别的终端跑）`);
         return 0;
       }
       const { startServer } = await import('./serve.js');

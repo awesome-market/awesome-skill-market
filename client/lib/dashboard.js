@@ -7,12 +7,13 @@ import { treeHash } from './package.js';
 import { dashboard } from './render.js';
 import { listYAML } from './yamlls.js';
 
-export function renderDashboard(ctx) {
+export async function renderDashboard(ctx) {
   const { hub, library, harnesses, llm, project, config } = ctx;
 
-  // ui.enabled=always → 开面板（daemon 接管，批次7 实装前降级终端仪表盘）
+  // ui.enabled=always → 前台起服务开面板（挂住流日志，Ctrl-C 一起退）
   if (config.ui.enabled === 'always' && ctx.tty && ctx.flags.ui !== 'off') {
-    // TODO(batch7): ensureDaemon + openURL('/')
+    const { maybeHandoff } = await import('./daemon.js');
+    if (await maybeHandoff(ctx, '/')) return 0;   // 接管后永不返回
   }
 
   const rows = scanAll(hub, harnesses, library, project?.root);

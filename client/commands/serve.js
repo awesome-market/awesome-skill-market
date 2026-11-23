@@ -9,11 +9,11 @@ import { loadDecisions, decide } from '../lib/decide.js';
 import { readLibrary, readLock, readConfig, writeConfig, registerSkill, updateLock, ensureHub } from '../lib/hub.js';
 import { readUpstream } from '../lib/state.js';
 import { readYAML } from '../../pipeline/lib/util.js';
-import { scanAll, detectHarnesses } from '../lib/scanner.js';
+import { detectHarnesses } from '../lib/scanner.js';
 import { probeEndpoints, chat } from '../lib/llm.js';
-import { projectSkill, targetDirFor } from '../lib/project.js';
+import { projectSkill, unproject, targetDirFor } from '../lib/project.js';
 import { treeHash } from '../lib/package.js';
-import { ok, info, fail } from '../lib/render.js';
+import { ok, info } from '../lib/render.js';
 
 const PUB = path.join(new URL('.', import.meta.url).pathname, '../public');
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.svg': 'image/svg+xml' };
@@ -35,8 +35,9 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
     library: readLibrary(ctx.hub), lock: readLock(ctx.hub),
     upstream: readUpstream(ctx.hub), conflicts: loadConflicts(ctx.hub),
     decisions: loadDecisions(ctx.hub), harnesses,
-    scans: fs.existsSync(path.join(ctx.hub, 'scans')) ? fs.readdirSync(path.join(ctx.hub, 'scans')).map((f) => readYAML(path.join(ctx.hub, 'scans', f))).filter(Boolean) : [],
-    scans_all: scanAll(ctx.hub, harnesses, readLibrary(ctx.hub), ctx.cwd),
+    scans: fs.existsSync(path.join(ctx.hub, 'scans'))
+      ? fs.readdirSync(path.join(ctx.hub, 'scans')).sort().map((f) => readYAML(path.join(ctx.hub, 'scans', f))).filter(Boolean)
+      : [],
   });
 
   const routes = {
@@ -51,7 +52,7 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
   const server = http.createServer(async (req, res) => {
     lastActive = Date.now();
     const t0 = Date.now();
-    if (!quiet) res.on('finish', () => console.log(`  ${req.method} ${req.url} → ${res.statusCode} ${Date.now() - t0}ms`));
+    if (!quiet) res.on('finish', () => console.log(`  ${req.method} ${req.url.replace(/token=[^&\s]+/g, 'token=***')} → ${res.statusCode} ${Date.now() - t0}ms`));
     const u = new URL(req.url, 'http://x');
     // auth：Bearer header 或 ?token=（SSE/img 用 query，服务端不下发 cookie）
     const authed = req.headers.authorization === `Bearer ${token}` || u.searchParams.get('token') === token;
@@ -67,12 +68,15 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
       if (!authed) { res.writeHead(401, { 'content-type': 'application/json' }); return res.end('{"error":"unauthorized"}'); }
       res.setHeader('content-type', 'application/json');
       if (req.method === 'POST') {
-        const b = JSON.parse(await body(req));
+        let b;
+        try { b = JSON.parse(await body(req)); }
+        catch { res.writeHead(400); return res.end('{"error":"bad json"}'); }
         try {
           if (u.pathname === '/api/decide') {
             const c = loadConflicts(ctx.hub).find((x) => x.id === b.id);
             if (!c) { res.writeHead(404); return res.end('{"error":"not found"}'); }
-            decide(ctx.hub, c, { resolution: b.resolution, custom: b.custom || null, reason: b.reason || 'web decision', by: 'web-ui' });
+            if (!b.reason?.trim()) { res.writeHead(400); return res.end('{"error":"reason required"}'); }
+            decide(ctx.hub, c, { resolution: b.resolution, custom: b.custom || null, reason: b.reason, by: 'web-ui' });
             c.status = 'resolved';
             const { writeConflict } = await import('../lib/conflicts.js');
             writeConflict(ctx.hub, c);
@@ -101,6 +105,12 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
             if (!s) { res.writeHead(404); return res.end('{"error":"not found"}'); }
             const dest = path.join(ctx.hub, 'skills', name);
             const lockTargets = {};
+            // 取消勾选的目标：删掉已复制的副本（否则孤儿文件遗留且 drift 检不出）
+            for (const t of s.targets || []) {
+              if (targets.includes(t)) continue;
+              const dir = targetDirFor(ctx, t, name);
+              if (dir) unproject(name, dir);
+            }
             for (const t of targets) {
               const dir = targetDirFor(ctx, t, name);
               if (!dir) continue;
@@ -122,11 +132,18 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
       }
       res.writeHead(404); return res.end('{"error":"not found"}');
     }
-    // 静态：public/ + evidence 文件（冲突截图）
-    let p = u.pathname === '/' ? '/index.html' : u.pathname;
-    let file = path.join(PUB, p);
-    if (p.startsWith('/evidence/')) file = path.join(ctx.hub, p);
-    if (!file.startsWith(PUB) && !file.startsWith(ctx.hub)) { res.writeHead(403); return res.end(); }
+    // 静态：public/ 公开；/evidence/ 需鉴权且锁死在 hub/evidence 内（防 ../ 穿越读 config.yml 等）
+    const p = u.pathname === '/' ? '/index.html' : u.pathname;
+    let file;
+    if (p.startsWith('/evidence/')) {
+      if (!authed) { res.writeHead(401); return res.end(); }
+      const evDir = path.join(ctx.hub, 'evidence');
+      file = path.join(evDir, p.slice('/evidence/'.length));
+      if (!path.resolve(file).startsWith(path.resolve(evDir))) { res.writeHead(403); return res.end(); }
+    } else {
+      file = path.join(PUB, p);
+      if (!path.resolve(file).startsWith(PUB)) { res.writeHead(403); return res.end(); }
+    }
     if (!fs.existsSync(file) || fs.statSync(file).isDirectory()) { res.writeHead(404); return res.end('nf'); }
     res.setHeader('content-type', MIME[path.extname(file)] || 'application/octet-stream');
     fs.createReadStream(file).pipe(res);
