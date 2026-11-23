@@ -55,8 +55,13 @@ export async function fetchSkill({ owner, repo, ref = null, path: sub = null, mi
     ?? fs.readdirSync(got.tmp).find((d) => fs.statSync(path.join(got.tmp, d)).isDirectory());
   let dir = path.join(got.tmp, root);
   if (sub) {
-    dir = path.join(dir, sub);
-    if (!fs.existsSync(dir)) throw new Error(`repo 内无子目录: ${sub}`);
+    // slug 与仓库路径不总一致（skills.sh slug 常省略 skills/ 前缀）——多级回退定位
+    const topDirs = fs.readdirSync(dir, { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name);
+    const cands = [sub, `skills/${sub}`, ...topDirs.map((d) => `${d}/${sub}`)];
+    const hit = cands.find((c) => fs.existsSync(path.join(dir, c, 'SKILL.md')))
+      ?? cands.find((c) => fs.existsSync(path.join(dir, c)));
+    if (!hit) throw new Error(`repo 内找不到: ${sub}（试了 ${cands.slice(0, 4).join(', ')} …）`);
+    dir = path.join(dir, hit);
   }
   return {
     dir, tmp: got.tmp, sha,

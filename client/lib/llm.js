@@ -33,6 +33,28 @@ export function resolveLLM(ctx) {
   };
 }
 
+// OpenAI 兼容 chat——返回文本内容或抛错（init 冒烟 + 后续 LLM 功能复用）
+export async function chat(llm, { system = '', user, maxTokens = 64, temperature = 0 } = {}) {
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), llm.timeout_ms);
+  try {
+    const res = await fetch(`${llm.base_url}/chat/completions`, {
+      method: 'POST',
+      signal: ctrl.signal,
+      headers: { 'content-type': 'application/json', ...(llm.api_key ? { authorization: `Bearer ${llm.api_key}` } : {}) },
+      body: JSON.stringify({
+        model: llm.model,
+        temperature,
+        max_tokens: maxTokens,
+        messages: [...(system ? [{ role: 'system', content: system }] : []), { role: 'user', content: user }],
+      }),
+    });
+    if (!res.ok) throw new Error(`llm ${res.status}: ${(await res.text()).slice(0, 200)}`);
+    const data = await res.json();
+    return data.choices?.[0]?.message?.content ?? '';
+  } finally { clearTimeout(t); }
+}
+
 export const LLM_PROBES = [
   { port: 8001, name: 'OMLX' },
   { port: 11434, name: 'Ollama', probe: '/api/version' },
