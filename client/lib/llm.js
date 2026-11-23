@@ -4,10 +4,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 
-function loadDotEnv(cwd) {
+function loadDotEnv(file) {
   try {
     const out = {};
-    for (const line of fs.readFileSync(path.join(cwd, '.env'), 'utf8').split('\n')) {
+    for (const line of fs.readFileSync(file, 'utf8').split('\n')) {
       const m = line.match(/^\s*([A-Z_][A-Z0-9_]*)\s*=\s*(.*)\s*$/);
       if (m && !line.trim().startsWith('#')) out[m[1]] = m[2].replace(/^["']|["']$/g, '');
     }
@@ -15,9 +15,34 @@ function loadDotEnv(cwd) {
   } catch { return {}; }
 }
 
+// upsert KEY=value 到 env 文件（600 权限）——web 保存明文密钥时落到 hub/.env，config.yml 只留 env: 引用
+export function upsertEnvFile(file, key, value) {
+  let lines = [];
+  try { lines = fs.readFileSync(file, 'utf8').split('\n'); } catch { /* 新文件 */ }
+  const idx = lines.findIndex((l) => l.startsWith(`${key}=`));
+  const entry = `${key}=${value}`;
+  if (idx >= 0) lines[idx] = entry; else lines.push(entry);
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, lines.filter(Boolean).join('\n') + '\n', { mode: 0o600 });
+  try { fs.chmodSync(file, 0o600); } catch { /* windows 无 mode */ }
+}
+
+// "env:VAR" → 真值（hub/.env + cwd/.env + 环境变量）；裸值原样返回
+export function resolveKeyRef(keyRef, ctx) {
+  if (!keyRef?.startsWith('env:')) return keyRef || '';
+  const v = keyRef.slice(4);
+  const env = {
+    ...(ctx?.hub ? loadDotEnv(path.join(ctx.hub, '.env')) : {}),
+    ...loadDotEnv(path.join(ctx?.cwd ?? '.', '.env')),
+    ...process.env,
+  };
+  return env[v] ?? '';
+}
+
 export function resolveLLM(ctx) {
   if (ctx.flags.noLlm) return null;
-  const env = { ...loadDotEnv(ctx.cwd), ...process.env };
+  // 解析链：hub/.env < cwd/.env < 真环境变量（后者覆盖前者）
+  const env = { ...(ctx.hub ? loadDotEnv(path.join(ctx.hub, '.env')) : {}), ...loadDotEnv(path.join(ctx.cwd, '.env')), ...process.env };
   const cfg = ctx.config.llm || {};
   const base = ctx.flags.baseUrl || env.SKILLMKT_LLM_BASE_URL || env.OMLX_BASE_URL || cfg.base_url;
   const model = ctx.flags.model || env.SKILLMKT_LLM_MODEL || env.OMLX_MODEL || cfg.model;

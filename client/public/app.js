@@ -151,7 +151,7 @@ async function render() {
         <label class="field">模型名称</label><input type="text" id="mmodel" list="model-opts" placeholder="可输入关键字搜索，扫描后自动列出发现的模型" value="${esc(cfg.llm?.model || '')}">
         <datalist id="model-opts"></datalist>
         <label class="field">访问密钥</label><input type="text" id="mkey" value="${esc(cfg.llm?.api_key || '')}">
-        <p class="mut">可填 <code>env:变量名</code> 引用环境变量，密钥真值不会写进配置文件；本机服务一般留空即可。</p>
+        <p class="mut">本机服务一般留空。填了明文密钥会存到 <code>~/.skillmkt/.env</code>（仅本人可读），配置文件里只留引用——不会以明文落进 config.yml。</p>
         <div class="row"><button id="smoke">测试连接</button><span id="smoke-out" class="mut"></span></div></div>
       <div class="card"><h3>第 2 步 · skill 默认安装位置</h3>
         <p class="mut">勾选的 AI 工具会在你安装新 skill 时自动收到一份副本。已勾过的话保存即生效。</p>
@@ -193,7 +193,7 @@ async function render() {
     app.querySelector('#save').onclick = async () => {
       const targets = [...app.querySelectorAll('[data-h]:checked')].map((x) => x.dataset.h);
       const r = await api('/config', { method: 'POST', body: JSON.stringify({ llm: { base_url: app.querySelector('#murl').value || null, model: app.querySelector('#mmodel').value || null, api_key: app.querySelector('#mkey').value || undefined, concurrency: 2, timeout_ms: 60000 }, default_targets: targets }) });
-      app.querySelector('#save-out').textContent = r.ok ? '已保存到 config.yml' : `保存失败：${r.error}`;
+      app.querySelector('#save-out').textContent = r.ok ? `已保存到 config.yml${r.key_env ? '，密钥存入 .env' : ''}` : `保存失败：${r.error}`;
       refresh();
     };
   }
