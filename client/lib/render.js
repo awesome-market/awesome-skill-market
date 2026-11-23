@@ -38,9 +38,14 @@ export function dashboard({ hub, library, scan, upstream, conflicts, llm, llmVia
   err(`skillmkt · hub ${hub}${llm ? ` · llm ${llm.model} ✓${llmVia ? L(`（来自 ${llmVia}，未写 config.yml）`, ` (from ${llmVia}, not in config.yml)`) : ''}` : ''}`);
   err('');
   err(`skills      ${skills.length} installed${updates ? ` · ${updates} update available` : ''} · audit ${audits.length - bad}✓${bad ? `/${bad}⚠` : ''}`);
-  const hs = scan.harnesses.filter((h) => h.state !== 'absent')
-    .map((h) => `${h.id}${h.state === 'installed' ? '●' : h.state === 'available' ? '○available' : '~likely'}`);
-  if (hs.length) err(`harnesses   ${hs.join('  ')}`);
+  // 按状态分组展示（●已装/○仅CLI/~疑似），不再符号+文字混排
+  const grp = (st) => scan.harnesses.filter((h) => h.state === st).map((h) => h.id);
+  const parts = [
+    grp('installed').length && `${L('已装', 'installed')} ${grp('installed').join(' ')}`,
+    grp('available').length && `${L('可装', 'installable')} ${grp('available').join(' ')}`,
+    grp('likely').length && `${L('疑似', 'likely')} ${grp('likely').join(' ')}`,
+  ].filter(Boolean);
+  if (parts.length) err(`agents      ${parts.join(' · ')}`);
   if (project) err(`project     ${project.root}`);
   if (pending) err(`conflicts   ${pending} pending — ${L('需要裁决', 'needs your decision')}`);
   if (externals) err(`external    ${externals} ${L('未收编 — install <path> 纳入管理', 'unmanaged — `install <path>` to adopt')}`);
