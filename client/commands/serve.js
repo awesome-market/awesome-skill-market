@@ -77,39 +77,45 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
   const fetchDesc = async (slug) => {
     if (descCache.has(slug)) return descCache.get(slug);
     const parts = slug.split('/');
-    let desc = '';
+    let out = { desc: '', rel: null };
     if (parts[0].includes('.')) {   // 私有源：host/.well-known/agent-skills/id/SKILL.md
-      desc = await fetch(`https://${parts[0]}/.well-known/agent-skills/${parts.slice(1).join('/')}/SKILL.md`,
+      out.desc = await fetch(`https://${parts[0]}/.well-known/agent-skills/${parts.slice(1).join('/')}/SKILL.md`,
         { headers: { 'user-agent': 'skillmkt' }, signal: AbortSignal.timeout(8e3) })
         .then((r) => (r.ok ? r.text() : '')).then(parseDesc).catch(() => '');
     } else {                       // GitHub：raw 需真实分支，skill 路径也要多级回退（同 github.js 定位逻辑）
       const sub = parts.slice(2).join('/');
       const subs = sub ? [sub, `skills/${sub}`, `packages/${sub}`, `plugins/${sub}`, `.claude/skills/${sub}`] : ['', 'skills', 'packages'];
-      const rels = subs.map((p) => (p ? `${p}/SKILL.md` : 'SKILL.md'));
       const tryRaw = async (br) => {
-        for (const rel of rels) {
+        for (const p of subs) {
+          const rel = p ? `${p}/SKILL.md` : 'SKILL.md';
           const md = await fetch(`https://raw.githubusercontent.com/${parts[0]}/${parts[1]}/${br}/${rel}`,
             { headers: { 'user-agent': 'skillmkt' }, signal: AbortSignal.timeout(8e3) })
             .then((r) => (r.ok ? r.text() : '')).catch(() => '');
-          if (md) return parseDesc(md);
+          if (md) return { desc: parseDesc(md), rel: p };
         }
-        return '';
+        return null;
       };
-      for (const br of ['main', 'master']) { desc = await tryRaw(br); if (desc) break; }
-      if (!desc) {
+      for (const br of ['main', 'master']) {
+        const hit = await tryRaw(br);
+        if (hit) { out = hit; out.branch = br; break; }
+      }
+      if (!out.desc) {
         try {
           const { execFileSync } = await import('node:child_process');
           const br = execFileSync('gh', ['api', `repos/${parts[0]}/${parts[1]}`, '--jq', '.default_branch'], { encoding: 'utf8', timeout: 8000 }).trim();
-          if (br && !['main', 'master'].includes(br)) desc = await tryRaw(br);
+          if (br && !['main', 'master'].includes(br)) {
+            const hit = await tryRaw(br);
+            if (hit) { out = hit; out.branch = br; }
+          }
         } catch { /* gh 不可用就算了 */ }
       }
     }
-    descCache.set(slug, desc);
-    return desc;
+    descCache.set(slug, out);
+    return out;
   };
   const routes = {
     'GET /api/state': () => state(),
-    'GET /api/desc': (u) => fetchDesc(u.searchParams.get('slug') || '').then((desc) => ({ desc })),
+    'GET /api/desc': async (u) => fetchDesc(u.searchParams.get('slug') || ''),
     'GET /api/conflicts': () => loadConflicts(ctx.hub),
     'GET /api/decisions': () => loadDecisions(ctx.hub),
     'GET /api/config': () => readConfig(ctx.hub)._raw,
