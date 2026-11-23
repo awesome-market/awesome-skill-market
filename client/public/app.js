@@ -148,7 +148,8 @@ async function render() {
         <div class="row"><button id="probe">扫描本机模型服务</button><span id="probe-out" class="mut"></span></div>
         <div id="eps"></div>
         <label class="field">服务地址</label><input type="text" id="murl" placeholder="http://localhost:1234/v1" value="${esc(cfg.llm?.base_url || '')}">
-        <label class="field">模型名称</label><input type="text" id="mmodel" placeholder="点上面扫描出的条目可自动填入" value="${esc(cfg.llm?.model || '')}">
+        <label class="field">模型名称</label><input type="text" id="mmodel" list="model-opts" placeholder="可输入关键字搜索，扫描后自动列出发现的模型" value="${esc(cfg.llm?.model || '')}">
+        <datalist id="model-opts"></datalist>
         <label class="field">访问密钥</label><input type="text" id="mkey" value="${esc(cfg.llm?.api_key || '')}">
         <p class="mut">可填 <code>env:变量名</code> 引用环境变量，密钥真值不会写进配置文件；本机服务一般留空即可。</p>
         <div class="row"><button id="smoke">测试连接</button><span id="smoke-out" class="mut"></span></div></div>
@@ -157,18 +158,26 @@ async function render() {
         ${h.map((x) => `<label class="check"><input type="checkbox" data-h="${esc(x.id)}" ${sel.has(x.id) ? 'checked' : ''} ${x.state === 'absent' ? 'disabled' : ''}> ${esc(x.id)} ${pill(x.state)} <span class="mut">${esc(x.primaryDir || '')}</span></label>`).join('')}</div>
       <div class="card"><h3>第 3 步 · 保存</h3>
         <div class="row"><button class="primary" id="save">保存设置</button><span id="save-out" class="mut"></span></div></div>`;
+    const modelMap = new Map();   // 扫描后填充：model → base_url（选中模型自动回填地址）
+    app.querySelector('#mmodel').addEventListener('input', (e) => {
+      const b = modelMap.get(e.target.value);
+      if (b) app.querySelector('#murl').value = b;
+    });
     app.querySelector('#probe').onclick = async () => {
       app.querySelector('#probe-out').textContent = '扫描中…';
       const eps = await api('/probe');
-      app.querySelector('#eps').innerHTML = eps.flatMap((e) => e.needs_key
-        ? [`<div class="ep" data-b="${esc(e.base_url)}" data-m="">${esc(e.name)}:${e.port} — <span class="mut">需要密钥（先点这行填地址，再填密钥、测试连接）</span></div>`]
-        : e.models.slice(0, 6).map((m) => `<div class="ep" data-b="${esc(e.base_url)}" data-m="${esc(m)}">${esc(e.name)}:${e.port} — <code>${esc(m)}</code></div>`)).join('')
+      modelMap.clear();
+      for (const e of eps) for (const m of e.models) if (!modelMap.has(m)) modelMap.set(m, e.base_url);
+      app.querySelector('#model-opts').innerHTML = [...modelMap.keys()].map((m) => `<option value="${esc(m)}">`).join('');
+      app.querySelector('#eps').innerHTML = eps.map((e) => e.needs_key
+        ? `<div class="ep" data-b="${esc(e.base_url)}">${esc(e.name)}:${e.port} — <span class="mut">需要密钥（点这行填地址，再填密钥、测试连接）</span></div>`
+        : `<div class="ep" data-b="${esc(e.base_url)}">${esc(e.name)}:${e.port} — ${e.models.length} 个模型（在下方「模型名称」下拉框里搜索）</div>`).join('')
         || '<p class="mut" style="margin-top:8px">没扫到——请确认模型服务已启动（会检查 8001 / 11434 / 1234 / 8000 / 8080 / 1337 / 5000 端口）</p>';
-      app.querySelector('#probe-out').textContent = `发现 ${eps.length} 个服务，点击条目自动填入`;
+      app.querySelector('#probe-out').textContent = `发现 ${eps.length} 个服务、${modelMap.size} 个模型`;
       app.querySelectorAll('#eps [data-b]').forEach((d) => d.onclick = () => {
         app.querySelectorAll('#eps .ep').forEach((x) => x.classList.remove('sel'));
         d.classList.add('sel');
-        app.querySelector('#murl').value = d.dataset.b; app.querySelector('#mmodel').value = d.dataset.m;
+        app.querySelector('#murl').value = d.dataset.b;
       });
     };
     app.querySelector('#smoke').onclick = async () => {
