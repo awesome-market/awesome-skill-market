@@ -148,8 +148,8 @@ async function render() {
         <p class="mut">点「扫描」自动发现本机正在运行的模型服务（LM Studio、Ollama、oMLX 等）。${cfg.llm?.model ? `当前使用：<code>${esc(cfg.llm.model)}</code>` : ''}</p>
         <div class="row"><button id="probe">扫描本机模型服务</button><span id="probe-out" class="mut"></span></div>
         <div id="eps"></div>
-        <div class="frow"><span class="lab">服务地址</span><input type="text" id="murl" placeholder="http://localhost:1234/v1" value="${esc(cfg.llm?.base_url || '')}"></div>
-        <div class="frow" id="key-row" style="display:none"><span class="lab">访问密钥</span><input type="text" id="mkey" value="${esc(cfg.llm?.api_key?.startsWith('enc:') ? '已加密保存' : (cfg.llm?.api_key || ''))}"><span class="fhint" id="key-hint"></span>
+        <div class="frow"><span class="lab">服务地址</span><input type="text" id="murl" autocomplete="off" placeholder="http://localhost:1234/v1" value="${esc(cfg.llm?.base_url || '')}"></div>
+        <div class="frow" id="key-row" style="display:none"><span class="lab">访问密钥</span><input type="text" id="mkey" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-form-type="other" value="${esc(cfg.llm?.api_key?.startsWith('enc:') ? '已加密保存' : (cfg.llm?.api_key || ''))}"><span class="fhint" id="key-hint"></span>
           <div class="fsub">填了密钥会用本机机器码加密后存入 config.yml——文件拷到别的机器解不开，换机需重填。</div></div>
         <div class="frow" id="model-box"><span class="lab">模型名称</span>
           <div class="combo"><input type="text" id="mmodel" autocomplete="off" placeholder="可输入关键字搜索，扫描后自动列出发现的模型" value="${esc(cfg.llm?.model || '')}">
