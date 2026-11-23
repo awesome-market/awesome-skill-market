@@ -22,7 +22,7 @@ const I18N = {
     sk_desc: '通过 skillmkt 安装、统一管理的 skill。点开「安装位置」可以决定它出现在哪些 AI 工具的 skills 目录里。',
     sk_at: '装在：', sk_hub: '仅仓库', sk_loc: '安装位置',
     sk_empty: '还没有安装任何 skill。<br>在终端运行 <code>skillmkt install 名称</code> 安装；不知道装什么可以先 <code>skillmkt search 关键词</code> 搜一搜。',
-    tg_label: '复制到这些 AI 工具（取消勾选会把已复制的删掉）',
+    tg_label: '安装到这些 AI 工具', tg_warn: '取消勾选会把已复制的删掉',
     tg_save: '保存安装位置', tg_saved: '已保存并生效', tg_fail: (e) => `失败：${e}`,
     agents_h: '你电脑上的 AI 工具',
     agents_desc: '检测到的 agent 及其 skills 目录。「可用」表示工具已安装、目录会在首次安装 skill 时自动建好。',
@@ -107,7 +107,7 @@ const I18N = {
     sk_desc: 'Skills installed and managed by skillmkt. Open "Locations" to decide which AI tools get a copy in their skills directory.',
     sk_at: 'in: ', sk_hub: 'hub only', sk_loc: 'Locations',
     sk_empty: 'No skills installed yet.<br>Run <code>skillmkt install &lt;name&gt;</code> in the terminal, or <code>skillmkt search &lt;keyword&gt;</code> to find some.',
-    tg_label: 'Copy into these AI tools (unchecking removes the existing copy)',
+    tg_label: 'Install into these AI tools', tg_warn: 'Unchecking removes the existing copy',
     tg_save: 'Save locations', tg_saved: 'Saved', tg_fail: (e) => `Failed: ${e}`,
     agents_h: 'AI tools on this machine',
     agents_desc: 'Detected agents and their skills directories. "Available" means the tool is installed and its directory will be created on first install.',
@@ -316,10 +316,10 @@ async function render() {
       if (box.style.display === 'block') { box.style.display = 'none'; return; }
       const s = S.library.skills[b.dataset.tg];
       box.style.display = 'block';
-      box.innerHTML = `<label class="field">${t('tg_label')}</label>` +
+      box.innerHTML = `<label class="field">${t('tg_label')}</label><div class="field" style="font-size:13.5px">${t('tg_warn')}</div>` +
         (S.harnesses || []).filter((x) => x.state !== 'absent' && !x.detectOnly).map((x) =>
           `<label class="check"><input type="checkbox" data-th="${esc(x.id)}" ${(s.targets || []).includes(x.id) ? 'checked' : ''}> ${esc(x.id)} ${pill(x.state)} <span class="mut">${esc(x.primaryDir || '')}</span></label>`).join('')
-        + `<div class="row" style="margin-top:10px"><button class="primary tgo">${t('tg_save')}</button><span class="tout mut"></span></div>`;
+        + `<div class="row end" style="margin-top:10px"><span class="tout mut"></span><button class="primary tgo">${t('tg_save')}</button></div>`;
       box.querySelector('.tgo').onclick = async () => {
         const ts = [...box.querySelectorAll('[data-th]:checked')].map((x) => x.dataset.th);
         const r = await api('/targets', { method: 'POST', body: JSON.stringify({ name: b.dataset.tg, targets: ts }) });
