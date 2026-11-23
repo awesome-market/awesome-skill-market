@@ -10,7 +10,7 @@ import { readSkillDir, copyDir, rmDir, walk, treeHash } from '../lib/package.js'
 import { projectSkill, resolveTargets } from '../lib/project.js';
 import { primaryDir } from '../lib/scanner.js';
 import { cacheLookup, historySnapshot } from '../lib/state.js';
-import { confirm, multiChoose } from '../lib/prompt.js';
+import { choose, multiChoose } from '../lib/prompt.js';
 import { ok, warn, fail, info, auditTag } from '../lib/render.js';
 import { L } from '../lib/i18n.js';
 
@@ -105,20 +105,33 @@ export async function run(ctx) {
   }
   const policy = flags.policy || ctx.config.policy;
   if (audit.verdict === 'suspicious' && policy !== 'permissive') {
-    const why = audit.findings.length
-      ? L(`内容命中 ${audit.findings.length} 处`, `${audit.findings.length} content findings`)
-      : L('内容扫描无命中', 'no content findings');
-    warn(L(`可疑：${why}${audit.stripped.length ? `，${audit.stripped.length} 个文件将被剥离` : ''}`,
-           `suspicious: ${why}${audit.stripped.length ? `, ${audit.stripped.length} files will be stripped` : ''}`));
-    audit.findings.slice(0, 5).forEach((f) => info(`  ${f.rule} ${f.file}:${f.line} — ${f.excerpt.slice(0, 80)}`));
-    if (audit.findings.length > 5) info(`  …${L('另', 'plus')} ${audit.findings.length - 5} ${L('处，见', ' findings, see')} scans/${name}.yml`);
-    for (const g of stripSummary(audit.stripped)) {
-      const label = g.key === 'exec' ? L('可执行文件', 'executables') : L(`脚本类目录 ${g.key.slice(4)}/`, `script-type dir ${g.key.slice(4)}/`);
-      info(`  ${L('剥离', 'strip')} ${label}: ${g.files.length} ${L('个', '')} — ${g.files.slice(0, 6).join(', ')}${g.files.length > 6 ? ' …' : ''}`);
+    if (audit.findings.length) {
+      warn(L(`可疑：内容里 ${audit.findings.length} 处有风险特征（会原样装进）`, `suspicious: ${audit.findings.length} risky spots in content (installed as-is)`));
+      audit.findings.slice(0, 5).forEach((f) => info(`${f.rule} ${f.file}:${f.line} — ${f.excerpt.slice(0, 80)}`));
+      if (audit.findings.length > 5) info(`…${L('另', 'plus')} ${audit.findings.length - 5} ${L('处，全单见', ', full list in')} scans/${name}.yml`);
     }
-    // --yes 不放大 suspicious（安全默认）；strict 直接拒
-    const proceed = policy === 'strict' ? false : await confirm(L(`继续安装 ${name}?`, `Install ${name} anyway?`), { defaultYes: false });
-    if (!proceed) { fail(L('已取消', 'install aborted')); return 2; }
+    if (audit.stripped.length) {
+      const what = stripSummary(audit.stripped).map((g) => g.key === 'exec'
+        ? L(`${g.files.length} 个可执行文件`, `${g.files.length} executable(s)`)
+        : `${g.key.slice(4)}/ ${L('目录', 'dir')} (${g.files.length} ${L('个文件', 'files')})`).join(' + ');
+      warn(L(`可疑：它带了 ${what}——默认不会安装（脚本能执行任意命令，默认不信任）`, `suspicious: ships ${what} — excluded by default (scripts can run anything)`));
+      info(`${L('不装的有', 'excluded')}: ${audit.stripped.slice(0, 5).join(', ')}${audit.stripped.length > 5 ? ` …（${L('共', 'total')} ${audit.stripped.length} ${L('个，全单见', ', full list in')} scans/${name}.yml）` : ''}`);
+      info(L('skill 本体（说明文档等）不含这些脚本也能正常用', 'the skill itself (docs) works fine without them'));
+    }
+    if (policy === 'strict') { fail(L('strict 策略——已拒装', 'strict policy — refused')); return 2; }
+    if (!process.stdin.isTTY) {
+      fail(L(`可疑包——非交互环境默认不装。要装加 --policy permissive${audit.stripped.length ? '（仍不含脚本；连脚本再加 --keep-scripts）' : ''}`,
+             `suspicious — refused in non-interactive mode. Use --policy permissive${audit.stripped.length ? ' (scripts still excluded; add --keep-scripts to include)' : ''}`));
+      return 2;
+    }
+    const opts = audit.stripped.length
+      ? [{ label: L('装，但不带这些脚本（推荐）', 'Install without the scripts (recommended)'), _v: 'safe' },
+         { label: L('连脚本一起装（没经过审查——信任来源才选）', 'Install including scripts (unvetted — only if you trust the source)'), _v: 'all' },
+         { label: L('不装了', 'Cancel'), _v: 'no' }]
+      : [{ label: L('仍然安装', 'Install anyway'), _v: 'safe' }, { label: L('不装了', 'Cancel'), _v: 'no' }];
+    const sel = (await choose(L('怎么处理？', 'How to proceed?'), opts))?._v;
+    if (sel !== 'safe' && sel !== 'all') { fail(L('已取消', 'install aborted')); return 2; }
+    if (sel === 'all') flags.keepScripts = true;
   }
 
   // ③ 落 hub（stripped 过滤）
@@ -127,7 +140,7 @@ export async function run(ctx) {
   const alreadyManaged = ctx.library.skills?.[name] && fs.existsSync(dest);
   let differs = false;
   if (alreadyManaged) {
-    const keep = stripFilter(audit.stripped);
+    const keep = stripFilter(flags.keepScripts ? [] : audit.stripped);
     // 与现有 hub 副本内容对比：相同则跳过 copy
     const srcFilteredHash = (() => { const t = path.join(ctx.hub, 'cache', `__probe_${process.pid}`); rmDir(t); copyFiltered(srcDir, t, keep); const h = treeHash(t); rmDir(t); return h; })();
     differs = srcFilteredHash !== freshHash();

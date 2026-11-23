@@ -75,7 +75,8 @@ export function auditDir(dir, { strip = true } = {}) {
     }
   }
 
-  return { verdict: verdictOf(findings, stripped), findings, stripped: strip ? stripped : [] };
+  const kept = strip ? stripped : [];   // strip:false(--keep-scripts)=用户已选择连脚本装——verdict 不该再拿剥离表定罪
+  return { verdict: verdictOf(findings, kept), findings, stripped: kept };
 }
 
 // verdict 归并（代码判定，不是模型）。doc=文档语境误报，allowed=用户人工豁免——都不定罪但仍记录

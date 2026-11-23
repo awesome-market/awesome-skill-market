@@ -5,7 +5,7 @@ const el = (h) => { const d = document.createElement('div'); d.innerHTML = h; re
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 let S = null, tab = location.hash.slice(1).split('?')[0] || 'skills';
 let saveMsg = '', saveMsgAt = 0;   // 保存结果提示——要挺过保存后的连续重渲染（自己 refresh + SSE config 事件）
-const mkState = { q: '', results: null, installed: new Set(), perm: new Set(), force: new Set(), status: {}, directOut: '', directPerm: false, directForce: false };   // 市场页状态——SSE refresh 重渲染不丢
+const mkState = { q: '', results: null, installed: new Set(), perm: new Set(), force: new Set(), keep: new Set(), status: {}, directOut: '', directPerm: false, directForce: false, directStrip: false };   // 市场页状态——SSE refresh 重渲染不丢
 let mgOut = '';   // 合并结果提示——同上
 const isSuspicious = (out) => /可疑|suspicious/i.test(out || '');   // 审核"可疑"→ 需用户知情确认才放行
 // 从 CLI 输出里抽可疑判定的原因：⚠ 行 + 紧跟的缩进详情行（命中规则/剥离清单），✗/✓ 开头即止
@@ -18,6 +18,7 @@ const suspDetail = (out) => {
   return keep.join('\n').trim();
 };
 const isManaged = (out) => /已在管理|already managed/i.test(out || '');   // 已管理且内容不同（装旧版）→ --force 确认
+const hasStrip = (out) => /不装的有|excluded:/i.test(out || '');          // 输出含剥离清单 → 可疑判定源于脚本文件，可提供"含脚本装"选项
 
 const I18N = {
   zh: {
@@ -89,7 +90,7 @@ const I18N = {
     mk_h: 'Skill 市场', mk_desc: '搜 skills.sh 公共市场，或直接粘 owner/repo / 本地路径。',
     mk_ph: '搜关键词，或粘 owner/repo / 绝对路径', mk_search: '搜索', mk_direct: '按输入直接安装', mk_install: '安装',
     mk_busy: '处理中…', ins_done: '完成', ins_fail: (c) => `失败（退出码 ${c}）`,
-    mk_susp: '审核判为可疑——了解风险后仍要装？', mk_force: '仍要安装', ext_force: '仍要纳入',
+    mk_susp: '审核判为可疑——了解风险后仍要装？', mk_force: '装，但不含脚本', mk_anyway: '仍要安装', mk_ks: '含脚本一起装（未审查）', ext_force: '仍要纳入',
     mk_mng: '已在管理且内容不同（装旧版？）——覆盖现有副本？', mk_ow: '覆盖安装',
     mk_nosrc: '私有源暂不可装', mk_privsrc: '私有源',
     sk_remove: '移除', sk_remove_sure: '再点一次确认', sk_removed: '已移除', open_dir: '打开文件夹',
@@ -178,7 +179,7 @@ const I18N = {
     mk_h: 'Skill market', mk_desc: 'Search the skills.sh market, or paste owner/repo / local path.',
     mk_ph: 'keywords, or paste owner/repo / absolute path', mk_search: 'Search', mk_direct: 'Install input as ref/path', mk_install: 'Install',
     mk_busy: 'Working…', ins_done: 'Done', ins_fail: (c) => `Failed (exit ${c})`,
-    mk_susp: 'Audit flagged this suspicious — install anyway?', mk_force: 'Install anyway', ext_force: 'Adopt anyway',
+    mk_susp: 'Audit flagged this suspicious — install anyway?', mk_force: 'Install w/o scripts', mk_anyway: 'Install anyway', mk_ks: 'Install incl. scripts (unvetted)', ext_force: 'Adopt anyway',
     mk_mng: 'Already managed with different content (older version?) — overwrite?', mk_ow: 'Overwrite',
     mk_nosrc: 'private source — N/A', mk_privsrc: 'private source',
     sk_remove: 'Remove', sk_remove_sure: 'Click again to confirm', sk_removed: 'Removed', open_dir: 'Open folder',
@@ -338,7 +339,7 @@ async function render() {
       // 装旧版：tag/sha → install owner/repo@tag --path <sub>——版本号是用户自己填的，直接 --force 覆盖（覆盖前自动留档可切回）
       // 输入归一化：抽出 40 位 sha（release 标题 "Agent Skills <sha>" 的粘贴）；含空格→小写连字符
       const normTag = (s) => s.match(/[0-9a-f]{40}/)?.[0] || (s.includes(' ') ? s.trim().toLowerCase().replace(/\s+/g, '-') : s);
-      let oPerm = false;
+      let oPerm = false, oKs = false;
       box.querySelector('.oi')?.addEventListener('click', async (e) => {
         const tag = normTag(box.querySelector('.ot').value.trim());
         if (!tag) return;
@@ -347,7 +348,7 @@ async function render() {
           box.querySelector('.out2').textContent = t('ins_same', String(src.pin).slice(0, 7)); return;
         }
         e.target.disabled = true; e.target.textContent = t('op_busy');
-        const r = await api('/install', { method: 'POST', body: JSON.stringify({ ref: `${src.ref}@${tag}`, path: src.path || undefined, permissive: oPerm, force: true }) });
+        const r = await api('/install', { method: 'POST', body: JSON.stringify({ ref: `${src.ref}@${tag}`, path: src.path || undefined, permissive: oPerm, keepScripts: oKs, force: true }) });
         e.target.disabled = false;
         if (r.code === 0) {
           box.querySelector('.out2').textContent = (r.out || '').split('\n').filter((l) => l.trim()).pop()?.slice(0, 120) || t('ins_done');
@@ -356,8 +357,16 @@ async function render() {
           return;
         }
         if (isSuspicious(r.out) && !oPerm) {
-          oPerm = true; e.target.textContent = t('mk_force'); box.querySelector('.out2').textContent = t('mk_susp');
+          oPerm = true;
+          const strip = hasStrip(r.out);
+          e.target.textContent = strip ? t('mk_force') : t('mk_anyway');
+          box.querySelector('.out2').textContent = t('mk_susp');
           const pre = box.querySelector('.pre'); pre.style.display = 'block'; pre.textContent = suspDetail(r.out) || (r.out || '').trim();
+          if (strip && !box.querySelector('.okb')) {
+            const kb = document.createElement('button'); kb.className = 'okb sm'; kb.textContent = t('mk_ks');
+            kb.onclick = () => { oKs = true; box.querySelector('.oi').click(); };
+            box.querySelector('.oi').after(kb);
+          }
           return;
         }
         e.target.textContent = t('mk_install');
@@ -442,13 +451,19 @@ async function render() {
     app.querySelectorAll('.adopt').forEach((b) => b.onclick = async () => {
       b.disabled = true; b.textContent = t('op_busy');
       const permissive = b.dataset.perm === '1';
-      const r = await api('/install', { method: 'POST', body: JSON.stringify({ ref: b.dataset.d, permissive }) });
+      const r = await api('/install', { method: 'POST', body: JSON.stringify({ ref: b.dataset.d, permissive, keepScripts: b.dataset.ks === '1' }) });
       const o = b.parentElement.querySelector('.aout');
       if (r.code === 0) { if (o) o.textContent = t('op_done'); refresh(); return; }
       b.disabled = false;
       if (isSuspicious(r.out) && !permissive) {
-        b.dataset.perm = '1'; b.textContent = t('ext_force');
+        b.dataset.perm = '1'; b.textContent = hasStrip(r.out) ? t('mk_force') : t('ext_force');
         if (o) { o.textContent = `${t('mk_susp')}\n${suspDetail(r.out)}`; o.style.whiteSpace = 'pre-wrap'; }
+        if (hasStrip(r.out) && !b.parentElement.querySelector('.adks')) {
+          const kb = document.createElement('button');
+          kb.className = 'adks sm'; kb.textContent = t('mk_ks');
+          kb.onclick = () => { b.dataset.ks = '1'; b.click(); };
+          b.after(kb);
+        }
       } else {
         b.textContent = t('ext_adopt');
         if (o) o.textContent = (r.out || '').split('\n').filter((l) => l.trim()).pop()?.slice(0, 100);
@@ -462,14 +477,14 @@ async function render() {
       <div class="card"><div class="frow"><input type="text" id="mk-q" placeholder="${t('mk_ph')}" value="${esc(mkState.q)}" style="flex:1">
         <button class="primary" id="mk-go">${t('mk_search')}</button><button id="mk-dir">${t('mk_direct')}</button></div>
         <div id="mk-out" class="fsub"><span id="mk-out-txt" style="white-space:pre-wrap">${esc(mkState.directOut)}</span>
-        ${mkState.directPerm ? `<button id="mk-force">${t('mk_force')}</button>` : ''}${mkState.directForce ? `<button id="mk-ow">${t('mk_ow')}</button>` : ''}</div></div>
+        ${mkState.directPerm ? `<button id="mk-force">${mkState.directStrip ? t('mk_force') : t('mk_anyway')}</button>` : ''}${mkState.directPerm && mkState.directStrip ? `<button id="mk-ks">${t('mk_ks')}</button>` : ''}${mkState.directForce ? `<button id="mk-ow">${t('mk_ow')}</button>` : ''}</div></div>
       <div id="mk-res"></div>`;
     const q = app.querySelector('#mk-q');
     const res = app.querySelector('#mk-res');
     // 可疑审核的知情确认：失败后按钮变"仍要安装"，再点带 permissive 重试
     const tryInstall = async (btn, ref, path, slug, outEl) => {
       btn.disabled = true; const old = btn.textContent; btn.textContent = t('mk_busy');
-      const r = await api('/install', { method: 'POST', body: JSON.stringify({ ref, path, permissive: mkState.perm.has(slug), force: mkState.force.has(slug) }) });
+      const r = await api('/install', { method: 'POST', body: JSON.stringify({ ref, path, permissive: mkState.perm.has(slug), keepScripts: mkState.keep.has(slug), force: mkState.force.has(slug) }) });
       if (r.code === 0) {
         mkState.installed.add(slug); mkState.status[slug] = '';
         btn.textContent = t('ins_done'); return;
@@ -477,8 +492,15 @@ async function render() {
       btn.disabled = false;
       if (isSuspicious(r.out) && !mkState.perm.has(slug)) {
         mkState.perm.add(slug);
-        btn.textContent = t('mk_force');
+        const strip = hasStrip(r.out);
+        btn.textContent = strip ? t('mk_force') : t('mk_anyway');
         mkState.status[slug] = `${t('mk_susp')}\n${suspDetail(r.out)}`;
+        if (strip && !btn.parentElement.querySelector('.mk-ks')) {
+          const kb = document.createElement('button');
+          kb.className = 'mk-ks'; kb.textContent = t('mk_ks');
+          kb.onclick = () => { mkState.keep.add(slug); tryInstall(btn, ref, path, slug, outEl); };
+          btn.after(kb);
+        }
       } else if (isManaged(r.out) && !mkState.force.has(slug)) {
         mkState.force.add(slug);
         btn.textContent = t('mk_ow');
@@ -527,20 +549,25 @@ async function render() {
       mkState.results = r.skills ? r.skills.slice(0, 15) : null;
       renderResults();
     };
-    const directInstall = async (permissive, force) => {
+    const directInstall = async (permissive, force, ks = false) => {
       const v = q.value.trim(); if (!v) return;
       const btn = app.querySelector('#mk-dir');
       btn.disabled = true; const old = btn.textContent; btn.textContent = t('mk_busy');
-      const r = await api('/install', { method: 'POST', body: JSON.stringify({ ref: v, permissive, force }) });
+      const r = await api('/install', { method: 'POST', body: JSON.stringify({ ref: v, permissive, force, keepScripts: ks }) });
       btn.disabled = false; btn.textContent = old;
-      if (r.code === 0) { mkState.directOut = t('ins_done'); mkState.directPerm = false; mkState.directForce = false; }
-      else if (isSuspicious(r.out) && !permissive) { mkState.directOut = `${t('mk_susp')}\n${suspDetail(r.out)}`; mkState.directPerm = true; }
-      else if (isManaged(r.out) && !force) { mkState.directOut = t('mk_mng'); mkState.directForce = true; }
+      if (r.code === 0) { mkState.directOut = t('ins_done'); mkState.directPerm = false; mkState.directForce = false; mkState.directStrip = false; }
+      else if (isSuspicious(r.out) && !permissive) { mkState.directOut = `${t('mk_susp')}\n${suspDetail(r.out)}`; mkState.directPerm = true; mkState.directStrip = hasStrip(r.out); }
+      else if (isManaged(r.out) && !force) { mkState.directOut = t('mk_mng'); mkState.directForce = true; mkState.directStrip = false; }
       else { mkState.directOut = (r.out || '').split('\n').filter((l) => l.trim()).pop()?.slice(0, 120) || t('ins_fail', r.code); }
       app.querySelector('#mk-out-txt').textContent = mkState.directOut;
       if (mkState.directPerm && !app.querySelector('#mk-force')) {
-        const f = el(`<button id="mk-force">${t('mk_force')}</button>`);
+        const f = el(`<button id="mk-force">${mkState.directStrip ? t('mk_force') : t('mk_anyway')}</button>`);
         f.onclick = () => { mkState.directPerm = false; directInstall(true, mkState.directForce); };
+        app.querySelector('#mk-out').appendChild(f);
+      }
+      if (mkState.directPerm && mkState.directStrip && !app.querySelector('#mk-ks')) {
+        const f = el(`<button id="mk-ks">${t('mk_ks')}</button>`);
+        f.onclick = () => { mkState.directPerm = false; directInstall(true, mkState.directForce, true); };
         app.querySelector('#mk-out').appendChild(f);
       }
       if (mkState.directForce && !app.querySelector('#mk-ow')) {
@@ -551,6 +578,7 @@ async function render() {
     };
     app.querySelector('#mk-dir').onclick = () => directInstall(mkState.directPerm, mkState.directForce);
     app.querySelector('#mk-force')?.addEventListener('click', () => { mkState.directPerm = false; directInstall(true, mkState.directForce); });
+    app.querySelector('#mk-ks')?.addEventListener('click', () => { mkState.directPerm = false; directInstall(true, mkState.directForce, true); });
     app.querySelector('#mk-ow')?.addEventListener('click', () => { mkState.directForce = false; directInstall(mkState.directPerm, true); });
     q.addEventListener('input', () => { mkState.q = q.value; });
     q.addEventListener('keydown', (e) => { if (e.key === 'Enter') app.querySelector('#mk-go').click(); });
