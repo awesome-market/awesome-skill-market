@@ -1,10 +1,13 @@
-// update — apt update 语义：只刷新上游元数据入 state/upstream.yml，不碰已装
+// update — 刷新上游元数据入 state/upstream.yml；TTY 下查到过期会列出名单让你勾选升级
+// （非 TTY / --yes 保持纯检查——serve 后台刷新、脚本都走这条路）
 import path from 'node:path';
 import fs from 'node:fs';
 import { remoteTree } from '../lib/registries/github.js';
 import { setUpstream, readUpstream, writeUpstream } from '../lib/state.js';
 import { gitTreeHash } from '../lib/githash.js';
 import { ok, warn, info, fail } from '../lib/render.js';
+import { multiChoose } from '../lib/prompt.js';
+import { run as upgradeRun } from './upgrade.js';
 import { L } from '../lib/i18n.js';
 
 export async function run(ctx) {
@@ -37,5 +40,20 @@ export async function run(ctx) {
   u.refreshed_at = new Date().toISOString();
   writeUpstream(ctx.hub, u);
   ok(L(`update 完成：刷新了 ${n} 个${na ? `，${na} 个无上游可比（本地收的）` : ''}${errs ? `，${errs} 个失败` : ''}`, `update done: ${n} refreshed${na ? `, ${na} n/a (adopted/local)` : ''}${errs ? `, ${errs} errors` : ''}`));
+
+  // 第二步：有过期的列出名单，TTY 下勾选升级（预勾全部；0=都不升）
+  const outs = Object.entries(u.skills || {}).filter(([nm, x]) => x.outdated && skills[nm]).map(([nm]) => nm);
+  if (!outs.length) return errs ? 1 : 0;
+  if (process.stdin.isTTY && !ctx.flags.yes) {
+    const opts = outs.map((nm) => ({ label: nm }));
+    const idx = await multiChoose(
+      L(`有 ${outs.length} 个 skill 可升级——选要升级的`, `${outs.length} skill(s) can be upgraded — pick which`),
+      opts, { checked: opts.map((_, i) => i) });
+    const pick = idx.map((i) => outs[i]);
+    if (!pick.length) info(L('一个没选——稍后 skillmkt upgrade --all 再升', 'none picked — run skillmkt upgrade --all later'));
+    else await upgradeRun({ ...ctx, args: pick, flags: { ...ctx.flags, raw: { ...ctx.flags.raw, all: false } } });
+  } else {
+    info(L(`${outs.length} 个有更新——skillmkt upgrade 应用`, `${outs.length} outdated — run skillmkt upgrade`));
+  }
   return errs ? 1 : 0;
 }

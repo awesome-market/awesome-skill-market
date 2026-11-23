@@ -140,11 +140,13 @@ const H = {
   Verdicts: clean / suspicious / stripped / malicious / quarantined.`,
   },
   update: {
-    zh: `用法: skillmkt update [--json]
-  只刷新上游元数据（apt update 语义）——看哪些有更新用 outdated，应用用 upgrade。`,
-    en: `usage: skillmkt update [--json]
-  Refresh upstream metadata only (apt update semantics) — see what's stale
-  with outdated, apply with upgrade.`,
+    zh: `用法: skillmkt update [名字|--all] [--yes] [--json]
+  两步：先刷新上游元数据，发现过期就列出名单让你勾选升级（回车=全升，0=都不升）。
+  非 TTY / --yes 只检查不操作——outdated 看报告，upgrade 手动应用。`,
+    en: `usage: skillmkt update [name|--all] [--yes] [--json]
+  Two steps: refresh upstream metadata, then list outdated skills and let you
+  pick which to upgrade (Enter = all, 0 = none). Non-TTY / --yes checks only —
+  use outdated to report, upgrade to apply.`,
   },
   outdated: {
     zh: `用法: skillmkt outdated [名字] [--json]
