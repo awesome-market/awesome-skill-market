@@ -1,5 +1,5 @@
-version: 0.4.44
-built_at: 2026-11-23T06:53:30.207Z
+version: 0.5.44
+built_at: 2026-11-23T17:13:57.366Z
 decisions:
   - id: conf-0002
     resolution: merge

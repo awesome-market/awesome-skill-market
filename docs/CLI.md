@@ -1,6 +1,6 @@
 # skillmkt CLI — 开发文档
 
-本文档是 `skillmkt`（awesome-skill-market 客户端）的完整开发规格：命令面、输出契约、数据 schema、模块划分、工作流程。设计背景见 [DESIGN.md](./DESIGN.md)。
+本文档是 `skillmkt`（awesome-market 客户端）的完整开发规格：命令面、输出契约、数据 schema、模块划分、工作流程。设计背景见 [DESIGN.md](./DESIGN.md)。
 
 **不变量**（与 AGENTS.md 一致，客户端额外遵守）：
 
@@ -346,7 +346,7 @@ weird-thing     —        ●       —      —         —     —      ⚠st
 
 ```
 $ skillmkt show deslop
-deslop 0.4.44 · terry2010/awesome-skill-market@d2a5086
+deslop 0.4.44 · terry2010/awesome-market@d2a5086
 Anti-AI-slop design skill · 884 rules
 
 files     SKILL.md (57KB) + references/ ×9 (408KB)
@@ -558,7 +558,7 @@ $ skillmkt resolve
 ```yaml
 skills:
   deslop:
-    source: {registry: github, ref: "terry2010/awesome-skill-market", path: "skill"}
+    source: {registry: github, ref: "terry2010/awesome-market", path: "skill"}
     version: "0.4.44"
     installed_at: "2026-11-23T…"
     targets: [claude, codex, pi]
