@@ -55,31 +55,46 @@ export async function chat(llm, { system = '', user, maxTokens = 64, temperature
   } finally { clearTimeout(t); }
 }
 
-export const LLM_PROBES = [
-  { port: 8001, name: 'OMLX' },
-  { port: 11434, name: 'Ollama', probe: '/api/version' },
-  { port: 1234, name: 'LM Studio' },
-  { port: 8000, name: 'vLLM' },
-  { port: 8080, name: 'mlx-lm/llama.cpp' },
-  { port: 1337, name: 'Jan' },
-  { port: 5000, name: 'text-gen-webui' },
-];
+export const LLM_PROBES = [8001, 11434, 1234, 8000, 8080, 1337, 5000];
 
-// 仅 init/config 使用——并发扫端口，能回 /v1/models 即可用端点
-export async function probeEndpoints(timeoutMs = 300) {
-  const results = await Promise.allSettled(LLM_PROBES.map(async ({ port, name, probe }) => {
-    const base = `http://localhost:${port}/v1`;
+// 识别服务实现——有特征端点才冠名，认不出如实标"OpenAI 兼容服务"（oMLX 跑在 1234 时不该叫 LM Studio）
+async function identifyImpl(port, timeoutMs) {
+  const get = async (p) => {
     const ctrl = new AbortController();
     const t = setTimeout(() => ctrl.abort(), timeoutMs);
-    try {
-      const res = await fetch(`${base}/models`, { signal: ctrl.signal });
-      if (!res.ok) return null;
-      const data = await res.json();
-      return { name, port, base_url: base, models: (data.data || []).map((m) => m.id) };
-    } catch {
-      if (probe) { /* ollama 等特征端点降级可日后补 */ }
-      return null;
-    } finally { clearTimeout(t); }
+    try { const r = await fetch(`http://localhost:${port}${p}`, { signal: ctrl.signal }); return r.ok ? await r.json() : null; }
+    catch { return null; } finally { clearTimeout(t); }
+  };
+  if ((await get('/api/version'))?.version) return 'Ollama';      // Ollama 原生 API
+  if (await get('/api/v0/models')) return 'LM Studio API';        // 说 LM Studio 协议——也可能是 oMLX 等兼容实现
+  return 'OpenAI 兼容服务';
+}
+
+// 仅 init/config 使用——并发扫端口。/v1/models 通了即收录；
+// 401/403 时用已知环境 key 重试，仍不通则标 needs_key 保留（别静默漏掉 oMLX 这类要 key 的本地服务）
+export async function probeEndpoints(timeoutMs = 400) {
+  const envKeys = ['SKILLMKT_LLM_API_KEY', 'OMLX_API_KEY'].map((v) => process.env[v]).filter(Boolean);
+  const results = await Promise.allSettled(LLM_PROBES.map(async (port) => {
+    const base = `http://localhost:${port}/v1`;
+    const tryModels = async (key) => {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), timeoutMs);
+      try {
+        return await fetch(`${base}/models`, {
+          signal: ctrl.signal,
+          headers: key ? { authorization: `Bearer ${key}` } : {},
+        });
+      } catch { return null; } finally { clearTimeout(t); }
+    };
+    let res = await tryModels(null);
+    if (!res) return null;
+    if (res.status === 401 || res.status === 403) {
+      for (const k of envKeys) { res = await tryModels(k); if (res?.ok) break; }
+    }
+    const name = await identifyImpl(port, timeoutMs);
+    if (!res.ok) return { name, port, base_url: base, models: [], needs_key: true };
+    const data = await res.json();
+    return { name, port, base_url: base, models: (data.data || []).map((m) => m.id) };
   }));
   return results.map((r) => r.value).filter(Boolean);
 }

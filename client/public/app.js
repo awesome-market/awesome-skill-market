@@ -160,7 +160,10 @@ async function render() {
     app.querySelector('#probe').onclick = async () => {
       app.querySelector('#probe-out').textContent = '扫描中…';
       const eps = await api('/probe');
-      app.querySelector('#eps').innerHTML = eps.flatMap((e) => e.models.slice(0, 6).map((m) => `<div class="ep" data-b="${esc(e.base_url)}" data-m="${esc(m)}">${esc(e.name)}:${e.port} — <code>${esc(m)}</code></div>`)).join('') || '<p class="mut" style="margin-top:8px">没扫到——请确认模型服务已启动（会检查 8001 / 11434 / 1234 / 8000 / 8080 / 1337 / 5000 端口）</p>';
+      app.querySelector('#eps').innerHTML = eps.flatMap((e) => e.needs_key
+        ? [`<div class="ep" data-b="${esc(e.base_url)}" data-m="">${esc(e.name)}:${e.port} — <span class="mut">需要密钥（先点这行填地址，再填密钥、测试连接）</span></div>`]
+        : e.models.slice(0, 6).map((m) => `<div class="ep" data-b="${esc(e.base_url)}" data-m="${esc(m)}">${esc(e.name)}:${e.port} — <code>${esc(m)}</code></div>`)).join('')
+        || '<p class="mut" style="margin-top:8px">没扫到——请确认模型服务已启动（会检查 8001 / 11434 / 1234 / 8000 / 8080 / 1337 / 5000 端口）</p>';
       app.querySelector('#probe-out').textContent = `发现 ${eps.length} 个服务，点击条目自动填入`;
       app.querySelectorAll('#eps [data-b]').forEach((d) => d.onclick = () => {
         app.querySelectorAll('#eps .ep').forEach((x) => x.classList.remove('sel'));

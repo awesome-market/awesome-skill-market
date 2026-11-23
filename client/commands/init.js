@@ -58,6 +58,9 @@ export async function run(ctx) {
       { label: '手动输入端点', v: 'manual' },
       { label: '跳过（确定性功能照常用）', v: 'skip' },
     ];
+    for (const f of found.filter((x) => x.needs_key)) {
+      info(`发现 ${f.name}:${f.port}（需要密钥，模型列表读不出）——选"手动输入端点"后填 ${f.base_url}`);
+    }
     const sel = await choose('选择模型端点：', opts);
     if (sel.v === 'manual') {
       // 手动输入交给 config set 提示
