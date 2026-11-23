@@ -95,6 +95,7 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
     if (req.method === 'POST' && p === '/api/sync') return L('修复了投影', 'repaired projections');
     if (req.method === 'POST' && p === '/api/audit') return L('重新审核了 skill', 're-audited a skill');
     if (req.method === 'POST' && p === '/api/rollback') return L('回滚了 skill', 'rolled back a skill');
+    if (req.method === 'POST' && p === '/api/open') return L('打开了文件夹', 'opened a folder');
     return null;
   };
 
@@ -246,6 +247,12 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
             const r = await cli(['rollback', '--', String(b.name || '')]);
             emit('library', {});
             return res.end(JSON.stringify(r));
+          }
+          if (u.pathname === '/api/open') {                            // 系统文件管理器打开目录
+            const p = path.resolve(String(b.path || ''));
+            if (!fs.existsSync(p) || !fs.statSync(p).isDirectory()) return res.end(JSON.stringify({ ok: false, error: 'not a dir' }));
+            execFile(process.platform === 'darwin' ? 'open' : process.platform === 'win32' ? 'explorer' : 'xdg-open', [p], () => {});
+            return res.end('{"ok":true}');
           }
         } catch (e) { res.writeHead(400); return res.end(JSON.stringify({ error: e.message })); }
         res.writeHead(404); return res.end('{"error":"not found"}');

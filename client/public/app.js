@@ -81,7 +81,7 @@ const I18N = {
     mk_busy: '处理中…', ins_done: '完成', ins_fail: (c) => `失败（退出码 ${c}）`,
     mk_susp: '审核判为可疑——了解风险后仍要装？', mk_force: '仍要安装', ext_force: '仍要纳入',
     mk_nosrc: '私有源暂不可装', mk_privsrc: '私有源',
-    sk_remove: '移除', sk_remove_sure: '再点一次确认', sk_removed: '已移除',
+    sk_remove: '移除', sk_remove_sure: '再点一次确认', sk_removed: '已移除', open_dir: '打开文件夹',
     det_btn: '详情', det_files: (n) => `${n} 个文件`, det_diff: '上游 diff', det_rollback: '回滚上一版',
     ext_h: (n) => `散落在 AI 工具里的 skill（${n}）`,
     ext_desc: '能用但没人管：没版本、没审核、没更新——纳入管理补齐。',
@@ -166,7 +166,7 @@ const I18N = {
     mk_busy: 'Working…', ins_done: 'Done', ins_fail: (c) => `Failed (exit ${c})`,
     mk_susp: 'Audit flagged this suspicious — install anyway?', mk_force: 'Install anyway', ext_force: 'Adopt anyway',
     mk_nosrc: 'private source — N/A', mk_privsrc: 'private source',
-    sk_remove: 'Remove', sk_remove_sure: 'Click again to confirm', sk_removed: 'Removed',
+    sk_remove: 'Remove', sk_remove_sure: 'Click again to confirm', sk_removed: 'Removed', open_dir: 'Open folder',
     det_btn: 'Details', det_files: (n) => `${n} files`, det_diff: 'Upstream diff', det_rollback: 'Rollback a version',
     ext_h: (n) => `Unmanaged skills scattered in agent dirs (${n})`,
     ext_desc: 'No versioning, audit, or updates — adopt to fix that.',
@@ -261,21 +261,24 @@ async function render() {
       <p class="desc">${t('sk_desc')}</p>`
       + (skills.map(([n, s]) => `
       <div class="card"><div class="sk-head"><b>${esc(n)}</b><span class="mut">${esc(s.version || '')}</span><span class="mut">${esc(s.source?.registry || '')}</span>${pill(s.audit || 'clean')}
-      <span class="acts"><button data-dt="${esc(n)}">${t('det_btn')}</button><button data-rm="${esc(n)}">${t('sk_remove')}</button></span></div>
+      <span class="acts"><button class="sm" data-open="${esc(`${S.hub}/skills/${n}`)}">${t('open_dir')}</button><button data-dt="${esc(n)}">${t('det_btn')}</button><button data-rm="${esc(n)}">${t('sk_remove')}</button></span></div>
       <div class="trow">${(s.targets || []).map((x) => `<span class="tchip">${esc(x)}</span>`).join('') || `<span class="mut">${t('sk_hub')}</span>`}<button class="sm" data-tg="${esc(n)}">${t('sk_loc')}</button></div>
       <div class="tgbox" data-box="${esc(n)}" style="display:none;margin-top:10px"></div>
       <div class="dtbox" data-dbox="${esc(n)}" style="display:none;margin-top:10px"></div></div>`).join('')
       || `<div class="empty">${t('sk_empty')}</div>`)
       + `<h2>${t('agents_h')}</h2>
       <p class="desc">${t('agents_desc')}</p>`
-      + (S.harnesses || []).map((h) => `<div class="card row"><b>${esc(h.id)}</b>${pill(h.state)}<span class="mut">${esc(h.primaryDir || h.dirs?.[0]?.path || '')}</span></div>`).join('')
+      + (S.harnesses || []).map((h) => `<div class="card row"><b>${esc(h.id)}</b>${pill(h.state)}<span class="mut">${esc(h.primaryDir || h.dirs?.[0]?.path || '')}</span><button class="sm" data-open="${esc(h.primaryDir || h.dirs?.[0]?.path || '')}" style="margin-left:auto">${t('open_dir')}</button></div>`).join('')
       + `<h2>${t('maint_h')}</h2>
       <div class="card row"><button id="m-upd">${t('upd_refresh')}</button><button id="m-sync">${t('sync_btn')}</button>
       ${outs.length ? `<button id="m-upg" class="primary">${t('upd_all')}（${outs.length}）</button>` : ''}<span id="m-out" class="mut"></span></div>`
       + (outs.length ? outs.map(([n]) => `<div class="card row"><b>${esc(n)}</b>${pill('outdated')}<button class="upg" data-n="${esc(n)}" style="margin-left:auto">${t('upd_one')}</button><span class="uout mut"></span></div>`).join('') : '')
       + (ext?.length ? `<h2>${t('ext_h', ext.length)}</h2><p class="desc">${t('ext_desc')}</p>`
         + ext.map((e) => `<div class="card row"><b>${esc(e.name)}</b><span class="mut">${esc(e.where)} · ${esc(e.dir)}</span>
-          <button class="adopt" data-d="${esc(e.path || '')}" style="margin-left:auto">${t('ext_adopt')}</button><span class="aout mut"></span></div>`).join('') : '');
+          <span style="margin-left:auto"></span><button class="sm" data-open="${esc(e.path || '')}">${t('open_dir')}</button><button class="adopt" data-d="${esc(e.path || '')}">${t('ext_adopt')}</button><span class="aout mut"></span></div>`).join('') : '');
+    // 打开文件夹：调系统文件管理器
+    app.querySelectorAll('[data-open]').forEach((b) => b.onclick = () =>
+      api('/open', { method: 'POST', body: JSON.stringify({ path: b.dataset.open }) }));
     // 移除：两段式确认（第一下变确认文案，3 秒内再点才真删）
     app.querySelectorAll('[data-rm]').forEach((b) => {
       let armed = false, timer = null;
