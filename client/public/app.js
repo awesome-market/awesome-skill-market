@@ -204,7 +204,9 @@ async function render() {
         app.querySelectorAll('#eps .ep').forEach((x) => x.classList.remove('sel'));
         d.classList.add('sel');
         app.querySelector('#murl').value = d.dataset.b;
-        markKeyNeed(epsList.find((e) => e.base_url === d.dataset.b)?.needs_key);
+        const ep = epsList.find((e) => e.base_url === d.dataset.b);
+        if (ep?.needs_key && app.querySelector('#mkey').value.trim()) verifyKey();
+        else markKeyNeed(ep?.needs_key);
         refreshOpts();
       });
     };
@@ -214,51 +216,71 @@ async function render() {
       if (b) { app.querySelector('#murl').value = b; refreshOpts(); }
     });
     // 填完服务地址自动检测是否需要密钥：已知端点直接看 needs_key，手输地址真发 /models 探
+    let keyOk = !!app.querySelector('#mkey').value.trim();   // 已保存的密钥视为已验证；改动地址/密钥后回到未验证
     const markKeyNeed = (need) => {
       const has = !!app.querySelector('#mkey').value.trim();
       const hasUrl = !!app.querySelector('#murl').value.trim();
-      const want = !!need && !has;
-      app.querySelector('#key-row').style.display = (need || has) ? '' : 'none';   // 无需密钥→整行不显示
+      const want = !!need && !keyOk;                                        // 要密钥且尚未验证通过
+      app.querySelector('#key-row').style.display = (need || has) ? '' : 'none';
       app.querySelector('#mkey').classList.toggle('req', want);
-      app.querySelector('#key-hint').textContent = want ? '← 需要密钥' : '';
-      app.querySelector('#model-box').style.display = (hasUrl && !want) ? '' : 'none';  // 先选/填服务地址才出现
+      app.querySelector('#key-hint').textContent = want ? (has ? '← 密钥未验证' : '← 需要密钥') : '';
+      app.querySelector('#model-box').style.display = (hasUrl && !want) ? '' : 'none';  // 验证通过才出现
+    };
+    // 拿密钥真发 /models——通过才收录模型并放出模型框；失败保持隐藏
+    const verifyKey = async () => {
+      const cur = app.querySelector('#murl').value.trim().replace(/\/+$/, '');
+      const key = app.querySelector('#mkey').value.trim();
+      if (!key) return;
+      const out = app.querySelector('#smoke-out');
+      out.textContent = '验证密钥…';
+      const r = await api('/models', { method: 'POST', body: JSON.stringify({ base_url: cur, api_key: key }) });
+      if (r.models?.length) {
+        keyOk = true;
+        for (const m of r.models) { modelMap.set(m, cur); loadedModels.set(m, cur); }
+        const ep = epsList.find((e) => e.base_url === cur);
+        if (ep) { ep.needs_key = false; ep.models = r.models; }
+        markKeyNeed(true); refreshOpts();
+        out.textContent = `密钥有效，已加载 ${r.models.length} 个模型`;
+      } else {
+        keyOk = false; markKeyNeed(true);                                   // 模型框保持隐藏
+        out.textContent = r.error ? `密钥无效：${r.error}` : '密钥通了，但没读到模型';
+      }
     };
     markKeyNeed(false);                                                    // 初始：无密钥需求→藏密钥行
     app.querySelector('#murl').addEventListener('input', () => {
+      keyOk = false;
       const cur = app.querySelector('#murl').value.trim().replace(/\/+$/, '');
       markKeyNeed(epsList.find((e) => e.base_url === cur)?.needs_key);
       refreshOpts(); renderDrop();
     });
     app.querySelector('#mmodel').addEventListener('input', () => { renderDrop(); app.querySelector('#model-drop').style.display = 'block'; });
     app.querySelector('#mmodel').addEventListener('blur', () => setTimeout(() => { app.querySelector('#model-drop').style.display = 'none'; }, 120));
-    app.querySelector('#mkey').addEventListener('input', () => {   // 密钥开始填了就别挡模型框
+    app.querySelector('#mkey').addEventListener('input', () => {
+      keyOk = false;                                                       // 密钥改动→回到未验证态，模型框收起
       const cur = app.querySelector('#murl').value.trim().replace(/\/+$/, '');
       markKeyNeed(epsList.find((e) => e.base_url === cur)?.needs_key);
     });
     app.querySelector('#murl').addEventListener('change', async () => {
       const cur = app.querySelector('#murl').value.trim().replace(/\/+$/, '');
       const ep = epsList.find((e) => e.base_url === cur);
-      if (ep) return markKeyNeed(ep.needs_key);
+      const key = app.querySelector('#mkey').value.trim();
+      if (ep) {
+        if (ep.needs_key && key) return verifyKey();
+        return markKeyNeed(ep.needs_key);
+      }
       if (!/^https?:\/\//.test(cur)) return markKeyNeed(false);
+      if (key) return verifyKey();                                         // 手输地址+有密钥→顺便验真伪
       const r = await api('/models', { method: 'POST', body: JSON.stringify({ base_url: cur, api_key: '' }) });
       markKeyNeed(!!r.error && /401|403/.test(r.error));
+      if (r.models?.length) { for (const m of r.models) { modelMap.set(m, cur); loadedModels.set(m, cur); } refreshOpts(); }
     });
-    // 需要密钥的端点：密钥填完自动拉它的模型列表
+    // 需要密钥的端点：密钥填完自动验证
     app.querySelector('#mkey').addEventListener('change', async () => {
       const cur = app.querySelector('#murl').value.trim().replace(/\/+$/, '');
       const ep = epsList.find((e) => e.base_url === cur);
       const key = app.querySelector('#mkey').value.trim();
       if (!key || !(ep?.needs_key || (!ep && /^https?:\/\//.test(cur)))) return;
-      const out = app.querySelector('#smoke-out');
-      out.textContent = '读取模型列表…';
-      const r = await api('/models', { method: 'POST', body: JSON.stringify({ base_url: cur, api_key: key }) });
-      if (r.models?.length) {
-        for (const m of r.models) { modelMap.set(m, cur); loadedModels.set(m, cur); }
-        if (ep) { ep.needs_key = false; ep.models = r.models; }
-        markKeyNeed(false);
-        refreshOpts();
-        out.textContent = `已加载 ${r.models.length} 个模型`;
-      } else out.textContent = r.error ? `读取失败：${r.error}` : '密钥通了，但没读到模型';
+      await verifyKey();
     });
     // 点进模型框时自动重扫——下载了新模型不用先点「扫描」
     app.querySelector('#mmodel').addEventListener('focus', () => {
