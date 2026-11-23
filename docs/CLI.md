@@ -129,7 +129,7 @@ project     ~/code/myrepo · 2 project skills (.claude/skills) · deslop stale
 | `sync`/`upgrade` | 项目副本仅在 cwd 位于该仓库或 `--project <path>` 时刷新——不扫盘找仓库 |
 | `remove --scope project` | 仅删项目副本，不动 hub |
 
-原则：**项目级是"给团队的"（copy+commit），全局级是"给自己的"（symlink→hub）**——同一 skill 两边共存互不影响，各自钉版。
+原则：**项目级是"给团队的"（copy+commit），全局级是"给自己的"（copy 投影，hub 为权威副本）**——同一 skill 两边共存互不影响，各自钉版。**默认传输一律 copy**：symlink 会让用户经链接的编辑静默污染 hub 权威副本（漂移检测失效）、有 Windows 权限坑、各 harness 是否跟随未经验证；copy 下本地改动是**可检测的 drift**，且用户能把内容提交进项目 git。`--link` 保留给 Unix 高级用户。
 
 **LLM 配置解析链**（实现细节，用户只面对 `init`）：flag(`--base-url/--model/--api-key-env`) > env(`SKILLMKT_LLM_*`，向后兼容 `OMLX_*`) > `config.yml` 的 `llm:` 节 > `.env`。密钥一律存引用 `api_key: env:VAR_NAME`，永不写真值——config 可进 dotfiles。
 
@@ -249,8 +249,8 @@ $ skillmkt doctor
 ✓ node 22.14.0
 ✓ hub ~/.skillmkt (writable, empty)
 ✓ harnesses detected:
-    claude-code  ~/.claude/skills      installed   (3 skills, symlink ok)
-    codex        ~/.agents/skills      installed   (1 skill, copy only)
+    claude-code  ~/.claude/skills      installed   (3 skills)
+    codex        ~/.agents/skills      installed   (1 skill)
     devin        ~/.config/devin       available   (bin only — dir will create)
     windsurf     ~/.codeium/windsurf   likely      (dir only — 装过?)
     pi           ~/.pi/agent/skills    absent
@@ -273,7 +273,7 @@ $ skillmkt doctor
 | `absent` | 都没有 | 跳过 |
 
 - **env 覆盖优先**：`CLAUDE_CONFIG_DIR`、`CODEX_HOME` 等 harness 自带目录变量先查
-- **symlink 实测**：在目标目录建临时符号链接试，失败（Windows/权限）自动降级 copy 并记入 library——不写死平台假设
+- **copy 默认传输**：hub 权威副本 → 各目标 copy 投影；本地改动经 lock 对比为可检测 drift，不会静默污染 hub。`--link` 时才实测 `fs.symlinkSync`，失败降级 copy + warn——默认路径零 symlink 依赖（Windows 无需开发者模式）
 - **共享目录去重**：codex/devin 都指 `~/.agents/skills/` 时矩阵只投一次
 - **动态纳入**：init 后新装的 harness 自动出现在 `list`/`doctor`（`available`）；交互式 `sync` 询问是否把全部 skill 投过去；`skillmkt targets add <harness>` 写入 `default_targets` 并立即投影。**非交互/CI 永不自动扩面**——"出现在矩阵"自动，"成为目标"必须显式
 
@@ -281,20 +281,22 @@ $ skillmkt doctor
 
 | id | bin | 全局目录 | 项目级目录 | 传输 |
 |---|---|---|---|---|
-| claude-code | `claude` | `~/.claude/skills/` | `<repo>/.claude/skills/`（含 monorepo 嵌套级） | symlink |
-| codex | `codex` | `~/.agents/skills/`、`~/.codex/skills/` | `<repo>/.agents/skills/` | copy only |
-| opencode | `opencode` | `~/.config/opencode/skills/` | `<repo>/.opencode/` | symlink |
-| pi / dsh | `pi` | `~/.pi/agent/skills/` | `<repo>/.pi/` | symlink |
-| devin | `devin` | `~/.config/devin/skills/`、`~/.agents/skills/` | `<repo>/.devin/skills/` | symlink |
-| gemini | `gemini` | `~/.gemini/skills/` | `<repo>/.gemini/` | symlink |
-| cursor | `cursor` | `~/.cursor/skills/` | `<repo>/.cursor/` | symlink |
+| claude-code | `claude` | `~/.claude/skills/` | `<repo>/.claude/skills/`（含 monorepo 嵌套级） | copy |
+| codex | `codex` | `~/.agents/skills/`、`~/.codex/skills/` | `<repo>/.agents/skills/` | copy |
+| opencode | `opencode` | `~/.config/opencode/skills/` | `<repo>/.opencode/` | copy |
+| pi / dsh | `pi` | `~/.pi/agent/skills/` | `<repo>/.pi/` | copy |
+| devin | `devin` | `~/.config/devin/skills/`、`~/.agents/skills/` | `<repo>/.devin/skills/` | copy |
+| gemini | `gemini` | `~/.gemini/skills/` | `<repo>/.gemini/` | copy |
+| cursor | `cursor` | `~/.cursor/skills/` | `<repo>/.cursor/` | copy |
 | windsurf | — | `~/.codeium/windsurf/`（规则目录非 skills） | — | 仅探测不投影 |
 
-项目级语义（Claude Code 官方六级模型对齐）：**全局=symlink 到 hub**（本机私有），**项目级=copy 进仓库**（commit 共享团队——symlink 指向的 hub 路径在别人机器不存在）。项目级目标不参与 `default_targets`，必须 `--scope project` 显式指定。
+（本机实测校准：opencode 25 skills、codex `~/.codex/`+`~/.agents/` 各若干 → `installed`；claude/pi/devin/gemini bin 在但专属目录缺 → `available`（devin 经共享 `~/.agents/` 算 installed）；windsurf 仅目录无 bin → `likely`；cursor 全无 → `absent`——四态真实出现。另发现收编取证源：opencode 部分 skill 带 `.market-skills.json`/`package.json` 溯源文件）
+
+项目级语义（Claude Code 官方六级模型对齐）：**全局=copy 投影到 harness 目录**（hub 为权威，drift 可检测），**项目级=copy 进仓库**（commit 共享团队）。项目级目标不参与 `default_targets`，必须 `--scope project` 显式指定。
 
 ### 3.2 `skillmkt search <query>`
 
-两级检索，本地优先：
+两级检索，本地优先。**远端实测**：skills.sh 有公开搜索 API `GET https://skills.sh/api/search?q=<query>`（Algolia 后端，返回 `{id: "owner/repo/skill-id", source, skillId, name, installs}`）——`--remote` 直接消费，无需自建爬虫桥接；若日后 API 收紧再降级 `gh search code filename:SKILL.md`：
 
 ```
 $ skillmkt search landing
@@ -401,7 +403,7 @@ skillmkt install ~/.claude/skills/weird-thing    # 收编单个
 skillmkt list --json | jq -r '.external[].path' | xargs -n1 skillmkt install   # 批量
 ```
 
-流程：读原目录 → **尽力恢复来源**（目录内 `.git` remote、skills.sh 的 `skills-lock.json`、frontmatter homepage/repo 字段）→ 过静态审核闸门 → copy 进 `skills/<name>/` → 原位目录换成 symlink 指回 hub（transport 升级，harness 无感）→ library 登记 `adopted_from: <原路径>` + `adopted_at`。源路径已是 hub 内 symlink 时跳过（幂等）。
+流程：读原目录 → **尽力恢复来源**（目录内 `.git` remote、skills.sh 的 `skills-lock.json`、`.market-skills.json`、frontmatter homepage/repo 字段）→ 过静态审核闸门 → copy 进 `skills/<name>/` → 原目录就地转为受管投影（内容已在，只校 hash 登记）→ library 登记 `adopted_from: <原路径>` + `adopted_at`。源路径已登记为受管投影时跳过（幂等）。
 
 **收编默认目标 = 仅原所在 harness**（最小惊讶——不擅自扩散到其他 agent；显式 `--target` 才投多目标）。
 
@@ -549,12 +551,12 @@ skills:
     installed_at: "2026-11-23T…"
     targets: [claude, codex, pi]
     audit: clean              # clean|suspicious|stripped|manual
-    transport: {claude: symlink, codex: copy}
+    transport: {claude: copy, codex: copy}
   weird-thing:                # 收编条目（install <harness-path>）
     source: {registry: adopted, adopted_from: "~/.claude/skills/weird-thing", adopted_at: "…"}
     targets: [claude]         # 默认仅原 harness（§3.5b）
     audit: stripped
-    transport: {claude: symlink}
+    transport: {claude: copy}
 ```
 
 ### 4.3 `lock.yml`
@@ -605,7 +607,7 @@ client/
 ├── lib/
 │   ├── hub.js               # 路径、library/lock 读写、history
 │   ├── scanner.js           # harness 探测+遍历（矩阵数据源）
-│   ├── project.js           # symlink/copy 投影 + 漂移校验
+│   ├── project.js           # copy 投影 + 漂移校验（--link 可选 symlink）
 │   ├── audit.js             # 静态闸门 + verdict 判定逻辑
 │   ├── package.js           # SkillPackage 归一化 + sha256
 │   ├── registries/

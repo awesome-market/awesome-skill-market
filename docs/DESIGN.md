@@ -78,7 +78,7 @@
 
 | # | 功能 | 说明 |
 |---|---|---|
-| ① | **搜索 skills.sh 市场** | 不自建公共索引——skills.sh 扫全 GitHub 自动收录，我们的客户端直接查询它 + GitHub 兜底。等自有下载量起来再评估自建 |
+| ① | **搜索 skills.sh 市场** | 不自建公共索引——skills.sh 有公开 API `GET /api/search?q=`（Algolia，实测可用），客户端直接消费 + GitHub 兜底。等自有下载量起来再评估自建 |
 | ② | **本地管理 + 版本 AI diff** | hub 管理全部已装 skill；同 skill 不同版本间做**语义 diff**（LLM 讲清"这版改了什么意图"）——现有工具全是行级/段级机械 diff，这是独占点 |
 | ③ | **按用户选择合并** | 用户圈定若干 skill → 冲突引擎仲裁 → 产出个人版 merged SKILL.md；或仅出冲突报告不合并 |
 | ④ | **导入/导出 + 企业市场连接** | 本地目录/Git URL 导入；连接企业自建 registry——**通过协议适配器（§8），不自建服务端** |
@@ -100,7 +100,7 @@
  冲突 ──────┤  engine      → jaccard + 指纹 + LLM 判定（来自融合管线）                                          │
             │  arbitrate   → 全新上下文的独立裁决（复用 arbitrate.js）                                          │
             │  decisions   → ~/.skillmkt/decisions/*.yml                                                      │
- 分发 ──────┤  targets     → 按 harness 选 symlink|copy（codex 只能 copy）                                     │
+ 分发 ──────┤  targets     → copy 投影（hub 权威，漂移可检测；--link 可选 symlink）                           │
             │  adapters    → claude-code、codex、opencode、pi、devin、dsh（=pi）                               │
             └──────────────────────────────────────────────────────────────────────────────────────────────────┘
                                    ↑
@@ -211,15 +211,17 @@ interface RegistryAdapter {
 
 ## 11. 安装与分发矩阵
 
-| 目标 | 路径 | 传输方式 |
-|---|---|---|
-| claude-code | `~/.claude/skills/` | symlink ✅ |
-| codex | `~/.agents/skills/`、`~/.codex/skills/` | **只能 copy**（跳过 symlink） |
-| opencode | `~/.config/opencode/skills/` | symlink ✅ |
-| pi / dsh | `~/.pi/agent/skills/` | symlink ✅ |
-| devin | `~/.config/devin/skills/`、`~/.agents/skills/` | symlink ✅ |
-| gemini / cursor | `~/.gemini/skills/`、`~/.cursor/skills/` | symlink ✅ |
-| 项目级 | `<repo>/.agents|/.claude|/.devin/skills/` | copy（随仓库提交） |
+默认传输**一律 copy**：hub 是唯一权威副本，各 harness 目录为 copy 投影——本地改动经 lock 对比为可检测 drift，不静默污染 hub；内容可随用户项目 git 提交；无 Windows symlink 权限依赖。`--link` 保留 Unix symlink 选项。
+
+| 目标 | 路径 |
+|---|---|
+| claude-code | `~/.claude/skills/` |
+| codex | `~/.agents/skills/`、`~/.codex/skills/` |
+| opencode | `~/.config/opencode/skills/` |
+| pi / dsh | `~/.pi/agent/skills/` |
+| devin | `~/.config/devin/skills/`、`~/.agents/skills/` |
+| gemini / cursor | `~/.gemini/skills/`、`~/.cursor/skills/` |
+| 项目级 | `<repo>/.agents|/.claude|/.devin/skills/` |
 
 完整 harness 探测表（含 windsurf 等"只探测不投影"行）见 [CLI.md §3.1](./CLI.md)。
 
