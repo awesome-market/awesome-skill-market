@@ -48,7 +48,9 @@ export function dashboard({ hub, library, scan, upstream, conflicts, llm, llmVia
   const hints = [];
   if (pending) hints.push(L('skillmkt conflicts --ui    裁决冲突（开面板看图）', 'skillmkt conflicts --ui    decide conflicts (visual panel)'));
   if (updates) hints.push(L('skillmkt outdated          看可更新项', 'skillmkt outdated          view updates'));
-  if (!configFile) hints.push(L('skillmkt init              把设置写进 config.yml（现在全靠环境变量兜底）', 'skillmkt init              write settings to config.yml (currently env-only)'));
+  if (!configFile) hints.push(llmVia
+    ? L('skillmkt init              把设置写进 config.yml（现在全靠环境变量兜底）', 'skillmkt init              write settings to config.yml (currently env-only)')
+    : L('skillmkt init              初始化设置（语言/模型/目标 agent）', 'skillmkt init              set up language/model/agents'));
   hints.push(externals
     ? L('skillmkt list              安装矩阵 + ◌external 路径', 'skillmkt list              install matrix + ◌external paths')
     : L('skillmkt list              安装矩阵', 'skillmkt list              install matrix'));
