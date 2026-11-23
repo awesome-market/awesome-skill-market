@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import http from 'node:http';
 import crypto from 'node:crypto';
-import { daemonFile, readDaemon } from '../lib/daemon.js';
+import { daemonFile, readDaemon, openURL } from '../lib/daemon.js';
 import { loadConflicts } from '../lib/conflicts.js';
 import { loadDecisions, decide } from '../lib/decide.js';
 import { readLibrary, readLock, readConfig, writeConfig, registerSkill, updateLock, ensureHub, isInitialized } from '../lib/hub.js';
@@ -213,12 +213,18 @@ export async function run(ctx) {
   // 已有前台/分离实例在跑 → 不重复起，报地址
   const existing = readDaemon(ctx.hub);
   if (existing && existing.pid !== process.pid) {
-    try { process.kill(existing.pid, 0); info(L(`已在跑: http://127.0.0.1:${existing.port}/?token=${existing.token}（--stop 停掉）`, `already running: http://127.0.0.1:${existing.port}/?token=${existing.token} (use --stop to stop)`)); return 0; } catch { /* stale */ }
+    try {
+      process.kill(existing.pid, 0);
+      info(L(`已在跑: http://127.0.0.1:${existing.port}/?token=${existing.token}（--stop 停掉）`, `already running: http://127.0.0.1:${existing.port}/?token=${existing.token} (use --stop to stop)`));
+      if (ctx.tty && !flags.daemon) openURL(existing, '/');
+      return 0;
+    } catch { /* stale */ }
   }
   const d = await startServer(ctx, { quiet: !!flags.daemon, port: flags.port || 0 });
   if (flags.daemon) { console.log(`daemon ready :${d.port}`); await new Promise(() => {}); }
   console.log(`serve: http://127.0.0.1:${d.port}/?token=${d.token}`);
   console.log(L(`  前台运行 — Ctrl-C 退出（idle ${ctx.config.daemon?.idle_minutes ?? 30}m 自退）`, `  running in foreground — Ctrl-C to exit (idle ${ctx.config.daemon?.idle_minutes ?? 30}m auto-stop)`));
+  if (ctx.tty) openURL(d, '/');   // TTY 起服务自动开浏览器；脚本/--daemon 不开
   await new Promise(() => {});
   return 0;
 }
