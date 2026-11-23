@@ -14,7 +14,7 @@ import { probeEndpoints, chat, encryptSecret, resolveKeyRef, listModels } from '
 import { setSkillTargets } from '../lib/project.js';
 import { readSkillDir, treeHash } from '../lib/package.js';
 import { searchRemote } from '../lib/registries/skillssh.js';
-import { execFile } from 'node:child_process';
+import { execFile, spawn } from 'node:child_process';
 import { ok, info } from '../lib/render.js';
 import { L, detectLang } from '../lib/i18n.js';
 
@@ -27,6 +27,24 @@ const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css
 const cli = (args, timeout = 180e3) => new Promise((r) => {
   execFile(process.execPath, [CLI, ...args], { timeout, env: { ...process.env, CI: '1' } },
     (e, stdout, stderr) => r({ code: e ? (typeof e.code === 'number' ? e.code : 1) : 0, out: `${stdout || ''}${stderr || ''}`.trim() }));
+});
+
+// 流式变体：长任务（LLM merge/resolve --auto）逐行扫 stdout，[prog]{json} 进度行回调出去给 SSE
+const cliStream = (args, { onProg = null, timeout = 600e3 } = {}) => new Promise((r) => {
+  const p = spawn(process.execPath, [CLI, ...args], { env: { ...process.env, CI: '1' } });
+  const to = setTimeout(() => p.kill('SIGKILL'), timeout);
+  let buf = '', out = '';
+  p.stdout.on('data', (d) => {
+    buf += d;
+    let i;
+    while ((i = buf.indexOf('\n')) >= 0) {
+      const line = buf.slice(0, i); buf = buf.slice(i + 1);
+      if (line.startsWith('[prog]')) { try { onProg?.(JSON.parse(line.slice(6))); } catch {} }
+      else out += line + '\n';
+    }
+  });
+  p.stderr.on('data', (d) => { out += d; });
+  p.on('close', (code) => { clearTimeout(to); if (buf && !buf.startsWith('[prog]')) out += buf; r({ code: code ?? 1, out: out.trim() }); });
 });
 
 // startServer — 可复用：serve 命令与 CLI 接管共用。返回 {port, token, server, emit, shutdown}
@@ -265,7 +283,7 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
             return res.end(JSON.stringify(r));
           }
           if (u.pathname === '/api/resolve-auto') {
-            const r = await cli(['resolve', '--auto']);
+            const r = await cliStream(['resolve', '--auto'], { onProg: (o) => emit('cfprog', o) });
             if (r.code === 0) emit('library', {});
             return res.end(JSON.stringify(r));
           }
@@ -281,7 +299,7 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
             if (b.llm) args.push('--llm');                      // AI 抽规则（语义归组/改写）
             if (b.auto) args.push('--auto');                    // AI 仲裁检出的新冲突
             args.push('--', ...names);
-            const r = await cli(args);
+            const r = await cliStream(args, { onProg: (o) => emit('mgprog', o) });
             emit('library', {});
             return res.end(JSON.stringify(r));
           }

@@ -23,9 +23,13 @@ export async function run(ctx) {
   const outName = ctx.flags.raw.name || `merged-${names.length}skills`;
 
   const useLlm = ctx.flags.raw.llm && ctx.llm;
+  const prog = (o) => console.log(`[prog]${JSON.stringify({ ...o, tokens: ctx.llm?.tokens || 0 })}`);   // 流式进度行——serve 解析转发 SSE
   const rules = [];
   const sourceMeta = {};   // 各源在合并时刻的快照——产物升级时对比判断"源已变"
+  let i = 0;
   for (const name of names) {
+    if (useLlm) prog({ phase: 'extract', done: i, total: names.length, detail: name });
+    i++;
     const dir = path.join(ctx.hub, 'skills', name);
     const f = path.join(dir, 'SKILL.md');
     if (!fs.existsSync(f)) { fail(L(`没纳入管理: ${name}`, `not managed: ${name}`)); return 1; }
@@ -47,7 +51,8 @@ export async function run(ctx) {
   const news = detectConflicts(ctx.hub, dedup);
   // --auto：仲裁直接吃确定项（fresh-context per conflict）
   if (ctx.flags.raw.auto && ctx.llm && news.length) {
-    const r = await autoArbitrate(ctx.hub, ctx.llm, news, { onProgress: (c, x) => info(`${c.id}: ${x?.verdict ?? '?'}${L('（置信', ' (confidence ')}${x?.confidence ?? '?'})`) });
+    let done = 0;
+    const r = await autoArbitrate(ctx.hub, ctx.llm, news, { onProgress: (c, x) => { prog({ phase: 'arbitrate', done: ++done, total: news.length, detail: c.id }); info(`${c.id}: ${x?.verdict ?? '?'}${L('（置信', ' (confidence ')}${x?.confidence ?? '?'})`) } });
     info(`auto-arbiter: ${r.auto} ${L('已自动裁决', 'auto-decided')}，${r.human} ${L('留给你', 'left for you')}`);
   }
   const dir = mergedDir(ctx.hub);

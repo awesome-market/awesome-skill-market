@@ -26,7 +26,8 @@ export async function run(ctx) {
   // --auto：fresh-context 仲裁先吃掉确定项，剩余真价值权衡留人
   if (ctx.flags.raw.auto) {
     if (!ctx.llm) { fail(L('--auto 需要 LLM——先跑 skillmkt init 配好模型', '--auto needs an LLM — run skillmkt init first')); return 1; }
-    const r = await autoArbitrate(ctx.hub, ctx.llm, queue, { onProgress: (c, x) => info(`${c.id}: ${x ? `${x.verdict}@${x.confidence}` : L('解析失败', 'parse-fail')}`) });
+    let done = 0;
+    const r = await autoArbitrate(ctx.hub, ctx.llm, queue, { onProgress: (c, x) => { console.log(`[prog]${JSON.stringify({ phase: 'arbitrate', done: ++done, total: queue.length, detail: c.id, tokens: ctx.llm?.tokens || 0 })}`); info(`${c.id}: ${x ? `${x.verdict}@${x.confidence}` : L('解析失败', 'parse-fail')}`) } });
     ok(`auto-arbiter: ${r.auto} ${L('已自动裁决', 'auto-decided')}，${r.human} ${L('留给你', 'left for you')}，${r.errors} ${L('失败', 'errors')}`);
     queue = loadConflicts(ctx.hub, { pendingOnly: true });
     if (!queue.length) return 0;

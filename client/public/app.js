@@ -10,6 +10,8 @@ let mgOut = '';   // 合并结果提示——同上
 const mgOpts = { llm: false, auto: false };   // AI 选项状态——重渲染后勾选项不丢
 let mgSout = '';  // 产物 build/install 反馈——SSE 'library' 会立刻触发 refresh，文本必须活在变量里才能挺过重渲染
 let cfOut = '';   // 冲突页 AI 裁决结果——同理
+let mgProg = null, mgRunning = false, mgStart = 0;   // merge 实时进度（SSE mgprog）
+let cfProg = null, cfRunning = false, cfStart = 0;   // resolve --auto 同理
 const isSuspicious = (out) => /可疑|suspicious/i.test(out || '');   // 审核"可疑"→ 需用户知情确认才放行
 // 从 CLI 输出里抽可疑判定的原因：⚠ 行 + 紧跟的缩进详情行（命中规则/剥离清单），✗/✓ 开头即止
 const suspDetail = (out) => {
@@ -121,6 +123,7 @@ const I18N = {
     mg_build: '生成 SKILL.md', mg_install: '安装这个合并 skill', mg_inlist: (n) => `已装：${n}`, mg_notinst: '已生成，未装 →', mg_reinst: '重装', mg_clear: '丢弃', mg_to_conflicts: '有冲突待裁决 → 去「冲突处理」',
     mg_llm: 'AI 抽规则（语义归组/改写措辞）', mg_auto: 'AI 自动裁决检出的新冲突', mg_nollm: '想让 AI 介入？去「设置」配好本地模型端点（base_url + model）后这里会出现 AI 选项',
     cf_auto: (n) => `AI 裁决 ${n} 个待裁决冲突`,
+    pg_boot: '启动中', pg_extract: 'AI 抽规则', pg_arb: 'AI 仲裁', pg_used: '已用', pg_eta: '预计剩', pg_tok: '消耗',
     rv_reaudit: '重新审核',
   },
   en: {
@@ -213,6 +216,7 @@ const I18N = {
     mg_build: 'Build SKILL.md', mg_install: 'Install this merged skill', mg_inlist: (n) => `Installed: ${n}`, mg_notinst: 'built, not installed →', mg_reinst: 'Reinstall', mg_clear: 'Discard', mg_to_conflicts: 'Pending conflicts → go to "Conflicts"',
     mg_llm: 'LLM rule extraction (semantic grouping/rewriting)', mg_auto: 'LLM auto-arbitrate new conflicts', mg_nollm: 'Want AI? Configure a local model endpoint (base_url + model) in Settings and AI options will appear here',
     cf_auto: (n) => `LLM-arbitrate ${n} pending conflicts`,
+    pg_boot: 'starting', pg_extract: 'LLM extracting', pg_arb: 'LLM arbitrating', pg_used: 'elapsed', pg_eta: 'eta', pg_tok: 'tokens',
     rv_reaudit: 'Re-audit',
   },
 };
@@ -242,6 +246,22 @@ es.addEventListener('decide', () => refresh());
 es.addEventListener('config', () => refresh());
 es.addEventListener('targets', () => refresh());
 es.addEventListener('library', () => refresh());
+es.addEventListener('mgprog', (e) => { try { mgProg = JSON.parse(e.data); } catch {} });
+es.addEventListener('cfprog', (e) => { try { cfProg = JSON.parse(e.data); } catch {} });
+// 进度行：阶段 done/total · 明细 · 已用 · 预计剩（线性外推）· token 累计——LLM 长任务不再黑屏
+const fmtProg = (p, start) => {
+  if (!start) return '';
+  const el = Math.max(0, Math.round((Date.now() - start) / 1000));
+  const ph = p ? t(p.phase === 'extract' ? 'pg_extract' : 'pg_arb') : t('pg_boot');
+  const frac = p?.total ? ` ${p.done}/${p.total}` : '';
+  const eta = p?.done && p.total && p.done < p.total ? ` · ${t('pg_eta')} ~${Math.max(1, Math.round(el / p.done * (p.total - p.done)))}s` : '';
+  const tok = p?.tokens ? ` · ${p.tokens >= 1000 ? `${(p.tokens / 1000).toFixed(1)}k` : p.tokens} tok` : '';
+  return `${ph}${frac}${p?.detail ? ` · ${p.detail}` : ''} · ${t('pg_used')} ${el}s${eta}${tok}`;
+};
+setInterval(() => {
+  if (mgRunning) { const x = app.querySelector('#mg-prog'); if (x) x.textContent = fmtProg(mgProg, mgStart); }
+  if (cfRunning) { const x = app.querySelector('#cf-prog'); if (x) x.textContent = fmtProg(cfProg, cfStart); }
+}, 1000);
 const live = document.getElementById('live');
 es.onopen = () => { live.classList.remove('off'); live.innerHTML = `<span class="dot"></span>${t('live_on')}`; };
 es.onerror = () => { live.classList.add('off'); live.innerHTML = `<span class="dot"></span>${t('live_off')}`; };
@@ -611,7 +631,7 @@ async function render() {
       + (skills.map((n) => `<label class="check"><input type="checkbox" data-mg="${esc(n)}"> ${esc(n)}</label>`).join('')
         || `<div class="empty">${t('sk_empty')}</div>`)
       + `<div class="frow"><input type="text" id="mg-name" placeholder="${t('mg_name')}" style="flex:1">
-        <button class="primary" id="mg-go">${t('mg_go')}</button><span id="mg-out" class="mut">${esc(mgOut)}</span></div>`
+        <button class="primary" id="mg-go">${t('mg_go')}</button><span id="mg-out" class="mut">${esc(mgOut)}</span><span id="mg-prog" class="mut"></span></div>`
       + (S.llm
         ? `<div class="frow"><label class="check"><input type="checkbox" id="mg-llm" ${mgOpts.llm ? 'checked' : ''}> ${t('mg_llm')}</label>
           <label class="check"><input type="checkbox" id="mg-auto" ${mgOpts.auto ? 'checked' : ''}> ${t('mg_auto')}</label></div></div>`
@@ -627,10 +647,13 @@ async function render() {
       const names = [...app.querySelectorAll('[data-mg]:checked')].map((x) => x.dataset.mg);
       if (names.length < 2) { app.querySelector('#mg-out').textContent = t('mg_few'); return; }
       e.target.disabled = true; e.target.textContent = t('mg_busy');
+      mgRunning = true; mgStart = Date.now(); mgProg = null;
       mgOpts.llm = !!app.querySelector('#mg-llm')?.checked;
       mgOpts.auto = !!app.querySelector('#mg-auto')?.checked;
       const r = await api('/merge', { method: 'POST', body: JSON.stringify({ names, name: app.querySelector('#mg-name').value.trim() || undefined, llm: mgOpts.llm, auto: mgOpts.auto }) });
-      mgOut = (r.out || '').split('\n').pop().slice(0, 140);
+      mgRunning = false;
+      const tok = mgProg?.tokens ? ` · ${t('pg_tok')} ${mgProg.tokens >= 1000 ? `${(mgProg.tokens / 1000).toFixed(1)}k` : mgProg.tokens}` : '';
+      mgOut = `${(r.out || '').split('\n').pop().slice(0, 140)}${tok}`;
       app.querySelector('#mg-out').textContent = mgOut;
       e.target.disabled = false; e.target.textContent = t('mg_go');
       refresh();
@@ -660,10 +683,12 @@ async function render() {
     const pendN = cs.filter((c) => c.status === 'pending').length;
     app.innerHTML = `<h2>${t('cf_h', pendN)}</h2>
       <p class="desc">${t('cf_desc')}</p>
-      ${S.llm && pendN ? `<div class="frow"><button id="cf-auto">${t('cf_auto', pendN)}</button><span id="cf-out" class="mut">${esc(cfOut)}</span></div>` : ''}`;
+      ${S.llm && pendN ? `<div class="frow"><button id="cf-auto">${t('cf_auto', pendN)}</button><span id="cf-out" class="mut">${esc(cfOut)}</span><span id="cf-prog" class="mut"></span></div>` : ''}`;
     app.querySelector('#cf-auto')?.addEventListener('click', async (e) => {
       e.target.disabled = true; e.target.textContent = t('op_busy');
+      cfRunning = true; cfStart = Date.now(); cfProg = null;
       const r = await api('/resolve-auto', { method: 'POST', body: '{}' });
+      cfRunning = false;
       cfOut = (r.out || '').split('\n').filter((l) => l.trim()).pop()?.slice(0, 140) || '';
       refresh();   // 待裁决变少/文案留在 cfOut
     });
