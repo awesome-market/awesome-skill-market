@@ -215,14 +215,19 @@ async function render() {
     // 填完服务地址自动检测是否需要密钥：已知端点直接看 needs_key，手输地址真发 /models 探
     const markKeyNeed = (need) => {
       const has = !!app.querySelector('#mkey').value.trim();
+      const hasUrl = !!app.querySelector('#murl').value.trim();
       const want = !!need && !has;
       app.querySelector('#key-row').style.display = (need || has) ? '' : 'none';   // 无需密钥→整行不显示
       app.querySelector('#mkey').classList.toggle('req', want);
       app.querySelector('#key-hint').textContent = want ? '← 需要密钥' : '';
-      app.querySelector('#model-box').style.display = want ? 'none' : '';
+      app.querySelector('#model-box').style.display = (hasUrl && !want) ? '' : 'none';  // 先选/填服务地址才出现
     };
     markKeyNeed(false);                                                    // 初始：无密钥需求→藏密钥行
-    app.querySelector('#murl').addEventListener('input', () => { refreshOpts(); renderDrop(); });
+    app.querySelector('#murl').addEventListener('input', () => {
+      const cur = app.querySelector('#murl').value.trim().replace(/\/+$/, '');
+      markKeyNeed(epsList.find((e) => e.base_url === cur)?.needs_key);
+      refreshOpts(); renderDrop();
+    });
     app.querySelector('#mmodel').addEventListener('input', () => { renderDrop(); app.querySelector('#model-drop').style.display = 'block'; });
     app.querySelector('#mmodel').addEventListener('blur', () => setTimeout(() => { app.querySelector('#model-drop').style.display = 'none'; }, 120));
     app.querySelector('#mkey').addEventListener('input', () => {   // 密钥开始填了就别挡模型框
