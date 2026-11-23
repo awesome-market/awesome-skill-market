@@ -1,6 +1,7 @@
 // serve — 本地 daemon：node:http + token + SSE + 静态 SPA；--daemon 内部模式 / --stop / --wait
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
 import http from 'node:http';
 import crypto from 'node:crypto';
 import { daemonFile, readDaemon, openURL } from '../lib/daemon.js';
@@ -167,7 +168,11 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
       return { versions: historyList(ctx.hub, n), current: fs.existsSync(dir) ? treeHash(dir) : null };
     },
   };
-  const body = (req) => new Promise((r) => { let b = ''; req.on('data', (c) => b += c); req.on('end', () => r(b || '{}')); });
+  const body = (req) => new Promise((r, j) => {
+    let b = '';
+    req.on('data', (c) => { b += c; if (b.length > 1e6) { req.destroy(); j(new Error('body too large')); } });   // 1MB 上限——防内存 DoS
+    req.on('end', () => r(b || '{}'));
+  });
 
   // 只记关键事件：打开网页 + 真正落盘的写操作；点击/读取/静态资源一律不打扰
   const action = (req, u) => {
@@ -220,6 +225,7 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
             const c = loadConflicts(ctx.hub).find((x) => x.id === b.id);
             if (!c) { res.writeHead(404); return res.end('{"error":"not found"}'); }
             if (!b.reason?.trim()) { res.writeHead(400); return res.end('{"error":"reason required"}'); }
+            if (!['keep-a', 'keep-b', 'merge', 'dismissed'].includes(b.resolution)) { res.writeHead(400); return res.end('{"error":"bad resolution"}'); }
             req.logNote = L(`裁决了一个冲突（${{ 'keep-a': '采用方案 A', 'keep-b': '采用方案 B', merge: '合并两条', dismissed: '其实不冲突' }[b.resolution] || b.resolution}）`,
               `decided a conflict (${{ 'keep-a': 'kept A', 'keep-b': 'kept B', merge: 'merged', dismissed: 'not a conflict' }[b.resolution] || b.resolution})`);
             decide(ctx.hub, c, { resolution: b.resolution, custom: b.custom || null, reason: b.reason, by: 'web-ui' });
@@ -300,7 +306,7 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
             if (b.auto) args.push('--auto');                    // AI 仲裁检出的新冲突
             args.push('--', ...names);
             const r = await cliStream(args, { onProg: (o) => emit('mgprog', o) });
-            emit('library', {});
+            if (r.code === 0) emit('library', {});
             return res.end(JSON.stringify(r));
           }
           if (u.pathname === '/api/build') {
@@ -338,9 +344,9 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
             if (r.code === 0) emit('library', {});   // 失败不推 SSE——保留详情框里的错误文案
             return res.end(JSON.stringify(r));
           }
-          if (u.pathname === '/api/open') {                            // 系统文件管理器打开目录
-            const p = path.resolve(String(b.path || ''));
-            if (!fs.existsSync(p) || !fs.statSync(p).isDirectory()) return res.end(JSON.stringify({ ok: false, error: 'not a dir' }));
+          if (u.pathname === '/api/open') {                            // 系统文件管理器打开目录——限 home 下（挡 /System 之类的任意路径）
+            const p = path.resolve(String(b.path || '')), home = os.homedir();
+            if (!(p === home || p.startsWith(home + path.sep)) || !fs.existsSync(p) || !fs.statSync(p).isDirectory()) return res.end(JSON.stringify({ ok: false, error: 'not a dir under home' }));
             execFile(process.platform === 'darwin' ? 'open' : process.platform === 'win32' ? 'explorer' : 'xdg-open', [p], () => {});
             return res.end('{"ok":true}');
           }
@@ -357,14 +363,15 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
     // 静态：public/ 公开；/evidence/ 需鉴权且锁死在 hub/evidence 内（防 ../ 穿越读 config.yml 等）
     const p = u.pathname === '/' ? '/index.html' : u.pathname;
     let file;
+    const inside = (base, f) => { const r = path.resolve(f), b = path.resolve(base); return r === b || r.startsWith(b + path.sep); };   // 带分隔符——挡 /hub/evidence-evil 同前缀兄弟目录
     if (p.startsWith('/evidence/')) {
       if (!authed) { res.writeHead(401); return res.end(); }
       const evDir = path.join(ctx.hub, 'evidence');
       file = path.join(evDir, p.slice('/evidence/'.length));
-      if (!path.resolve(file).startsWith(path.resolve(evDir))) { res.writeHead(403); return res.end(); }
+      if (!inside(evDir, file)) { res.writeHead(403); return res.end(); }
     } else {
       file = path.join(PUB, p);
-      if (!path.resolve(file).startsWith(PUB)) { res.writeHead(403); return res.end(); }
+      if (!inside(PUB, file)) { res.writeHead(403); return res.end(); }
     }
     if (!fs.existsSync(file) || fs.statSync(file).isDirectory()) { res.writeHead(404); return res.end('nf'); }
     res.setHeader('content-type', MIME[path.extname(file)] || 'application/octet-stream');

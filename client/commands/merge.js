@@ -6,7 +6,7 @@ import { extractRulesLLM } from '../lib/ai.js';
 import { detectConflicts, conflictsDir, loadConflicts } from '../lib/conflicts.js';
 import { autoArbitrate } from '../lib/autoarb.js';
 import { tokens, jaccard, writeYAML } from '../../pipeline/lib/util.js';
-import { treeHash } from '../lib/package.js';
+import { treeHash, safeName } from '../lib/package.js';
 import { ok, warn, fail, info } from '../lib/render.js';
 import { L } from '../lib/i18n.js';
 
@@ -28,6 +28,7 @@ export async function run(ctx) {
   const names = ctx.args.filter((a) => !a.startsWith('--'));
   if (names.length < 2) { fail(L('用法: skillmkt merge <a> <b> [更多…] [--name 名字]', 'usage: skillmkt merge <a> <b> [more…] [--name n]')); return 1; }
   const outName = ctx.flags.raw.name || `merged-${names.length}skills`;
+  if (!safeName(outName)) { fail(L(`非法产物名（含路径字符）: ${outName}`, `invalid artifact name (path chars): ${outName}`)); return 1; }
 
   const useLlm = ctx.flags.raw.llm && ctx.llm;
   const prog = (o) => console.log(`[prog]${JSON.stringify({ ...o, tokens: ctx.llm?.tokens || 0 })}`);   // 流式进度行——serve 解析转发 SSE

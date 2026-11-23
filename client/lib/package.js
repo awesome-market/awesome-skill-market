@@ -6,6 +6,9 @@ import YAML from 'yaml';
 
 const FRONT_RE = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/;
 
+// skill 名安全字集：Unicode 字母/数字 + . _ -，首字符须字母数字——挡 / \ .. 路径逃逸（name 来自不可信 SKILL.md frontmatter）
+export const safeName = (n) => typeof n === 'string' && /^[\p{L}\p{N}][\p{L}\p{N}._-]{0,79}$/u.test(n);
+
 export function parseFrontmatter(file) {
   try {
     const src = fs.readFileSync(file, 'utf8');

@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import YAML from 'yaml';
+import { safeName } from './package.js';
 
 export function expandHome(p) {
   return p && p.startsWith('~') ? path.join(os.homedir(), p.slice(1)) : p;
@@ -66,6 +67,7 @@ export const readLock = (hub) => readYAMLFile(F(hub, 'lock.yml'), { version: 1, 
 export const writeLock = (hub, d) => writeYAMLFile(F(hub, 'lock.yml'), d);
 
 export function registerSkill(hub, name, entry) {
+  if (!safeName(name)) throw new Error(`unsafe skill name: ${name}`);   // 写入边界兜底——坏名永远进不了 library
   const lib = readLibrary(hub);
   lib.skills[name] = entry;
   writeLibrary(hub, lib);

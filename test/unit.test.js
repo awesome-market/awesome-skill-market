@@ -81,3 +81,9 @@ test('parseVote rejects non-votes and bare merge/custom', () => {
   assert.ok(parseVote('merge').error);
   assert.ok(parseVote('custom').error);
 });
+
+test('safeName allows unicode names, rejects path traversal', async () => {
+  const { safeName } = await import('../client/lib/package.js');
+  for (const n of ['ui-taste', 'merge-test', '测试', 'skill_v2.1']) assert.ok(safeName(n), n);
+  for (const n of ['../evil', 'a/b', 'a\\b', '..', '.hidden', '', 'x'.repeat(81), 'a b']) assert.ok(!safeName(n), JSON.stringify(n));
+});

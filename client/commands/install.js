@@ -6,7 +6,7 @@ import { ensureHub, registerSkill, updateLock, quarantinePath, cacheDir } from '
 import { parseRef } from '../lib/ref.js';
 import { fetchRef } from '../lib/registries/index.js';
 import { auditDir, stripFilter, stripSummary, writeScan } from '../lib/audit.js';
-import { readSkillDir, copyDir, rmDir, walk, treeHash } from '../lib/package.js';
+import { readSkillDir, copyDir, rmDir, walk, treeHash, safeName } from '../lib/package.js';
 import { projectSkill, resolveTargets } from '../lib/project.js';
 import { primaryDir } from '../lib/scanner.js';
 import { cacheLookup, historySnapshot } from '../lib/state.js';
@@ -91,6 +91,7 @@ export async function run(ctx) {
   const pkg = readSkillDir(srcDir);
   if (!pkg) { fail(L(`不是合法 skill（缺 SKILL.md）: ${srcDir}`, `not a valid skill (missing SKILL.md): ${srcDir}`)); return 1; }
   const name = pkg.name;
+  if (!safeName(name)) { fail(L(`非法 skill 名（含路径字符）: ${name}`, `invalid skill name (path chars): ${name}`)); return 1; }
 
   // ② 审核闸门
   const audit = auditDir(srcDir, { strip: !flags.keepScripts });
