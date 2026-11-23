@@ -84,6 +84,44 @@ skillmkt <cmd> [args] [--json] [--hub <path>] [--verbose] [--no-llm]
 
 `SKILLMKT_HOME` 环境变量 = `--hub` 的持久版。
 
+**裸运行（无参数）——智能入口，不甩 help**：
+
+| 状态 | 行为 |
+|---|---|
+| 未初始化（无 hub） | TTY 直接接进 `init`；非 TTY 打 `run 'skillmkt init'` exit 1 |
+| 已初始化 + TTY | **状态仪表盘**：只显示"需要注意力"的项（pending 冲突/可更新/审核告警置前）+ 下一步命令建议 |
+| `ui.enabled: always` | 拉起 daemon 开面板首页，不打终端仪表盘 |
+| 非 TTY | 单行状态摘要 exit 0 |
+
+```
+$ skillmkt
+skillmkt · hub ~/.skillmkt · llm Ornith-1.5-35B-A3B ✓
+
+skills      4 installed · 1 update available · audit 3✓/1⚠
+harnesses   claude●  codex●  pi○available  devin○
+conflicts   2 pending — 需要裁决
+project     ~/code/myrepo · 2 project skills (.claude/skills) · deslop stale
+
+下一步：
+  skillmkt conflicts --ui     裁决 2 条冲突（开面板看图）
+  skillmkt update --check     看 1 个可更新项
+  skillmkt list               安装矩阵
+```
+
+**项目上下文——cwd 语义**：
+
+从 cwd 向上找 `.git` 或任一 harness 目录（`.claude/`、`.agents/`、`.devin/`、`.opencode/`…）即"在项目里"。项目上下文改变以下命令行为：
+
+| 命令 | 项目内行为 |
+|---|---|
+| 裸跑/`list` | 多报 project 块：项目级 skill（受管 `●managed` / 野生 `◌external`——`show` 能读、library 不登记） |
+| `install --scope project` | copy 进 `<repo>/.claude|agents/skills/`——随仓共享，不进 default_targets |
+| `conflicts`/`merge` | 项目级 skill 计入分析集（该项目实际生效的 skill 集） |
+| `sync`/`update` | 项目副本仅在 cwd 位于该仓库或 `--project <path>` 时刷新——不扫盘找仓库 |
+| `remove --scope project` | 仅删项目副本，不动 hub |
+
+原则：**项目级是"给团队的"（copy+commit），全局级是"给自己的"（symlink→hub）**——同一 skill 两边共存互不影响，各自钉版。
+
 **LLM 配置解析链**（实现细节，用户只面对 `init`）：flag(`--base-url/--model/--api-key-env`) > env(`SKILLMKT_LLM_*`，向后兼容 `OMLX_*`) > `config.yml` 的 `llm:` 节 > `.env`。密钥一律存引用 `api_key: env:VAR_NAME`，永不写真值——config 可进 dotfiles。
 
 ```yaml
@@ -94,6 +132,8 @@ llm:
   api_key: env:SKILLMKT_API_KEY
   concurrency: 2
   timeout_ms: 60000
+ui:
+  enabled: auto              # auto|always|never——init 首问写入，控 §3.11 自动接管与裸跑形态
 ```
 
 **LLM 需求边界**：`init`/`audit --llm`/`conflicts`(语义判定)/`diff --semantic`/`merge` 需要端点；其余命令永远不需要。端点不可达时非 `--llm` 命令降级静态模式+stderr 提示；显式 `--llm` 才硬失败。
@@ -127,7 +167,18 @@ SKILLMKT_LLM_MODEL=qwen3 \
 
 ### 3.0 `skillmkt init`——交互式初始化（用户唯一入口）
 
-零依赖手写 readline（~40 行键盘上下选择），不拉 inquirer。三步：
+**首问选形态**（TTY 且未给 `--ui/--cli` 时）：
+
+```
+$ skillmkt init
+? 初始化方式：
+  ❯ Web 面板（推荐——探测结果、模型列表、harness 勾选可视化）
+    终端向导（纯键盘，适合 SSH/无浏览器环境）
+```
+
+选 **Web**：拉起 daemon → `open /setup?t=<token>` → 面板内完成全流程（端点探测卡片、模型下拉、key 表单+测试连接、**harness 勾选矩阵直接选首批投影目标**、"下一步"引导进首装）。选**终端**：走下面的向导。选择写入 `config.yml` 的 `ui.enabled: always|auto|never`——之后 §3.11 所有自动接管听它的。非 TTY 不问；浏览器不可达自动回退终端向导。
+
+零依赖手写 readline（~40 行键盘上下选择），不拉 inquirer。终端向导三步：
 
 ```
 $ skillmkt init
