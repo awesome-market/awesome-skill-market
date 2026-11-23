@@ -320,10 +320,16 @@ async function render() {
       const s = S.library.skills[b.dataset.tg];
       box.style.display = 'block';
       box.innerHTML = `<label class="field">${t('tg_label')}</label><div class="field" style="font-size:13.5px">${t('tg_warn')}</div>` +
-        `<table class="tgtable">` + (S.harnesses || []).filter((x) => x.state !== 'absent' && !x.detectOnly).map((x) =>
-          `<tr><td><input type="checkbox" id="th-${esc(b.dataset.tg)}-${esc(x.id)}" data-th="${esc(x.id)}" ${(s.targets || []).includes(x.id) ? 'checked' : ''}></td>` +
-          `<td><label for="th-${esc(b.dataset.tg)}-${esc(x.id)}">${esc(x.id)}</label></td><td>${pill(x.state)}</td><td class="dir">${esc(x.primaryDir || '')}</td></tr>`).join('')
+        `<table class="tgtable">` + (S.harnesses || []).filter((x) => x.state !== 'absent' && !x.detectOnly).map((x) => {
+          const has = (s.targets || []).includes(x.id);
+          const p = x.primaryDir ? (has ? `${x.primaryDir}/${b.dataset.tg}` : x.primaryDir) : '';
+          return `<tr><td><input type="checkbox" id="th-${esc(b.dataset.tg)}-${esc(x.id)}" data-th="${esc(x.id)}" ${has ? 'checked' : ''}></td>` +
+          `<td><label for="th-${esc(b.dataset.tg)}-${esc(x.id)}">${esc(x.id)}</label></td><td>${pill(x.state)}</td><td class="dir">${esc(x.primaryDir || '')}</td>` +
+          `<td>${p ? `<button class="sm" data-open="${esc(p)}">${t('open_dir')}</button>` : ''}</td></tr>`;
+        }).join('')
         + `</table><div class="row end" style="margin-top:10px"><span class="tout mut"></span><button class="primary tgo">${t('tg_save')}</button></div>`;
+      box.querySelectorAll('[data-open]').forEach((o) => o.onclick = () =>
+        api('/open', { method: 'POST', body: JSON.stringify({ path: o.dataset.open }) }));
       box.querySelector('.tgo').onclick = async () => {
         const ts = [...box.querySelectorAll('[data-th]:checked')].map((x) => x.dataset.th);
         const r = await api('/targets', { method: 'POST', body: JSON.stringify({ name: b.dataset.tg, targets: ts }) });
