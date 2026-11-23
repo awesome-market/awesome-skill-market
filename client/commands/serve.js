@@ -235,6 +235,7 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
             const args = ['install', '--yes'];
             if (b.path) args.push('--path', String(b.path));
             if (b.permissive) args.push('--policy', 'permissive');
+            if (b.force) args.push('--force');                        // 已管理但内容不同（装旧版等）→ 覆盖确认后传
             args.push('--', String(b.ref || ''));
             const r = await cli(args);
             emit('library', {});
