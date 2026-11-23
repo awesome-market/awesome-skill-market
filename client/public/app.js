@@ -87,6 +87,7 @@ const I18N = {
     det_btn: '详情', det_files: (n) => `${n} 个文件`, det_diff: '上游 diff', det_switch: '切换版本', det_tags: '找旧版→',
     det_old: '装旧版', det_old_ph: 'tag 或 sha，如 agent-skills-6ec…', det_nosw: '无留档版本',
     sw_cur: '当前', sw_go: '切换', sw_empty: '无留档版本（每次版本变更会自动存一份）',
+    ins_same: (p) => `已是该版本（pin ${p}）——换个 tag/sha 再装`,
     ext_h: (n) => `散落在 AI 工具里的 skill（${n}）`,
     ext_desc: '能用但没人管：没版本、没审核、没更新——纳入管理补齐。',
     ext_adopt: '纳入管理', ext_busy: '处理中…',
@@ -175,6 +176,7 @@ const I18N = {
     det_btn: 'Details', det_files: (n) => `${n} files`, det_diff: 'Upstream diff', det_switch: 'Switch version', det_tags: 'older versions→',
     det_old: 'Install older', det_old_ph: 'tag or sha, e.g. agent-skills-6ec…', det_nosw: 'no archived versions',
     sw_cur: 'current', sw_go: 'Switch', sw_empty: 'No archived versions (one is saved on every version change)',
+    ins_same: (p) => `Already at this version (pin ${p}) — pick a different tag/sha`,
     ext_h: (n) => `Unmanaged skills scattered in agent dirs (${n})`,
     ext_desc: 'No versioning, audit, or updates — adopt to fix that.',
     ext_adopt: 'Adopt', ext_busy: 'Adopting…',
@@ -329,10 +331,19 @@ async function render() {
       box.querySelector('.oi')?.addEventListener('click', async (e) => {
         const tag = box.querySelector('.ot').value.trim();
         if (!tag) return;
+        // 同版本短路：tag 里嵌的 sha 就是当前 pin（如 agent-skills-<pin>）——装了等于没装
+        if (src.pin && (tag === src.pin || tag.endsWith(src.pin) || src.pin.startsWith(tag))) {
+          box.querySelector('.out2').textContent = t('ins_same', String(src.pin).slice(0, 7)); return;
+        }
         e.target.disabled = true; e.target.textContent = t('op_busy');
         const r = await api('/install', { method: 'POST', body: JSON.stringify({ ref: `${src.ref}@${tag}`, path: src.path || undefined, permissive: oPerm, force: oForce }) });
         e.target.disabled = false;
-        if (r.code === 0) { box.querySelector('.out2').textContent = t('ins_done'); e.target.textContent = t('mk_install'); refresh(); return; }
+        if (r.code === 0) {
+          box.querySelector('.out2').textContent = (r.out || '').split('\n').filter((l) => l.trim()).pop()?.slice(0, 120) || t('ins_done');
+          e.target.textContent = t('mk_install');
+          setTimeout(refresh, 900);   // 留半秒读结果再重渲染
+          return;
+        }
         if (isManaged(r.out) && !oForce) { oForce = true; e.target.textContent = t('mk_ow'); box.querySelector('.out2').textContent = t('mk_mng'); return; }
         if (isSuspicious(r.out) && !oPerm) { oPerm = true; e.target.textContent = t('mk_force'); box.querySelector('.out2').textContent = t('mk_susp'); return; }
         e.target.textContent = t('mk_install');

@@ -248,12 +248,12 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
             if (b.force) args.push('--force');                        // 已管理但内容不同（装旧版等）→ 覆盖确认后传
             args.push('--', String(b.ref || ''));
             const r = await cli(args);
-            emit('library', {});
+            if (r.code === 0) emit('library', {});   // 失败不推 SSE——两段确认（覆盖/仍要装）靠 DOM 存活
             return res.end(JSON.stringify(r));
           }
           if (u.pathname === '/api/remove') {
             const r = await cli(['remove', ...(b.purge ? ['--purge'] : []), '--', String(b.name || '')]);
-            emit('library', {});
+            if (r.code === 0) emit('library', {});
             return res.end(JSON.stringify(r));
           }
           if (u.pathname === '/api/merge') {
