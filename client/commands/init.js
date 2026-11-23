@@ -92,10 +92,12 @@ export async function run(ctx) {
   // 密钥：只在需要时问；粘贴的密钥用本机机器码加密存 config.yml
   let api_key = null, keyPlain = '';
   if (base_url && needKey) {
+    // 只列当前 shell 真设了的环境变量，加自填项——不再硬塞用户看不懂的名字
+    const envCands = ['SKILLMKT_API_KEY', 'OPENAI_API_KEY', 'OMLX_API_KEY'].filter((v) => process.env[v]);
     const ks = await choose(L('这个服务需要访问密钥，怎么提供？', 'This service needs an access key — how should it be provided?'), [
       { label: L('现在粘贴进来（只输一次，自动加密保存）', 'Paste it now (entered once, saved encrypted)'), v: 'paste' },
-      { label: L('从环境变量 SKILLMKT_API_KEY 读（key 已在 shell 里时选）', 'Read env var SKILLMKT_API_KEY (if the key is already in your shell)'), v: 'env:SKILLMKT_API_KEY' },
-      { label: L('从环境变量 OMLX_API_KEY 读', 'Read env var OMLX_API_KEY'), v: 'env:OMLX_API_KEY' },
+      ...envCands.map((v) => ({ label: L(`从环境变量 ${v} 读（当前 shell 已设置）`, `Read env var ${v} (set in this shell)`), v: `env:${v}` })),
+      { label: L('从别的环境变量读（自己填变量名）', 'Read another env var (type the name yourself)'), v: 'env-custom' },
       { label: L('不需要密钥', 'No key needed'), v: null },
     ]);
     if (ks.v === 'paste') {
@@ -113,12 +115,15 @@ export async function run(ctx) {
         }
       }
     } else if (ks.v) {
-      api_key = ks.v;
-      keyPlain = process.env[api_key.slice(4)] ?? '';
-      if (!keyPlain) warn(L(`环境变量 ${api_key.slice(4)} 没设置——先 export 再重跑，或改选粘贴`, `env var ${api_key.slice(4)} is not set — export it first, or pick paste instead`));
-      else {
-        try { models = await listModels(base_url, keyPlain); }
-        catch (e) { warn(L(`用 ${api_key.slice(4)} 验证失败（${e.message}）——配置照存，模型手填`, `key in ${api_key.slice(4)} failed verification (${e.message}) — config saved anyway, type the model manually`)); }
+      const vn = ks.v === 'env-custom' ? (await ask(L('  环境变量名 > ', '  Env var name > '))).trim() : ks.v.slice(4);
+      if (vn) {
+        api_key = `env:${vn}`;
+        keyPlain = process.env[vn] ?? '';
+        if (!keyPlain) warn(L(`环境变量 ${vn} 现在没设置——配置照存，export 之后就能用`, `env var ${vn} is not set — config saved anyway; works once you export it`));
+        else {
+          try { models = await listModels(base_url, keyPlain); }
+          catch (e) { warn(L(`用 ${vn} 验证失败（${e.message}）——配置照存，模型手填`, `key in ${vn} failed verification (${e.message}) — config saved anyway, type the model manually`)); }
+        }
       }
     }
   }
