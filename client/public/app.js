@@ -243,7 +243,7 @@ const PILLS = {
   zh: {
     installed: '已安装', available: '可用', likely: '疑似已装', absent: '未检测到',
     managed: '已纳入管理', external: '未管理', 'hub-untracked': '未登记',
-    clean: '安全', suspicious: '可疑', malicious: '危险',
+    clean: '✓', suspicious: '可疑', malicious: '危险',
     pending: '待处理', decided: '已裁决', resolved: '已裁决', dismissed: '已忽略',
     outdated: '有更新', missing: '文件缺失', 'content-differs': '内容被改过', drifted: '有改动',
     'keep-a': '采用 A', 'keep-b': '采用 B', merge: '已合并', active: '生效中',
@@ -251,7 +251,7 @@ const PILLS = {
   en: {
     installed: 'Installed', available: 'Available', likely: 'Probably installed', absent: 'Not found',
     managed: 'Managed', external: 'Unmanaged', 'hub-untracked': 'Untracked',
-    clean: 'Clean', suspicious: 'Suspicious', malicious: 'Malicious',
+    clean: '✓', suspicious: 'Suspicious', malicious: 'Malicious',
     pending: 'Pending', decided: 'Decided', resolved: 'Decided', dismissed: 'Dismissed',
     outdated: 'Update', missing: 'Missing', 'content-differs': 'Modified', drifted: 'Drifted',
     'keep-a': 'Keep A', 'keep-b': 'Keep B', merge: 'Merged', active: 'Active',

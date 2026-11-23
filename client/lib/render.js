@@ -20,7 +20,7 @@ export function out(data, { json = false, human = null } = {}) {
 }
 
 // 审核结论词 → 当前语言（clean/suspicious/stripped/malicious/quarantined）
-export const auditTag = (v) => L({ clean: '干净', suspicious: '可疑', stripped: '已剔除', malicious: '恶意', quarantined: '已隔离' }[v] ?? v, v);
+export const auditTag = (v) => L({ clean: '✓', suspicious: '可疑', stripped: '已剔除', malicious: '恶意', quarantined: '已隔离' }[v] ?? v, v);
 
 // 按终端显示宽度对齐（CJK 字符算 2 列）
 const w = (s) => [...s].reduce((n, c) => n + (c.codePointAt(0) > 0x2e7f ? 2 : 1), 0);
