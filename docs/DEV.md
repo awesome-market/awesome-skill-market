@@ -245,6 +245,8 @@ export const HARNESSES = [
 `installed`=bin∈PATH ∧ dir 存在；`available`=bin∈PATH ∧ dir 缺；`likely`=dir∃ ∧ bin∉PATH；`absent`=双无。
 规则：env 覆盖优先（值是 harness 根目录，skill 目录=`$ENV/skills`）；共享路径去重（codex/devin 的 `~/.agents/skills` 只投影一次，library targets 记归属 id 列表）；env override 的目录算 `installed` 当且仅当 bin 存在。
 
+**主目录规则**（实现期补）：同一 harness 声明多个 `dirs` 时，**扫描吃全部、投影只投主目录**（`primaryDir`=首个存在的，否则首个）——codex 主目录为 `~/.codex/skills`（`~/.agents/skills` 是共享约定目录，仍入扫描与共享去重）。这保证 lock targets 键=harness id 唯一，不会同 id 多目录互相覆盖。
+
 `scanSkillDir(dir)`：遍历一级子目录，读 `SKILL.md` frontmatter 得 `name/version/description`，返回 `{name, path, version, fileCount, contentHash}`。
 
 `detectProject(cwd)`：向上找 `.git` 或任一 `projectDirs` → `{root, dirs[]}`。

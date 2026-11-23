@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import YAML from 'yaml';
 
 const FRONT_RE = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/;
 
@@ -9,13 +10,9 @@ export function parseFrontmatter(file) {
   try {
     const src = fs.readFileSync(file, 'utf8');
     const m = src.match(FRONT_RE);
-    const meta = {};
-    if (m) {
-      for (const line of m[1].split('\n')) {
-        const kv = line.match(/^([A-Za-z_][\w-]*)\s*:\s*(.*)$/);
-        if (kv) meta[kv[1]] = kv[2].replace(/^["']|["']$/g, '').trim();
-      }
-    }
+    const meta = m ? (YAML.parse(m[1]) || {}) : {};
+    // skills.sh 惯例：version 常藏在 metadata.version
+    if (meta.version == null && meta.metadata?.version != null) meta.version = String(meta.metadata.version);
     return { meta, body: src.replace(FRONT_RE, '') };
   } catch {
     return { meta: {}, body: '' };

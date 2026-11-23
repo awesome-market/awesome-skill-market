@@ -9,7 +9,7 @@ export const HARNESSES = [
   { id: 'claude',   bins: ['claude'],   envs: ['CLAUDE_CONFIG_DIR'],
     dirs: ['~/.claude/skills'], projectDirs: ['.claude/skills'] },
   { id: 'codex',    bins: ['codex'],    envs: ['CODEX_HOME'],
-    dirs: ['~/.agents/skills', '~/.codex/skills'], projectDirs: ['.agents/skills'] },
+    dirs: ['~/.codex/skills', '~/.agents/skills'], projectDirs: ['.agents/skills'] },
   { id: 'opencode', bins: ['opencode'], envs: ['OPENCODE_CONFIG_DIR'],
     dirs: ['~/.config/opencode/skills'], projectDirs: ['.opencode'] },
   { id: 'pi',       bins: ['pi', 'dsh'], envs: [],
@@ -68,6 +68,11 @@ export function detectHarnesses() {
   });
 }
 
+// 每 harness 的主投影目录：首个存在的，否则首个（扫描吃全部 dirs，投影只投主目录）
+export function primaryDir(h) {
+  return (h.dirs.find((d) => d.exists) ?? h.dirs[0])?.path ?? null;
+}
+
 // 共享目录去重后的投影目标：[{harnessId, dir}]——一个物理目录一条
 export function projectionDirs(harnesses, ids = null) {
   const out = [];
@@ -75,11 +80,8 @@ export function projectionDirs(harnesses, ids = null) {
   for (const h of harnesses) {
     if (h.detectOnly || h.state === 'absent' || h.state === 'likely') continue;
     if (ids && !ids.includes(h.id)) continue;
-    for (const d of h.dirs) {
-      if (seen.has(d.path)) continue;
-      seen.add(d.path);
-      out.push({ harnessId: h.id, dir: d.path });
-    }
+    const dir = primaryDir(h);
+    if (dir && !seen.has(dir)) { seen.add(dir); out.push({ harnessId: h.id, dir }); }
   }
   return out;
 }
