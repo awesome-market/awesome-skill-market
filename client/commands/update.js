@@ -39,7 +39,7 @@ export async function run(ctx) {
   const u = readUpstream(ctx.hub);
   u.refreshed_at = new Date().toISOString();
   writeUpstream(ctx.hub, u);
-  ok(L(`update 完成：刷新了 ${n} 个${na ? `，${na} 个无上游可比（本地收的）` : ''}${errs ? `，${errs} 个失败` : ''}`, `update done: ${n} refreshed${na ? `, ${na} n/a (adopted/local)` : ''}${errs ? `, ${errs} errors` : ''}`));
+  ok(L(`update 完成：刷新了 ${n} 个${na ? `，${na} 个无上游可查（收编/私有源）` : ''}${errs ? `，${errs} 个失败` : ''}`, `update done: ${n} refreshed${na ? `, ${na} n/a (adopted/private-source)` : ''}${errs ? `, ${errs} errors` : ''}`));
 
   // 第二步：有过期的列出名单，TTY 下勾选升级（预勾全部；0=都不升）
   const outs = Object.entries(u.skills || {}).filter(([nm, x]) => x.outdated && skills[nm]).map(([nm]) => nm);
