@@ -14,7 +14,7 @@ const COMMANDS = {
   remove: 'remove', uninstall: 'remove', un: 'remove', rm: 'remove',
   targets: 'targets', sync: 'sync', audit: 'audit',
   update: 'update', outdated: 'outdated', upgrade: 'upgrade',
-  download: 'download', diff: 'diff', rollback: 'rollback',
+  download: 'download', diff: 'diff', switch: 'switch', sw: 'switch', rollback: 'rollback',
   conflicts: 'conflicts', resolve: 'resolve', decide: 'decide',
   merge: 'merge', build: 'build',
   pack: 'pack', publish: 'publish', registry: 'registry', serve: 'serve',
@@ -25,7 +25,7 @@ const HELP = `skillmkt — local-first agent skill manager
 usage: skillmkt <cmd> [args] [--json] [--hub <path>] [--dry-run] [--ui|--cli]
 
 core:    init  config  doctor  search  list  show  install  remove  targets  sync
-version: update  outdated  upgrade  download  diff  rollback
+version: update  outdated  upgrade  download  diff  switch  rollback
 merge:   conflicts  resolve  decide  merge  build
 dist:    audit  pack  publish  registry  serve
 
@@ -36,7 +36,7 @@ const HELP_ZH = `skillmkt — 本地优先的 agent skill 管理器
 用法: skillmkt <命令> [参数] [--json] [--hub <路径>] [--dry-run] [--ui|--cli]
 
 核心:    init  config  doctor  search  list  show  install  remove  targets  sync
-版本:    update  outdated  upgrade  download  diff  rollback
+版本:    update  outdated  upgrade  download  diff  switch  rollback
 合并:    conflicts  resolve  decide  merge  build
 分发:    audit  pack  publish  registry  serve
 

@@ -1,40 +1,18 @@
-// rollback — .history/<name>/ 换回 hub 副本 → 重投影 → 改 lock（一版深度）
-import fs from 'node:fs';
-import path from 'node:path';
-import { historyRestore, historyMeta } from '../lib/state.js';
-import { historyDir, registerSkill } from '../lib/hub.js';
-import { projectSkill, targetDirFor } from '../lib/project.js';
-import { updateLock } from '../lib/hub.js';
-import { treeHash, readSkillDir, rmDir } from '../lib/package.js';
+// rollback — 快捷别名：切到最近一份留档（等价 switch --to <最新>；多版本浏览用 switch）
+import { historyList } from '../lib/state.js';
+import { applySwitch } from './switch.js';
 import { ok, fail } from '../lib/render.js';
 import { L } from '../lib/i18n.js';
 
 export async function run(ctx) {
   const name = ctx.args[0];
-  if (!name || ctx.args.length > 1) { fail(L('用法: skillmkt rollback <名字>', 'usage: skillmkt rollback <name>')); return 1; }
+  if (!name || ctx.args.length > 1) { fail(L('用法: skillmkt rollback <名字>（多版本选择用 skillmkt switch）', 'usage: skillmkt rollback <name> (pick from all versions: skillmkt switch)')); return 1; }
   const s = ctx.library.skills?.[name];
   if (!s) { fail(L(`没纳入管理: ${name}`, `not managed: ${name}`)); return 1; }
-  if (!fs.existsSync(historyDir(ctx.hub, name))) { fail(L(`${name}: 无历史副本（upgrade 后才有一版深度）`, `${name}: no history copy (one version deep, only after upgrade)`)); return 1; }
-  if (!ctx.flags.dryRun) {
-    historyRestore(ctx.hub, name);
-    const dest = path.join(ctx.hub, 'skills', name);
-    const lockTargets = {};
-    for (const t of s.targets || []) {
-      const dir = targetDirFor(ctx, t, name);
-      if (!dir) continue;
-      const r = projectSkill(dest, name, dir, { mode: 'copy', force: true });
-      lockTargets[t] = { hash: r.hash, projected_at: new Date().toISOString(), mode: 'copy' };
-    }
-    updateLock(ctx.hub, name, treeHash(dest), lockTargets);
-    // 元数据回写：meta.yml 有快照时的 version/source 就还原；否则至少从恢复的 SKILL.md 读 version
-    const meta = historyMeta(ctx.hub, name);
-    const restored = readSkillDir(dest);
-    registerSkill(ctx.hub, name, { ...s, ...(meta?.source ? { source: meta.source } : {}), version: meta?.version || restored?.version || s.version });
-    // 快照是"一版深度"——回滚完即最旧态，消费掉防止再滚成同一个副本
-    rmDir(historyDir(ctx.hub, name));
-    const mf = `${historyDir(ctx.hub, name)}.meta.yml`;
-    if (fs.existsSync(mf)) fs.rmSync(mf);
-  }
-  ok(`${ctx.flags.dryRun ? '[dry-run] ' : ''}${L(`已回滚 ${name}`, `rolled back ${name}`)}`);
+  const vers = historyList(ctx.hub, name);
+  if (!vers.length) { fail(L(`${name}: 无留档版本`, `${name}: no archived versions`)); return 1; }
+  const pick = vers[0];
+  if (!applySwitch(ctx, name, pick)) return 1;
+  ok(`${ctx.flags.dryRun ? '[dry-run] ' : ''}${L(`已回滚 ${name} → ${pick.version || pick.key}`, `rolled back ${name} → ${pick.version || pick.key}`)}`);
   return 0;
 }

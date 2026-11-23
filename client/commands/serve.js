@@ -7,12 +7,12 @@ import { daemonFile, readDaemon, openURL } from '../lib/daemon.js';
 import { loadConflicts } from '../lib/conflicts.js';
 import { loadDecisions, decide } from '../lib/decide.js';
 import { readLibrary, readLock, readConfig, writeConfig, registerSkill, updateLock, ensureHub, isInitialized } from '../lib/hub.js';
-import { readUpstream } from '../lib/state.js';
+import { readUpstream, historyList } from '../lib/state.js';
 import { readYAML } from '../../pipeline/lib/util.js';
 import { detectHarnesses, scanAll } from '../lib/scanner.js';
 import { probeEndpoints, chat, encryptSecret, resolveKeyRef, listModels } from '../lib/llm.js';
 import { setSkillTargets } from '../lib/project.js';
-import { readSkillDir } from '../lib/package.js';
+import { readSkillDir, treeHash } from '../lib/package.js';
 import { searchRemote } from '../lib/registries/skillssh.js';
 import { execFile } from 'node:child_process';
 import { ok, info } from '../lib/render.js';
@@ -135,6 +135,12 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
       return pkg ? { ...pkg, library: readLibrary(ctx.hub).skills?.[n] || null } : { error: 'not found' };
     },
     'GET /api/diff': async (u) => cli(['diff', ...(u.searchParams.get('ref') ? ['--ref', u.searchParams.get('ref')] : []), '--', u.searchParams.get('name') || '']),
+    'GET /api/versions': (u) => {                       // 留档版本清单 + 当前 hash 标记
+      const n = u.searchParams.get('name') || '';
+      if (!n || n.includes('/') || n.includes('..')) return { error: 'bad name' };
+      const dir = path.join(ctx.hub, 'skills', n);
+      return { versions: historyList(ctx.hub, n), current: fs.existsSync(dir) ? treeHash(dir) : null };
+    },
   };
   const body = (req) => new Promise((r) => { let b = ''; req.on('data', (c) => b += c); req.on('end', () => r(b || '{}')); });
 
@@ -282,6 +288,11 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
           if (u.pathname === '/api/audit') {
             const r = await cli(['audit', '--', String(b.name || '')]);
             emit('library', {});
+            return res.end(JSON.stringify(r));
+          }
+          if (u.pathname === '/api/switch') {
+            const r = await cli(['switch', '--yes', '--to', String(b.key || ''), '--', String(b.name || '')]);
+            if (r.code === 0) emit('library', {});
             return res.end(JSON.stringify(r));
           }
           if (u.pathname === '/api/rollback') {

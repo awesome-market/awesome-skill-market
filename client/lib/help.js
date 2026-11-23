@@ -181,12 +181,23 @@ const H = {
   changes; --ref compares against a specific version instead of HEAD;
   --semantic adds an LLM explanation of behavioral changes.`,
   },
+  switch: {
+    zh: `用法: skillmkt switch <名字> [--to <key|version|pin>]
+  在留档版本间切换（纯本地不联网）。每次版本变更（install --force/upgrade）
+  覆盖前都会把当前版存进 .history/<名字>/——永不删除。
+  不带 --to 在交互终端列全部留档让你选；非交互切最近一份。`,
+    en: `usage: skillmkt switch <name> [--to <key|version|pin>]
+  Switch between archived versions (fully local, no network). Every version
+  change archives the replaced copy into .history/<name>/ — never deleted.
+  Without --to, interactive terminals list all archives to pick from;
+  non-interactive runs switch to the most recent.`,
+  },
   rollback: {
     zh: `用法: skillmkt rollback <名字>
-  回滚到升级前的版本（upgrade 会留一版历史副本；再滚更深就报错）。`,
+  切到最近一份留档版本（快捷别名；要挑版本用 skillmkt switch）。`,
     en: `usage: skillmkt rollback <name>
-  Roll back to the pre-upgrade version (upgrade keeps one history copy;
-  deeper rollback isn't stored).`,
+  Switch to the most recent archived version (shortcut; to pick a version
+  use skillmkt switch).`,
   },
   conflicts: {
     zh: `用法: skillmkt conflicts [--json]

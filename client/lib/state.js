@@ -2,7 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { readYAMLFile, writeYAMLFile, historyDir } from './hub.js';
-import { rmDir } from './package.js';
+import { rmDir, treeHash } from './package.js';
 
 export const readUpstream = (hub) => readYAMLFile(path.join(hub, 'state', 'upstream.yml'), { skills: {} });
 export const writeUpstream = (hub, d) => writeYAMLFile(path.join(hub, 'state', 'upstream.yml'), d);
@@ -22,23 +22,59 @@ export function cacheLookup(hub, name) {
   } catch { return null; }
 }
 
-export function historySnapshot(hub, name, entry = null) {
-  const src = path.join(hub, 'skills', name);
-  const dst = historyDir(hub, name);
-  if (!fs.existsSync(src)) return false;
-  rmDir(dst);
-  fs.mkdirSync(path.dirname(dst), { recursive: true });
-  copyDirFs(src, dst);
-  // 元数据同存——rollback 恢复文件时连 version/pin 一起还原，不留脏状态
-  if (entry) writeYAMLFile(`${dst}.meta.yml`, { version: entry.version || null, source: entry.source || null });
-  return true;
+// —— 多版本留档：.history/<name>/<key>/ 永不删除；<name>.index.yml 记每份 version/pin/hash/时间 ——
+const indexPath = (hub, name) => `${historyDir(hub, name)}.index.yml`;
+const readIndex = (hub, name) => readYAMLFile(indexPath(hub, name), { versions: {} });
+
+// 旧格式迁移：.history/<name>/SKILL.md（单副本时代）→ _prev/ + 收编 <name>.meta.yml
+function migrateLegacy(hub, name) {
+  const d = historyDir(hub, name);
+  if (!fs.existsSync(path.join(d, 'SKILL.md'))) return;
+  const prev = path.join(d, '_prev');
+  rmDir(prev);
+  fs.mkdirSync(prev, { recursive: true });
+  for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+    if (e.name === '_prev') continue;
+    fs.renameSync(path.join(d, e.name), path.join(prev, e.name));
+  }
+  const meta = readYAMLFile(`${d}.meta.yml`, null);
+  const idx = readIndex(hub, name);
+  idx.versions._prev = { version: meta?.version || null, source: meta?.source || null, saved_at: null, legacy: true };
+  writeYAMLFile(indexPath(hub, name), idx);
+  const mf = `${d}.meta.yml`;
+  if (fs.existsSync(mf)) fs.rmSync(mf);
 }
 
-// 快照旁的元数据（version/pin）；无则 null（旧快照只有文件）
-export const historyMeta = (hub, name) => readYAMLFile(`${historyDir(hub, name)}.meta.yml`, null);
+export function historySnapshot(hub, name, entry = null) {
+  const src = path.join(hub, 'skills', name);
+  if (!fs.existsSync(src)) return false;
+  migrateLegacy(hub, name);
+  const key = entry?.source?.pin ? String(entry.source.pin).slice(0, 10) : `h${treeHash(src).replace(/^sha256:/, '').slice(0, 10)}`;
+  const dst = path.join(historyDir(hub, name), key);
+  if (!fs.existsSync(dst)) {   // 同 key 已有档——内容是同一份，不重复存
+    fs.mkdirSync(dst, { recursive: true });
+    copyDirFs(src, dst);
+  }
+  const idx = readIndex(hub, name);
+  idx.versions[key] = { version: entry?.version || null, source: entry?.source || null, hash: treeHash(src), saved_at: new Date().toISOString() };
+  writeYAMLFile(indexPath(hub, name), idx);
+  return key;
+}
 
-export function historyRestore(hub, name) {
-  const dst = historyDir(hub, name);
+// [{key, version, source, hash, saved_at}] 新→旧；[] 表示无留档
+export function historyList(hub, name) {
+  migrateLegacy(hub, name);
+  const d = historyDir(hub, name);
+  if (!fs.existsSync(d)) return [];
+  const idx = readIndex(hub, name);
+  return fs.readdirSync(d, { withFileTypes: true })
+    .filter((e) => e.isDirectory())
+    .map((e) => ({ key: e.name, ...(idx.versions?.[e.name] || {}) }))
+    .sort((a, b) => String(b.saved_at || '').localeCompare(String(a.saved_at || '')));
+}
+
+export function historyRestore(hub, name, key) {
+  const dst = path.join(historyDir(hub, name), key);
   const src = path.join(hub, 'skills', name);
   if (!fs.existsSync(dst)) return false;
   rmDir(src);

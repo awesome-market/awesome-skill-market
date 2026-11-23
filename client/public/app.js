@@ -84,8 +84,9 @@ const I18N = {
     mk_mng: '已在管理且内容不同（装旧版？）——覆盖现有副本？', mk_ow: '覆盖安装',
     mk_nosrc: '私有源暂不可装', mk_privsrc: '私有源',
     sk_remove: '移除', sk_remove_sure: '再点一次确认', sk_removed: '已移除', open_dir: '打开文件夹',
-    det_btn: '详情', det_files: (n) => `${n} 个文件`, det_diff: '上游 diff', det_rollback: '回滚上一版', det_tags: '找旧版→',
-    det_old: '装旧版', det_old_ph: 'tag 或 sha，如 agent-skills-6ec…', det_noroll: '无历史可回滚（upgrade 后才存快照）',
+    det_btn: '详情', det_files: (n) => `${n} 个文件`, det_diff: '上游 diff', det_switch: '切换版本', det_tags: '找旧版→',
+    det_old: '装旧版', det_old_ph: 'tag 或 sha，如 agent-skills-6ec…', det_nosw: '无留档版本',
+    sw_cur: '当前', sw_go: '切换', sw_empty: '无留档版本（每次版本变更会自动存一份）',
     ext_h: (n) => `散落在 AI 工具里的 skill（${n}）`,
     ext_desc: '能用但没人管：没版本、没审核、没更新——纳入管理补齐。',
     ext_adopt: '纳入管理', ext_busy: '处理中…',
@@ -171,8 +172,9 @@ const I18N = {
     mk_mng: 'Already managed with different content (older version?) — overwrite?', mk_ow: 'Overwrite',
     mk_nosrc: 'private source — N/A', mk_privsrc: 'private source',
     sk_remove: 'Remove', sk_remove_sure: 'Click again to confirm', sk_removed: 'Removed', open_dir: 'Open folder',
-    det_btn: 'Details', det_files: (n) => `${n} files`, det_diff: 'Upstream diff', det_rollback: 'Rollback a version', det_tags: 'older versions→',
-    det_old: 'Install older', det_old_ph: 'tag or sha, e.g. agent-skills-6ec…', det_noroll: 'no history to roll back (snapshots start after upgrade)',
+    det_btn: 'Details', det_files: (n) => `${n} files`, det_diff: 'Upstream diff', det_switch: 'Switch version', det_tags: 'older versions→',
+    det_old: 'Install older', det_old_ph: 'tag or sha, e.g. agent-skills-6ec…', det_nosw: 'no archived versions',
+    sw_cur: 'current', sw_go: 'Switch', sw_empty: 'No archived versions (one is saved on every version change)',
     ext_h: (n) => `Unmanaged skills scattered in agent dirs (${n})`,
     ext_desc: 'No versioning, audit, or updates — adopt to fix that.',
     ext_adopt: 'Adopt', ext_busy: 'Adopting…',
@@ -318,7 +320,8 @@ async function render() {
       const tagsHtml = gh ? ` · <a href="https://github.com/${src.ref}/tags?src=awesome-skill-market" target="_blank" rel="noopener">${t('det_tags')}</a>` : '';
       box.style.display = 'block';
       box.innerHTML = `<p class="mut" style="margin:4px 0">${esc(d.description || '')} · ${t('det_files', d.fileCount ?? d.files?.length ?? 0)} · ${srcHtml}${src.pin ? ` · pin <code>${esc(String(src.pin).slice(0, 7))}</code>` : ''}${tagsHtml}</p>
-        <div class="row">${s?.source?.registry === 'github' ? `<button class="df">${t('det_diff')}</button>` : ''}${S.hist?.[b.dataset.dt] ? `<button class="rb">${t('det_rollback')}</button>` : `<span class="mut">${t('det_noroll')}</span>`}<span class="out mut"></span></div>
+        <div class="row">${s?.source?.registry === 'github' ? `<button class="df">${t('det_diff')}</button>` : ''}${S.hist?.[b.dataset.dt] ? `<button class="sw">${t('det_switch')}</button>` : `<span class="mut">${t('det_nosw')}</span>`}<span class="out mut"></span></div>
+        <div class="vers" style="display:none"></div>
         ${gh ? `<div class="row" style="margin-top:8px"><span class="mut">${t('det_old')}</span><input class="ot" placeholder="${t('det_old_ph')}" style="width:240px"><button class="od sm">${t('det_diff')}</button><button class="oi sm">${t('mk_install')}</button><span class="out2 mut"></span></div>` : ''}
         <pre class="pre mut" style="display:none;white-space:pre-wrap;font-size:13.5px;max-height:260px;overflow:auto"></pre>`;
       // 装旧版：tag/sha → install owner/repo@tag --path <sub>；已在管理→覆盖安装两段确认
@@ -350,12 +353,26 @@ async function render() {
         const pre = box.querySelector('.pre'); pre.style.display = 'block'; pre.textContent = r.out || '(no output)';
         e.target.disabled = false; e.target.textContent = t('det_diff');
       });
-      box.querySelector('.rb')?.addEventListener('click', async (e) => {
+      // 切换版本：展开留档清单 → 用户自选 → POST /api/switch
+      box.querySelector('.sw')?.addEventListener('click', async (e) => {
+        const vp = box.querySelector('.vers');
+        if (vp.style.display === 'block') { vp.style.display = 'none'; return; }
         e.target.disabled = true; e.target.textContent = t('op_busy');
-        const r = await api('/rollback', { method: 'POST', body: JSON.stringify({ name: b.dataset.dt }) });
-        box.querySelector('.out').textContent = r.code === 0 ? t('op_done') : (r.out || '').slice(0, 120);
-        e.target.disabled = false; e.target.textContent = t('det_rollback');
-        if (r.code === 0) refresh();
+        const r = await api(`/versions?name=${encodeURIComponent(b.dataset.dt)}`);
+        e.target.disabled = false; e.target.textContent = t('det_switch');
+        const vs = r.versions || [];
+        vp.style.display = 'block';
+        vp.innerHTML = vs.length ? vs.map((v) => {
+          const cur = v.hash && v.hash === r.current;
+          return `<div class="row" style="margin-top:4px"><code>${esc(v.key)}</code><span class="mut">${esc(v.version || '')}${v.source?.pin ? ` · pin ${esc(String(v.source.pin).slice(0, 7))}` : ''}${v.saved_at ? ` · ${esc(v.saved_at.slice(0, 16).replace('T', ' '))}` : ''}</span>
+            ${cur ? `<span class="mut">${t('sw_cur')}</span>` : `<button class="sm swp" data-k="${esc(v.key)}">${t('sw_go')}</button>`}</div>`;
+        }).join('') : `<div class="mut">${t('sw_empty')}</div>`;
+        vp.querySelectorAll('.swp').forEach((b2) => b2.onclick = async () => {
+          b2.disabled = true; b2.textContent = t('op_busy');
+          const r2 = await api('/switch', { method: 'POST', body: JSON.stringify({ name: b.dataset.dt, key: b2.dataset.k }) });
+          box.querySelector('.out').textContent = r2.code === 0 ? t('op_done') : (r2.out || '').slice(0, 120);
+          if (r2.code === 0) refresh(); else { b2.disabled = false; b2.textContent = t('sw_go'); }
+        });
       });
     });
     app.querySelectorAll('[data-tg]').forEach((b) => b.onclick = () => {
