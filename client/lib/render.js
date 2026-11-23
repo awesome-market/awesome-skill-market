@@ -38,12 +38,11 @@ export function dashboard({ hub, library, scan, upstream, conflicts, llm, llmVia
   err(`skillmkt · hub ${hub}${llm ? ` · llm ${llm.model} ✓${llmVia ? L(`（来自 ${llmVia}，未写 config.yml）`, ` (from ${llmVia}, not in config.yml)`) : ''}` : ''}`);
   err('');
   err(`skills      ${skills.length} installed${updates ? ` · ${updates} update available` : ''} · audit ${audits.length - bad}✓${bad ? `/${bad}⚠` : ''}`);
-  // 按状态分组展示（●已装/○仅CLI/~疑似），不再符号+文字混排
+  // 按状态分组展示（已装/可装；likely 探测不确定不显示）
   const grp = (st) => scan.harnesses.filter((h) => h.state === st).map((h) => h.id);
   const parts = [
     grp('installed').length && `${L('已装', 'installed')} ${grp('installed').join(' ')}`,
     grp('available').length && `${L('可装', 'installable')} ${grp('available').join(' ')}`,
-    grp('likely').length && `${L('疑似', 'likely')} ${grp('likely').join(' ')}`,
   ].filter(Boolean);
   if (parts.length) err(`agents      ${parts.join(' · ')}`);
   if (project) err(`project     ${project.root}`);
