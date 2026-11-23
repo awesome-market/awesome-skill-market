@@ -96,7 +96,6 @@ export async function run(ctx) {
       const ks = await choose(L('这个服务需要访问密钥，怎么提供？', 'This service needs an access key — how should it be provided?'), [
         { label: L('现在粘贴进来（只输一次，自动加密保存）', 'Paste it now (entered once, saved encrypted)'), v: 'paste' },
         { label: L('从环境变量 SKILLMKT_API_KEY 读', 'Read env var SKILLMKT_API_KEY'), v: 'env:SKILLMKT_API_KEY' },
-        { label: L('不需要密钥', 'No key needed'), v: null },
         { label: L('退出向导', 'Quit wizard'), v: 'quit' },
       ]);
       if (ks.v === 'quit') {
