@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fetchSkill } from '../lib/registries/github.js';
 import { readUpstream, setUpstream, historySnapshot } from '../lib/state.js';
-import { auditDir, stripFilter, writeScan } from '../lib/audit.js';
+import { auditDir, stripFilter, stripSummary, writeScan } from '../lib/audit.js';
 import { readSkillDir, walk, rmDir, treeHash } from '../lib/package.js';
 import { projectSkill, targetDirFor } from '../lib/project.js';
 import { registerSkill, updateLock } from '../lib/hub.js';
@@ -68,6 +68,7 @@ export async function run(ctx) {
       setUpstream(ctx.hub, name, { ref: got.sha, outdated: false });
       upgraded++;
       ok(`${name} → ${got.sha.slice(0, 7)} ${L('审核', 'audit')}:${auditTag(audit.verdict)}`);
+      for (const g of stripSummary(audit.stripped)) info(`  ${L('剥离', 'strip')} ${g.key === 'exec' ? L('可执行文件', 'executables') : `${g.key.slice(4)}/`}: ${g.files.length} ${L('个', '')}`);
     } catch (e) {
       warn(`${name}: ${L('升级失败', 'upgrade failed')} — ${e.message.slice(0, 100)}`);
     }

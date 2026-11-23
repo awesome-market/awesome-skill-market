@@ -5,7 +5,7 @@ import { execFileSync } from 'node:child_process';
 import { ensureHub, registerSkill, updateLock, quarantinePath, cacheDir } from '../lib/hub.js';
 import { parseRef } from '../lib/ref.js';
 import { fetchRef } from '../lib/registries/index.js';
-import { auditDir, stripFilter, writeScan } from '../lib/audit.js';
+import { auditDir, stripFilter, stripSummary, writeScan } from '../lib/audit.js';
 import { readSkillDir, copyDir, rmDir, walk, treeHash } from '../lib/package.js';
 import { projectSkill, resolveTargets } from '../lib/project.js';
 import { primaryDir } from '../lib/scanner.js';
@@ -105,8 +105,17 @@ export async function run(ctx) {
   }
   const policy = flags.policy || ctx.config.policy;
   if (audit.verdict === 'suspicious' && policy !== 'permissive') {
-    warn(L(`可疑：发现 ${audit.findings.length} 处${audit.stripped.length ? `，已剔除 ${audit.stripped.length} 个文件` : ''}`, `suspicious: ${audit.findings.length} findings${audit.stripped.length ? `, stripping ${audit.stripped.length} files` : ''}`));
-    audit.findings.slice(0, 5).forEach((f) => info(`${f.rule} ${f.file}:${f.line} — ${f.excerpt.slice(0, 80)}`));
+    const why = audit.findings.length
+      ? L(`内容命中 ${audit.findings.length} 处`, `${audit.findings.length} content findings`)
+      : L('内容扫描无命中', 'no content findings');
+    warn(L(`可疑：${why}${audit.stripped.length ? `，${audit.stripped.length} 个文件将被剥离` : ''}`,
+           `suspicious: ${why}${audit.stripped.length ? `, ${audit.stripped.length} files will be stripped` : ''}`));
+    audit.findings.slice(0, 5).forEach((f) => info(`  ${f.rule} ${f.file}:${f.line} — ${f.excerpt.slice(0, 80)}`));
+    if (audit.findings.length > 5) info(`  …${L('另', 'plus')} ${audit.findings.length - 5} ${L('处，见', ' findings, see')} scans/${name}.yml`);
+    for (const g of stripSummary(audit.stripped)) {
+      const label = g.key === 'exec' ? L('可执行文件', 'executables') : L(`脚本类目录 ${g.key.slice(4)}/`, `script-type dir ${g.key.slice(4)}/`);
+      info(`  ${L('剥离', 'strip')} ${label}: ${g.files.length} ${L('个', '')} — ${g.files.slice(0, 6).join(', ')}${g.files.length > 6 ? ' …' : ''}`);
+    }
     // --yes 不放大 suspicious（安全默认）；strict 直接拒
     const proceed = policy === 'strict' ? false : await confirm(L(`继续安装 ${name}?`, `Install ${name} anyway?`), { defaultYes: false });
     if (!proceed) { fail(L('已取消', 'install aborted')); return 2; }

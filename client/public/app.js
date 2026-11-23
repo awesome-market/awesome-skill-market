@@ -8,6 +8,15 @@ let saveMsg = '', saveMsgAt = 0;   // 保存结果提示——要挺过保存后
 const mkState = { q: '', results: null, installed: new Set(), perm: new Set(), force: new Set(), status: {}, directOut: '', directPerm: false, directForce: false };   // 市场页状态——SSE refresh 重渲染不丢
 let mgOut = '';   // 合并结果提示——同上
 const isSuspicious = (out) => /可疑|suspicious/i.test(out || '');   // 审核"可疑"→ 需用户知情确认才放行
+// 从 CLI 输出里抽可疑判定的原因：⚠ 行 + 紧跟的缩进详情行（命中规则/剥离清单），✗/✓ 开头即止
+const suspDetail = (out) => {
+  const lines = (out || '').split('\n');
+  const i = lines.findIndex((l) => /可疑|suspicious/i.test(l));
+  if (i < 0) return '';
+  const keep = [lines[i]];
+  for (let j = i + 1; j < lines.length && /^\s+\S/.test(lines[j]); j++) keep.push(lines[j]);
+  return keep.join('\n').trim();
+};
 const isManaged = (out) => /已在管理|already managed/i.test(out || '');   // 已管理且内容不同（装旧版）→ --force 确认
 
 const I18N = {
@@ -346,7 +355,11 @@ async function render() {
           setTimeout(refresh, 900);   // 留半秒读结果再重渲染
           return;
         }
-        if (isSuspicious(r.out) && !oPerm) { oPerm = true; e.target.textContent = t('mk_force'); box.querySelector('.out2').textContent = t('mk_susp'); return; }
+        if (isSuspicious(r.out) && !oPerm) {
+          oPerm = true; e.target.textContent = t('mk_force'); box.querySelector('.out2').textContent = t('mk_susp');
+          const pre = box.querySelector('.pre'); pre.style.display = 'block'; pre.textContent = suspDetail(r.out) || (r.out || '').trim();
+          return;
+        }
         e.target.textContent = t('mk_install');
         box.querySelector('.out2').textContent = (r.out || '').split('\n').filter((l) => l.trim()).pop()?.slice(0, 120) || t('ins_fail', r.code);
       });
@@ -435,7 +448,7 @@ async function render() {
       b.disabled = false;
       if (isSuspicious(r.out) && !permissive) {
         b.dataset.perm = '1'; b.textContent = t('ext_force');
-        if (o) o.textContent = t('mk_susp');
+        if (o) { o.textContent = `${t('mk_susp')}\n${suspDetail(r.out)}`; o.style.whiteSpace = 'pre-wrap'; }
       } else {
         b.textContent = t('ext_adopt');
         if (o) o.textContent = (r.out || '').split('\n').filter((l) => l.trim()).pop()?.slice(0, 100);
@@ -448,7 +461,7 @@ async function render() {
     app.innerHTML = `<h2>${t('mk_h')}</h2><p class="desc">${t('mk_desc')}</p>
       <div class="card"><div class="frow"><input type="text" id="mk-q" placeholder="${t('mk_ph')}" value="${esc(mkState.q)}" style="flex:1">
         <button class="primary" id="mk-go">${t('mk_search')}</button><button id="mk-dir">${t('mk_direct')}</button></div>
-        <div id="mk-out" class="fsub"><span id="mk-out-txt">${esc(mkState.directOut)}</span>
+        <div id="mk-out" class="fsub"><span id="mk-out-txt" style="white-space:pre-wrap">${esc(mkState.directOut)}</span>
         ${mkState.directPerm ? `<button id="mk-force">${t('mk_force')}</button>` : ''}${mkState.directForce ? `<button id="mk-ow">${t('mk_ow')}</button>` : ''}</div></div>
       <div id="mk-res"></div>`;
     const q = app.querySelector('#mk-q');
@@ -465,7 +478,7 @@ async function render() {
       if (isSuspicious(r.out) && !mkState.perm.has(slug)) {
         mkState.perm.add(slug);
         btn.textContent = t('mk_force');
-        mkState.status[slug] = t('mk_susp');
+        mkState.status[slug] = `${t('mk_susp')}\n${suspDetail(r.out)}`;
       } else if (isManaged(r.out) && !mkState.force.has(slug)) {
         mkState.force.add(slug);
         btn.textContent = t('mk_ow');
@@ -487,7 +500,7 @@ async function render() {
         const page = `${repo ? `https://github.com/${src}` : `https://www.skills.sh/site/${s.slug}`}?src=awesome-skill-market`;
         return `<div class="card"><div class="row"><b><a class="pg" href="${page}" target="_blank" rel="noopener">${esc(s.name)}</a></b><span class="mut">${esc(s.slug)} · ${s.installs} installs${repo ? '' : ` · ${t('mk_privsrc')}`}</span>
           <button class="mk-i" style="margin-left:auto" data-s="${esc(s.slug)}" data-r="${esc(ref)}" data-p="${esc(sub)}" ${done ? 'disabled' : ''}>${label}</button>
-          <span class="iout mut">${esc(mkState.status[s.slug] || '')}</span></div>
+          <span class="iout mut" style="white-space:pre-wrap">${esc(mkState.status[s.slug] || '')}</span></div>
           <div class="dsc mut" data-slug="${esc(s.slug)}"></div></div>`;
       }).join('') || (mkState.results ? `<div class="empty">${t('cf_empty')}</div>` : '');
       res.querySelectorAll('.mk-i').forEach((b) => b.onclick = () =>
@@ -521,7 +534,7 @@ async function render() {
       const r = await api('/install', { method: 'POST', body: JSON.stringify({ ref: v, permissive, force }) });
       btn.disabled = false; btn.textContent = old;
       if (r.code === 0) { mkState.directOut = t('ins_done'); mkState.directPerm = false; mkState.directForce = false; }
-      else if (isSuspicious(r.out) && !permissive) { mkState.directOut = t('mk_susp'); mkState.directPerm = true; }
+      else if (isSuspicious(r.out) && !permissive) { mkState.directOut = `${t('mk_susp')}\n${suspDetail(r.out)}`; mkState.directPerm = true; }
       else if (isManaged(r.out) && !force) { mkState.directOut = t('mk_mng'); mkState.directForce = true; }
       else { mkState.directOut = (r.out || '').split('\n').filter((l) => l.trim()).pop()?.slice(0, 120) || t('ins_fail', r.code); }
       app.querySelector('#mk-out-txt').textContent = mkState.directOut;

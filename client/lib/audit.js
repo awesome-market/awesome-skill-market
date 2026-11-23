@@ -34,6 +34,18 @@ const RULES = [
 export function isTextFile(p) { return TEXT_EXT.test(p); }
 export function shouldStripDir(name) { return STRIP_DIRS.test(name) || EXEC_EXT.test(name); }
 
+// 人读的剥离摘要：按原因分组 → [{key:'dir:<顶层目录>'|'exec', files[]}]
+export function stripSummary(stripped) {
+  const groups = new Map();
+  for (const rel of stripped) {
+    const top = rel.split('/')[0];
+    const key = STRIP_DIRS.test(top) ? `dir:${top}` : 'exec';
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(rel);
+  }
+  return [...groups.entries()].map(([key, files]) => ({ key, files }));
+}
+
 // 返回 {verdict, findings[], stripped[]}——pkg={path} 指向待审目录
 export function auditDir(dir, { strip = true } = {}) {
   const findings = [];
