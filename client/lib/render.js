@@ -62,6 +62,7 @@ export function dashboard({ hub, library, scan, upstream, conflicts, llm, llmVia
     ? L('skillmkt init              把设置写进 config.yml（现在全靠环境变量兜底）', 'skillmkt init              write settings to config.yml (currently env-only)')
     : L('skillmkt init              初始化设置（语言/模型/目标 agent）', 'skillmkt init              set up language/model/agents'));
   hints.push(L('skillmkt list              列出所有 skill 及各自安装位置', 'skillmkt list              list all skills and where they are installed'));
+  hints.push(L('skillmkt serve             启动 Web 面板（可视化操作）', 'skillmkt serve             start the web UI server'));
   hints.push(L('skillmkt --help            全部命令', 'skillmkt --help            all commands'));
-  hints.slice(0, 4).forEach((h) => err(h));
+  hints.slice(0, 6).forEach((h) => err(h));
 }
