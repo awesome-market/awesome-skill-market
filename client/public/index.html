@@ -73,6 +73,14 @@ textarea { min-height: 7rem; resize: vertical; font-family: var(--font-mono); fo
 input[type=checkbox] { width: 17px; height: 17px; accent-color: var(--color-accent); margin-right: 2px; }
 input.req { border-color: var(--color-accent); box-shadow: 0 0 0 3px color-mix(in oklch, var(--color-accent) 16%, transparent); }
 .field-hint { font-size: 14px; color: var(--color-accent); font-weight: 600; }
+datalist { display: none; }
+.combo { position: relative; }
+.combo-list { position: absolute; z-index: 20; top: 100%; left: 0; right: 0; max-height: 260px; overflow-y: auto;
+  background: var(--color-surface); border: 1px solid var(--color-line); border-radius: 8px; margin-top: 4px;
+  box-shadow: 0 8px 24px color-mix(in oklch, var(--color-ink) 12%, transparent); }
+.combo-list .opt { padding: 9px 13px; cursor: pointer; font-size: 15px; }
+.combo-list .opt:hover { background: color-mix(in oklch, var(--color-accent) 10%, var(--color-surface)); }
+.combo-list .none { padding: 9px 13px; color: var(--color-ink-mut); font-size: 14px; }
 label.check { display: flex; gap: 10px; align-items: center; padding: 7px 4px; cursor: pointer; border-radius: 6px; }
 label.check:hover { background: color-mix(in oklch, var(--color-ink) 4%, var(--color-surface)); }
 

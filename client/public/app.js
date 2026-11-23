@@ -150,8 +150,9 @@ async function render() {
         <label class="field">服务地址</label><input type="text" id="murl" placeholder="http://localhost:1234/v1" value="${esc(cfg.llm?.base_url || '')}">
         <label class="field">访问密钥 <span class="field-hint" id="key-hint"></span></label><input type="text" id="mkey" value="${esc(cfg.llm?.api_key || '')}">
         <p class="mut">本机服务一般留空。填了密钥会用本机机器码加密后存入 config.yml——文件拷到别的机器解不开，换机需重填。</p>
-        <label class="field">模型名称</label><input type="text" id="mmodel" list="model-opts" placeholder="可输入关键字搜索，扫描后自动列出发现的模型" value="${esc(cfg.llm?.model || '')}">
-        <datalist id="model-opts"></datalist>
+        <div id="model-box"><label class="field">模型名称</label>
+          <div class="combo"><input type="text" id="mmodel" autocomplete="off" placeholder="可输入关键字搜索，扫描后自动列出发现的模型" value="${esc(cfg.llm?.model || '')}">
+          <div class="combo-list" id="model-drop" style="display:none"></div></div></div>
         <div class="row"><button id="smoke">测试连接</button><span id="smoke-out" class="mut"></span></div></div>
       <div class="card"><h3>第 2 步 · skill 默认安装位置</h3>
         <p class="mut">勾选的 AI 工具会在你安装新 skill 时自动收到一份副本。已勾过的话保存即生效。</p>
@@ -162,12 +163,27 @@ async function render() {
     const loadedModels = new Map(); // 密钥端点拉到的模型——重扫后保留
     let epsList = [], lastScan = 0;
     // 模型下拉按当前服务地址过滤：地址匹配已扫描端点→只给它的模型；不匹配→给全部
+    let curOpts = [];
     const refreshOpts = () => {
       const cur = app.querySelector('#murl').value.trim().replace(/\/+$/, '');
       const known = epsList.some((e) => e.base_url === cur);
-      const list = [...modelMap.keys()].filter((m) => !known || modelMap.get(m) === cur);
-      app.querySelector('#model-opts').innerHTML = list.map((m) => `<option value="${esc(m)}">`).join('');
-      return list.length;
+      curOpts = [...modelMap.keys()].filter((m) => !known || modelMap.get(m) === cur);
+      return curOpts.length;
+    };
+    // 自绘搜索下拉（Safari 不支持 <datalist>，会把 option 当文本渲染盖住布局）
+    const renderDrop = () => {
+      const q = app.querySelector('#mmodel').value.trim().toLowerCase();
+      const list = curOpts.filter((m) => m.toLowerCase().includes(q)).slice(0, 60);
+      const drop = app.querySelector('#model-drop');
+      drop.innerHTML = list.map((m) => `<div class="opt" data-m="${esc(m)}">${esc(m)}</div>`).join('')
+        || `<div class="none">${curOpts.length ? '无匹配' : '暂无模型——先扫描或填密钥'}</div>`;
+      drop.querySelectorAll('.opt').forEach((o) => o.onmousedown = (e) => {   // mousedown 先于 blur
+        e.preventDefault();
+        app.querySelector('#mmodel').value = o.dataset.m;
+        const b = modelMap.get(o.dataset.m);
+        if (b) { app.querySelector('#murl').value = b; refreshOpts(); }
+        drop.style.display = 'none';
+      });
     };
     const doScan = async (quiet = false) => {
       lastScan = Date.now();
@@ -177,7 +193,7 @@ async function render() {
       modelMap.clear();
       for (const e of eps) for (const m of e.models) if (!modelMap.has(m)) modelMap.set(m, e.base_url);
       for (const [m, b] of loadedModels) modelMap.set(m, b);
-      refreshOpts();
+      refreshOpts(); renderDrop();
       app.querySelector('#eps').innerHTML = eps.map((e) => e.needs_key
         ? `<div class="ep" data-b="${esc(e.base_url)}">${esc(e.name)}:${e.port} — <span class="mut">需要密钥（点这行填地址，再填密钥、测试连接）</span></div>`
         : `<div class="ep" data-b="${esc(e.base_url)}">${esc(e.name)}:${e.port} — ${e.models.length} 个模型（点这行选中，在「模型名称」下拉框里搜索）</div>`).join('')
@@ -198,10 +214,19 @@ async function render() {
     });
     // 填完服务地址自动检测是否需要密钥：已知端点直接看 needs_key，手输地址真发 /models 探
     const markKeyNeed = (need) => {
-      app.querySelector('#mkey').classList.toggle('req', !!need);
-      app.querySelector('#key-hint').textContent = need ? '← 此服务需要密钥' : '';
+      const has = !!app.querySelector('#mkey').value.trim();
+      const want = !!need && !has;
+      app.querySelector('#mkey').classList.toggle('req', want);
+      app.querySelector('#key-hint').textContent = want ? '← 此服务需要密钥' : '';
+      app.querySelector('#model-box').style.display = want ? 'none' : '';   // 要密钥→先藏起来，填完再出现
     };
-    app.querySelector('#murl').addEventListener('input', () => refreshOpts());
+    app.querySelector('#murl').addEventListener('input', () => { refreshOpts(); renderDrop(); });
+    app.querySelector('#mmodel').addEventListener('input', () => { renderDrop(); app.querySelector('#model-drop').style.display = 'block'; });
+    app.querySelector('#mmodel').addEventListener('blur', () => setTimeout(() => { app.querySelector('#model-drop').style.display = 'none'; }, 120));
+    app.querySelector('#mkey').addEventListener('input', () => {   // 密钥开始填了就别挡模型框
+      const cur = app.querySelector('#murl').value.trim().replace(/\/+$/, '');
+      markKeyNeed(epsList.find((e) => e.base_url === cur)?.needs_key);
+    });
     app.querySelector('#murl').addEventListener('change', async () => {
       const cur = app.querySelector('#murl').value.trim().replace(/\/+$/, '');
       const ep = epsList.find((e) => e.base_url === cur);
@@ -228,7 +253,10 @@ async function render() {
       } else out.textContent = r.error ? `读取失败：${r.error}` : '密钥通了，但没读到模型';
     });
     // 点进模型框时自动重扫——下载了新模型不用先点「扫描」
-    app.querySelector('#mmodel').addEventListener('focus', () => { if (Date.now() - lastScan > 10e3) doScan(true); });
+    app.querySelector('#mmodel').addEventListener('focus', () => {
+      if (Date.now() - lastScan > 10e3) doScan(true);
+      renderDrop(); app.querySelector('#model-drop').style.display = 'block';
+    });
     app.querySelector('#smoke').onclick = async () => {
       app.querySelector('#smoke-out').textContent = '测试中…';
       const r = await api('/llm-smoke', { method: 'POST', body: JSON.stringify({ base_url: app.querySelector('#murl').value, model: app.querySelector('#mmodel').value, api_key: app.querySelector('#mkey').value }) });
