@@ -27,7 +27,7 @@
 | `skillmkt targets <sub>` | `list/add/remove` 管理投影目标（含纳入新 harness） | 否 | 1 |
 | `skillmkt sync` | 从 hub+lock 重建全部投影 | 否 | 1 |
 | `skillmkt audit [name]` | 审核：静态+可选 LLM | 可选 | 1 |
-| `skillmkt update` | 刷新上游元数据（=apt update）：拉远端 ref+算 tree-hash 入本地 state，不动已装 | 可选 | 2 |
+| `skillmkt update` | 刷新上游元数据（=apt update）：拉远端 ref+算 tree-hash 入本地 state，不动已装 | 否 | 2 |
 | `skillmkt outdated` | 拿刷新结果对比 pin 出报告（=npm outdated / apt list --upgradable） | 否 | 2 |
 | `skillmkt upgrade [name]` | **应用升级**（=apt upgrade）：拉新→diff→重审→重投影→改 lock | 可选 | 2 |
 | `skillmkt download <ref>` | 只下载不装（=apt download）：fetch+审核→入缓存 | 可选 | 2 |
@@ -48,7 +48,7 @@
 ## 2. 全局参数与约定
 
 ```
-skillmkt <cmd> [args] [--json] [--hub <path>] [--verbose] [--no-llm]
+skillmkt <cmd> [args] [--json] [--hub <path>] [--verbose] [--no-llm] [--dry-run]
                      [--base-url <url>] [--model <id>] [--api-key-env <NAME>]
 ```
 
@@ -59,6 +59,7 @@ skillmkt <cmd> [args] [--json] [--hub <path>] [--verbose] [--no-llm]
 | `--no-llm` | 本次运行禁一切 LLM 调用（即便端点已配） |
 | `--verbose` | 打印每个决策点的理由到 stderr |
 | `--ui` / `--cli` | 强制走 Web 面板 / 强制留终端（覆盖 §3.11 自动判定） |
+| `--dry-run` | 只演示不落地（apt -s 语义；install/remove/sync/upgrade 均认） |
 
 **退出码**：
 
@@ -70,7 +71,7 @@ skillmkt <cmd> [args] [--json] [--hub <path>] [--verbose] [--no-llm]
 | 3 | 存在 pending 冲突（`conflicts`/`build` 用于断言场景） |
 | 4 | **存在可更新项**（`outdated` 专用——npm outdated exit 1 语义的单列版；`sync --dry-run` 投影漂移同用） |
 
-**hub 目录**（对应 DESIGN.md §6，名字以实际为准）：
+**hub 目录**（默认 `~/.skillmkt/`）：
 
 ```
 ~/.skillmkt/
@@ -83,6 +84,8 @@ skillmkt <cmd> [args] [--json] [--hub <path>] [--verbose] [--no-llm]
 ├── merged/                  # 合并产物中间态
 ├── state/upstream.yml       # update 刷新的远端元数据（ref+tree-hash+ts）
 ├── cache/                   # download 的未装包缓存
+├── .history/<name>/         # rollback 的上一版副本（一版深度）
+├── .trash/                  # remove 的回收站（--purge 跳过）
 ├── quarantine/              # 隔离区
 ├── daemon.json              # {pid, port, token, started_at}——serve 单例锁
 └── config.yml               # 端点、registries、策略
@@ -140,6 +143,14 @@ llm:
   timeout_ms: 60000
 ui:
   enabled: auto              # auto|always|never——init 首问写入，控 §3.11 自动接管与裸跑形态
+policy: balanced             # strict|balanced|permissive——审核闸门严格度
+default_targets: [claude, codex]        # init/探测写入；install 默认投影目标
+targets:                              # 自定义路径目标（targets add --path）
+  team-shared: {path: ~/dotfiles/skills, transport: copy}
+registries:                           # §8 适配器层
+  - {type: github, default: true}
+daemon:
+  idle_minutes: 30                    # serve 无活动自退
 ```
 
 **LLM 需求边界**：`init`/`audit --llm`/`conflicts`(语义判定)/`diff --semantic`/`merge` 需要端点；其余命令永远不需要。端点不可达时非 `--llm` 命令降级静态模式+stderr 提示；显式 `--llm` 才硬失败。
@@ -238,9 +249,11 @@ $ skillmkt doctor
 ✓ node 22.14.0
 ✓ hub ~/.skillmkt (writable, empty)
 ✓ harnesses detected:
-    claude-code  ~/.claude/skills            (3 skills, symlink ok)
-    codex        ~/.agents/skills            (1 skill, copy only)
-    pi           ~/.pi/agent/skills          (not found — skipped)
+    claude-code  ~/.claude/skills      installed   (3 skills, symlink ok)
+    codex        ~/.agents/skills      installed   (1 skill, copy only)
+    devin        ~/.config/devin       available   (bin only — dir will create)
+    windsurf     ~/.codeium/windsurf   likely      (dir only — 装过?)
+    pi           ~/.pi/agent/skills    absent
 ✓ registries: github (default), rfc-discovery ×1
 ⚠ llm not configured — LLM features disabled (audit/conflicts/diff 降级静态)
   → 跑 skillmkt init 一键配置
@@ -370,6 +383,8 @@ resolve ref → adapter.fetch() → SkillPackage
 | `--scope project` | 项目级安装：copy 进 `<repo>/` 对应目录（不进 default_targets，随仓共享） |
 | `--to <dir>` | 直指路径安装：落成 `<dir>/<name>/`，默认 copy，`--link` 强制 symlink；与 `--target` 互斥；登记为 `custom:<abs>` 目标纳入 sync/update/remove |
 | `--yes` | 非交互；suspicious 时等同拒绝（安全默认） |
+| `--path <subdir>` | monorepo 子目录定位 skill（`install owner/repo --path skills/foo`） |
+| `--from <registry>` | 强制指定 registry 适配器（默认按 ref 前缀推断） |
 | `--dry-run` | 只演示计划（fetch+审核+投影计划打印），不落盘——apt -s 语义，`remove`/`sync`/`upgrade` 同认 |
 | `--keep-scripts` | 显式保留 scripts/（写入 scans 标记，strict 策略下无效） |
 
@@ -388,6 +403,8 @@ skillmkt list --json | jq -r '.external[].path' | xargs -n1 skillmkt install   #
 
 流程：读原目录 → **尽力恢复来源**（目录内 `.git` remote、skills.sh 的 `skills-lock.json`、frontmatter homepage/repo 字段）→ 过静态审核闸门 → copy 进 `skills/<name>/` → 原位目录换成 symlink 指回 hub（transport 升级，harness 无感）→ library 登记 `adopted_from: <原路径>` + `adopted_at`。源路径已是 hub 内 symlink 时跳过（幂等）。
 
+**收编默认目标 = 仅原所在 harness**（最小惊讶——不擅自扩散到其他 agent；显式 `--target` 才投多目标）。
+
 | 来源恢复 | 结果 |
 |---|---|
 | 成功（git remote/lock 记录/frontmatter） | 完全受管：`outdated`/`upgrade`/`diff`/`rollback` 可用 |
@@ -397,7 +414,7 @@ skillmkt list --json | jq -r '.external[].path' | xargs -n1 skillmkt install   #
 
 ### 3.6 `skillmkt remove <name>` / `sync` / `audit`
 
-- `remove`：删各 harness 投影 → 移 hub 副本进 `.trash/`（保留一版供后悔）→ library/lock 除名；`--purge` 不留 trash 直接删（apt purge 语义）
+- `remove`：删各 harness 投影 → 移 hub 副本进 `.trash/`（保留一版供后悔）→ library/lock 除名；`--purge` 不留 trash 直接删（apt purge 语义）；`--scope project` 仅删项目副本不动 hub
 - `sync`：按 library.yml+lock.yml 重放全部投影；`--dry-run` 只报漂移不动手（apt -s/simulate 语义）
 - `audit [name|--all]`：重跑审核层刷新 `scans/`；`--llm` 强制含语义审
 
@@ -417,7 +434,7 @@ $ skillmkt upgrade taste-skill   # apt upgrade：应用（唯一改系统的动�
 - `update [name|--all]`：刷新远端元数据入 `state/upstream.yml`（ref+tree-hash+时间戳），**不碰任何已装文件**——daemon/cron 定时跑这条
 - `outdated [name]`：离线对比出报告——**发现有更新项时 exit 4**，CI `skillmkt outdated || notify` 断言
 - `upgrade [name|--all]`：拉新 → **`--semantic` diff 摘要** → 重过审 → 重投影 → 改 lock；`--dry-run` 只演示计划
-- `download <ref>`：fetch → 审核 → 入 hub 缓存不写 targets——"先审后装"的独立动词（取代 install `--audit-only`）
+- `download <ref>`：fetch → 审核 → 入 hub 缓存不写 targets——"先审后装"的独立动词；审完 `install` 命中缓存不重复拉
 - `diff <name>`：当前 pin vs 上游 HEAD。默认结构 diff；`--semantic` 走 LLM 出"意图变化"摘要（**独占功能**，无模型降级行级）
 - `rollback`：hub 里留一版历史副本（`.history/<name>/`），一键换回
 
@@ -533,6 +550,11 @@ skills:
     targets: [claude, codex, pi]
     audit: clean              # clean|suspicious|stripped|manual
     transport: {claude: symlink, codex: copy}
+  weird-thing:                # 收编条目（install <harness-path>）
+    source: {registry: adopted, adopted_from: "~/.claude/skills/weird-thing", adopted_at: "…"}
+    targets: [claude]         # 默认仅原 harness（§3.5b）
+    audit: stripped
+    transport: {claude: symlink}
 ```
 
 ### 4.3 `lock.yml`
@@ -594,6 +616,9 @@ client/
 │   ├── conflicts.js         # 候选过滤 + 队列读写
 │   ├── decide.js            # decisions 写入 + supersedes
 │   ├── extract.js           # 规则抽取（LLM/静态双通道）
+│   ├── state.js             # state/upstream.yml 读写（update 刷新/outdated 对比）
+│   ├── daemon.js            # daemon.json 单例锁、spawn、token、open URL（§3.11）
+│   ├── llm.js               # 端点解析链 + 调 pipeline/lib/llm.js（可整体缺席）
 │   └── render.js            # 终端表格/详情卡渲染（~50行零依赖md）
 └── serve/                   # 阶段3：node http api + 静态 SPA
 ```

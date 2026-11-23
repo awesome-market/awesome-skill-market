@@ -92,14 +92,14 @@
  检索 ──────┤  search      → 本地（hub+各 harness 目录）优先，远端（skills.sh 索引+GitHub）次之                │
             │  registry    → 适配器层（github | rfc-discovery | clawhub | …）→ 归一化 SkillPackage            │
  发现 ──────┤  scanner     → 遍历每个已检测 harness 的 skill 目录                                              │
-            │  hub         → ~/.awesome-skill-market/skills/（单一事实源）                                     │
+            │  hub         → ~/.skillmkt/skills/（单一事实源）                                                │
  审核 ──────┤  static      → scripts/、密钥模式、外联指令、权限请求                                            │
             │  llm-audit   → 可选：用户自己的 OpenAI 兼容端点                                                   │
  版本 ──────┤  lock        → 每个 skill 每个目标的 content-hash 钉版；漂移检测                                  │
             │  ai-diff     → 两次钉版间的语义 diff（LLM 摘要意图变化；降级为行级 diff）                          │
  冲突 ──────┤  engine      → jaccard + 指纹 + LLM 判定（来自融合管线）                                          │
             │  arbitrate   → 全新上下文的独立裁决（复用 arbitrate.js）                                          │
-            │  decisions   → ~/.awesome-skill-market/decisions/*.yml                                          │
+            │  decisions   → ~/.skillmkt/decisions/*.yml                                                      │
  分发 ──────┤  targets     → 按 harness 选 symlink|copy（codex 只能 copy）                                     │
             │  adapters    → claude-code、codex、opencode、pi、devin、dsh（=pi）                               │
             └──────────────────────────────────────────────────────────────────────────────────────────────────┘
@@ -112,7 +112,7 @@
 ## 6. 数据布局
 
 ```
-~/.awesome-skill-market/
+~/.skillmkt/
 ├── skills/                    # 规范副本（hub 库）
 │   └── deslop/
 │       ├── SKILL.md
@@ -120,10 +120,17 @@
 ├── library.yml                # 清单：名称、来源、版本钉、目标、审核状态
 ├── lock.yml                   # 每个 skill 每个目标的 content-hash（漂移+完整性）
 ├── scans/<skill>.yml          # 审核结果：静态发现、LLM 判定、模型 id、日期
-├── decisions/<pair-id>.yml    # 仲裁记录——与融合管线同 schema，可导出
+├── conflicts/<id>.yml         # 冲突记录
+├── decisions/<id>.yml         # 仲裁记录——与融合管线同 schema，可导出
+├── merged/                    # 合并产物中间态
+├── state/upstream.yml         # update 刷新的远端元数据
+├── cache/                     # download 的未装包缓存
 ├── quarantine/                # 被拒/可疑 skill 隔离区，不参与分发
+├── daemon.json                # serve 单例锁 {pid,port,token}
 └── config.yml                 # 端点、registry 列表、适配器、策略（strict|balanced|permissive）
 ```
+
+完整字段级 schema 见 [CLI.md §4](./CLI.md)。
 
 原则：hub 是唯一可写副本；harness 目录是投影。`skillmkt sync` 从 hub + lock 重新生成所有目标。
 
@@ -149,7 +156,7 @@
 **不建服务器。** 企业自建市场已有三个严肃实现（§2），而且协议层在标准化——客户端做适配器通吃：
 
 ```yaml
-# ~/.awesome-skill-market/config.yml
+# ~/.skillmkt/config.yml
 registries:
   - {type: github,        default: true}                        # owner/repo 直装（覆盖现实 90%+，含 skills.sh 索引）
   - {type: rfc-discovery, url: https://skills.internal.corp}    # 企业内网只读索引
@@ -183,8 +190,7 @@ interface RegistryAdapter {
 ## 9. 版本管理
 
 - `lock.yml` = `{skill, source, ref, content_hash, installed_at, targets[]}`
-- `skillmkt update --check` → 拉上游 HEAD、对 skill 子目录算 hash、对比 → 可更新 / 本地有改动 / 干净（tree-SHA 粒度而非 repo SHA）
-- 更新流程：拉取 → **AI diff 摘要**（语义层：意图变化而非行号）→ **重过审**（新内容是新攻击面）→ 重分发
+- **apt 两阶段**：`skillmkt update` 只刷新上游元数据（拉远端 ref+算 tree-hash 入 `state/upstream.yml`，不碰已装）；`skillmkt outdated` 离线对比出报告（exit 4 有更新）；`skillmkt upgrade` 才应用——拉取 → **AI diff 摘要**（语义层：意图变化而非行号）→ **重过审**（新内容是新攻击面）→ 重分发
 - `skillmkt rollback <skill>` → 回滚上一份 hub 副本（保留一版深度）
 
 **AI 语义 diff** 是独占点：现有 diff 全是行级/段级（agent-skills-cli、skillhub preview），没人回答"这次更新把哪条规则的意图改了、会不会影响我的裁决"。LLM 缺席时降级为结构 diff（节增删 + 计数）。
@@ -212,7 +218,10 @@ interface RegistryAdapter {
 | opencode | `~/.config/opencode/skills/` | symlink ✅ |
 | pi / dsh | `~/.pi/agent/skills/` | symlink ✅ |
 | devin | `~/.config/devin/skills/`、`~/.agents/skills/` | symlink ✅ |
+| gemini / cursor | `~/.gemini/skills/`、`~/.cursor/skills/` | symlink ✅ |
 | 项目级 | `<repo>/.agents|/.claude|/.devin/skills/` | copy（随仓库提交） |
+
+完整 harness 探测表（含 windsurf 等"只探测不投影"行）见 [CLI.md §3.1](./CLI.md)。
 
 约束：目标目录名必须等于 frontmatter `name:`——安装器改的是**目录名**，绝不改文件。
 
@@ -221,11 +230,11 @@ interface RegistryAdapter {
 | 阶段 | 交付 |
 |---|---|
 | 0（现在） | 仓库 + 本文档；融合管线持续产出 `skill/`（v0.4.44, 884 rules） |
-| 1 — CLI MVP | `scan`（全部 harness 适配器）、`list`/`show`、`audit`（纯静态）、`install`（hub→目标）、`lock`；**registry 适配器：github + rfc-discovery** |
-| 2 — 冲突 | `conflicts --report` + `resolve` 交互队列 + `build` 个人合并 skill；BYO-LLM 审核；**AI 语义 diff** |
-| 3 — 本地 Web | `skillmkt serve`：安装矩阵、冲突队列（含证据图）、审核报告界面——UI 层 AI 生成 |
-| 4 — registry 扩展 | **clawhub 适配器**（搜索+发布，对接 saker 自托管）；iflytek 适配器按需 |
-| 5 — 分发面 | MCP server（agent 自助）、Tauri 壳、`skillmkt daemon` 监听 |
+| 1 — CLI MVP | `doctor`/`scanner`（全部 harness 探测）、`list`/`show`、`audit`（纯静态）、`install`（hub→目标）、`remove`/`targets`/`sync`；**registry 适配器：github + rfc-discovery** |
+| 2 — 冲突+版本 | `conflicts` + `resolve` 交互队列 + `merge`/`build` 个人合并 skill；`update`/`outdated`/`upgrade`/`download`/`diff`/`rollback`；BYO-LLM 审核；**AI 语义 diff** |
+| 3 — 本地 Web | `skillmkt serve` daemon + 自动接管：安装矩阵、冲突队列（含证据图）、审核报告——UI 层 AI 生成 |
+| 4 — registry 扩展 | **clawhub 适配器**（搜索+`publish` 发布，对接 saker 自托管）；iflytek 适配器按需 |
+| 5 — 分发面 | MCP server（agent 自助）、Tauri 壳、daemon 常驻监听 |
 | 6 — 仲裁联邦 | 用户/团队间共享 decisions 记录；curated 索引视下载量再定 |
 
 ## 13. 与融合管线的关系
