@@ -80,7 +80,7 @@ const I18N = {
     mk_ph: '搜关键词，或粘 owner/repo / 绝对路径', mk_search: '搜索', mk_direct: '按输入直接安装', mk_install: '安装',
     mk_busy: '处理中…', ins_done: '完成', ins_fail: (c) => `失败（退出码 ${c}）`,
     mk_susp: '审核判为可疑——了解风险后仍要装？', mk_force: '仍要安装', ext_force: '仍要收编',
-    mk_nosrc: '私有源暂不可装',
+    mk_nosrc: '私有源暂不可装', mk_privsrc: '私有源',
     sk_remove: '移除', sk_remove_sure: '再点一次确认', sk_removed: '已移除',
     det_btn: '详情', det_files: (n) => `${n} 个文件`, det_diff: '上游 diff', det_rollback: '回滚上一版',
     ext_h: (n) => `agent 目录里没收编的 skill（${n}）`,
@@ -165,7 +165,7 @@ const I18N = {
     mk_ph: 'keywords, or paste owner/repo / absolute path', mk_search: 'Search', mk_direct: 'Install input as ref/path', mk_install: 'Install',
     mk_busy: 'Working…', ins_done: 'Done', ins_fail: (c) => `Failed (exit ${c})`,
     mk_susp: 'Audit flagged this suspicious — install anyway?', mk_force: 'Install anyway', ext_force: 'Adopt anyway',
-    mk_nosrc: 'private source — N/A',
+    mk_nosrc: 'private source — N/A', mk_privsrc: 'private source',
     sk_remove: 'Remove', sk_remove_sure: 'Click again to confirm', sk_removed: 'Removed',
     det_btn: 'Details', det_files: (n) => `${n} files`, det_diff: 'Upstream diff', det_rollback: 'Rollback a version',
     ext_h: (n) => `Unmanaged skills in agent dirs (${n})`,
@@ -390,13 +390,13 @@ async function render() {
     };
     const renderResults = () => {
       res.innerHTML = (mkState.results || []).map((s) => {
-        // source 才是仓库坐标（owner/repo）；uizze.sh/smithery.ai 这类私有源不含 '/' → 不可经 github 装
+        // github 源（source 含 /）用 owner/repo+path；私有源（uizze.sh 等）直接以 slug 走 wellknown 适配器
         const src = s.source || '', repo = src.includes('/') ? src : null;
-        const sub = repo && s.slug.startsWith(src + '/') ? s.slug.slice(src.length + 1) : '';
+        const ref = repo || s.slug, sub = repo && s.slug.startsWith(src + '/') ? s.slug.slice(src.length + 1) : '';
         const done = mkState.installed.has(s.slug), perm = mkState.perm.has(s.slug);
-        const label = !repo ? t('mk_nosrc') : done ? t('ins_done') : perm ? t('mk_force') : t('mk_install');
-        return `<div class="card row"><b>${esc(s.name)}</b><span class="mut">${esc(s.slug)} · ${s.installs} installs</span>
-          <button class="mk-i" style="margin-left:auto" data-s="${esc(s.slug)}" data-r="${esc(repo || '')}" data-p="${esc(sub)}" ${done || !repo ? 'disabled' : ''}>${label}</button>
+        const label = done ? t('ins_done') : perm ? t('mk_force') : t('mk_install');
+        return `<div class="card row"><b>${esc(s.name)}</b><span class="mut">${esc(s.slug)} · ${s.installs} installs${repo ? '' : ` · ${t('mk_privsrc')}`}</span>
+          <button class="mk-i" style="margin-left:auto" data-s="${esc(s.slug)}" data-r="${esc(ref)}" data-p="${esc(sub)}" ${done ? 'disabled' : ''}>${label}</button>
           <span class="iout mut">${esc(mkState.status[s.slug] || '')}</span></div>`;
       }).join('') || (mkState.results ? `<div class="empty">${t('cf_empty')}</div>` : '');
       res.querySelectorAll('.mk-i').forEach((b) => b.onclick = () =>

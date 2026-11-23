@@ -1,6 +1,7 @@
 // registries/index.js — 按 ref/type 路由适配器 + fetch mirror 前缀
 import * as github from './github.js';
 import * as skillssh from './skillssh.js';
+import * as wellknown from './wellknown.js';
 import * as rfc from './rfc.js';
 import { L } from '../i18n.js';
 
@@ -20,6 +21,8 @@ export function fetchMirror(ctx) {
 export async function fetchRef(ref, ctx) {
   const mirror = fetchMirror(ctx);
   if (ref.kind === 'github') {
+    // GitHub owner 不允许点号——owner/repo 形态带点必为 skills.sh 私有源 slug
+    if (/\./.test(ref.owner)) return wellknown.fetchSkill({ slug: `${ref.owner}/${ref.repo}${ref.path ? `/${ref.path}` : ''}` });
     return github.fetchSkill({ ...ref, mirror });
   }
   if (ref.kind === 'named' && (!ref.registry || ref.registry === 'skillssh' || ref.registry === 'github')) {
