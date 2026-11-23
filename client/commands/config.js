@@ -9,6 +9,7 @@ export async function run(ctx) {
   const raw = readConfig(ctx.hub)._raw;
 
   if (sub === 'get') {
+    if (!key) { fail(L('用法: config get <键>', 'usage: config get <key>')); return 1; }
     const v = getConfigKey(raw, key);
     if (v === undefined) { fail(L(`未知配置键: ${key}`, `unknown key: ${key}`)); return 1; }
     console.log(typeof v === 'object' ? YAML.stringify(v).trim() : String(v));

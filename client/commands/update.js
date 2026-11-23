@@ -4,12 +4,13 @@ import fs from 'node:fs';
 import { remoteTree } from '../lib/registries/github.js';
 import { setUpstream, readUpstream, writeUpstream } from '../lib/state.js';
 import { gitTreeHash } from '../lib/githash.js';
-import { ok, warn, info } from '../lib/render.js';
+import { ok, warn, info, fail } from '../lib/render.js';
 import { L } from '../lib/i18n.js';
 
 export async function run(ctx) {
   const skills = ctx.library.skills || {};
-  const names = ctx.args[0] === '--all' || !ctx.args[0] ? Object.keys(skills) : ctx.args;
+  if (ctx.flags.raw.all && ctx.args.length) { fail(L('--all 和指定名字只能二选一', '--all and specific names are mutually exclusive')); return 1; }
+  const names = ctx.flags.raw.all || !ctx.args.length ? Object.keys(skills) : ctx.args;
   let n = 0, na = 0, errs = 0;
   for (const name of names) {
     const s = skills[name];

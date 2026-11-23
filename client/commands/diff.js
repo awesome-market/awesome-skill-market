@@ -17,6 +17,7 @@ function sectionsOf(dir) {
 
 export async function run(ctx) {
   const name = ctx.args[0];
+  if (!name || ctx.args.length > 1) { fail(L('用法: skillmkt diff <名字> [--semantic]', 'usage: skillmkt diff <name> [--semantic]')); return 1; }
   const s = ctx.library.skills?.[name];
   if (!s) { fail(L(`没纳入管理: ${name}`, `not managed: ${name}`)); return 1; }
   const src = s.source || {};

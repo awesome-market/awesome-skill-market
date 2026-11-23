@@ -5,7 +5,7 @@ import { resolveLLM } from './llm.js';
 import { setUILang } from './i18n.js';
 
 const VALUE_FLAGS = new Set(['hub', 'base-url', 'model', 'api-key-env', 'from', 'to', 'target', 'scope', 'path', 'registry', 'name', 'resolution', 'reason', 'custom', 'port', 'project', 'type', 'url', 'token', 'out', 'limit']);
-const BOOL_FLAGS = new Set(['json', 'verbose', 'no-llm', 'dry-run', 'ui', 'cli', 'no-ui', 'yes', 'y', 'help', 'h', 'version', 'V', 'force', 'all', 'llm', 'semantic', 'raw', 'files', 'rules', 'audit-only', 'purge', 'link', 'remote', 'local', 'wait', 'stop', 'daemon', 'keep-scripts', 'report', 'check', 'once']);
+const BOOL_FLAGS = new Set(['json', 'verbose', 'no-llm', 'dry-run', 'ui', 'cli', 'no-ui', 'yes', 'y', 'help', 'h', 'version', 'V', 'force', 'all', 'llm', 'semantic', 'raw', 'files', 'rules', 'audit-only', 'purge', 'link', 'remote', 'local', 'wait', 'stop', 'daemon', 'keep-scripts', 'report', 'check', 'once', 'scan', 'evidence', 'auto']);
 
 export function parseArgv(argv) {
   const flags = {};
@@ -24,6 +24,9 @@ export function parseArgv(argv) {
 }
 
 const camel = (s) => s.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+
+// 已知 flag 全集（kebab→camel 后比对）——bin 用它对打错的 flag 报警
+export const KNOWN_FLAGS = new Set([...VALUE_FLAGS, ...BOOL_FLAGS].map(camel));
 
 function normalizeFlags(f) {
   return {

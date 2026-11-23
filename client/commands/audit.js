@@ -10,6 +10,7 @@ import { L } from '../lib/i18n.js';
 export async function run(ctx) {
   const flags = ctx.flags.raw;
   const skills = ctx.library.skills || {};
+  if (flags.all && ctx.args.length) { fail(L('--all 和指定名字只能二选一', '--all and specific names are mutually exclusive')); return 1; }
   const names = flags.all ? Object.keys(skills) : ctx.args;
   if (!names.length) { fail(L('用法: skillmkt audit <名字|--all> [--llm]', 'usage: skillmkt audit <name|--all> [--llm]')); return 1; }
   let worst = 'clean';

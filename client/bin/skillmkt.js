@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // skillmkt — local-first agent skill manager
-import { makeCtx, withState } from '../lib/ctx.js';
+import { makeCtx, withState, KNOWN_FLAGS } from '../lib/ctx.js';
 import { hubExists, isInitialized } from '../lib/hub.js';
 import { L } from '../lib/i18n.js';
 
@@ -60,6 +60,12 @@ async function main() {
   const ctx = makeCtx(process.argv.slice(2));
   const [cmd, ...args] = ctx.positional;
   ctx.args = args;
+
+  // 打错的 flag 不静默吞——警告后继续（不硬失败，防误伤前向兼容）
+  const kebab = (s) => s.replace(/([A-Z])/g, (_, c) => `-${c.toLowerCase()}`);
+  for (const k of Object.keys(ctx.flags.raw)) {
+    if (!KNOWN_FLAGS.has(k)) console.error(`${L('⚠ 未知 flag，已忽略', 'warning: unknown flag ignored')}: --${kebab(k)}`);
+  }
 
   if (ctx.flags.raw.help || ctx.flags.raw.h) { console.log(L(HELP_ZH, HELP)); process.exit(0); }
   if (ctx.flags.raw.version || ctx.flags.raw.V) {

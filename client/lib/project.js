@@ -87,7 +87,7 @@ export function resolveTargets(ctx, { allowAdopted = null } = {}) {
     const custom = ctx.config.targets[id];
     if (custom) { out.push({ id: `custom:${path.resolve(expandTilde(custom.path))}`, dir: path.resolve(expandTilde(custom.path)), mode: custom.transport === 'link' ? 'link' : 'copy' }); continue; }
     const h = ctx.harnesses.find((x) => x.id === id);
-    if (!h) { if (ids) throw new Error(`unknown target: ${id}`); continue; }
+    if (!h) { if (ids) throw new Error(L(`未知目标: ${id}`, `unknown target: ${id}`)); continue; }
     const dir = primaryDir(h);
     if (dir) out.push({ id, dir, mode: 'copy' });
   }

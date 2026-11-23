@@ -10,7 +10,9 @@ export async function run(ctx) {
   const up = readUpstream(ctx.hub);
   const rows = [];
   let outdated = 0;
-  for (const [name, s] of Object.entries(ctx.library.skills || {})) {
+  const all = ctx.library.skills || {};
+  const entries = ctx.args.length ? ctx.args.map((n) => [n, all[n]]).filter(([n, s]) => s ? true : warn(L(`没纳入管理: ${n}`, `not managed: ${n}`))) : Object.entries(all);
+  for (const [name, s] of entries) {
     const u = up.skills?.[name];
     const localDir = path.join(ctx.hub, 'skills', name);
     if (!u) {

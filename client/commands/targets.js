@@ -16,16 +16,17 @@ export async function run(ctx) {
   if ((!sub || sub === 'list') && !ctx.flags.json && await maybeHandoff(ctx, '/#skills')) return 0;
 
   if (!sub || sub === 'list') {
+    const stZh = { installed: '已装', available: '可装', likely: '疑似', absent: '没有', custom: '自定义' };
     const rows = ctx.harnesses.map((h) => ({
-      id: h.id, state: h.state,
+      id: h.id, state: L(stZh[h.state] ?? h.state, h.state),
       dir: h.dirs.map((d) => d.path).join(', '),
       default: ctx.config.default_targets.includes(h.id) ? '●' : '',
     }));
-    const customs = Object.entries(ctx.config.targets).map(([n, t]) => ({ id: n, state: 'custom', dir: expandHome(t.path), default: ctx.config.default_targets.includes(n) ? '●' : '' }));
+    const customs = Object.entries(ctx.config.targets).map(([n, t]) => ({ id: n, state: L('自定义', 'custom'), dir: expandHome(t.path), default: ctx.config.default_targets.includes(n) ? '●' : '' }));
     if (ctx.flags.json) { console.log(JSON.stringify({ harnesses: rows, custom: customs }, null, 2)); return 0; }
     table([...rows, ...customs], [
-      { key: 'id', title: 'target' }, { key: 'state', title: 'state' },
-      { key: 'dir', title: 'dir' }, { key: 'default', title: 'def' },
+      { key: 'id', title: L('目标', 'target') }, { key: 'state', title: L('状态', 'state') },
+      { key: 'dir', title: L('目录', 'dir') }, { key: 'default', title: L('默认', 'def') },
     ]);
     return 0;
   }

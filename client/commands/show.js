@@ -11,6 +11,8 @@ export async function run(ctx) {
   const name = ctx.args[0];
   if (!name) { fail(L('用法: skillmkt show <名字> [--raw|--files|--audit]', 'usage: skillmkt show <name> [--raw|--files|--audit]')); return 1; }
   const flags = ctx.flags.raw;
+  const modes = ['raw', 'files', 'audit'].filter((m) => flags[m]);
+  if (modes.length > 1) { fail(L(`--raw/--files/--audit 一次只能用一个`, '--raw/--files/--audit are mutually exclusive')); return 1; }
 
   // 受管 → hub；否则 external 中找
   let dir = path.join(ctx.hub, 'skills', name);

@@ -10,8 +10,9 @@ import { L } from '../lib/i18n.js';
 
 export async function run(ctx) {
   const name = ctx.args[0];
-  if (!name) { fail(L('用法: skillmkt remove <名字> [--purge] [--scope project]', 'usage: skillmkt remove <name> [--purge] [--scope project]')); return 1; }
+  if (!name || ctx.args.length > 1) { fail(L('用法: skillmkt remove <名字> [--purge] [--scope project]（一次一个）', 'usage: skillmkt remove <name> [--purge] [--scope project] (one at a time)')); return 1; }
   const flags = ctx.flags.raw;
+  if (flags.scope && !['project', 'global'].includes(flags.scope)) { fail(L(`--scope 只能是 project|global: ${flags.scope}`, `--scope must be project|global: ${flags.scope}`)); return 1; }
   const entry = ctx.library.skills?.[name];
   if (!entry) { fail(L(`没纳入管理: ${name}`, `not managed: ${name}`)); return 1; }
 

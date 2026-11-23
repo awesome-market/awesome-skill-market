@@ -7,7 +7,7 @@ import { L } from '../lib/i18n.js';
 export async function run(ctx) {
   const [id] = ctx.args;
   const { resolution, reason, custom } = ctx.flags.raw;
-  if (!id || !resolution || !reason) { fail(L('用法: skillmkt decide <冲突id> --resolution keep-a|keep-b|merge|dismissed --reason "…" [--custom text]', 'usage: skillmkt decide <conf-id> --resolution keep-a|keep-b|merge|dismissed --reason "…" [--custom text]')); return 1; }
+  if (!id || ctx.args.length > 1 || !resolution || !reason) { fail(L('用法: skillmkt decide <冲突id> --resolution keep-a|keep-b|merge|dismissed --reason "…" [--custom text]', 'usage: skillmkt decide <conf-id> --resolution keep-a|keep-b|merge|dismissed --reason "…" [--custom text]')); return 1; }
   const c = loadConflicts(ctx.hub).find((x) => x.id === id);
   if (!c) { fail(L(`没找到: ${id}`, `not found: ${id}`)); return 1; }
   if (!['keep-a', 'keep-b', 'merge', 'dismissed'].includes(resolution)) { fail(L(`resolution 只能是 keep-a/keep-b/merge/dismissed: ${resolution}`, `bad resolution: ${resolution}`)); return 1; }

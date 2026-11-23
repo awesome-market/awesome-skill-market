@@ -1,6 +1,7 @@
 // registry — list / add --type <t> --url <u> [--token env:X] [--name n] / remove <name>
 import { readConfig, writeConfig } from '../lib/hub.js';
 import { table, ok, fail } from '../lib/render.js';
+import { L } from '../lib/i18n.js';
 
 export async function run(ctx) {
   const [sub, ...rest] = ctx.args;
@@ -11,12 +12,13 @@ export async function run(ctx) {
   if (!sub || sub === 'list') {
     if (ctx.flags.json) { console.log(JSON.stringify(raw.registries, null, 2)); return 0; }
     table(raw.registries.map((r) => ({ type: r.type, name: r.name || '-', url: r.url || '-', default: r.default ? '●' : '', auth: r.token ? '●' : '' })),
-      [{ key: 'type', title: 'type' }, { key: 'name', title: 'name' }, { key: 'url', title: 'url' }, { key: 'default', title: 'def' }, { key: 'auth', title: 'auth' }]);
+      [{ key: 'type', title: L('类型', 'type') }, { key: 'name', title: L('名字', 'name') }, { key: 'url', title: 'url' }, { key: 'default', title: L('默认', 'def') }, { key: 'auth', title: L('认证', 'auth') }]);
     return 0;
   }
 
   if (sub === 'add') {
     if (!flags.type) { fail(L('用法: registry add --type <github|rfc|clawhub|skillssh> [--url u] [--name n] [--token env:X]', 'usage: registry add --type <github|rfc|clawhub|skillssh> [--url u] [--name n] [--token env:X]')); return 1; }
+    if (!['github', 'rfc', 'clawhub', 'skillssh'].includes(flags.type)) { fail(L(`--type 只能是 github|rfc|clawhub|skillssh: ${flags.type}`, `--type must be github|rfc|clawhub|skillssh: ${flags.type}`)); return 1; }
     const entry = { type: flags.type };
     if (flags.url) entry.url = flags.url;
     if (flags.name) entry.name = flags.name;

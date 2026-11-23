@@ -11,7 +11,7 @@ import { projectSkill, resolveTargets } from '../lib/project.js';
 import { primaryDir } from '../lib/scanner.js';
 import { cacheLookup } from '../lib/state.js';
 import { confirm, multiChoose } from '../lib/prompt.js';
-import { ok, warn, fail, info } from '../lib/render.js';
+import { ok, warn, fail, info, auditTag } from '../lib/render.js';
 import { L } from '../lib/i18n.js';
 
 // 来源取证：.git remote → skills-lock.json → .market-skills.json → frontmatter
@@ -57,8 +57,9 @@ function copyFiltered(src, dst, keep) {
 
 export async function run(ctx) {
   const input = ctx.args[0];
-  if (!input) { fail(L('用法: skillmkt install <ref|路径|owner/repo>', 'usage: skillmkt install <ref|path|owner/repo>')); return 1; }
+  if (!input || ctx.args.length > 1) { fail(L('用法: skillmkt install <ref|路径|owner/repo>（一次一个）', 'usage: skillmkt install <ref|path|owner/repo> (one at a time)')); return 1; }
   const flags = ctx.flags.raw;
+  if (flags.scope && !['project', 'global'].includes(flags.scope)) { fail(L(`--scope 只能是 project|global: ${flags.scope}`, `--scope must be project|global: ${flags.scope}`)); return 1; }
 
   const ref = parseRef(input, flags, { harnesses: ctx.harnesses, registries: ctx.config.registries });
   if (!ctx.flags.dryRun) ensureHub(ctx.hub);
@@ -183,6 +184,6 @@ export async function run(ctx) {
 
   const actZh = { conflict: '冲突', exists: '已有', skipped: '跳过', absent: '缺', removed: '已删' };
   const mark = results.map((r) => `${r.id.split(':')[0]}(${r.action === 'copied' ? 'copy' : r.action === 'linked' ? 'sym' : L(actZh[r.action] ?? r.action, r.action)})`).join(' ');
-  ok(`${ctx.flags.dryRun ? '[dry-run] ' : ''}${L('已装', 'installed')} ${name} → ${mark || L('只进 hub', 'hub only')} · ${L('审核', 'audit')}:${audit.stripped.length ? 'stripped' : audit.verdict} · ${L('锁定', 'locked')} ${treeHash(dest).slice(7, 15)}`);
+  ok(`${ctx.flags.dryRun ? '[dry-run] ' : ''}${L('已装', 'installed')} ${name} → ${mark || L('只进 hub', 'hub only')} · ${L('审核', 'audit')}:${auditTag(audit.stripped.length ? 'stripped' : audit.verdict)} · ${L('锁定', 'locked')} ${treeHash(dest).slice(7, 15)}`);
   return 0;
 }

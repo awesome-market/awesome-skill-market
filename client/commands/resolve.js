@@ -41,8 +41,9 @@ export async function run(ctx) {
     }
   }
   const target = ctx.args[0] ? queue.filter((c) => c.id === ctx.args[0]) : queue;
+  if (ctx.args[0] && !target.length) { fail(L(`没有待裁决的冲突叫 ${ctx.args[0]}（可能已裁决过）`, `no pending conflict named ${ctx.args[0]} (maybe already resolved)`)); return 1; }
   if (!target.length) { info(L('没有待裁决的冲突', 'no pending conflicts')); return 0; }
-  if (!process.stdin.isTTY || ctx.flags.raw.cli === false) { info(L(`${target.length} 个待裁决（这里不是交互终端）——终端跑 skillmkt resolve，或 skillmkt serve 开面板`, `${target.length} pending (not resolved without a TTY) — run skillmkt resolve interactively, or the web UI`)); return 3; }
+  if (!process.stdin.isTTY) { info(L(`${target.length} 个待裁决（这里不是交互终端）——终端跑 skillmkt resolve，或 skillmkt serve 开面板`, `${target.length} pending (not resolved without a TTY) — run skillmkt resolve interactively, or the web UI`)); return 3; }
 
   const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
   const ask = (q) => new Promise((r) => rl.question(q, r));

@@ -11,6 +11,7 @@ import { L } from '../lib/i18n.js';
 
 export async function run(ctx) {
   const name = ctx.args[0];
+  if (!name || ctx.args.length > 1) { fail(L('用法: skillmkt rollback <名字>', 'usage: skillmkt rollback <name>')); return 1; }
   const s = ctx.library.skills?.[name];
   if (!s) { fail(L(`没纳入管理: ${name}`, `not managed: ${name}`)); return 1; }
   if (!fs.existsSync(historyDir(ctx.hub, name))) { fail(L(`${name}: 无历史副本（upgrade 后才有一版深度）`, `${name}: no history copy (one version deep, only after upgrade)`)); return 1; }

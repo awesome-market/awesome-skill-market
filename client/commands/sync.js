@@ -25,7 +25,7 @@ export async function run(ctx) {
   const avail = ctx.harnesses.filter((h) => h.state === 'available' && !h.detectOnly
     && !ctx.config.default_targets.includes(h.id));
   for (const h of avail) {
-    if (await confirm(L(`检测到新 harness ${h.id}（available）——纳入默认投影目标?`, `New agent detected: ${h.id} (available) — add to default install locations?`), { defaultYes: false })) {
+    if (await confirm(L(`检测到新 agent ${h.id}（可装）——加入默认安装位置?`, `New agent detected: ${h.id} (available) — add to default install locations?`), { defaultYes: false })) {
       const raw = ctx.config._raw;
       raw.default_targets = [...new Set([...(raw.default_targets || []), h.id])];
       const { writeConfig } = await import('../lib/hub.js');
