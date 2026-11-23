@@ -89,39 +89,57 @@ export async function run(ctx) {
     catch (e) { if (/401|403/.test(e.message)) needKey = true; }
   }
 
-  // 密钥：只在需要时问；粘贴的密钥用本机机器码加密存 config.yml
+  // 密钥：只在需要时问；失败不默默继续——给"换个方式 / 退出向导"选择
   let api_key = null, keyPlain = '';
   if (base_url && needKey) {
-    const ks = await choose(L('这个服务需要访问密钥，怎么提供？', 'This service needs an access key — how should it be provided?'), [
-      { label: L('现在粘贴进来（只输一次，自动加密保存）', 'Paste it now (entered once, saved encrypted)'), v: 'paste' },
-      { label: L('从环境变量 SKILLMKT_API_KEY 读', 'Read env var SKILLMKT_API_KEY'), v: 'env:SKILLMKT_API_KEY' },
-      { label: L('不需要密钥', 'No key needed'), v: null },
-    ]);
-    if (ks.v === 'paste') {
-      for (;;) {   // 粘贴后真验证：错密钥报"密钥错误"可重输，对了才放行
-        keyPlain = (await askSecret(L('  密钥 > ', '  Key > '))).trim();
-        if (!keyPlain) break;                                       // 留空放弃
+    for (;;) {   // 密钥来源循环：任何一步失败都回到这里重选
+      const ks = await choose(L('这个服务需要访问密钥，怎么提供？', 'This service needs an access key — how should it be provided?'), [
+        { label: L('现在粘贴进来（只输一次，自动加密保存）', 'Paste it now (entered once, saved encrypted)'), v: 'paste' },
+        { label: L('从环境变量 SKILLMKT_API_KEY 读', 'Read env var SKILLMKT_API_KEY'), v: 'env:SKILLMKT_API_KEY' },
+        { label: L('不需要密钥', 'No key needed'), v: null },
+      ]);
+      if (!ks.v) break;                                            // 不需要密钥 → 出循环
+      if (ks.v === 'paste') {
+        for (;;) {   // 粘贴后真验证：错密钥可重输，留空回上一步
+          keyPlain = (await askSecret(L('  密钥 > ', '  Key > '))).trim();
+          if (!keyPlain) break;
+          try {
+            models = await listModels(base_url, keyPlain);
+            api_key = encryptSecret(keyPlain);
+            ok(L(`密钥有效，已加载 ${models.length} 个模型`, `Key valid — loaded ${models.length} models`));
+            break;
+          } catch (e) {
+            warn(L(`密钥错误（${e.message}）——重输，或留空返回上一步`, `Wrong key (${e.message}) — re-enter, or leave empty to go back`));
+            keyPlain = '';
+          }
+        }
+        if (api_key) break;
+        continue;
+      }
+      // env:VAR —— 没设/验证失败时给明确指引：本进程读不到事后 export 的值，只能换方式或退出
+      const vn = ks.v.slice(4);
+      keyPlain = process.env[vn] ?? '';
+      if (!keyPlain) {
+        warn(L(`环境变量 ${vn} 没设置——本向导运行中设了也读不到（环境变量只在启动时继承）`, `env var ${vn} is not set — exporting it now won't reach this wizard (env is inherited at launch)`));
+      } else {
         try {
           models = await listModels(base_url, keyPlain);
-          api_key = encryptSecret(keyPlain);
-          ok(L(`密钥有效，已加载 ${models.length} 个模型`, `Key valid — loaded ${models.length} models`));
+          api_key = `env:${vn}`;
+          ok(L(`已用 ${vn} 验证，加载 ${models.length} 个模型`, `verified with ${vn} — loaded ${models.length} models`));
           break;
         } catch (e) {
-          warn(L(`密钥错误（${e.message}）——重输，或留空改手填`, `Wrong key (${e.message}) — re-enter, or leave empty to type the model yourself`));
-          keyPlain = '';
+          warn(L(`用 ${vn} 验证失败（${e.message}）`, `key in ${vn} failed verification (${e.message})`));
         }
       }
-    } else if (ks.v) {
-      const vn = ks.v.slice(4);
-      if (vn) {
-        api_key = `env:${vn}`;
-        keyPlain = process.env[vn] ?? '';
-        if (!keyPlain) warn(L(`环境变量 ${vn} 现在没设置——配置照存，export 之后就能用`, `env var ${vn} is not set — config saved anyway; works once you export it`));
-        else {
-          try { models = await listModels(base_url, keyPlain); }
-          catch (e) { warn(L(`用 ${vn} 验证失败（${e.message}）——配置照存，模型手填`, `key in ${vn} failed verification (${e.message}) — config saved anyway, type the model manually`)); }
-        }
+      const act = await choose(L('接下来怎么办？', 'What next?'), [
+        { label: L('换个方式（回上一步）', 'Pick another way (back)'), v: 'back' },
+        { label: L('退出向导，配好后重跑', 'Quit wizard — fix it, then rerun'), v: 'quit' },
+      ]);
+      if (act.v === 'quit') {
+        info(L(`终端里先执行 export ${vn}=你的key，再重跑：skillmkt init`, `run: export ${vn}=your-key, then rerun: skillmkt init`));
+        return 0;
       }
+      // back → 回到外圈重选密钥来源
     }
   }
 
