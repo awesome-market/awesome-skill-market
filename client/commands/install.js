@@ -199,6 +199,7 @@ export async function run(ctx) {
       },
       version: pkg.version,
       installed_at: new Date().toISOString(),
+      ...(pkg.meta?.merged_from ? { merged_from: pkg.meta.merged_from, merged_src: pkg.meta.merged_src || {} } : {}),
       targets: Object.keys(lockTargets),
       scope: flags.scope === 'project' ? 'project' : 'global',
       project_root: flags.scope === 'project' ? ctx.project?.root ?? null : null,

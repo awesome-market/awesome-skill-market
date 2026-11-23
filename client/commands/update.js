@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import { remoteTree } from '../lib/registries/github.js';
 import { setUpstream, readUpstream, writeUpstream } from '../lib/state.js';
 import { gitTreeHash } from '../lib/githash.js';
+import { treeHash } from '../lib/package.js';
 import { ok, warn, info, fail } from '../lib/render.js';
 import { multiChoose } from '../lib/prompt.js';
 import { run as upgradeRun } from './upgrade.js';
@@ -18,6 +19,17 @@ export async function run(ctx) {
   for (const name of names) {
     const s = skills[name];
     if (!s) { warn(L(`没纳入管理: ${name}`, `not managed: ${name}`)); continue; }
+    // 合并产物：上游不是远端而是各源 skill——任一源内容 hash 变了就算过期
+    if (s.merged_from?.length) {
+      const stale = s.merged_from.filter((x) => {
+        const d = path.join(ctx.hub, 'skills', x);
+        return !fs.existsSync(d) || (s.merged_src?.[x]?.hash && s.merged_src[x].hash !== treeHash(d));
+      });
+      setUpstream(ctx.hub, name, { merged_stale: stale, outdated: stale.length > 0 });
+      n++;
+      if (stale.length) info(`${name}: ${L(`源 skill 已变 → 重新合并（${stale.join(', ')}）`, `sources changed → re-merge (${stale.join(', ')})`)}`);
+      continue;
+    }
     const src = s.source || {};
     if (src.registry !== 'github' || !src.ref) { na++; continue; }   // adopted/local/rfc 无远端可查（rfc 走 registry 适配后续）
     try {

@@ -37,7 +37,9 @@ export async function run(ctx) {
   // 渲染：域分组 + provenance 注释
   const byDom = new Map();
   for (const r of kept) { (byDom.get(r.domain) || byDom.set(r.domain, []).get(r.domain)).push(r); }
-  let md = `---\nname: ${merged.name}\ndescription: merged skill (${merged.sources.join(' + ')})\nversion: 0.1.0\n---\n\n# ${merged.name}\n\n> merged from: ${merged.sources.join(', ')} · ${kept.length} rules · ${pending} pending conflicts excluded\n`;
+  // merged_from/merged_src 写进 frontmatter——install 落库后升级时能对源 hash 判断"源已变，该重合并"
+  const fm = `name: ${JSON.stringify(merged.name)}\ndescription: ${JSON.stringify(`merged skill (${merged.sources.join(' + ')})`)}\nversion: 0.1.0\nmerged_from: ${JSON.stringify(merged.sources)}\nmerged_src: ${JSON.stringify(merged.source_meta || {})}\n`;
+  let md = `---\n${fm}---\n\n# ${merged.name}\n\n> merged from: ${merged.sources.join(', ')} · ${kept.length} rules · ${pending} pending conflicts excluded\n`;
   for (const [dom, rules] of byDom) {
     md += `\n## ${dom}\n`;
     for (const r of rules) md += `\n- ${r.text} <!-- ${r.source}:${r.id} -->`;

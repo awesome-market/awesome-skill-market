@@ -10,6 +10,9 @@ import { registerSkill, updateLock } from '../lib/hub.js';
 import { fetchMirror } from '../lib/registries/index.js';
 import { ok, warn, fail, info, auditTag } from '../lib/render.js';
 import { L } from '../lib/i18n.js';
+import { run as mergeRun } from './merge.js';
+import { run as buildRun } from './build.js';
+import { run as installRun } from './install.js';
 
 function copyFiltered(src, dst, keep) {
   fs.mkdirSync(dst, { recursive: true });
@@ -36,6 +39,20 @@ export async function run(ctx) {
     if (!s) { warn(L(`没纳入管理: ${name}`, `not managed: ${name}`)); continue; }
     const u = up.skills?.[name];
     if (!u?.outdated && !flags.force) { info(L(`${name}: clean（update 先刷新）`, `${name}: clean (run update first to refresh)`)); continue; }
+    // 合并产物：升级=用各源当前内容重新跑 merge→build→覆盖安装（旧版自动留档）
+    if (s.merged_from?.length) {
+      const missing = s.merged_from.filter((x) => !fs.existsSync(path.join(ctx.hub, 'skills', x, 'SKILL.md')));
+      if (missing.length) { warn(`${name}: ${L(`源 skill 已不在管理: ${missing.join(', ')}`, `source skills no longer managed: ${missing.join(', ')}`)}`); continue; }
+      if (ctx.flags.dryRun) { info(`[dry-run] ${name}: ${L(`将重新合并 ${s.merged_from.join(' + ')} 并重装`, `would re-merge ${s.merged_from.join(' + ')} and reinstall`)}`); upgraded++; continue; }
+      info(`${name}: ${L(`重新合并（${s.merged_from.join(' + ')}）`, `re-merging (${s.merged_from.join(' + ')})`)}`);
+      const mCtx = { ...ctx, args: [...s.merged_from], flags: { ...ctx.flags, yes: true, raw: { ...ctx.flags.raw, name, yes: true, force: true } } };
+      if (await mergeRun(mCtx) === 1) continue;
+      if (await buildRun(mCtx)) continue;
+      if (await installRun({ ...mCtx, args: [path.join(ctx.hub, 'merged', 'skill-out')] }) === 0) {
+        upgraded++; setUpstream(ctx.hub, name, { outdated: false, merged_stale: [] });
+      }
+      continue;
+    }
     const src = s.source || {};
     if (src.registry !== 'github' || !src.ref) { warn(L(`${name}: 无上游可升级`, `${name}: no upstream to upgrade from`)); continue; }
 

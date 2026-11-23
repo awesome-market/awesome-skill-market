@@ -49,6 +49,7 @@ export async function run(ctx) {
   info(`${L('文件数', 'files')}: ${card.files}`);
   if (entry) {
     info(`${L('来源', 'source')}: ${entry.source?.registry} ${entry.source?.ref || ''}${entry.source?.path ? ` (${entry.source.path})` : ''}${entry.source?.adopted_from ? ` adopted_from ${entry.source.adopted_from}` : ''}`);
+    if (entry.merged_from?.length) info(`${L('合并自', 'merged from')}: ${entry.merged_from.join(' + ')}${Object.keys(entry.merged_src || {}).length ? `（${L('升级=重合并', 'upgrade = re-merge')}）` : ''}`);
     info(`${L('装到', 'targets')}: ${(entry.targets || []).join(', ') || L('只在 hub', 'hub only')} · ${L('审核', 'audit')}: ${auditTag(entry.audit)}`);
   }
   return 0;

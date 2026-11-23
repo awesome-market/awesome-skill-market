@@ -6,6 +6,7 @@ import { extractRulesLLM } from '../lib/ai.js';
 import { detectConflicts } from '../lib/conflicts.js';
 import { autoArbitrate } from '../lib/autoarb.js';
 import { tokens, jaccard, writeYAML } from '../../pipeline/lib/util.js';
+import { treeHash } from '../lib/package.js';
 import { ok, warn, fail, info } from '../lib/render.js';
 import { L } from '../lib/i18n.js';
 
@@ -23,10 +24,13 @@ export async function run(ctx) {
 
   const useLlm = ctx.flags.raw.llm && ctx.llm;
   const rules = [];
+  const sourceMeta = {};   // 各源在合并时刻的快照——产物升级时对比判断"源已变"
   for (const name of names) {
     const dir = path.join(ctx.hub, 'skills', name);
     const f = path.join(dir, 'SKILL.md');
     if (!fs.existsSync(f)) { fail(L(`没纳入管理: ${name}`, `not managed: ${name}`)); return 1; }
+    const entry = ctx.library?.skills?.[name] || {};
+    sourceMeta[name] = { hash: treeHash(dir), version: entry.version || null, pin: entry.source?.pin || null };
     let rs = null;
     if (useLlm) {
       try { rs = await extractRulesLLM(ctx.llm, fs.readFileSync(f, 'utf8'), name); } catch { /* 降级静态 */ }
@@ -49,7 +53,7 @@ export async function run(ctx) {
   const dir = mergedDir(ctx.hub);
   fs.mkdirSync(dir, { recursive: true });
   fs.rmSync(path.join(dir, 'skill-out'), { recursive: true, force: true });   // 旧产物作废——rules 变了它就该重新 build，免得装进一个过期名字的 SKILL.md
-  writeYAML(path.join(dir, 'rules.yml'), { name: outName, sources: names, merged_at: new Date().toISOString(), rules: dedup });
+  writeYAML(path.join(dir, 'rules.yml'), { name: outName, sources: names, source_meta: sourceMeta, merged_at: new Date().toISOString(), rules: dedup });
   ok(L(`合并完成：${dedup.length} 条规则（原始 ${rules.length} 条，去重 -${rules.length - dedup.length}）· 新冲突 ${news.length} 个`,
     `merged: ${dedup.length} rules (${rules.length} raw, deduped -${rules.length - dedup.length}) · new conflicts ${news.length}`));
   info(news.length
