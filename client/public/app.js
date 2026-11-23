@@ -7,6 +7,7 @@ let S = null, tab = location.hash.slice(1).split('?')[0] || 'skills';
 let saveMsg = '', saveMsgAt = 0;   // 保存结果提示——要挺过保存后的连续重渲染（自己 refresh + SSE config 事件）
 const mkState = { q: '', results: null, installed: new Set(), perm: new Set(), force: new Set(), keep: new Set(), status: {}, directOut: '', directPerm: false, directForce: false, directStrip: false };   // 市场页状态——SSE refresh 重渲染不丢
 let mgOut = '';   // 合并结果提示——同上
+let mgSout = '';  // 产物 build/install 反馈——SSE 'library' 会立刻触发 refresh，文本必须活在变量里才能挺过重渲染
 const isSuspicious = (out) => /可疑|suspicious/i.test(out || '');   // 审核"可疑"→ 需用户知情确认才放行
 // 从 CLI 输出里抽可疑判定的原因：⚠ 行 + 紧跟的缩进详情行（命中规则/剥离清单），✗/✓ 开头即止
 const suspDetail = (out) => {
@@ -610,7 +611,7 @@ async function render() {
         ${mg.built ? (mg.skillName && (S.skills || {})[mg.skillName]
           ? `<span class="pill ok">${t('mg_inlist', esc(mg.skillName))}</span><button class="sm" id="mg-inst">${t('mg_reinst')}</button>`
           : `<span class="mut">${t('mg_notinst')}</span><button class="primary" id="mg-inst">${t('mg_install')}</button>`) : ''}
-        <span id="mg-sout" class="mut"></span></div></div>` : '')
+        <span id="mg-sout" class="mut">${esc(mgSout)}</span></div></div>` : '')
       + (pendN ? `<div class="card row"><span class="pill warn">${pendN} pending</span><button onclick="location.hash='conflicts'">${t('mg_to_conflicts')}</button></div>` : '');
     app.querySelector('#mg-go').onclick = async (e) => {
       const names = [...app.querySelectorAll('[data-mg]:checked')].map((x) => x.dataset.mg);
@@ -625,17 +626,15 @@ async function render() {
     app.querySelector('#mg-build')?.addEventListener('click', async (e) => {
       e.target.disabled = true; e.target.textContent = t('op_busy');
       const r = await api('/build', { method: 'POST', body: '{}' });
-      e.target.disabled = false; e.target.textContent = t('mg_build');
-      app.querySelector('#mg-sout').textContent = (r.out || '').split('\n').filter((l) => l.trim()).pop()?.slice(0, 120);
-      if (r.code === 0) setTimeout(refresh, 900);   // 留半秒读结果——同步 refresh 会把文案抹掉
+      mgSout = (r.out || '').split('\n').filter((l) => l.trim()).pop()?.slice(0, 120) || '';
+      refresh();
     });
     app.querySelector('#mg-inst')?.addEventListener('click', async (e) => {
       e.target.disabled = true; e.target.textContent = t('op_busy');
       // force:true——产物是明确要装的版本（同版本则 CLI 侧跳过）；被覆盖的版本自动留档
       const r = await api('/install', { method: 'POST', body: JSON.stringify({ ref: `${S.hub}/merged/skill-out`, force: true }) });
-      e.target.disabled = false; e.target.textContent = t('mg_install');
-      app.querySelector('#mg-sout').textContent = r.code === 0 ? t('ins_done') : (r.out || '').split('\n').filter((l) => l.trim()).pop()?.slice(0, 120);
-      if (r.code === 0) setTimeout(refresh, 900);
+      mgSout = (r.out || '').split('\n').filter((l) => l.trim()).pop()?.slice(0, 120) || t('ins_done');
+      refresh();   // 反馈在 mgSout 里持久化——SSE 'library' 引起的重渲染抹不掉
     });
   }
 
