@@ -106,6 +106,18 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
             const r = await chat({ base_url: b.base_url, model: b.model, api_key: key, timeout_ms: 15000 }, { user: 'Reply with exactly: OK', maxTokens: 8 });
             return res.end(JSON.stringify({ ok: true, reply: r.trim().slice(0, 80) }));
           }
+          if (u.pathname === '/api/models') {                         // 指定端点+密钥拉模型列表
+            const key = resolveKeyRef(b.api_key, ctx);
+            try {
+              const r = await fetch(`${String(b.base_url || '').replace(/\/+$/, '')}/models`, {
+                headers: key ? { authorization: `Bearer ${key}` } : {},
+                signal: AbortSignal.timeout(8000),
+              });
+              if (!r.ok) return res.end(JSON.stringify({ models: [], error: `http ${r.status}` }));
+              const d = await r.json();
+              return res.end(JSON.stringify({ models: (d.data || []).map((m) => m.id) }));
+            } catch (e) { return res.end(JSON.stringify({ models: [], error: e.message.slice(0, 80) })); }
+          }
           if (u.pathname === '/api/targets') {                        // web 改投影目标
             const name = b.name, targets = b.targets || [];
             const lib = readLibrary(ctx.hub);

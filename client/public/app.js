@@ -158,30 +158,59 @@ async function render() {
         ${h.map((x) => `<label class="check"><input type="checkbox" data-h="${esc(x.id)}" ${sel.has(x.id) ? 'checked' : ''} ${x.state === 'absent' ? 'disabled' : ''}> ${esc(x.id)} ${pill(x.state)} <span class="mut">${esc(x.primaryDir || '')}</span></label>`).join('')}</div>
       <div class="card"><h3>第 3 步 · 保存</h3>
         <div class="row"><button class="primary" id="save">保存设置</button><span id="save-out" class="mut"></span></div></div>`;
-    const modelMap = new Map();   // 扫描后填充：model → base_url（选中模型自动回填地址）
-    let lastScan = 0;
+    const modelMap = new Map();   // model → base_url（选中模型自动回填地址）
+    const loadedModels = new Map(); // 密钥端点拉到的模型——重扫后保留
+    let epsList = [], lastScan = 0;
+    // 模型下拉按当前服务地址过滤：地址匹配已扫描端点→只给它的模型；不匹配→给全部
+    const refreshOpts = () => {
+      const cur = app.querySelector('#murl').value.trim().replace(/\/+$/, '');
+      const known = epsList.some((e) => e.base_url === cur);
+      const list = [...modelMap.keys()].filter((m) => !known || modelMap.get(m) === cur);
+      app.querySelector('#model-opts').innerHTML = list.map((m) => `<option value="${esc(m)}">`).join('');
+      return list.length;
+    };
     const doScan = async (quiet = false) => {
       lastScan = Date.now();
       if (!quiet) app.querySelector('#probe-out').textContent = '扫描中…';
       const eps = await api('/probe');
+      epsList = eps;
       modelMap.clear();
       for (const e of eps) for (const m of e.models) if (!modelMap.has(m)) modelMap.set(m, e.base_url);
-      app.querySelector('#model-opts').innerHTML = [...modelMap.keys()].map((m) => `<option value="${esc(m)}">`).join('');
+      for (const [m, b] of loadedModels) modelMap.set(m, b);
+      refreshOpts();
       app.querySelector('#eps').innerHTML = eps.map((e) => e.needs_key
         ? `<div class="ep" data-b="${esc(e.base_url)}">${esc(e.name)}:${e.port} — <span class="mut">需要密钥（点这行填地址，再填密钥、测试连接）</span></div>`
-        : `<div class="ep" data-b="${esc(e.base_url)}">${esc(e.name)}:${e.port} — ${e.models.length} 个模型（在下方「模型名称」下拉框里搜索）</div>`).join('')
+        : `<div class="ep" data-b="${esc(e.base_url)}">${esc(e.name)}:${e.port} — ${e.models.length} 个模型（点这行选中，在「模型名称」下拉框里搜索）</div>`).join('')
         || '<p class="mut" style="margin-top:8px">没扫到——已尝试本机所有监听端口。确认模型服务已启动，或直接把服务地址填到下面</p>';
       app.querySelector('#probe-out').textContent = `发现 ${eps.length} 个服务、${modelMap.size} 个模型`;
       app.querySelectorAll('#eps [data-b]').forEach((d) => d.onclick = () => {
         app.querySelectorAll('#eps .ep').forEach((x) => x.classList.remove('sel'));
         d.classList.add('sel');
         app.querySelector('#murl').value = d.dataset.b;
+        refreshOpts();
       });
     };
     app.querySelector('#probe').onclick = () => doScan();
     app.querySelector('#mmodel').addEventListener('input', (e) => {
       const b = modelMap.get(e.target.value);
-      if (b) app.querySelector('#murl').value = b;
+      if (b) { app.querySelector('#murl').value = b; refreshOpts(); }
+    });
+    app.querySelector('#murl').addEventListener('input', () => refreshOpts());
+    // 需要密钥的端点：密钥填完自动拉它的模型列表
+    app.querySelector('#mkey').addEventListener('change', async () => {
+      const cur = app.querySelector('#murl').value.trim().replace(/\/+$/, '');
+      const ep = epsList.find((e) => e.base_url === cur);
+      const key = app.querySelector('#mkey').value.trim();
+      if (!ep?.needs_key || !key) return;
+      const out = app.querySelector('#smoke-out');
+      out.textContent = '读取模型列表…';
+      const r = await api('/models', { method: 'POST', body: JSON.stringify({ base_url: cur, api_key: key }) });
+      if (r.models?.length) {
+        for (const m of r.models) { modelMap.set(m, cur); loadedModels.set(m, cur); }
+        ep.needs_key = false; ep.models = r.models;
+        refreshOpts();
+        out.textContent = `已加载 ${r.models.length} 个模型`;
+      } else out.textContent = r.error ? `读取失败：${r.error}` : '密钥通了，但没读到模型';
     });
     // 点进模型框时自动重扫——下载了新模型不用先点「扫描」
     app.querySelector('#mmodel').addEventListener('focus', () => { if (Date.now() - lastScan > 10e3) doScan(true); });
