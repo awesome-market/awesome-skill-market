@@ -16,6 +16,8 @@
 
 | 命令 | 一句话 | LLM | 阶段 |
 |---|---|---|---|
+| `skillmkt init` | 交互式初始化：探测端点→选模型→冒烟→写 config | 是 | 1 |
+| `skillmkt config <sub>` | `set/get/list` 读写 config.yml（脚本用） | 否 | 1 |
 | `skillmkt doctor` | 环境自检：harness 目录、hub、端点、权限 | 否 | 1 |
 | `skillmkt search <q>` | 本地+远端检索 skill | 否 | 1 |
 | `skillmkt list` | 已装 skill × harness 矩阵 | 否 | 1 |
@@ -78,9 +80,69 @@ skillmkt <cmd> [args] [--json] [--hub <path>] [--verbose] [--no-llm]
 
 `SKILLMKT_HOME` 环境变量 = `--hub` 的持久版。
 
+**LLM 配置解析链**（实现细节，用户只面对 `init`）：flag(`--base-url/--model/--api-key-env`) > env(`SKILLMKT_LLM_*`，向后兼容 `OMLX_*`) > `config.yml` 的 `llm:` 节 > `.env`。密钥一律存引用 `api_key: env:VAR_NAME`，永不写真值——config 可进 dotfiles。
+
+```yaml
+# ~/.skillmkt/config.yml
+llm:
+  base_url: http://localhost:8001/v1
+  model: Ornith-1.5-35B-A3B
+  api_key: env:SKILLMKT_API_KEY
+  concurrency: 2
+  timeout_ms: 60000
+```
+
+**LLM 需求边界**：`init`/`audit --llm`/`conflicts`(语义判定)/`diff --semantic`/`merge` 需要端点；其余命令永远不需要。端点不可达时非 `--llm` 命令降级静态模式+stderr 提示；显式 `--llm` 才硬失败。
+
 ---
 
 ## 3. 命令详规
+
+### 3.0 `skillmkt init`——交互式初始化（用户唯一入口）
+
+零依赖手写 readline（~40 行键盘上下选择），不拉 inquirer。三步：
+
+```
+$ skillmkt init
+
+? 检测到 2 个本地 LLM 端点：
+  ❯ http://localhost:8001/v1    OMLX · 3 models · 推荐
+    http://localhost:11434/v1   Ollama · 12 models
+    ─────────────────────────
+    手动输入 URL
+    跳过（不使用 LLM，静态模式运行）
+
+? 选择模型（拉自 /v1/models）：
+  ❯ Ornith-1.5-35B-A3B
+    qwen3-32b
+
+? 该端点需要 API key 吗？[y/N] y
+  key: ••••••••
+  → 建议 export SKILLMKT_API_KEY（已写入 config 引用）
+
+✓ 测试调用成功 (147ms)
+✓ 已写入 ~/.skillmkt/config.yml
+```
+
+| 步 | 实现 |
+|---|---|
+| 探测 | 并发 HEAD 常见端口：`8001`(OMLX) `11434`(Ollama) `1234`(LM Studio) `8000`(vLLM)；存活端点拉 `/v1/models` 填模型列表 |
+| 手动输入 | 先 `GET /v1/models` 验证再进选择——URL 打错当场报错，不存坏配置 |
+| 落盘 | 写 `config.yml`（key 存 `env:` 引用）+ 真 `/v1/chat` 冒烟 + shell rc export 建议 |
+| 全空 | 探测零命中直接跳"手动输入/跳过" |
+
+`init` 同时也初始化 hub 目录（`~/.skillmkt/` 骨架 + harness 探测写 `default_targets`）。重复跑 = 重配，幂等。
+
+### 3.0b `skillmkt config`——脚本化读写
+
+```bash
+skillmkt config set llm.base_url http://localhost:8001/v1
+skillmkt config set llm.model Ornith-1.5-35B-A3B
+skillmkt config get llm                    # 读一节
+skillmkt config list                       # 全量（api_key 值脱敏显示 env:NAME）
+```
+
+只读写 `config.yml` 不做解析链合并——脚本改配置用；读生效值用 `doctor --json`。
 
 ### 3.1 `skillmkt doctor`
 
@@ -95,7 +157,8 @@ $ skillmkt doctor
     codex        ~/.agents/skills            (1 skill, copy only)
     pi           ~/.pi/agent/skills          (not found — skipped)
 ✓ registries: github (default), rfc-discovery ×1
-⚠ OMLX_BASE_URL not set — LLM features disabled (audit/conflicts/diff 降级为静态模式)
+⚠ llm not configured — LLM features disabled (audit/conflicts/diff 降级静态)
+  → 跑 skillmkt init 一键配置
 ```
 
 检查项：node≥22、hub 可写、每个已知 harness 目录存在性+可写性+symlink 能力探测、registry 连通性、`.env` 端点。`--json` 给结构化结果供 `serve` 复用。
