@@ -124,7 +124,7 @@ async function render() {
         <label class="field">api_key（env:VAR 引用，不存真值；留空=无 key）</label><input type="text" id="mkey" value="${esc(cfg.llm?.api_key || '')}">
         <div class="row" style="margin-top:8px"><button id="smoke">测试连接</button><span id="smoke-out" class="mut"></span></div></div>
       <div class="card"><b>skill 装到哪些 agent</b><span class="mut">（勾选后，新装的 skill 会复制进这些 agent 的 skills 目录）</span>
-        ${h.map((x) => `<label class="row"><input type="checkbox" data-h="${esc(x.id)}" ${sel.has(x.id) ? 'checked' : ''} ${x.state !== 'installed' ? 'disabled' : ''}> ${esc(x.id)} ${pill(x.state)} <span class="mut">${esc(x.primaryDir || '')}</span></label>`).join('')}</div>
+        ${h.map((x) => `<label class="row"><input type="checkbox" data-h="${esc(x.id)}" ${sel.has(x.id) ? 'checked' : ''} ${x.state === 'absent' ? 'disabled' : ''}> ${esc(x.id)} ${pill(x.state)} <span class="mut">${esc(x.primaryDir || '')}</span></label>`).join('')}</div>
       <div class="card"><button class="primary" id="save">保存配置</button><span id="save-out" class="mut"></span></div>`;
     app.querySelector('#probe').onclick = async () => {
       app.querySelector('#probe-out').textContent = '扫描中…';
