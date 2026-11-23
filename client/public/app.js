@@ -85,7 +85,7 @@ const I18N = {
     mk_nosrc: '私有源暂不可装', mk_privsrc: '私有源',
     sk_remove: '移除', sk_remove_sure: '再点一次确认', sk_removed: '已移除', open_dir: '打开文件夹',
     det_btn: '详情', det_files: (n) => `${n} 个文件`, det_diff: '上游 diff', det_rollback: '回滚上一版', det_tags: '找旧版→',
-    det_old: '装旧版', det_old_ph: 'tag 或 sha，如 agent-skills-6ec…',
+    det_old: '装旧版', det_old_ph: 'tag 或 sha，如 agent-skills-6ec…', det_noroll: '无历史可回滚（upgrade 后才存快照）',
     ext_h: (n) => `散落在 AI 工具里的 skill（${n}）`,
     ext_desc: '能用但没人管：没版本、没审核、没更新——纳入管理补齐。',
     ext_adopt: '纳入管理', ext_busy: '处理中…',
@@ -172,7 +172,7 @@ const I18N = {
     mk_nosrc: 'private source — N/A', mk_privsrc: 'private source',
     sk_remove: 'Remove', sk_remove_sure: 'Click again to confirm', sk_removed: 'Removed', open_dir: 'Open folder',
     det_btn: 'Details', det_files: (n) => `${n} files`, det_diff: 'Upstream diff', det_rollback: 'Rollback a version', det_tags: 'older versions→',
-    det_old: 'Install older', det_old_ph: 'tag or sha, e.g. agent-skills-6ec…',
+    det_old: 'Install older', det_old_ph: 'tag or sha, e.g. agent-skills-6ec…', det_noroll: 'no history to roll back (snapshots start after upgrade)',
     ext_h: (n) => `Unmanaged skills scattered in agent dirs (${n})`,
     ext_desc: 'No versioning, audit, or updates — adopt to fix that.',
     ext_adopt: 'Adopt', ext_busy: 'Adopting…',
@@ -308,7 +308,7 @@ async function render() {
       const tagsHtml = gh ? ` · <a href="https://github.com/${src.ref}/tags?src=awesome-skill-market" target="_blank" rel="noopener">${t('det_tags')}</a>` : '';
       box.style.display = 'block';
       box.innerHTML = `<p class="mut" style="margin:4px 0">${esc(d.description || '')} · ${t('det_files', d.fileCount ?? d.files?.length ?? 0)} · ${srcHtml}${src.pin ? ` · pin <code>${esc(String(src.pin).slice(0, 7))}</code>` : ''}${tagsHtml}</p>
-        <div class="row">${s?.source?.registry === 'github' ? `<button class="df">${t('det_diff')}</button>` : ''}<button class="rb">${t('det_rollback')}</button><span class="out mut"></span></div>
+        <div class="row">${s?.source?.registry === 'github' ? `<button class="df">${t('det_diff')}</button>` : ''}${S.hist?.[b.dataset.dt] ? `<button class="rb">${t('det_rollback')}</button>` : `<span class="mut">${t('det_noroll')}</span>`}<span class="out mut"></span></div>
         ${gh ? `<div class="row" style="margin-top:8px"><span class="mut">${t('det_old')}</span><input class="ot" placeholder="${t('det_old_ph')}" style="width:240px"><button class="oi sm">${t('mk_install')}</button><span class="out2 mut"></span></div>` : ''}
         <pre class="pre mut" style="display:none;white-space:pre-wrap;font-size:13.5px;max-height:260px;overflow:auto"></pre>`;
       // 装旧版：tag/sha → install owner/repo@tag --path <sub>；已在管理→覆盖安装两段确认

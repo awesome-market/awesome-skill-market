@@ -50,7 +50,7 @@ export async function run(ctx) {
         info(`[dry-run] ${name}: ${L(`${pkg?.fileCount ?? '?'} 个文件，审核:${auditTag(audit.verdict)}`, `${pkg?.fileCount ?? '?'} files, audit:${audit.verdict}`)}${audit.stripped.length ? L(`，剔除 ${audit.stripped.length} 个`, `, strip ${audit.stripped.length}`) : ''}`);
         continue;
       }
-      historySnapshot(ctx.hub, name);
+      historySnapshot(ctx.hub, name, s);
       const dest = path.join(ctx.hub, 'skills', name);
       rmDir(dest);
       copyFiltered(got.dir, dest, stripFilter(flags.keepScripts ? [] : audit.stripped));

@@ -1,11 +1,11 @@
 // rollback — .history/<name>/ 换回 hub 副本 → 重投影 → 改 lock（一版深度）
 import fs from 'node:fs';
 import path from 'node:path';
-import { historyRestore } from '../lib/state.js';
-import { historyDir } from '../lib/hub.js';
+import { historyRestore, historyMeta } from '../lib/state.js';
+import { historyDir, registerSkill } from '../lib/hub.js';
 import { projectSkill, targetDirFor } from '../lib/project.js';
 import { updateLock } from '../lib/hub.js';
-import { treeHash } from '../lib/package.js';
+import { treeHash, readSkillDir } from '../lib/package.js';
 import { ok, fail } from '../lib/render.js';
 import { L } from '../lib/i18n.js';
 
@@ -26,6 +26,10 @@ export async function run(ctx) {
       lockTargets[t] = { hash: r.hash, projected_at: new Date().toISOString(), mode: 'copy' };
     }
     updateLock(ctx.hub, name, treeHash(dest), lockTargets);
+    // 元数据回写：meta.yml 有快照时的 version/source 就还原；否则至少从恢复的 SKILL.md 读 version
+    const meta = historyMeta(ctx.hub, name);
+    const restored = readSkillDir(dest);
+    registerSkill(ctx.hub, name, { ...s, ...(meta?.source ? { source: meta.source } : {}), version: meta?.version || restored?.version || s.version });
   }
   ok(`${ctx.flags.dryRun ? '[dry-run] ' : ''}${L(`已回滚 ${name}`, `rolled back ${name}`)}`);
   return 0;

@@ -9,7 +9,7 @@ import { auditDir, stripFilter, writeScan } from '../lib/audit.js';
 import { readSkillDir, copyDir, rmDir, walk, treeHash } from '../lib/package.js';
 import { projectSkill, resolveTargets } from '../lib/project.js';
 import { primaryDir } from '../lib/scanner.js';
-import { cacheLookup } from '../lib/state.js';
+import { cacheLookup, historySnapshot } from '../lib/state.js';
 import { confirm, multiChoose } from '../lib/prompt.js';
 import { ok, warn, fail, info, auditTag } from '../lib/render.js';
 import { L } from '../lib/i18n.js';
@@ -116,16 +116,19 @@ export async function run(ctx) {
   const dest = path.join(ctx.hub, 'skills', name);
   const freshHash = () => treeHash(dest);
   const alreadyManaged = ctx.library.skills?.[name] && fs.existsSync(dest);
+  let differs = false;
   if (alreadyManaged) {
     const keep = stripFilter(audit.stripped);
     // 与现有 hub 副本内容对比：相同则跳过 copy
     const srcFilteredHash = (() => { const t = path.join(ctx.hub, 'cache', `__probe_${process.pid}`); rmDir(t); copyFiltered(srcDir, t, keep); const h = treeHash(t); rmDir(t); return h; })();
-    if (srcFilteredHash !== freshHash() && !flags.force) {
+    differs = srcFilteredHash !== freshHash();
+    if (differs && !flags.force) {
       warn(L(`${name} 已在管理、但内容不同——--force 覆盖，或走 skillmkt upgrade`, `${name} already managed with different content — --force to overwrite, or use upgrade`));
       return 1;
     }
   }
   if (!ctx.flags.dryRun) {
+    if (differs) historySnapshot(ctx.hub, name, ctx.library.skills[name]);   // 覆盖前留一版深度——rollback 可回到被覆盖的版本
     rmDir(dest);
     copyFiltered(srcDir, dest, stripFilter(flags.keepScripts ? [] : audit.stripped));
     writeScan(ctx.hub, name, audit);

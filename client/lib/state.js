@@ -22,15 +22,20 @@ export function cacheLookup(hub, name) {
   } catch { return null; }
 }
 
-export function historySnapshot(hub, name) {
+export function historySnapshot(hub, name, entry = null) {
   const src = path.join(hub, 'skills', name);
   const dst = historyDir(hub, name);
   if (!fs.existsSync(src)) return false;
   rmDir(dst);
   fs.mkdirSync(path.dirname(dst), { recursive: true });
   copyDirFs(src, dst);
+  // 元数据同存——rollback 恢复文件时连 version/pin 一起还原，不留脏状态
+  if (entry) writeYAMLFile(`${dst}.meta.yml`, { version: entry.version || null, source: entry.source || null });
   return true;
 }
+
+// 快照旁的元数据（version/pin）；无则 null（旧快照只有文件）
+export const historyMeta = (hub, name) => readYAMLFile(`${historyDir(hub, name)}.meta.yml`, null);
 
 export function historyRestore(hub, name) {
   const dst = historyDir(hub, name);

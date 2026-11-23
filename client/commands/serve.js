@@ -46,6 +46,10 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
     lang: (() => readConfig(ctx.hub)._raw?.ui?.lang ?? detectLang())(),
     initialized: isInitialized(ctx.hub),
     library: readLibrary(ctx.hub), lock: readLock(ctx.hub),
+    hist: (() => {                                              // .history/<name> 存在才可回滚
+      const d = path.join(ctx.hub, '.history');
+      return fs.existsSync(d) ? Object.fromEntries(fs.readdirSync(d, { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => [e.name, true])) : {};
+    })(),
     upstream: readUpstream(ctx.hub), conflicts: loadConflicts(ctx.hub),
     decisions: loadDecisions(ctx.hub), harnesses,
     scans: fs.existsSync(path.join(ctx.hub, 'scans'))
@@ -282,7 +286,7 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
           }
           if (u.pathname === '/api/rollback') {
             const r = await cli(['rollback', '--', String(b.name || '')]);
-            emit('library', {});
+            if (r.code === 0) emit('library', {});   // 失败不推 SSE——保留详情框里的错误文案
             return res.end(JSON.stringify(r));
           }
           if (u.pathname === '/api/open') {                            // 系统文件管理器打开目录
