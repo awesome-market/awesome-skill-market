@@ -326,10 +326,10 @@ async function render() {
         <div class="vers" style="display:none"></div>
         ${gh ? `<div class="row" style="margin-top:8px"><span class="mut">${t('det_old')}</span><input class="ot" placeholder="${t('det_old_ph')}" style="width:240px"><button class="od sm">${t('det_odiff')}</button><button class="oi sm">${t('mk_install')}</button><span class="out2 mut"></span></div>` : ''}
         <pre class="pre mut" style="display:none;white-space:pre-wrap;font-size:13.5px;max-height:260px;overflow:auto"></pre>`;
-      // 装旧版：tag/sha → install owner/repo@tag --path <sub>；已在管理→覆盖安装两段确认
+      // 装旧版：tag/sha → install owner/repo@tag --path <sub>——版本号是用户自己填的，直接 --force 覆盖（覆盖前自动留档可切回）
       // 输入归一化：抽出 40 位 sha（release 标题 "Agent Skills <sha>" 的粘贴）；含空格→小写连字符
       const normTag = (s) => s.match(/[0-9a-f]{40}/)?.[0] || (s.includes(' ') ? s.trim().toLowerCase().replace(/\s+/g, '-') : s);
-      let oForce = false, oPerm = false;
+      let oPerm = false;
       box.querySelector('.oi')?.addEventListener('click', async (e) => {
         const tag = normTag(box.querySelector('.ot').value.trim());
         if (!tag) return;
@@ -338,7 +338,7 @@ async function render() {
           box.querySelector('.out2').textContent = t('ins_same', String(src.pin).slice(0, 7)); return;
         }
         e.target.disabled = true; e.target.textContent = t('op_busy');
-        const r = await api('/install', { method: 'POST', body: JSON.stringify({ ref: `${src.ref}@${tag}`, path: src.path || undefined, permissive: oPerm, force: oForce }) });
+        const r = await api('/install', { method: 'POST', body: JSON.stringify({ ref: `${src.ref}@${tag}`, path: src.path || undefined, permissive: oPerm, force: true }) });
         e.target.disabled = false;
         if (r.code === 0) {
           box.querySelector('.out2').textContent = (r.out || '').split('\n').filter((l) => l.trim()).pop()?.slice(0, 120) || t('ins_done');
@@ -346,7 +346,6 @@ async function render() {
           setTimeout(refresh, 900);   // 留半秒读结果再重渲染
           return;
         }
-        if (isManaged(r.out) && !oForce) { oForce = true; e.target.textContent = t('mk_ow'); box.querySelector('.out2').textContent = t('mk_mng'); return; }
         if (isSuspicious(r.out) && !oPerm) { oPerm = true; e.target.textContent = t('mk_force'); box.querySelector('.out2').textContent = t('mk_susp'); return; }
         e.target.textContent = t('mk_install');
         box.querySelector('.out2').textContent = (r.out || '').split('\n').filter((l) => l.trim()).pop()?.slice(0, 120) || t('ins_fail', r.code);
