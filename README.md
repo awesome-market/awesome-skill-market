@@ -1,7 +1,9 @@
 # awesome-skill-market
 
-**Deslop AI-generated UI. Manage, merge, audit and secure agent skills.** awesome-skill-market is a **skill manager** and automated **skill merge** pipeline that distills the best agent design skills — taste-skill, Hallmark, Anthropic's frontend-design, Vercel's web-design-guidelines — into a single, continuously-updated `SKILL.md` for Claude Code, Cursor, Codex, OpenCode, Pi, Devin and other coding agents. Instead of installing 2–10 overlapping skills whose rules fight each other, you install one arbitrated skill where every conflict has been detected, screenshotted, and decided. On top of the merger it adds a local-first **skill audit** layer and **skill security** controls — static injection checks, capability stripping, version pinning — for every skill on your machine.
+**Deslop AI-generated UI. Manage, merge, audit and secure agent skills.** awesome-skill-market is a **skill manager** and automated **skill merge** pipeline that distills the best agent design skills — taste-skill, Hallmark, Anthropic's frontend-design, Vercel's web-design-guidelines — into a single, continuously-updated `SKILL.md` for Claude Code, Cursor, Codex, OpenCode, Pi, Devin and other coding agents. Instead of installing 2–10 overlapping skills whose rules fight each other, you install one arbitrated skill where every conflict has been detected, screenshotted, and decided. On top of the merger it adds a local-first **skill audit** layer and **skill security** controls — static injection checks, capability stripping, version pinning — for every skill on your machine. It also ships **`skillmkt`** (`npm i -g skillmkt`) — a local-first CLI and web UI to search, install, audit, version-switch and merge *any* agent skill across Claude Code, Codex, Cursor, OpenCode, Pi and Devin.
 
+[![npm](https://img.shields.io/npm/v/skillmkt.svg)](https://www.npmjs.com/package/skillmkt)
+[![npm downloads](https://img.shields.io/npm/dm/skillmkt.svg)](https://www.npmjs.com/package/skillmkt)
 [![ci](https://github.com/terry2010/awesome-skill-market/actions/workflows/ci.yml/badge.svg)](https://github.com/terry2010/awesome-skill-market/actions/workflows/ci.yml)
 [![license: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![conflicts](https://img.shields.io/github/issues-search/terry2010/awesome-skill-market?query=label%3Aconflict&label=arbitration%20queue)](https://github.com/terry2010/awesome-skill-market/issues?q=label%3Aconflict)
@@ -151,6 +153,15 @@ Any chat-completions endpoint works — set `OMLX_BASE_URL`/`OMLX_MODEL`/`OMLX_A
 Both rules are held out of the merged skill, an issue is filed with A/B screenshots, and a human decision (`decisions/conf-NNNN.yml`) determines which side ships — or a scoped merge of both.
 
 **License?** MIT. Extracted rule text is rewritten (not verbatim) and every merged rule carries upstream `sources` provenance.
+
+**What is skillmkt?**
+The npm CLI shipped by this repo (`npm i -g skillmkt`, Node ≥ 22). A local-first manager for agent skills: it searches public skill markets (skills.sh, GitHub, private `.well-known/agent-skills` sources), installs skills into `~/.skillmkt`, audits them for supply-chain risk, projects them into every AI coding agent's skills directory, and merges multiple skills with human arbitration of contradictions. All state lives on your machine; the optional local web UI (`skillmkt serve`) auto-opens in a browser.
+
+**How do I merge conflicting agent skills?**
+`skillmkt merge skill-a skill-b --name merged` extracts rules, deduplicates them, and queues genuinely contradictory pairs in `conflicts/`. You arbitrate each pending conflict in the web UI or with `skillmkt resolve` (optionally `--auto` for LLM-assisted verdicts), then `skillmkt build` writes the merged `SKILL.md`. Pending conflicts keep both sides out of the output — contradictions never silently ship.
+
+**Is it safe to install skills from the internet?**
+skillmkt runs a deterministic static audit before install: it strips script-like directories (`scripts/`, `bin/`, `hooks/`, executable extensions) by default and flags secrets, outbound-network instructions, permission escalation and PII harvesting. "Clean" means no known indicators were found — not a safety guarantee. Suspicious findings require explicit confirmation; an optional `--llm` audit adds semantic review on your own local model endpoint.
 
 ## Links
 

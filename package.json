@@ -1,8 +1,9 @@
 {
   "name": "skillmkt",
-  "version": "0.4.95",
+  "version": "0.5.0",
   "type": "module",
-  "description": "Local-first agent skill manager: install, audit, merge, distribute.",
+  "description": "Local-first agent skill manager (skillmkt): search, install, audit and merge SKILL.md agent skills for Claude Code, Codex, Cursor, OpenCode, Devin — local web UI, conflict arbitration, version pinning.",
+  "author": "terry2010",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -13,13 +14,22 @@
   "keywords": [
     "agent-skills",
     "skill-manager",
+    "cli",
     "claude-code",
     "codex",
+    "cursor",
     "opencode",
     "devin",
+    "windsurf",
+    "skills-sh",
+    "skill-market",
     "skill-audit",
+    "supply-chain-security",
     "skill-merge",
-    "anti-ai-slop"
+    "anti-ai-slop",
+    "local-first",
+    "llm",
+    "coding-agent"
   ],
   "bin": {
     "skillmkt": "client/bin/skillmkt.js"
