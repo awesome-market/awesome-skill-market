@@ -625,14 +625,17 @@ async function render() {
     app.querySelector('#mg-build')?.addEventListener('click', async (e) => {
       e.target.disabled = true; e.target.textContent = t('op_busy');
       const r = await api('/build', { method: 'POST', body: '{}' });
-      app.querySelector('#mg-sout').textContent = (r.out || '').split('\n').pop().slice(0, 120);
-      refresh();
+      e.target.disabled = false; e.target.textContent = t('mg_build');
+      app.querySelector('#mg-sout').textContent = (r.out || '').split('\n').filter((l) => l.trim()).pop()?.slice(0, 120);
+      if (r.code === 0) setTimeout(refresh, 900);   // 留半秒读结果——同步 refresh 会把文案抹掉
     });
     app.querySelector('#mg-inst')?.addEventListener('click', async (e) => {
       e.target.disabled = true; e.target.textContent = t('op_busy');
-      const r = await api('/install', { method: 'POST', body: JSON.stringify({ ref: `${S.hub}/merged/skill-out` }) });
-      app.querySelector('#mg-sout').textContent = r.code === 0 ? t('ins_done') : (r.out || '').split('\n').pop().slice(0, 120);
-      refresh();
+      // force:true——产物是明确要装的版本（同版本则 CLI 侧跳过）；被覆盖的版本自动留档
+      const r = await api('/install', { method: 'POST', body: JSON.stringify({ ref: `${S.hub}/merged/skill-out`, force: true }) });
+      e.target.disabled = false; e.target.textContent = t('mg_install');
+      app.querySelector('#mg-sout').textContent = r.code === 0 ? t('ins_done') : (r.out || '').split('\n').filter((l) => l.trim()).pop()?.slice(0, 120);
+      if (r.code === 0) setTimeout(refresh, 900);
     });
   }
 
