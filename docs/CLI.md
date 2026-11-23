@@ -298,7 +298,17 @@ $ skillmkt doctor
 
 两级检索，本地优先。**远端=官方端点**：`GET https://skills.sh/api/search?q=<query>[&owner=<o>]` 就是 `npx skills find` 调的同款 API（vercel-labs/skills v1.9.0 源码确认），返回 `{id: "owner/repo/skill-id", source, skillId, name, installs}`；官方还内置 `SKILLS_API_URL` 环境变量支持自托管——是设计好的契约，非内部接口。参考实现同时学到：**多词查询降级策略**（精确结果<10 且 2-6 词时，逐个丢词跑子查询按命中数+排名+安装量归并）与 `gh search code filename:SKILL.md` 终极兜底。
 
-**国内可达性**：skills.sh 托管于 Vercel（`server: Vercel` 实测），大陆访问间歇性不通；GitHub 拉取面（`api.github.com`/`codeload`）历史周期性 DNS 污染——影响 install 而不止 search。回退链：**skillssh API → 镜像（`SKILLMKT_SEARCH_API`/`registries[].url` 指向自建反代，nginx `proxy_pass` 即可，二期 VPS 部署）→ `gh search` → 本地降级**；install 的 fetch 层预留 mirror 前缀参数（ghproxy/jsdelivr 风格），默认直连。
+**国内可达性**：skills.sh 托管于 Vercel（`server: Vercel` 实测），大陆访问间歇性不通；GitHub 拉取面（`api.github.com`/`codeload`）历史周期性 DNS 污染——影响 install 而不止 search。skills.sh **没有现成专用镜像**（生态太新），回退链：**skillssh API → 自建反代（`SKILLMKT_SEARCH_API`/`registries[].url`，nginx `proxy_pass` 即可，二期 VPS）→ `gh search` → 本地降级**。
+
+国内可用源实测矩阵（fetch 层预留 `--mirror`/`fetch_mirror` 前缀参数，默认直连）：
+
+| 源 | 类型 | 国内可用性 | 用法 |
+|---|---|---|---|
+| gh-proxy.com | github 前缀代理 | 公益反代，可达但不稳（同族 mirror.ghproxy.com 已死） | `https://gh-proxy.com/<github-url>` |
+| fastly/testingcf.jsdelivr.net | GitHub 文件 CDN | cdn 主域间歇挂，此二变体社区公认可用 | `https://fastly.jsdelivr.net/gh/o/r@ref/path`——单文件，`data.jsdelivr.com` 可列目录 |
+| registry.npmmirror.com | npm 镜像 | 阿里 infra 最稳 | `npm i -g skillmkt --registry=https://registry.npmmirror.com`（本体分发建议进 README） |
+| clawhub.ai | 中文可达 registry | 实测可联调 | `--registry clawhub` 或设默认 search 源（中文内容池） |
+| modelscope / gitee | 国内平台 | 原生可达 | 二期观察源 |
 
 ```
 $ skillmkt search landing
