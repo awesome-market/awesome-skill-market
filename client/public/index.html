@@ -105,7 +105,12 @@ label.check { display: flex; gap: 10px; align-items: center; padding: 7px 4px; c
 label.check:hover { background: color-mix(in oklch, var(--color-ink) 4%, var(--color-surface)); }
 .tgbox { text-align: right; }
 .tgbox .field { margin-top: 6px; }
-.tgbox label.check { justify-content: flex-end; }
+.tgtable { border-collapse: collapse; margin-left: auto; margin-top: 6px; text-align: left; }
+.tgtable td { padding: 4px 7px; vertical-align: middle; }
+.tgtable td.dir { font-size: 13.5px; color: var(--color-ink-mut); }
+.tgtable label { cursor: pointer; white-space: nowrap; }
+.tgtable tr:hover td { background: color-mix(in oklch, var(--color-ink) 4%, var(--color-surface)); }
+.dsc { font-size: 14px; margin-top: 6px; line-height: 1.5; }
 
 .side { padding: 14px 16px; border-left: 3px solid var(--color-line); margin: 10px 0; font-size: 15.5px;
   background: color-mix(in oklch, var(--color-ink) 3%, var(--color-surface)); border-radius: 0 8px 8px 0; }

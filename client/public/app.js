@@ -320,9 +320,10 @@ async function render() {
       const s = S.library.skills[b.dataset.tg];
       box.style.display = 'block';
       box.innerHTML = `<label class="field">${t('tg_label')}</label><div class="field" style="font-size:13.5px">${t('tg_warn')}</div>` +
-        (S.harnesses || []).filter((x) => x.state !== 'absent' && !x.detectOnly).map((x) =>
-          `<label class="check"><input type="checkbox" data-th="${esc(x.id)}" ${(s.targets || []).includes(x.id) ? 'checked' : ''}> ${esc(x.id)} ${pill(x.state)} <span class="mut">${esc(x.primaryDir || '')}</span></label>`).join('')
-        + `<div class="row end" style="margin-top:10px"><span class="tout mut"></span><button class="primary tgo">${t('tg_save')}</button></div>`;
+        `<table class="tgtable">` + (S.harnesses || []).filter((x) => x.state !== 'absent' && !x.detectOnly).map((x) =>
+          `<tr><td><input type="checkbox" id="th-${esc(b.dataset.tg)}-${esc(x.id)}" data-th="${esc(x.id)}" ${(s.targets || []).includes(x.id) ? 'checked' : ''}></td>` +
+          `<td><label for="th-${esc(b.dataset.tg)}-${esc(x.id)}">${esc(x.id)}</label></td><td>${pill(x.state)}</td><td class="dir">${esc(x.primaryDir || '')}</td></tr>`).join('')
+        + `</table><div class="row end" style="margin-top:10px"><span class="tout mut"></span><button class="primary tgo">${t('tg_save')}</button></div>`;
       box.querySelector('.tgo').onclick = async () => {
         const ts = [...box.querySelectorAll('[data-th]:checked')].map((x) => x.dataset.th);
         const r = await api('/targets', { method: 'POST', body: JSON.stringify({ name: b.dataset.tg, targets: ts }) });
@@ -398,12 +399,18 @@ async function render() {
         const ref = repo || s.slug, sub = repo && s.slug.startsWith(src + '/') ? s.slug.slice(src.length + 1) : '';
         const done = mkState.installed.has(s.slug), perm = mkState.perm.has(s.slug);
         const label = done ? t('ins_done') : perm ? t('mk_force') : t('mk_install');
-        return `<div class="card row"><b>${esc(s.name)}</b><span class="mut">${esc(s.slug)} · ${s.installs} installs${repo ? '' : ` · ${t('mk_privsrc')}`}</span>
+        return `<div class="card"><div class="row"><b>${esc(s.name)}</b><span class="mut">${esc(s.slug)} · ${s.installs} installs${repo ? '' : ` · ${t('mk_privsrc')}`}</span>
           <button class="mk-i" style="margin-left:auto" data-s="${esc(s.slug)}" data-r="${esc(ref)}" data-p="${esc(sub)}" ${done ? 'disabled' : ''}>${label}</button>
-          <span class="iout mut">${esc(mkState.status[s.slug] || '')}</span></div>`;
+          <span class="iout mut">${esc(mkState.status[s.slug] || '')}</span></div>
+          <div class="dsc mut" data-slug="${esc(s.slug)}"></div></div>`;
       }).join('') || (mkState.results ? `<div class="empty">${t('cf_empty')}</div>` : '');
       res.querySelectorAll('.mk-i').forEach((b) => b.onclick = () =>
         tryInstall(b, b.dataset.r, b.dataset.p, b.dataset.s, b.parentElement.querySelector('.iout')));
+      // 简介懒加载：API 索引不带 description，逐条从 SKILL.md frontmatter 补（服务端缓存）
+      res.querySelectorAll('.dsc').forEach(async (d) => {
+        const r = await api(`/desc?slug=${encodeURIComponent(d.dataset.slug)}`);
+        if (r.desc) d.textContent = r.desc;
+      });
     };
     renderResults();
     app.querySelector('#mk-go').onclick = async () => {
