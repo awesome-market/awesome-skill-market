@@ -1,0 +1,29 @@
+file: /Volumes/2t/code/deslop-fusion/conflicts/conf-0074.yml
+id: conf-0074
+status: dismissed
+fingerprint: eaedf0a38bef
+detected_at: 2026-11-23T06:36:02.952Z
+evidence: screenshot
+sides:
+  - key: A
+    source: hallmark
+    rule_id: hallma-042
+    hash: 78458b55c802
+    severity: reflex
+    text: Reuse the cached spec but refresh it when the user requests a refresh or the fetch is older than 90 days.
+    text_zh: null
+  - key: B
+    source: hallmark
+    rule_id: hallma-173
+    hash: a912f526a49a
+    severity: floor
+    text: Only generate design.md when the user explicitly requests locking the system or when a redesign spans more than one page.
+    text_zh: null
+ai_explanation: l2c1 keeps design.md to ~45 lines and refreshes it on request, while l2c2 only generates design.md when the user explicitly requests locking the system or when a redesign spans multiple pages. For a single-page build, l2c1 wants an active, refreshed spec but l2c2 wants none, directly contradicting whether design.md exists at all in the same scope.
+ai_explanation_zh: l2c1 要求把 design.md 控制在约45行并在需要时刷新，而 l2c2 仅在用户明确要求锁定系统或重设计跨越多页时才生成 design.md。对单页构建而言，l2c1 希望维护活跃的规范，l2c2 却希望不生成，二者在“同一范围内 design.md 是否存在”上直接矛盾。
+suggestion:
+  kind: scope-split
+  note: Keep design.md per l2c1 during active single-page work; only invoke l2c2's lock-gated generation when the user explicitly requests locking or the redesign spans multiple pages.
+  note_zh: 在活跃的单页工作期间按 l2c1 保留 design.md；仅当用户明确要求锁定或重设计跨越多页时才启用 l2c2 的锁定条件生成。
+issue_url: null
+dismiss_reason: Rule A governs when to refresh an existing cached spec while Rule B governs when to generate design.md at all, so they operate at different lifecycle stages and are not contradictory.

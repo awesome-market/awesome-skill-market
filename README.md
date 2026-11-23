@@ -1,10 +1,10 @@
-# deslop-fusion
+# awesome-skill-market
 
-**Deslop AI-generated UI.** deslop-fusion is an automated merge pipeline that distills the best agent design skills — taste-skill, Hallmark, Anthropic's frontend-design, Vercel's web-design-guidelines — into a single, continuously-updated `SKILL.md` for Claude Code, Cursor, Codex and other coding agents. Instead of installing 2–10 overlapping skills whose rules fight each other, you install one arbitrated skill where every conflict has been detected, screenshotted, and decided by a human.
+**Deslop AI-generated UI. Manage, merge, audit and secure agent skills.** awesome-skill-market is a **skill manager** and automated **skill merge** pipeline that distills the best agent design skills — taste-skill, Hallmark, Anthropic's frontend-design, Vercel's web-design-guidelines — into a single, continuously-updated `SKILL.md` for Claude Code, Cursor, Codex, OpenCode, Pi, Devin and other coding agents. Instead of installing 2–10 overlapping skills whose rules fight each other, you install one arbitrated skill where every conflict has been detected, screenshotted, and decided. On top of the merger it adds a local-first **skill audit** layer and **skill security** controls — static injection checks, capability stripping, version pinning — for every skill on your machine.
 
-[![ci](https://github.com/terry2010/deslop-fusion/actions/workflows/ci.yml/badge.svg)](https://github.com/terry2010/deslop-fusion/actions/workflows/ci.yml)
+[![ci](https://github.com/terry2010/awesome-skill-market/actions/workflows/ci.yml/badge.svg)](https://github.com/terry2010/awesome-skill-market/actions/workflows/ci.yml)
 [![license: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![conflicts](https://img.shields.io/github/issues-search/terry2010/deslop-fusion?query=label%3Aconflict&label=arbitration%20queue)](https://github.com/terry2010/deslop-fusion/issues?q=label%3Aconflict)
+[![conflicts](https://img.shields.io/github/issues-search/terry2010/awesome-skill-market?query=label%3Aconflict&label=arbitration%20queue)](https://github.com/terry2010/awesome-skill-market/issues?q=label%3Aconflict)
 
 ## Why does AI-generated UI all look the same?
 
@@ -12,7 +12,9 @@ Ask any coding agent for a landing page and you get the same output: purple-to-b
 
 The problem: the best skills contradict each other. taste-skill bans gradients entirely; ui-ux-pro-max ships 194 gradient palettes. Hallmark forbids eyebrow labels; other guides rely on them. Install several and the agent picks whichever rule it read last — you get slop with extra steps.
 
-## What deslop-fusion does differently
+## What awesome-skill-market does differently
+
+> 📐 Full product design (skill manager + merger + audit + market): [`docs/DESIGN.md`](docs/DESIGN.md)
 
 It doesn't add another opinion. It **referees** the existing ones:
 
@@ -38,14 +40,14 @@ No model, no pipeline, no keys. `skill/` is the finished product — a standard 
 **One command — installs to every agent it detects:**
 
 ```bash
-npx skills add terry2010/deslop-fusion -g        # global; add -a claude-code codex opencode pi to pick targets
+npx skills add terry2010/awesome-skill-market -g        # global; add -a claude-code codex opencode pi to pick targets
 ```
 
 **Manual install** — the directory name must be `deslop` (it must match the `name:` field in SKILL.md):
 
 ```bash
-git clone https://github.com/terry2010/deslop-fusion
-S=deslop-fusion/skill
+git clone https://github.com/terry2010/awesome-skill-market
+S=awesome-skill-market/skill
 
 cp -r $S ~/.agents/skills/deslop          # Codex · Devin · Pi · OpenCode (all scan this path)
 ln -sfn $PWD/$S ~/.claude/skills/deslop   # Claude Code (symlinks fine)
@@ -70,7 +72,7 @@ cp -r $S ~/.config/opencode/skills/deslop # OpenCode user-level
 ### B) Run the pipeline yourself (self-host)
 
 ```bash
-git clone https://github.com/terry2010/deslop-fusion && cd deslop-fusion
+git clone https://github.com/terry2010/awesome-skill-market && cd awesome-skill-market
 npm run setup            # deps + Playwright chromium
 cp .env.example .env     # configure below
 gh auth login            # needs issue + push access
@@ -82,7 +84,7 @@ npm run daemon           # foreground loop: sync→extract→merge→evidence→
 | Var | What |
 |---|---|
 | `OMLX_BASE_URL` / `OMLX_API_KEY` / `OMLX_MODEL` | Any OpenAI-compatible chat endpoint — local (omlx, llama.cpp, vLLM, Ollama) or hosted |
-| `GITHUB_REPO` | **Your own repo** (`you/deslop-fusion`) — conflict issues get filed here |
+| `GITHUB_REPO` | **Your own repo** (`you/awesome-skill-market`) — conflict issues get filed here |
 | `GITHUB_BRANCH` | `main` |
 | `DAEMON_INTERVAL_MIN` | Cycle interval, default 30 |
 
@@ -90,7 +92,7 @@ Loop variants: `npm run once` (single cycle) · `npm run once -- --no-llm` (skip
 
 ## How is this different from installing taste-skill / Impeccable / Hallmark directly?
 
-| | Individual skills | deslop-fusion |
+| | Individual skills | awesome-skill-market |
 |---|---|---|
 | Rule conflicts | Resolved at runtime, silently, per-session | Resolved once, on the record, by a human |
 | Rule inventory | Frozen at install | Re-extracted on every upstream commit |
@@ -153,5 +155,5 @@ Both rules are held out of the merged skill, an issue is filed with A/B screensh
 ## Links
 
 - Output skill: [`skill/SKILL.md`](skill/SKILL.md)
-- Arbitration queue: [issues labeled `conflict`](https://github.com/terry2010/deslop-fusion/issues?q=label%3Aconflict)
+- Arbitration queue: [issues labeled `conflict`](https://github.com/terry2010/awesome-skill-market/issues?q=label%3Aconflict)
 - Upstreams: [taste-skill](https://github.com/Leonxlnx/taste-skill) · [hallmark](https://github.com/Nutlope/hallmark) · [frontend-design](https://github.com/anthropics/skills) · [web-design-guidelines](https://github.com/vercel-labs/agent-skills)
