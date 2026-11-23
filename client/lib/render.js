@@ -38,7 +38,6 @@ export function dashboard({ hub, library, scan, upstream, conflicts, llm, llmVia
     (n) => upstream.skills[n]?.tree_hash !== (scan.managedHash?.[n] ?? null) && upstream.skills[n]
   ).length;
   const pending = conflicts.filter((c) => c.status === 'pending').length;
-  const externals = scan.rows.filter((r) => r.state === 'external').length;
   const audits = skills.map((n) => library.skills[n].audit);
   const bad = audits.filter((a) => a === 'suspicious' || a === 'quarantined').length;
 
@@ -54,7 +53,7 @@ export function dashboard({ hub, library, scan, upstream, conflicts, llm, llmVia
   if (parts.length) err(`${pad(L('agent', 'agents'), 11)}${parts.join(' · ')}`);
   if (project) err(`${pad(L('项目', 'project'), 11)}${project.root}`);
   if (pending) err(`${pad(L('冲突', 'conflicts'), 11)}${L(`${pending} 个待裁决`, `${pending} pending`)} — ${L('需要裁决', 'needs your decision')}`);
-  if (externals) err(`${pad(L('agent目录', 'agent dirs'), 11)}${L(`${externals} 个 skill 但没被管理`, `${externals} skills, unmanaged`)} — ${L('install <path> 收进来', '`install <path>` to manage')}`);
+  // 散在 agent 目录的外部 skill 不显示——只有 `list --scan` 主动扫描才列
   err('');
   const hints = [];
   if (pending) hints.push(L('skillmkt conflicts --ui    裁决冲突（开面板看图）', 'skillmkt conflicts --ui    decide conflicts (visual panel)'));

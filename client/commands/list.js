@@ -38,11 +38,15 @@ export async function run(ctx) {
       if (tableRows.length) table(tableRows, cols);
       else info(L('（清单是空的——先 skillmkt install <路径> 收一个进来，或 skillmkt search 去搜）', '(list is empty — skillmkt install <path> to add one, or skillmkt search to find one)'));
       if (extRows.length) {
-        info('');
-        info(L('这些 skill 在 agent 目录里，但还没纳入管理：', 'these skills exist in agent dirs but are not managed yet:'));
-        for (const e of extRows) info(`  ${e.name.padEnd(30)} ${e.dir}`);
-        const ex = extRows[0];
-        info(L(`→ 收一个进来试试：skillmkt install ${ex.dir}/${ex.name.slice(1)}`, `→ to manage one, e.g.: skillmkt install ${ex.dir}/${ex.name.slice(1)}`));
+        if (ctx.flags.raw.scan) {
+          info('');
+          info(L('这些 skill 在 agent 目录里，但还没纳入管理：', 'these skills exist in agent dirs but are not managed yet:'));
+          for (const e of extRows) info(`  ${e.name.padEnd(30)} ${e.dir}`);
+          const ex = extRows[0];
+          info(L(`→ 收一个进来试试：skillmkt install ${ex.dir}/${ex.name.slice(1)}`, `→ to manage one, e.g.: skillmkt install ${ex.dir}/${ex.name.slice(1)}`));
+        } else {
+          info(L(`（另有 ${extRows.length} 个 skill 散在 agent 目录——skillmkt list --scan 查看）`, `(${extRows.length} more skills scattered in agent dirs — skillmkt list --scan to view)`));
+        }
       }
       if (ctx.project) {
         const projRows = rows.filter((r) => r.where === 'project');
