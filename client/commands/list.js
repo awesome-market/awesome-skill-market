@@ -36,12 +36,13 @@ export async function run(ctx) {
     json: ctx.flags.json,
     human: () => {
       if (tableRows.length) table(tableRows, cols);
-      else info(L('(empty — skillmkt search / install 开始)', '(empty — skillmkt search / install to start)'));
+      else info(L('（清单是空的——先 skillmkt install <路径> 收一个进来，或 skillmkt search 去搜）', '(list is empty — skillmkt install <path> to add one, or skillmkt search to find one)'));
       if (extRows.length) {
         info('');
-        info(L('external（未收编）:', 'external (unmanaged):'));
+        info(L('这些 skill 在 agent 目录里，但还没纳入管理：', 'these skills exist in agent dirs but are not managed yet:'));
         for (const e of extRows) info(`  ${e.name.padEnd(30)} ${e.dir}`);
-        info(L(`→ skillmkt install <path> 收编`, `→ skillmkt install <path> to adopt`));
+        const ex = extRows[0];
+        info(L(`→ 收一个进来试试：skillmkt install ${ex.dir}/${ex.name.slice(1)}`, `→ to manage one, e.g.: skillmkt install ${ex.dir}/${ex.name.slice(1)}`));
       }
       if (ctx.project) {
         const projRows = rows.filter((r) => r.where === 'project');
