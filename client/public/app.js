@@ -5,6 +5,8 @@ const el = (h) => { const d = document.createElement('div'); d.innerHTML = h; re
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 let S = null, tab = location.hash.slice(1).split('?')[0] || 'skills';
 let saveMsg = '', saveMsgAt = 0;   // 保存结果提示——要挺过保存后的连续重渲染（自己 refresh + SSE config 事件）
+const mkState = { q: '', results: null, installed: new Set(), status: {}, directOut: '' };   // 市场页状态——SSE refresh 重渲染不丢
+let mgOut = '';   // 合并结果提示——同上
 
 const I18N = {
   zh: {
@@ -345,37 +347,53 @@ async function render() {
   }
 
   if (tab === 'market') {
+    // 搜索状态挂模块级——SSE/手动 refresh 重渲染后不丢结果
     app.innerHTML = `<h2>${t('mk_h')}</h2><p class="desc">${t('mk_desc')}</p>
-      <div class="card"><div class="frow"><input type="text" id="mk-q" placeholder="${t('mk_ph')}" style="flex:1">
+      <div class="card"><div class="frow"><input type="text" id="mk-q" placeholder="${t('mk_ph')}" value="${esc(mkState.q)}" style="flex:1">
         <button class="primary" id="mk-go">${t('mk_search')}</button><button id="mk-dir">${t('mk_direct')}</button></div>
-        <div id="mk-out" class="fsub"></div></div>
+        <div id="mk-out" class="fsub">${esc(mkState.directOut)}</div></div>
       <div id="mk-res"></div>`;
     const q = app.querySelector('#mk-q');
-    const doInstall = async (ref, path, btn) => {
-      btn.disabled = true; const old = btn.textContent; btn.textContent = t('mk_busy');
-      const r = await api('/install', { method: 'POST', body: JSON.stringify({ ref, path }) });
-      btn.disabled = false; btn.textContent = old;
-      const out = btn.parentElement.querySelector('.iout') || app.querySelector('#mk-out');
-      out.textContent = r.code === 0 ? t('ins_done') : (r.out || '').split('\n').pop().slice(0, 120);
-      if (r.code === 0) refresh();
-    };
-    app.querySelector('#mk-go').onclick = async () => {
-      const res = app.querySelector('#mk-res');
-      res.innerHTML = `<p class="mut">${t('mk_busy')}</p>`;
-      const r = await api(`/search?q=${encodeURIComponent(q.value.trim())}`);
-      res.innerHTML = (r.skills || []).slice(0, 15).map((s) => {
+    const res = app.querySelector('#mk-res');
+    const renderResults = () => {
+      res.innerHTML = (mkState.results || []).map((s) => {
         const parts = s.slug.split('/'), ownerRepo = parts.slice(0, 2).join('/'), sub = parts.slice(2).join('/');
+        const done = mkState.installed.has(s.slug);
         return `<div class="card row"><b>${esc(s.name)}</b><span class="mut">${esc(s.slug)} · ${s.installs} installs</span>
-          <button class="mk-i" style="margin-left:auto" data-r="${esc(ownerRepo)}" data-p="${esc(sub)}">${t('mk_install')}</button><span class="iout mut"></span></div>`;
-      }).join('') || `<div class="empty">${t('cf_empty')}</div>`;
-      res.querySelectorAll('.mk-i').forEach((b) => b.onclick = () => doInstall(b.dataset.r, b.dataset.p, b));
+          <button class="mk-i" style="margin-left:auto" data-s="${esc(s.slug)}" data-r="${esc(ownerRepo)}" data-p="${esc(sub)}" ${done ? 'disabled' : ''}>${done ? t('ins_done') : t('mk_install')}</button>
+          <span class="iout mut">${esc(mkState.status[s.slug] || '')}</span></div>`;
+      }).join('') || (mkState.results ? `<div class="empty">${t('cf_empty')}</div>` : '');
+      res.querySelectorAll('.mk-i').forEach((b) => b.onclick = async () => {
+        b.disabled = true; b.textContent = t('mk_busy');
+        const r = await api('/install', { method: 'POST', body: JSON.stringify({ ref: b.dataset.r, path: b.dataset.p }) });
+        if (r.code === 0) {
+          mkState.installed.add(b.dataset.s);
+          b.textContent = t('ins_done');
+        } else {
+          b.disabled = false; b.textContent = t('mk_install');
+          mkState.status[b.dataset.s] = (r.out || '').split('\n').pop().slice(0, 120);
+          b.parentElement.querySelector('.iout').textContent = mkState.status[b.dataset.s];
+        }
+      });
+    };
+    renderResults();
+    app.querySelector('#mk-go').onclick = async () => {
+      mkState.q = q.value.trim();
+      res.innerHTML = `<p class="mut">${t('mk_busy')}</p>`;
+      const r = await api(`/search?q=${encodeURIComponent(mkState.q)}`);
+      mkState.results = r.skills ? r.skills.slice(0, 15) : null;
+      renderResults();
     };
     app.querySelector('#mk-dir').onclick = async () => {
       const v = q.value.trim(); if (!v) return;
+      const btn = app.querySelector('#mk-dir');
+      btn.disabled = true; btn.textContent = t('mk_busy');
       const r = await api('/install', { method: 'POST', body: JSON.stringify({ ref: v }) });
-      app.querySelector('#mk-out').textContent = r.code === 0 ? t('ins_done') : (r.out || '').split('\n').pop().slice(0, 120);
-      if (r.code === 0) refresh();
+      btn.disabled = false; btn.textContent = t('mk_direct');
+      mkState.directOut = r.code === 0 ? t('ins_done') : (r.out || '').split('\n').pop().slice(0, 120);
+      app.querySelector('#mk-out').textContent = mkState.directOut;
     };
+    q.addEventListener('input', () => { mkState.q = q.value; });
     q.addEventListener('keydown', (e) => { if (e.key === 'Enter') app.querySelector('#mk-go').click(); });
   }
 
@@ -388,7 +406,7 @@ async function render() {
       + (skills.map((n) => `<label class="check"><input type="checkbox" data-mg="${esc(n)}"> ${esc(n)}</label>`).join('')
         || `<div class="empty">${t('sk_empty')}</div>`)
       + `<div class="frow"><input type="text" id="mg-name" placeholder="${t('mg_name')}" style="flex:1">
-        <button class="primary" id="mg-go">${t('mg_go')}</button><span id="mg-out" class="mut"></span></div></div>`
+        <button class="primary" id="mg-go">${t('mg_go')}</button><span id="mg-out" class="mut">${esc(mgOut)}</span></div></div>`
       + (mg ? `<div class="card"><div class="row"><b>${t('mg_state', esc(mg.name), mg.rules)}</b>
         <button id="mg-build" ${mg.built ? 'disabled' : ''}>${t('mg_build')}</button>
         ${mg.built ? `<button class="primary" id="mg-inst">${t('mg_install')}</button>` : ''}
@@ -399,7 +417,8 @@ async function render() {
       if (names.length < 2) { app.querySelector('#mg-out').textContent = t('mg_few'); return; }
       e.target.disabled = true; e.target.textContent = t('mg_busy');
       const r = await api('/merge', { method: 'POST', body: JSON.stringify({ names, name: app.querySelector('#mg-name').value.trim() || undefined }) });
-      app.querySelector('#mg-out').textContent = (r.out || '').split('\n').pop().slice(0, 140);
+      mgOut = (r.out || '').split('\n').pop().slice(0, 140);
+      app.querySelector('#mg-out').textContent = mgOut;
       e.target.disabled = false; e.target.textContent = t('mg_go');
       refresh();
     };
