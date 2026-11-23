@@ -25,7 +25,7 @@ export const fail = (s) => err(`✗ ${s}`);
 export const info = (s) => err(`  ${s}`);
 
 // 裸跑仪表盘：只摆"需要注意力"的信息
-export function dashboard({ hub, library, scan, upstream, conflicts, llm, llmVia, project }) {
+export function dashboard({ hub, library, scan, upstream, conflicts, llm, llmVia, configFile = true, project }) {
   const skills = Object.keys(library.skills || {});
   const updates = Object.keys(upstream?.skills || {}).filter(
     (n) => upstream.skills[n]?.tree_hash !== (scan.managedHash?.[n] ?? null) && upstream.skills[n]
@@ -35,7 +35,7 @@ export function dashboard({ hub, library, scan, upstream, conflicts, llm, llmVia
   const audits = skills.map((n) => library.skills[n].audit);
   const bad = audits.filter((a) => a === 'suspicious' || a === 'quarantined').length;
 
-  err(`skillmkt · hub ${hub}${llm ? ` · llm ${llm.model} ✓${llmVia === 'env' ? L('（来自环境变量，未写 config.yml）', ' (from env vars, not in config.yml)') : ''}` : ''}`);
+  err(`skillmkt · hub ${hub}${llm ? ` · llm ${llm.model} ✓${llmVia ? L(`（来自 ${llmVia}，未写 config.yml）`, ` (from ${llmVia}, not in config.yml)`) : ''}` : ''}`);
   err('');
   err(`skills      ${skills.length} installed${updates ? ` · ${updates} update available` : ''} · audit ${audits.length - bad}✓${bad ? `/${bad}⚠` : ''}`);
   const hs = scan.harnesses.filter((h) => h.state !== 'absent')
@@ -48,6 +48,7 @@ export function dashboard({ hub, library, scan, upstream, conflicts, llm, llmVia
   const hints = [];
   if (pending) hints.push(L('skillmkt conflicts --ui    裁决冲突（开面板看图）', 'skillmkt conflicts --ui    decide conflicts (visual panel)'));
   if (updates) hints.push(L('skillmkt outdated          看可更新项', 'skillmkt outdated          view updates'));
+  if (!configFile) hints.push(L('skillmkt init              把设置写进 config.yml（现在全靠环境变量兜底）', 'skillmkt init              write settings to config.yml (currently env-only)'));
   hints.push(externals
     ? L('skillmkt list              安装矩阵 + ◌external 路径', 'skillmkt list              install matrix + ◌external paths')
     : L('skillmkt list              安装矩阵', 'skillmkt list              install matrix'));

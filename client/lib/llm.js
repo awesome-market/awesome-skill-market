@@ -71,12 +71,23 @@ export function resolveKeyRef(keyRef, ctx) {
 
 export function resolveLLM(ctx) {
   if (ctx.flags.noLlm) return null;
-  // 解析链：hub/.env < cwd/.env < 真环境变量（后者覆盖前者）
-  const env = { ...(ctx.hub ? loadDotEnv(path.join(ctx.hub, '.env')) : {}), ...loadDotEnv(path.join(ctx.cwd, '.env')), ...process.env };
+  // 取值优先级：flag > 真环境变量 > cwd/.env > hub/.env > config.llm（via 记来源供展示）
+  const envHub = ctx.hub ? loadDotEnv(path.join(ctx.hub, '.env')) : {};
+  const envCwd = loadDotEnv(path.join(ctx.cwd, '.env'));
+  const env = { ...envHub, ...envCwd, ...process.env };
   const cfg = ctx.config.llm || {};
-  const base = ctx.flags.baseUrl || env.SKILLMKT_LLM_BASE_URL || env.OMLX_BASE_URL || cfg.base_url;
-  const model = ctx.flags.model || env.SKILLMKT_LLM_MODEL || env.OMLX_MODEL || cfg.model;
-  const keyRef = ctx.flags.apiKeyEnv || env.SKILLMKT_LLM_API_KEY || env.OMLX_API_KEY || cfg.api_key;
+  const pick = (flagV, names, cfgV) => {
+    if (flagV) return [flagV, 'flag'];
+    for (const n of names) {
+      if (process.env[n]) return [process.env[n], `env ${n}`];
+      if (envCwd[n]) return [envCwd[n], `${n}（cwd/.env）`];
+      if (envHub[n]) return [envHub[n], `${n}（hub/.env）`];
+    }
+    return [cfgV, 'config'];
+  };
+  const [base, via] = pick(ctx.flags.baseUrl, ['SKILLMKT_LLM_BASE_URL', 'OMLX_BASE_URL'], cfg.base_url);
+  const [model] = pick(ctx.flags.model, ['SKILLMKT_LLM_MODEL', 'OMLX_MODEL'], cfg.model);
+  const [keyRef] = pick(ctx.flags.apiKeyEnv, ['SKILLMKT_LLM_API_KEY', 'OMLX_API_KEY'], cfg.api_key);
   if (!base || !model) return null;
   // api_key："env:VAR"→环境变量；"enc:v1:…"→本机解密；裸值（不建议）原样用
   const key = keyRef?.startsWith('env:') ? env[keyRef.slice(4)] : keyRef?.startsWith('enc:') ? decryptSecret(keyRef) : keyRef;
@@ -84,6 +95,7 @@ export function resolveLLM(ctx) {
     base_url: base.replace(/\/+$/, ''),
     model,
     api_key: key || '',
+    via: via === 'config' ? null : via,
     concurrency: +(cfg.concurrency ?? 2),
     timeout_ms: +(cfg.timeout_ms ?? 60000),
   };
