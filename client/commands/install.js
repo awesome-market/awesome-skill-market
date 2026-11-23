@@ -103,11 +103,12 @@ export async function run(ctx) {
     fail(L(`判定为恶意——已隔离: ${name}（${audit.findings.length} 处发现）`, `malicious — quarantined: ${name} (${audit.findings.length} findings)`));
     return 2;
   }
-  if (audit.verdict === 'suspicious' && ctx.config.policy !== 'permissive') {
+  const policy = flags.policy || ctx.config.policy;
+  if (audit.verdict === 'suspicious' && policy !== 'permissive') {
     warn(L(`可疑：发现 ${audit.findings.length} 处${audit.stripped.length ? `，已剔除 ${audit.stripped.length} 个文件` : ''}`, `suspicious: ${audit.findings.length} findings${audit.stripped.length ? `, stripping ${audit.stripped.length} files` : ''}`));
     audit.findings.slice(0, 5).forEach((f) => info(`${f.rule} ${f.file}:${f.line} — ${f.excerpt.slice(0, 80)}`));
     // --yes 不放大 suspicious（安全默认）；strict 直接拒
-    const proceed = ctx.config.policy === 'strict' ? false : await confirm(L(`继续安装 ${name}?`, `Install ${name} anyway?`), { defaultYes: false });
+    const proceed = policy === 'strict' ? false : await confirm(L(`继续安装 ${name}?`, `Install ${name} anyway?`), { defaultYes: false });
     if (!proceed) { fail(L('已取消', 'install aborted')); return 2; }
   }
 

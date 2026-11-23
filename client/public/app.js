@@ -9,7 +9,7 @@ let saveMsg = '', saveMsgAt = 0;   // 保存结果提示——要挺过保存后
 const I18N = {
   zh: {
     title: 'skillmkt — 本地 skill 管理面板', tag: '本地管理面板',
-    nav_skills: '已安装', nav_conflicts: '冲突处理', nav_review: '安全审核', nav_setup: '设置',
+    nav_skills: '已安装', nav_market: '市场', nav_merge: '合并', nav_conflicts: '冲突处理', nav_review: '安全审核', nav_setup: '设置',
     live_conn: '连接中…', live_on: '已连接', live_off: '已断开',
     foot_hub: (h) => `数据目录：${h}`,
     err_conn: (e) => `连不上本地服务：${esc(e)}——服务可能已退出，重跑 <code>skillmkt serve</code>`,
@@ -73,10 +73,26 @@ const I18N = {
     step_save: '第 4 步 · 保存', save_btn: '保存设置',
     saved: (enc) => `已保存到 config.yml${enc ? '，密钥已加密' : ''}`,
     save_fail: (e) => `保存失败：${e}`,
+    mk_h: 'Skill 市场', mk_desc: '搜索 skills.sh 公共市场；也可以直接粘贴 owner/repo、skills.sh 条目或本地路径来安装。',
+    mk_ph: '搜关键词，或粘 owner/repo / 绝对路径', mk_search: '搜索', mk_direct: '按输入直接安装', mk_install: '安装',
+    mk_busy: '处理中…', ins_done: '完成', ins_fail: (c) => `失败（退出码 ${c}）`,
+    sk_remove: '移除', sk_remove_sure: '再点一次确认', sk_removed: '已移除',
+    det_btn: '详情', det_files: (n) => `${n} 个文件`, det_diff: '上游 diff', det_rollback: '回滚上一版',
+    ext_h: (n) => `agent 目录里没收编的 skill（${n}）`,
+    ext_desc: '这些已经能被对应 agent 用，但没有版本跟踪、安全审核和统一更新。收编进来集中管理。',
+    ext_adopt: '收编', ext_busy: '收编中…',
+    maint_h: '维护', upd_refresh: '刷新上游信息', upd_one: '升级', upd_all: '全部升级',
+    sync_btn: '检查并修复投影', op_busy: '执行中…', op_done: '完成',
+    mg_h: '合并 skill', mg_desc: '勾选两个以上已管理的 skill，规则会抽出来去重、查冲突——有分歧的进「冲突处理」由你裁决，最终生成一个不含未决规则的新 skill。',
+    mg_pick: '选择要合并的 skill（≥2）', mg_name: '新 skill 名字（可选，默认自动生成）', mg_go: '开始合并',
+    mg_busy: '合并中…', mg_few: '至少勾两个',
+    mg_state: (n, r) => `当前合并产物：${n}（${r} 条规则）`,
+    mg_build: '生成 SKILL.md', mg_install: '安装这个合并 skill', mg_to_conflicts: '有冲突待裁决 → 去「冲突处理」',
+    rv_reaudit: '重新审核',
   },
   en: {
     title: 'skillmkt — local skill manager', tag: 'local skill manager',
-    nav_skills: 'Installed', nav_conflicts: 'Conflicts', nav_review: 'Security', nav_setup: 'Settings',
+    nav_skills: 'Installed', nav_market: 'Market', nav_merge: 'Merge', nav_conflicts: 'Conflicts', nav_review: 'Security', nav_setup: 'Settings',
     live_conn: 'connecting…', live_on: 'connected', live_off: 'disconnected',
     foot_hub: (h) => `Data dir: ${h}`,
     err_conn: (e) => `Cannot reach the local service: ${esc(e)} — it may have exited; run <code>skillmkt serve</code> again`,
@@ -140,6 +156,22 @@ const I18N = {
     step_save: 'Step 4 · Save', save_btn: 'Save settings',
     saved: (enc) => `Saved to config.yml${enc ? ' — key encrypted' : ''}`,
     save_fail: (e) => `Save failed: ${e}`,
+    mk_h: 'Skill market', mk_desc: 'Search the skills.sh public market, or paste an owner/repo, skills.sh entry, or local path to install directly.',
+    mk_ph: 'keywords, or paste owner/repo / absolute path', mk_search: 'Search', mk_direct: 'Install input as ref/path', mk_install: 'Install',
+    mk_busy: 'Working…', ins_done: 'Done', ins_fail: (c) => `Failed (exit ${c})`,
+    sk_remove: 'Remove', sk_remove_sure: 'Click again to confirm', sk_removed: 'Removed',
+    det_btn: 'Details', det_files: (n) => `${n} files`, det_diff: 'Upstream diff', det_rollback: 'Rollback a version',
+    ext_h: (n) => `Unmanaged skills in agent dirs (${n})`,
+    ext_desc: 'These already work in their agents but have no versioning, security audit, or unified updates. Adopt them to manage centrally.',
+    ext_adopt: 'Adopt', ext_busy: 'Adopting…',
+    maint_h: 'Maintenance', upd_refresh: 'Refresh upstream info', upd_one: 'Upgrade', upd_all: 'Upgrade all',
+    sync_btn: 'Check & repair projections', op_busy: 'Working…', op_done: 'Done',
+    mg_h: 'Merge skills', mg_desc: 'Check two or more managed skills — rules get extracted, deduplicated and conflict-checked. Disagreements land in "Conflicts" for you to decide; the result is a new skill with no unresolved rules.',
+    mg_pick: 'Skills to merge (≥2)', mg_name: 'New skill name (optional)', mg_go: 'Merge',
+    mg_busy: 'Merging…', mg_few: 'Pick at least two',
+    mg_state: (n, r) => `Current merged result: ${n} (${r} rules)`,
+    mg_build: 'Build SKILL.md', mg_install: 'Install this merged skill', mg_to_conflicts: 'Pending conflicts → go to "Conflicts"',
+    rv_reaudit: 'Re-audit',
   },
 };
 const t = (k, ...a) => { const v = (I18N[S?.lang] || I18N.zh)[k] ?? I18N.zh[k]; return typeof v === 'function' ? v(...a) : (v ?? k); };
@@ -157,6 +189,7 @@ const es = new EventSource(`/api/events?token=${T}`);
 es.addEventListener('decide', () => refresh());
 es.addEventListener('config', () => refresh());
 es.addEventListener('targets', () => refresh());
+es.addEventListener('library', () => refresh());
 const live = document.getElementById('live');
 es.onopen = () => { live.classList.remove('off'); live.innerHTML = `<span class="dot"></span>${t('live_on')}`; };
 es.onerror = () => { live.classList.add('off'); live.innerHTML = `<span class="dot"></span>${t('live_off')}`; };
@@ -218,9 +251,45 @@ async function render() {
       + (skills.map(([n, s]) => `
       <div class="card"><div class="row"><b>${esc(n)}</b><span class="mut">${esc(s.version || '')}</span><span class="mut">${esc(s.source?.registry || '')}</span>${pill(s.audit || 'clean')}
       <span class="mut" style="margin-left:auto">${t('sk_at')}${(s.targets || []).map((x) => esc(x)).join(t('sep')) || t('sk_hub')}</span>
-      <button data-tg="${esc(n)}">${t('sk_loc')}</button></div>
-      <div class="tgbox" data-box="${esc(n)}" style="display:none;margin-top:10px"></div></div>`).join('')
+      <button data-tg="${esc(n)}">${t('sk_loc')}</button><button data-dt="${esc(n)}">${t('det_btn')}</button><button data-rm="${esc(n)}">${t('sk_remove')}</button></div>
+      <div class="tgbox" data-box="${esc(n)}" style="display:none;margin-top:10px"></div>
+      <div class="dtbox" data-dbox="${esc(n)}" style="display:none;margin-top:10px"></div></div>`).join('')
       || `<div class="empty">${t('sk_empty')}</div>`);
+    // 移除：两段式确认（第一下变确认文案，3 秒内再点才真删）
+    app.querySelectorAll('[data-rm]').forEach((b) => {
+      let armed = false, timer = null;
+      b.onclick = async () => {
+        if (!armed) { armed = true; b.textContent = t('sk_remove_sure'); b.style.borderColor = 'var(--color-bad)'; timer = setTimeout(() => { armed = false; b.textContent = t('sk_remove'); b.style.borderColor = ''; }, 3000); return; }
+        clearTimeout(timer); b.disabled = true; b.textContent = t('op_busy');
+        const r = await api('/remove', { method: 'POST', body: JSON.stringify({ name: b.dataset.rm }) });
+        b.textContent = r.code === 0 ? t('sk_removed') : t('ins_fail', r.code);
+        if (r.code === 0) refresh();
+      };
+    });
+    // 详情：文件清单 + 上游 diff + 回滚
+    app.querySelectorAll('[data-dt]').forEach((b) => b.onclick = async () => {
+      const box = app.querySelector(`[data-dbox="${b.dataset.dt}"]`);
+      if (box.style.display === 'block') { box.style.display = 'none'; return; }
+      const s = S.library.skills[b.dataset.dt];
+      const d = await api(`/skill?name=${encodeURIComponent(b.dataset.dt)}`);
+      box.style.display = 'block';
+      box.innerHTML = `<p class="mut" style="margin:4px 0">${esc(d.description || '')} · ${t('det_files', d.fileCount ?? d.files?.length ?? 0)} · ${esc(s?.source?.registry || '')} ${esc(s?.source?.ref || '')}</p>
+        <div class="row">${s?.source?.registry === 'github' ? `<button class="df">${t('det_diff')}</button>` : ''}<button class="rb">${t('det_rollback')}</button><span class="out mut"></span></div>
+        <pre class="pre mut" style="display:none;white-space:pre-wrap;font-size:13.5px;max-height:260px;overflow:auto"></pre>`;
+      box.querySelector('.df')?.addEventListener('click', async (e) => {
+        e.target.disabled = true; e.target.textContent = t('op_busy');
+        const r = await api(`/diff?name=${encodeURIComponent(b.dataset.dt)}`);
+        const pre = box.querySelector('.pre'); pre.style.display = 'block'; pre.textContent = r.out || '(no output)';
+        e.target.disabled = false; e.target.textContent = t('det_diff');
+      });
+      box.querySelector('.rb')?.addEventListener('click', async (e) => {
+        e.target.disabled = true; e.target.textContent = t('op_busy');
+        const r = await api('/rollback', { method: 'POST', body: JSON.stringify({ name: b.dataset.dt }) });
+        box.querySelector('.out').textContent = r.code === 0 ? t('op_done') : (r.out || '').slice(0, 120);
+        e.target.disabled = false; e.target.textContent = t('det_rollback');
+        if (r.code === 0) refresh();
+      });
+    });
     app.querySelectorAll('[data-tg]').forEach((b) => b.onclick = () => {
       const box = app.querySelector(`[data-box="${b.dataset.tg}"]`);
       if (box.style.display === 'block') { box.style.display = 'none'; return; }
@@ -242,9 +311,110 @@ async function render() {
       + (S.harnesses || []).map((h) => `<div class="card row"><b>${esc(h.id)}</b>${pill(h.state)}<span class="mut">${esc(h.primaryDir || h.dirs?.[0]?.path || '')}</span></div>`).join('');
     const up = S.upstream.skills || {};
     const outs = Object.entries(up).filter(([, u]) => u.outdated);
-    if (outs.length) app.innerHTML += `<h2>${t('upd_h', outs.length)}</h2>
-      <p class="desc">${t('upd_desc')}</p>`
-      + outs.map(([n]) => `<div class="card row"><b>${esc(n)}</b>${pill('outdated')}</div>`).join('');
+    app.innerHTML += `<h2>${t('maint_h')}</h2>
+      <div class="card row"><button id="m-upd">${t('upd_refresh')}</button><button id="m-sync">${t('sync_btn')}</button>
+      ${outs.length ? `<button id="m-upg" class="primary">${t('upd_all')}（${outs.length}）</button>` : ''}<span id="m-out" class="mut"></span></div>`
+      + (outs.length ? outs.map(([n]) => `<div class="card row"><b>${esc(n)}</b>${pill('outdated')}<button class="upg" data-n="${esc(n)}" style="margin-left:auto">${t('upd_one')}</button><span class="uout mut"></span></div>`).join('') : '');
+    const runOp = async (btn, path, body) => {
+      btn.disabled = true; const old = btn.textContent; btn.textContent = t('op_busy');
+      const r = await api(path, { method: 'POST', body: JSON.stringify(body || {}) });
+      btn.disabled = false; btn.textContent = old;
+      return r;
+    };
+    app.querySelector('#m-upd').onclick = async (e) => { const r = await runOp(e.target, '/update'); app.querySelector('#m-out').textContent = (r.out || '').split('\n').pop().slice(0, 100); refresh(); };
+    app.querySelector('#m-sync').onclick = async (e) => { const r = await runOp(e.target, '/sync'); app.querySelector('#m-out').textContent = (r.out || '').split('\n').pop().slice(0, 100); };
+    app.querySelector('#m-upg')?.addEventListener('click', async (e) => { await runOp(e.target, '/upgrade'); refresh(); });
+    app.querySelectorAll('.upg').forEach((b) => b.onclick = async (e) => {
+      const r = await runOp(e.target, '/upgrade', { name: b.dataset.n });
+      const o = b.parentElement.querySelector('.uout'); if (o) o.textContent = r.code === 0 ? t('op_done') : (r.out || '').slice(0, 100);
+      if (r.code === 0) refresh();
+    });
+
+    // 收编区：agent 目录里没收编的 skill（主动拉 /api/scan 才显示）
+    const ext = await api('/scan');
+    if (ext?.length) {
+      app.innerHTML += `<h2>${t('ext_h', ext.length)}</h2><p class="desc">${t('ext_desc')}</p>`
+        + ext.map((e) => `<div class="card row"><b>${esc(e.name)}</b><span class="mut">${esc(e.where)} · ${esc(e.dir)}</span>
+          <button class="adopt" data-d="${esc(e.path || '')}" style="margin-left:auto">${t('ext_adopt')}</button><span class="aout mut"></span></div>`).join('');
+      app.querySelectorAll('.adopt').forEach((b) => b.onclick = async (e) => {
+        const r = await runOp(e.target, '/install', { ref: b.dataset.d });
+        const o = b.parentElement.querySelector('.aout'); if (o) o.textContent = r.code === 0 ? t('op_done') : (r.out || '').split('\n').pop().slice(0, 100);
+        if (r.code === 0) refresh();
+      });
+    }
+  }
+
+  if (tab === 'market') {
+    app.innerHTML = `<h2>${t('mk_h')}</h2><p class="desc">${t('mk_desc')}</p>
+      <div class="card"><div class="frow"><input type="text" id="mk-q" placeholder="${t('mk_ph')}" style="flex:1">
+        <button class="primary" id="mk-go">${t('mk_search')}</button><button id="mk-dir">${t('mk_direct')}</button></div>
+        <div id="mk-out" class="fsub"></div></div>
+      <div id="mk-res"></div>`;
+    const q = app.querySelector('#mk-q');
+    const doInstall = async (ref, path, btn) => {
+      btn.disabled = true; const old = btn.textContent; btn.textContent = t('mk_busy');
+      const r = await api('/install', { method: 'POST', body: JSON.stringify({ ref, path }) });
+      btn.disabled = false; btn.textContent = old;
+      const out = btn.parentElement.querySelector('.iout') || app.querySelector('#mk-out');
+      out.textContent = r.code === 0 ? t('ins_done') : (r.out || '').split('\n').pop().slice(0, 120);
+      if (r.code === 0) refresh();
+    };
+    app.querySelector('#mk-go').onclick = async () => {
+      const res = app.querySelector('#mk-res');
+      res.innerHTML = `<p class="mut">${t('mk_busy')}</p>`;
+      const r = await api(`/search?q=${encodeURIComponent(q.value.trim())}`);
+      res.innerHTML = (r.skills || []).slice(0, 15).map((s) => {
+        const parts = s.slug.split('/'), ownerRepo = parts.slice(0, 2).join('/'), sub = parts.slice(2).join('/');
+        return `<div class="card row"><b>${esc(s.name)}</b><span class="mut">${esc(s.slug)} · ${s.installs} installs</span>
+          <button class="mk-i" style="margin-left:auto" data-r="${esc(ownerRepo)}" data-p="${esc(sub)}">${t('mk_install')}</button><span class="iout mut"></span></div>`;
+      }).join('') || `<div class="empty">${t('cf_empty')}</div>`;
+      res.querySelectorAll('.mk-i').forEach((b) => b.onclick = () => doInstall(b.dataset.r, b.dataset.p, b));
+    };
+    app.querySelector('#mk-dir').onclick = async () => {
+      const v = q.value.trim(); if (!v) return;
+      const r = await api('/install', { method: 'POST', body: JSON.stringify({ ref: v }) });
+      app.querySelector('#mk-out').textContent = r.code === 0 ? t('ins_done') : (r.out || '').split('\n').pop().slice(0, 120);
+      if (r.code === 0) refresh();
+    };
+    q.addEventListener('keydown', (e) => { if (e.key === 'Enter') app.querySelector('#mk-go').click(); });
+  }
+
+  if (tab === 'merge') {
+    const skills = Object.keys(S.library.skills || {});
+    const mg = S.merged;
+    const pendN = (S.conflicts || []).filter((c) => c.status === 'pending').length;
+    app.innerHTML = `<h2>${t('mg_h')}</h2><p class="desc">${t('mg_desc')}</p>
+      <div class="card"><h3>${t('mg_pick')}</h3>`
+      + (skills.map((n) => `<label class="check"><input type="checkbox" data-mg="${esc(n)}"> ${esc(n)}</label>`).join('')
+        || `<div class="empty">${t('sk_empty')}</div>`)
+      + `<div class="frow"><input type="text" id="mg-name" placeholder="${t('mg_name')}" style="flex:1">
+        <button class="primary" id="mg-go">${t('mg_go')}</button><span id="mg-out" class="mut"></span></div></div>`
+      + (mg ? `<div class="card"><div class="row"><b>${t('mg_state', esc(mg.name), mg.rules)}</b>
+        <button id="mg-build" ${mg.built ? 'disabled' : ''}>${t('mg_build')}</button>
+        ${mg.built ? `<button class="primary" id="mg-inst">${t('mg_install')}</button>` : ''}
+        <span id="mg-sout" class="mut"></span></div></div>` : '')
+      + (pendN ? `<div class="card row"><span class="pill warn">${pendN} pending</span><button onclick="location.hash='conflicts'">${t('mg_to_conflicts')}</button></div>` : '');
+    app.querySelector('#mg-go').onclick = async (e) => {
+      const names = [...app.querySelectorAll('[data-mg]:checked')].map((x) => x.dataset.mg);
+      if (names.length < 2) { app.querySelector('#mg-out').textContent = t('mg_few'); return; }
+      e.target.disabled = true; e.target.textContent = t('mg_busy');
+      const r = await api('/merge', { method: 'POST', body: JSON.stringify({ names, name: app.querySelector('#mg-name').value.trim() || undefined }) });
+      app.querySelector('#mg-out').textContent = (r.out || '').split('\n').pop().slice(0, 140);
+      e.target.disabled = false; e.target.textContent = t('mg_go');
+      refresh();
+    };
+    app.querySelector('#mg-build')?.addEventListener('click', async (e) => {
+      e.target.disabled = true; e.target.textContent = t('op_busy');
+      const r = await api('/build', { method: 'POST', body: '{}' });
+      app.querySelector('#mg-sout').textContent = (r.out || '').split('\n').pop().slice(0, 120);
+      refresh();
+    });
+    app.querySelector('#mg-inst')?.addEventListener('click', async (e) => {
+      e.target.disabled = true; e.target.textContent = t('op_busy');
+      const r = await api('/install', { method: 'POST', body: JSON.stringify({ ref: `${S.hub}/merged/skill-out` }) });
+      app.querySelector('#mg-sout').textContent = r.code === 0 ? t('ins_done') : (r.out || '').split('\n').pop().slice(0, 120);
+      refresh();
+    });
   }
 
   if (tab === 'conflicts') {
@@ -297,8 +467,16 @@ async function render() {
     const scans = S.scans || [];
     app.innerHTML = `<h2>${t('rv_h', scans.length)}</h2>
       <p class="desc">${t('rv_desc')}</p>`
-      + (scans.map((s) => `<div class="card row"><b>${esc(s.skill || s.name || '')}</b>${pill(s.verdict)}<span class="mut">${t('findings', (s.findings || []).length)}${s.llm ? t('ai_rec', esc(CN(s.llm.verdict))) : ''}</span></div>`).join('')
+      + (scans.map((s) => `<div class="card row"><b>${esc(s.skill || s.name || '')}</b>${pill(s.verdict)}<span class="mut">${t('findings', (s.findings || []).length)}${s.llm ? t('ai_rec', esc(CN(s.llm.verdict))) : ''}</span>
+        <button class="ra" data-n="${esc(s.skill || s.name || '')}" style="margin-left:auto">${t('rv_reaudit')}</button><span class="raout mut"></span></div>`).join('')
         || `<div class="empty">${t('rv_empty')}</div>`);
+    app.querySelectorAll('.ra').forEach((b) => b.onclick = async () => {
+      b.disabled = true; const old = b.textContent; b.textContent = t('op_busy');
+      const r = await api('/audit', { method: 'POST', body: JSON.stringify({ name: b.dataset.n }) });
+      b.disabled = false; b.textContent = old;
+      b.parentElement.querySelector('.raout').textContent = (r.out || '').split('\n').pop().slice(0, 80);
+      if (r.code === 0) refresh();
+    });
     const decs = (S.decisions || []).filter((d) => d.status === 'active');
     if (decs.length) app.innerHTML += `<h2>${t('dec_h', decs.length)}</h2>
       <p class="desc">${t('dec_desc')}</p>`
