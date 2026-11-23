@@ -1,163 +1,163 @@
-# awesome-skill-market — design
+# awesome-skill-market — 设计文档
 
-A local-first skill manager, merger, auditor and market for the Agent Skills ecosystem.
+一个本地优先（local-first）的 skill 管理器、合并器、审核器与市场，面向 Agent Skills 生态。
 
-One-line pitch: **the missing compatibility & security layer between "install a skill" and "trust your agent".**
+一句话定位：**补上"装 skill"和"信任你的 agent"之间缺失的那层兼容性与安全**。
 
-## 1. Why this exists
+## 1. 为什么做这个项目
 
-`npx skills add` (skills.sh, 75+ agents) already solved *install*. What nobody solved:
+`npx skills add`（skills.sh，覆盖 75+ agent）已经解决了**安装**。但没人解决：
 
-| Gap | Evidence |
+| 缺口 | 证据 |
 |---|---|
-| **Skills conflict with each other** | Install taste-skill + ui-ux-pro-max + web-design-guidelines → contradictory rules, agent picks whichever it read last. No tool detects this — it's exactly what the deslop-fusion pipeline was built to find. |
-| **Skills are an unreviewed supply chain** | SKILL.md is prompt-level instruction injection: it can read secrets, run bundled scripts, poison reviews. Auto-search/auto-install removes the only human checkpoint. |
-| **Version drift is silent** | Upstream edits land via `git pull` copies; nothing pins content, nothing diffs what changed. |
-| **Distribution is fragmented** | `.claude/`, `.agents/`, `.codex/`, `.pi/`, `.devin/`, `.opencode/` — six target trees, no single source of truth. |
+| **skill 之间互相打架** | 同时装 taste-skill + ui-ux-pro-max + web-design-guidelines，规则互相矛盾，agent 读到哪条算哪条。没有工具检测这件事——而这正是本管线立项的原因。 |
+| **skill 是没有审核的供应链** | SKILL.md 是 prompt 级指令注入：可以读密钥、跑捆绑脚本、污染 review 行为。自动搜索/自动安装会拆掉唯一的人工检查点。 |
+| **版本漂移不可见** | 上游改动靠 `git pull` 手动同步悄悄落地；没有内容钉版，也没人告诉你变了什么。 |
+| **分发面碎片化** | `.claude/`、`.agents/`、`.codex/`、`.pi/`、`.devin/`、`.opencode/`——六套目标目录，没有单一事实源。 |
 
-## 2. Positioning vs existing tools
+## 2. 与现有工具的对比定位
 
-| Tool | What it does | What it lacks |
+| 工具 | 做了什么 | 缺什么 |
 |---|---|---|
-| skills.sh (`npx skills`) | discovery + install to 75 agents | conflicts, audit, local hub |
-| skillctl | install/lint/remove, registries | lint = style score, not semantic audit |
-| skills-manager-cli | hub + distribute | no conflict detection, no injection defense |
-| swarmskills | CLI + MCP across ~45 agents | management only |
-| claude/pi plugins | native distribution | per-harness silo |
-| **awesome-skill-market** | **hub + merge + audit + secure distribute** | — |
+| skills.sh（`npx skills`） | 发现 + 装到 75 个 agent | 冲突、审核、本地库 |
+| skillctl | 装/lint/卸、registry | lint 是风格评分，不是语义审核 |
+| skills-manager-cli | hub + 分发 | 无冲突检测、无注入防御 |
+| swarmskills | CLI + MCP 覆盖 ~45 个 agent | 只有管理功能 |
+| claude/pi 原生 plugin | 官方分发 | 各 harness 各自为战 |
+| **awesome-skill-market** | **hub + 合并 + 审核 + 安全分发** | — |
 
-Differentiator, in order of importance:
+差异化，按重要性排序：
 
-1. **Conflict engine** — semantic contradiction detection across a user's *installed* skills (not just upstream merges). The deslop-fusion engine becomes a client-side feature.
-2. **Audit layer** — deterministic + optional LLM semantic review at install time, not a registry-side gate.
-3. **Security posture** — capability stripping (scripts/ removed, secrets egress filter, no self-granted tools) instead of "detect malice" (unwinnable — see §6).
-4. **Arbitration memory** — user decisions recorded locally, exportable back to a fusion pipeline (`decisions/` YAML) — the client is a distributed arbitration network feeding the market.
+1. **冲突引擎**——对用户**已安装**的 skill 做语义矛盾检测（不只是上游合并）。deslop-fusion 引擎下沉为客户端能力。
+2. **审核层**——安装时跑确定性检查 + 可选 LLM 语义审查，审核发生在本地而不是 registry 侧。
+3. **安全姿态**——能力剥夺（剥掉 scripts/、密钥出口过滤、禁自我授权）替代"检测恶意"（打不赢，见 §6）。
+4. **仲裁记忆**——用户裁决记录在本地，可导出回流融合管线（`decisions/` YAML）——客户端成为喂养市场的分布式仲裁网络。
 
-## 3. Form factor — decided
+## 3. 形态——已定
 
-**Primary: Node 22 ESM CLI + local web dashboard** (`npx asm` → `asm serve` opens `http://localhost:PORT`).
+**主力：Node 22 ESM CLI + 本地 Web 面板**（`npx asm` → `asm serve` 打开 `http://localhost:PORT`）。
 
-| Option | Verdict | Why |
+| 选项 | 结论 | 理由 |
 |---|---|---|
-| CLI | ✅ core | every target user has Node 22; scriptable; same runtime as deslop-fusion (direct import of the whole engine) |
-| Local web panel | ✅ phase 2 | conflict diffs, install matrix, audit reports need real UI; localhost page costs 1/5 of Tauri |
-| TUI | ❌ | worst of both worlds — not scriptable, not accessible |
-| MCP server | later | a *distribution surface* for the agent to call the manager mid-session; a feature, not the product |
-| Tauri desktop | later | only if non-terminal users materialize; wraps the same Node core as sidecar |
+| CLI | ✅ 核心 | 目标用户全有 Node 22；可脚本化；与 deslop-fusion 同运行时，引擎直接 import |
+| 本地 Web 面板 | ✅ 二期 | 冲突 diff、安装矩阵、审核报告需要真 UI；localhost 页面成本是 Tauri 的 1/5 |
+| TUI | ❌ | 两头不靠——不能脚本化，也触达不到非终端用户 |
+| MCP server | 后期 | 是**分发面**不是产品——让 agent 在会话中调用管理器；做好本体后顺手包一层 |
+| Tauri 桌面 | 后期 | 只有当非终端用户群真的出现时才做；包同一个 Node core 当 sidecar |
 
-## 4. Architecture
+## 4. 架构
 
 ```
             ┌──────────── CLI: scan / audit / conflicts / install / serve ────────────┐
-            │                         Node 22 ESM, no native deps                      │
+            │                     Node 22 ESM，零原生依赖                              │
             │                                                                        │
- discover ──┤  scanner     → walk skill roots of every detected harness               │
-            │  hub         → ~/.awesome-skill-market/skills/ (single source of truth) │
- audit ─────┤  static      → scripts/, secret patterns, egress instructions, perms    │
-            │  llm-audit   → optional: user's own OpenAI-compat endpoint              │
- conflicts ─┤  engine      → jaccard + fingerprint + LLM judge (from deslop-fusion)   │
-            │  arbitrate   → fresh-context independent verdict (reuse arbitrate.js)   │
+ 发现 ──────┤  scanner     → 遍历每个已检测 harness 的 skill 目录                       │
+            │  hub         → ~/.awesome-skill-market/skills/（单一事实源）             │
+ 审核 ──────┤  static      → scripts/、密钥模式、外联指令、权限请求                    │
+            │  llm-audit   → 可选：用户自己的 OpenAI 兼容端点                          │
+ 冲突 ──────┤  engine      → jaccard + 指纹 + LLM 判定（来自 deslop-fusion）           │
+            │  arbitrate   → 全新上下文的独立裁决（复用 arbitrate.js）                  │
             │  decisions   → ~/.awesome-skill-market/decisions/*.yml                  │
- version ───┤  lock        → content-hash pin per skill per target; drift detection   │
-            │  changelog   → git-diff of upstream skill content between pins          │
- distribute ┤  targets     → symlink|copy per harness (codex = copy only)             │
-            │  adapters    → claude-code, codex, opencode, pi, devin, dsh(=pi)        │
+ 版本 ──────┤  lock        → 每个 skill 每个目标的 content-hash 钉版；漂移检测          │
+            │  changelog   → 两次钉版之间上游 skill 内容的 git-diff                   │
+ 分发 ──────┤  targets     → 按 harness 选 symlink|copy（codex 只能 copy）             │
+            │  adapters    → claude-code、codex、opencode、pi、devin、dsh（=pi）       │
             └────────────────────────────────────────────────────────────────────────┘
                                    ↑
-                    local web UI ──┘ (asm serve; React SPA + tiny node api)
+                    本地 Web UI ──┘（asm serve；React SPA + 轻量 node api）
 ```
 
-All LLM work is optional and BYO-endpoint (`.env`: `OMLX_BASE_URL`/`OMLX_API_KEY`/`OMLX_MODEL`). Without a model the entire deterministic layer still works — audit degrades to static-only, conflicts degrade to near-dup warnings.
+所有 LLM 调用都可选且自带端点（`.env`：`OMLX_BASE_URL`/`OMLX_API_KEY`/`OMLX_MODEL`）。没有模型时整个确定性层照常工作——审核降级为纯静态，冲突检测降级为近重复告警。
 
-## 5. Data layout
+## 5. 数据布局
 
 ```
 ~/.awesome-skill-market/
-├── skills/                    # canonical copies (the hub)
+├── skills/                    # 规范副本（hub 库）
 │   └── deslop/
 │       ├── SKILL.md
 │       └── references/
-├── library.yml                # inventory: name, source, version pin, targets, audit status
-├── lock.yml                   # content hashes per skill per target (drift + integrity)
-├── scans/<skill>.yml          # audit results: static findings, llm verdict, model id, date
-├── decisions/<pair-id>.yml    # arbitration records — deslop-fusion schema, exportable
-├── quarantine/                # rejected/suspicious skills held out of distribution
-└── config.yml                 # endpoints, adapters, policy (strict|balanced|permissive)
+├── library.yml                # 清单：名称、来源、版本钉、目标、审核状态
+├── lock.yml                   # 每个 skill 每个目标的 content-hash（漂移+完整性）
+├── scans/<skill>.yml          # 审核结果：静态发现、LLM 判定、模型 id、日期
+├── decisions/<pair-id>.yml    # 仲裁记录——与 deslop-fusion 同 schema，可导出
+├── quarantine/                # 被拒/可疑 skill 隔离区，不参与分发
+└── config.yml                 # 端点、适配器、策略（strict|balanced|permissive）
 ```
 
-Principle: the hub is the only writable copy; harness dirs are projections. `asm sync` regenerates every target from hub + lock.
+原则：hub 是唯一可写副本；harness 目录是投影。`asm sync` 从 hub + lock 重新生成所有目标。
 
-## 6. Security model — containment over detection
+## 6. 安全模型——控制优于检测
 
-Deterministic gate, installed-by-default, no model required:
+默认开启的确定性闸门，**无需模型**：
 
-| Control | Mechanism | Why it can't be talked around |
+| 控制 | 机制 | 为什么模型绕不过 |
 |---|---|---|
-| scripts/ strip | executable dirs/files never written to targets | channel doesn't exist, not "detected" |
-| secret egress filter | byte-pattern scan on outgoing agent context (`sk-`, `PRIVATE KEY`, `~/.ssh/`, `.env` paths) | pattern matcher, not a model |
-| network allowlist | documented hardening profile for devcontainer/profile isolation | kernel-level, not prompt-level |
-| no self-grant | skill cannot expand tool permissions — that config lives outside skills/ | permissions are host config |
-| pin + re-gate | content-hash change = back through audit before redistributing | upstream hijack can't slip into a pinned install |
-| provenance floor | below N installs / unknown publisher → `quarantine` tier requiring explicit opt-in | social cost for attacker |
+| scripts/ 剥离 | 可执行目录/文件永不写入目标 | 通道不存在，不是"被检测出来" |
+| 密钥出口过滤 | 对出向 agent 上下文做字节模式扫描（`sk-`、`PRIVATE KEY`、`~/.ssh/`、`.env` 路径） | 模式匹配器不是模型 |
+| 网络白名单 | 文档化的 devcontainer/profile 隔离加固方案 | 内核层，不是 prompt 层 |
+| 禁自我授权 | skill 无法扩展自身工具权限——权限配置在 skills/ 之外 | 权限是宿主配置 |
+| 钉版+重过闸 | content-hash 变化 = 重新过审再分发 | 上游劫持混不进已钉环境 |
+| 溯源下限 | 安装量低于阈值/未知发布者 → `quarantine` 档，需显式 opt-in | 攻击者有社会成本 |
 
-**LLM audit layer** (optional, user's own model): semantic review of SKILL.md+references — injected content wrapped as data, structured `{verdict, findings[]}` output only. Blocking decisions made by code on the verdict field, never by model freeform.
+**LLM 审核层**（可选，用户自己的模型）：对 SKILL.md + references 做语义审查——注入内容当数据包裹，只输出结构化 `{verdict, findings[]}`。**阻断决定由代码基于 verdict 字段做，绝不交给模型自由发挥。**
 
-**Known residual risk** (documented honestly): a subtle "polite" instruction can still bias a single session's output. Open-tier skills are for sandboxed profiles; curated tier for anything with real secrets. AI review is a probabilistic filter *on top of* containment, never a substitute.
+**已知残余风险**（诚实记录）：一条写得温和的指令仍可能带偏单次会话的输出。open 档 skill 只进沙箱 profile；curated 档才进有真实密钥的环境。AI 审查是控制能力**之上**的概率过滤层，永远不是替代品。
 
-## 7. Conflict & merge engine
+## 7. 冲突与合并引擎
 
-Imported from deslop-fusion (`pipeline/lib`, `synthesize.js`, `arbitrate.js`):
+从 deslop-fusion 平移（`pipeline/lib`、`synthesize.js`、`arbitrate.js`）：
 
-1. **Scan** all installed skills → flat rule-ish statements (LLM extraction optional; static section split as fallback).
-2. **Near-dup fold** — deterministic jaccard≥0.9 union-find (already built: `dedupeMerged`).
-3. **Domain synthesis** — per-domain consolidation or, cheaper default for the client: pairwise candidate filter (token jaccard≥0.15, scope boost) → LLM judge on real candidates only.
-4. **Arbitrate** — fresh-context independent verdict: `dismiss` (false conflict), `approve` (with merged text), `human` (true tradeoff → CLI/web queue).
-5. **Decisions** — `decisions/*.yml`, schema identical to deslop-fusion so a client arbitration can be PR'd upstream or into a team-shared decisions repo.
+1. **扫描**全部已装 skill → 扁平规则语句（可选 LLM 抽取；静态分节为兜底）。
+2. **近重复折叠**——确定性 jaccard≥0.9 并查集（已实现：`dedupeMerged`）。
+3. **域级综合**——按域合并；或客户端更省的默认：候选过滤（token jaccard≥0.15 + scope 加分）后只对真候选对调 LLM。
+4. **独立仲裁**——fresh-context 第二意见：`dismiss`（误报）、`approve`（含合并文本）、`human`（真价值权衡 → 进 CLI/web 队列）。
+5. **裁决落盘**——`decisions/*.yml`，与 deslop-fusion 同 schema，可 PR 回上游或进团队共享 decisions 仓。
 
-Result delivered to user: a **personal merged skill** (`merged/` → `asm build`) = union of their installed skills minus conflicts, or per-skill conflict report without merging (`--report` mode).
+交付给用户的结果：**个人版合并 skill**（`asm build` 产出）= 已装 skill 的并集减去冲突；或仅出冲突报告不合并且（`--report` 模式）。
 
-## 8. Version management
+## 8. 版本管理
 
 - `lock.yml` = `{skill, source, ref, content_hash, installed_at, targets[]}`
-- `asm update --check` → fetch upstream HEAD, hash skill subtree, compare → update available / local-modified / clean (tree-SHA granularity, not repo SHA — upstream noise outside the skill dir doesn't flag)
-- Update flow: fetch → diff summary → **re-audit** (new content is new attack surface) → redistribute
-- `asm rollback <skill>` → restore previous hub copy (kept one version deep)
+- `asm update --check` → 拉上游 HEAD、对 skill 子目录算 hash、对比 → 可更新 / 本地有改动 / 干净（tree-SHA 粒度而非 repo SHA——skill 目录外的上游噪声不误报）
+- 更新流程：拉取 → diff 摘要 → **重过审**（新内容是新攻击面）→ 重分发
+- `asm rollback <skill>` → 回滚上一份 hub 副本（保留一版深度）
 
-## 9. Install & distribution matrix
+## 9. 安装与分发矩阵
 
-| Target | Path | Transport |
+| 目标 | 路径 | 传输方式 |
 |---|---|---|
 | claude-code | `~/.claude/skills/` | symlink ✅ |
-| codex | `~/.agents/skills/`, `~/.codex/skills/` | **copy only** (skips symlinks) |
+| codex | `~/.agents/skills/`、`~/.codex/skills/` | **只能 copy**（跳过 symlink） |
 | opencode | `~/.config/opencode/skills/` | symlink ✅ |
 | pi / dsh | `~/.pi/agent/skills/` | symlink ✅ |
-| devin | `~/.config/devin/skills/`, `~/.agents/skills/` | symlink ✅ |
-| project-level | `<repo>/.agents|/.claude|/.devin/skills/` | copy (committed) |
+| devin | `~/.config/devin/skills/`、`~/.agents/skills/` | symlink ✅ |
+| 项目级 | `<repo>/.agents|/.claude|/.devin/skills/` | copy（随仓库提交） |
 
-Constraint: target dir name must equal frontmatter `name:` — installer renames the *directory*, never edits the file.
+约束：目标目录名必须等于 frontmatter `name:`——安装器改的是**目录名**，绝不改文件。
 
-## 10. Roadmap
+## 10. 路线图
 
-| Phase | Deliverable |
+| 阶段 | 交付 |
 |---|---|
-| 0 (now) | repo + this doc; deslop-fusion pipeline keeps producing `skill/` |
-| 1 — CLI MVP | `scan` (all adapters), `audit` (static-only), `install` (hub→targets), `lock` |
-| 2 — conflicts | `conflicts --report` on installed set + `build` personal merged skill; BYO-LLM audit |
-| 3 — local web | `asm serve`: install matrix, conflict queue, audit report UI |
-| 4 — surfaces | MCP server (agent self-service), Tauri shell, `asm daemon` watcher |
-| 5 — market | curated index + publisher signing; decisions federation (share/merge arbitration records between users/teams) |
+| 0（现在） | 仓库 + 本文档；deslop-fusion 管线持续产出 `skill/` |
+| 1 — CLI MVP | `scan`（全部适配器）、`audit`（纯静态）、`install`（hub→目标）、`lock` |
+| 2 — 冲突 | `conflicts --report`（对安装集）+ `build` 个人合并 skill；BYO-LLM 审核 |
+| 3 — 本地 Web | `asm serve`：安装矩阵、冲突队列、审核报告界面 |
+| 4 — 分发面 | MCP server（agent 自助）、Tauri 壳、`asm daemon` 监听 |
+| 5 — 市场 | curated 索引 + 发布者签名；仲裁联邦（用户/团队间共享合并裁决记录） |
 
-## 11. Relationship to deslop-fusion
+## 11. 与 deslop-fusion 的关系
 
-The pipeline doesn't die — it becomes the **content factory** for the market:
+管线不死——它变成市场的**内容工厂**：
 
-- `skill/` (the arbitrated design skill) ships as the market's flagship curated skill
-- `pipeline/` code is the conflict/audit engine imported by the client (`client/` imports `pipeline/lib`)
-- `decisions/` schema is the shared arbitration format — the market aggregates what clients produce
-- Repo scope widens: name `awesome-skill-market`, tagline covers manager + merge + audit + security
+- `skill/`（被仲裁过的设计 skill）作为市场 flagship curated skill 出厂
+- `pipeline/` 代码是客户端 import 的冲突/审核引擎（`client/` 引 `pipeline/lib`）
+- `decisions/` schema 是共享仲裁格式——市场聚合各客户端的产出
+- 仓库范围拓宽：改名 `awesome-skill-market`，描述覆盖 manager + merge + audit + security
 
-## 12. SEO / discovery plan
+## 12. SEO / 发现渠道
 
-- skills.sh auto-indexes GitHub SKILL.md — `skill/` stays at repo root so `npx skills add terry2010/awesome-skill-market` keeps working
-- Plugin manifests later (`.claude-plugin/plugin.json`, `.codex-plugin/plugin.json`) for the plugin-native distribution channels
-- Description keywords: skill manager, skill merge, skill audit, skill security, agent skills, anti-AI-slop, claude code, codex, opencode, pi, devin
+- skills.sh 自动索引 GitHub 上的 SKILL.md——`skill/` 留在仓库根目录，`npx skills add terry2010/awesome-skill-market` 持续可用
+- 后期补 plugin manifest（`.claude-plugin/plugin.json`、`.codex-plugin/plugin.json`）进入 plugin 原生分发渠道
+- 描述关键词：skill manager、skill merge、skill audit、skill security、agent skills、anti-AI-slop、claude code、codex、opencode、pi、devin
