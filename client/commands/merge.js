@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { extractRules } from '../lib/rules.js';
 import { extractRulesLLM } from '../lib/ai.js';
-import { detectConflicts } from '../lib/conflicts.js';
+import { detectConflicts, conflictsDir, loadConflicts } from '../lib/conflicts.js';
 import { autoArbitrate } from '../lib/autoarb.js';
 import { tokens, jaccard, writeYAML } from '../../pipeline/lib/util.js';
 import { treeHash } from '../lib/package.js';
@@ -15,7 +15,14 @@ export const mergedDir = (hub) => path.join(hub, 'merged');
 export async function run(ctx) {
   if (ctx.flags.raw.clear) {
     fs.rmSync(mergedDir(ctx.hub), { recursive: true, force: true });
-    ok(L('已丢弃合并中间态与产物（merged/）', 'discarded merged intermediate state and artifact (merged/)'));
+    // pending 冲突是这次合并的孤儿（rules.yml 没了裁决也无对象）——连带清；已裁决的留作历史/去重锚点
+    let n = 0;
+    for (const c of loadConflicts(ctx.hub, { pendingOnly: true })) {
+      fs.rmSync(path.join(conflictsDir(ctx.hub), `${c.id}.yml`), { force: true });
+      fs.rmSync(path.join(ctx.hub, 'evidence', c.id), { recursive: true, force: true });
+      n++;
+    }
+    ok(L(`已丢弃合并中间态与产物（merged/）${n ? ` + ${n} 个待裁决冲突` : ''}`, `discarded merged state + artifact (merged/)${n ? ` + ${n} pending conflicts` : ''}`));
     return 0;
   }
   const names = ctx.args.filter((a) => !a.startsWith('--'));
