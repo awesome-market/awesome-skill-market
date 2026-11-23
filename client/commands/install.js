@@ -8,6 +8,7 @@ import { fetchRef } from '../lib/registries/index.js';
 import { auditDir, stripFilter, writeScan } from '../lib/audit.js';
 import { readSkillDir, copyDir, rmDir, walk, treeHash } from '../lib/package.js';
 import { projectSkill, resolveTargets } from '../lib/project.js';
+import { cacheLookup } from '../lib/state.js';
 import { confirm } from '../lib/prompt.js';
 import { ok, warn, fail, info } from '../lib/render.js';
 
@@ -70,10 +71,18 @@ export async function run(ctx) {
     }
     provenance = provenance || { registry: ref.kind === 'harness' ? 'adopted' : 'local', adopted_from: ref.absPath };
   } else {
-    info(`fetching ${input} …`);
-    const got = await fetchRef(ref, ctx);
-    srcDir = got.dir; tmp = got.tmp;
-    provenance = got.provenance;
+    // download 缓存命中：cache/<name>-*/ 存在即复用不重复拉
+    const cached = ref.kind === 'named' ? cacheLookup(ctx.hub, ref.name) : null;
+    if (cached) {
+      info(`cache hit: ${cached}`);
+      srcDir = cached;
+      provenance = { registry: 'cache', adopted_from: cached };
+    } else {
+      info(`fetching ${input} …`);
+      const got = await fetchRef(ref, ctx);
+      srcDir = got.dir; tmp = got.tmp;
+      provenance = got.provenance;
+    }
   }
 
   const pkg = readSkillDir(srcDir);

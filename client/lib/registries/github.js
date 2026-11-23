@@ -69,6 +69,15 @@ export async function fetchSkill({ owner, repo, ref = null, path: sub = null, mi
   };
 }
 
+// 远端 git/trees → subtree 的 git-tree-hash（update/outdated 免下载对比）
+import { remoteTreeHash } from '../githash.js';
+export async function remoteTree(owner, repo, ref, sub = null) {
+  if (!haveGh()) throw new Error('gh CLI required for remote tree');
+  const sha = headSha(owner, repo, ref);
+  const tree = JSON.parse(sh('gh', ['api', `repos/${owner}/${repo}/git/trees/${sha}?recursive=1`])).tree;
+  return { sha, tree_hash: remoteTreeHash(tree, sub) };
+}
+
 export async function versionsSkill() { return []; } // TODO: tags/releases
 
 // jsdelivr 逐文件兜底（data.jsdelivr.com 列目录）——mirror 全挂时的最后手段

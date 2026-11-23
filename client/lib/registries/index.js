@@ -1,8 +1,9 @@
 // registries/index.js — 按 ref/type 路由适配器 + fetch mirror 前缀
 import * as github from './github.js';
 import * as skillssh from './skillssh.js';
+import * as rfc from './rfc.js';
 
-export const ADAPTERS = { github, skillssh, rfc: null, clawhub: null };
+export const ADAPTERS = { github, skillssh, rfc, clawhub: null };
 
 export function adapterFor(type) {
   const a = ADAPTERS[type];
@@ -28,7 +29,9 @@ export async function fetchRef(ref, ctx) {
   if (ref.registry) {
     const reg = ctx.config.registries.find((r) => (r.name || r.type) === ref.registry);
     if (!reg) throw new Error(`未配置 registry: ${ref.registry}`);
-    return adapterFor(reg.type).fetchSkill?.(ref, ctx, reg) ?? Promise.reject(new Error(`registry ${reg.type} 不支持 fetch`));
+    const a = adapterFor(reg.type);
+    if (!a.fetchSkill) throw new Error(`registry ${reg.type} 不支持 fetch`);
+    return a.fetchSkill(ref, ctx, reg);
   }
   throw new Error(`无法解析引用: ${JSON.stringify(ref)}`);
 }
