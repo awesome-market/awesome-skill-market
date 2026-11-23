@@ -322,9 +322,10 @@ async function render() {
       box.innerHTML = `<label class="field">${t('tg_label')}</label><div class="field" style="font-size:13.5px">${t('tg_warn')}</div>` +
         `<table class="tgtable">` + (S.harnesses || []).filter((x) => x.state !== 'absent' && !x.detectOnly).map((x) => {
           const has = (s.targets || []).includes(x.id);
-          const p = x.primaryDir ? (has ? `${x.primaryDir}/${b.dataset.tg}` : x.primaryDir) : '';
+          const dir = x.primaryDir || x.dirs?.[0]?.path || '';   // scanner 给的是 dirs[]，primaryDir 可能为空
+          const p = dir ? (has ? `${dir}/${b.dataset.tg}` : dir) : '';
           return `<tr><td><input type="checkbox" id="th-${esc(b.dataset.tg)}-${esc(x.id)}" data-th="${esc(x.id)}" ${has ? 'checked' : ''}></td>` +
-          `<td><label for="th-${esc(b.dataset.tg)}-${esc(x.id)}">${esc(x.id)}</label></td><td>${pill(x.state)}</td><td class="dir">${esc(x.primaryDir || '')}</td>` +
+          `<td><label for="th-${esc(b.dataset.tg)}-${esc(x.id)}">${esc(x.id)}</label></td><td>${pill(x.state)}</td><td class="dir">${esc(dir)}</td>` +
           `<td>${p ? `<button class="sm" data-open="${esc(p)}">${t('open_dir')}</button>` : ''}</td></tr>`;
         }).join('')
         + `</table><div class="row end" style="margin-top:10px"><span class="tout mut"></span><button class="primary tgo">${t('tg_save')}</button></div>`;
