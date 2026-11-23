@@ -3,6 +3,7 @@
 import { makeCtx, withState, KNOWN_FLAGS } from '../lib/ctx.js';
 import { hubExists, isInitialized } from '../lib/hub.js';
 import { L } from '../lib/i18n.js';
+import { commandHelp } from '../lib/help.js';
 
 const COMMANDS = {
   init: 'init', config: 'config', doctor: 'doctor',
@@ -67,7 +68,11 @@ async function main() {
     if (!KNOWN_FLAGS.has(k)) console.error(`${L('⚠ 未知 flag，已忽略', 'warning: unknown flag ignored')}: --${kebab(k)}`);
   }
 
-  if (ctx.flags.raw.help || ctx.flags.raw.h) { console.log(L(HELP_ZH, HELP)); process.exit(0); }
+  if (ctx.flags.raw.help || ctx.flags.raw.h) {
+    const name = cmd && COMMANDS[cmd];
+    console.log((name && commandHelp(name)) || L(HELP_ZH, HELP));
+    process.exit(0);
+  }
   if (ctx.flags.raw.version || ctx.flags.raw.V) {
     const pkg = (await import('../../package.json', { with: { type: 'json' } })).default;
     console.log(pkg.version);
