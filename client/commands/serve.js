@@ -10,7 +10,7 @@ import { readLibrary, readLock, readConfig, writeConfig, registerSkill, updateLo
 import { readUpstream } from '../lib/state.js';
 import { readYAML } from '../../pipeline/lib/util.js';
 import { detectHarnesses } from '../lib/scanner.js';
-import { probeEndpoints, chat, upsertEnvFile, resolveKeyRef } from '../lib/llm.js';
+import { probeEndpoints, chat, encryptSecret, resolveKeyRef } from '../lib/llm.js';
 import { projectSkill, unproject, targetDirFor } from '../lib/project.js';
 import { treeHash } from '../lib/package.js';
 import { ok, info } from '../lib/render.js';
@@ -85,12 +85,12 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
           }
           if (u.pathname === '/api/config') {                         // init：合并写 config
             const raw = readConfig(ctx.hub)._raw;
-            let keyEnv = false;
+            let keyEnc = false;
             if (b.llm !== undefined) {
-              if (b.llm.api_key && !String(b.llm.api_key).startsWith('env:')) {
-                upsertEnvFile(path.join(ctx.hub, '.env'), 'SKILLMKT_LLM_KEY', b.llm.api_key);
-                b.llm.api_key = 'env:SKILLMKT_LLM_KEY';               // config.yml 只留引用
-                keyEnv = true;
+              const k = String(b.llm.api_key || '');
+              if (k && !k.startsWith('env:') && !k.startsWith('enc:')) {
+                b.llm.api_key = encryptSecret(k);                     // 机器码加密后存 config.yml
+                keyEnc = true;
               }
               raw.llm = b.llm;
             }
@@ -99,7 +99,7 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
             if (b.policy) raw.policy = b.policy;
             writeConfig(ctx.hub, raw);
             emit('config', {});
-            return res.end(JSON.stringify({ ok: true, key_env: keyEnv }));
+            return res.end(JSON.stringify({ ok: true, key_enc: keyEnc }));
           }
           if (u.pathname === '/api/llm-smoke') {                      // init 冒烟
             const key = resolveKeyRef(b.api_key, ctx);                // env: 引用走 hub/.env 等解析链

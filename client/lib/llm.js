@@ -2,6 +2,8 @@
 // 批次6 补：chatJSON 真调用、probeEndpoints、端口探测。铁律：非 init/config 零探测。
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
+import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 
 function loadDotEnv(file) {
@@ -15,20 +17,47 @@ function loadDotEnv(file) {
   } catch { return {}; }
 }
 
-// upsert KEY=value 到 env 文件（600 权限）——web 保存明文密钥时落到 hub/.env，config.yml 只留 env: 引用
-export function upsertEnvFile(file, key, value) {
-  let lines = [];
-  try { lines = fs.readFileSync(file, 'utf8').split('\n'); } catch { /* 新文件 */ }
-  const idx = lines.findIndex((l) => l.startsWith(`${key}=`));
-  const entry = `${key}=${value}`;
-  if (idx >= 0) lines[idx] = entry; else lines.push(entry);
-  fs.mkdirSync(path.dirname(file), { recursive: true });
-  fs.writeFileSync(file, lines.filter(Boolean).join('\n') + '\n', { mode: 0o600 });
-  try { fs.chmodSync(file, 0o600); } catch { /* windows 无 mode */ }
+// 机器码绑定密钥加密：config.yml 只存 enc:v1: 密文，文件离开本机解不开
+let _machineId = null;
+function machineId() {
+  if (_machineId !== null) return _machineId;
+  try {
+    if (process.platform === 'darwin') {
+      _machineId = execFileSync('ioreg', ['-rd1', '-c', 'IOPlatformExpertDevice'], { encoding: 'utf8', timeout: 3000 })
+        .match(/"IOPlatformUUID" = "([0-9A-F-]+)"/)?.[1];
+    } else if (process.platform === 'linux') {
+      _machineId = fs.readFileSync('/etc/machine-id', 'utf8').trim() || fs.readFileSync('/var/lib/dbus/machine-id', 'utf8').trim();
+    } else if (process.platform === 'win32') {
+      _machineId = execFileSync('reg', ['query', 'HKLM\\SOFTWARE\\Microsoft\\Cryptography', '/v', 'MachineGuid'], { encoding: 'utf8' })
+        .match(/MachineGuid\s+REG_SZ\s+(\S+)/)?.[1];
+    }
+  } catch { /* 走兜底 */ }
+  if (!_machineId) _machineId = `${os.hostname()}:${os.userInfo().username}`;
+  return _machineId;
 }
 
-// "env:VAR" → 真值（hub/.env + cwd/.env + 环境变量）；裸值原样返回
+const encKey = () => crypto.scryptSync(`skillmkt:${machineId()}`, 'skillmkt-secret-v1', 32);
+
+export function encryptSecret(plain) {
+  const iv = crypto.randomBytes(12);
+  const c = crypto.createCipheriv('aes-256-gcm', encKey(), iv);
+  const ct = Buffer.concat([c.update(String(plain), 'utf8'), c.final()]);
+  return `enc:v1:${iv.toString('base64')}:${c.getAuthTag().toString('base64')}:${ct.toString('base64')}`;
+}
+
+export function decryptSecret(payload) {
+  const m = String(payload ?? '').match(/^enc:v1:([A-Za-z0-9+/=]+):([A-Za-z0-9+/=]+):([A-Za-z0-9+/=]+)$/);
+  if (!m) return null;
+  try {
+    const d = crypto.createDecipheriv('aes-256-gcm', encKey(), Buffer.from(m[1], 'base64'));
+    d.setAuthTag(Buffer.from(m[2], 'base64'));
+    return Buffer.concat([d.update(Buffer.from(m[3], 'base64')), d.final()]).toString('utf8');
+  } catch { return null; }        // 别的机器/篡改 → 解不开
+}
+
+// "env:VAR" → 真值（hub/.env + cwd/.env + 环境变量）；"enc:v1:…" → 本机解密；裸值原样返回
 export function resolveKeyRef(keyRef, ctx) {
+  if (keyRef?.startsWith('enc:')) return decryptSecret(keyRef) ?? '';
   if (!keyRef?.startsWith('env:')) return keyRef || '';
   const v = keyRef.slice(4);
   const env = {
@@ -48,8 +77,8 @@ export function resolveLLM(ctx) {
   const model = ctx.flags.model || env.SKILLMKT_LLM_MODEL || env.OMLX_MODEL || cfg.model;
   const keyRef = ctx.flags.apiKeyEnv || env.SKILLMKT_LLM_API_KEY || env.OMLX_API_KEY || cfg.api_key;
   if (!base || !model) return null;
-  // api_key 形如 "env:VAR" → 取环境变量；裸值（不建议）原样用
-  const key = keyRef?.startsWith('env:') ? env[keyRef.slice(4)] : keyRef;
+  // api_key："env:VAR"→环境变量；"enc:v1:…"→本机解密；裸值（不建议）原样用
+  const key = keyRef?.startsWith('env:') ? env[keyRef.slice(4)] : keyRef?.startsWith('enc:') ? decryptSecret(keyRef) : keyRef;
   return {
     base_url: base.replace(/\/+$/, ''),
     model,
