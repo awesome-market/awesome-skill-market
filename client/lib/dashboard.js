@@ -25,6 +25,8 @@ export async function renderDashboard(ctx) {
   const upstream = readYAMLFile(path.join(hub, 'state', 'upstream.yml'), { skills: {} });
   const conflicts = listYAML(path.join(hub, 'conflicts'));
 
-  dashboard({ hub, library, scan: { rows, harnesses, managedHash }, upstream, conflicts, llm, project });
+  // llm 解析链有 env 兜底——config.yml 没写 llm 但 env 提供了时，标注来源免得用户困惑
+  const llmVia = llm && !config.llm?.base_url ? 'env' : null;
+  dashboard({ hub, library, scan: { rows, harnesses, managedHash }, upstream, conflicts, llm, llmVia, project });
   return 0;
 }
