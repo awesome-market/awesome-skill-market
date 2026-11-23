@@ -20,9 +20,10 @@ It doesn't add another opinion. It **referees** the existing ones:
 |---|---|
 | `sync` | Pins upstream skill repos by SHA (`upstream.lock.json`) and watches for changes |
 | `extract` | A local LLM normalizes every upstream doc into a flat rule schema (`extracted/*.yml`) — rewritten, never copied |
-| `merge` | Exact + semantic dedupe collapses thousands of rules; genuinely contradictory pairs become `conflicts/*.yml` |
+| `synthesize` | Per-domain LLM consolidation rewrites thousands of rules into canonical sets (chunked ~50, recursive, `SYNTH_POOL` concurrency); deterministic near-dup fold; genuinely contradictory pairs become `conflicts/*.yml` |
+| `arbitrate` | An independent arbiter (fresh context) auto-resolves conflicts whose suggestions are sound, dismisses false conflicts, and escalates only true value tradeoffs to humans |
 | `evidence` | The model builds minimal A/B HTML fixtures; Playwright screenshots them so humans judge **rendered output, not prose** |
-| `issues` | One GitHub issue per conflict — rule table, AI analysis, screenshot evidence, decision instructions |
+| `issues` | One GitHub issue per remaining conflict — rule table, AI analysis, screenshot evidence, decision instructions |
 | `decide` | Human arbitration lands in `decisions/*.yml` — the repo's real asset |
 | `build` | Regenerates `skill/` (SKILL.md + per-scope references + rules manifest) and bumps version |
 
@@ -32,17 +33,39 @@ Pending conflicts hold **both** sides out of the merged output — contradiction
 
 ### A) Just use the merged skill (most people)
 
-No model, no pipeline, no keys. `skill/` is the finished product:
+No model, no pipeline, no keys. `skill/` is the finished product — a standard [Agent Skills](https://agentskills.io) package (`SKILL.md` + `references/`), so it drops into any agent that reads skills.
+
+**One command — installs to every agent it detects:**
+
+```bash
+npx skills add terry2010/deslop-fusion -g        # global; add -a claude-code codex opencode pi to pick targets
+```
+
+**Manual install** — the directory name must be `deslop` (it must match the `name:` field in SKILL.md):
 
 ```bash
 git clone https://github.com/terry2010/deslop-fusion
-# drop it wherever your agent reads skills:
-cp -r deslop-fusion/skill ~/.config/devin/skills/deslop   # Devin
-cp -r deslop-fusion/skill ~/.claude/skills/deslop         # Claude Code
-npx skills add terry2010/deslop-fusion                    # skills CLI
+S=deslop-fusion/skill
+
+cp -r $S ~/.agents/skills/deslop          # Codex · Devin · Pi · OpenCode (all scan this path)
+ln -sfn $PWD/$S ~/.claude/skills/deslop   # Claude Code (symlinks fine)
+cp -r $S ~/.codex/skills/deslop           # Codex legacy path — enable [features] skills = true in config.toml
+cp -r $S ~/.pi/agent/skills/deslop        # Pi user-level (or: pi --skill $S)
+cp -r $S ~/.config/devin/skills/deslop    # Devin user-level
+cp -r $S ~/.config/opencode/skills/deslop # OpenCode user-level
 ```
 
-`git pull` + copy again to update. The generated skill carries `sources` provenance on every rule.
+| Agent | Project dir | Global dir | Notes |
+|---|---|---|---|
+| Claude Code | `.claude/skills/` | `~/.claude/skills/` | follows symlinks; scans one level only |
+| Codex | `.agents/skills/` | `~/.agents/skills/` or `~/.codex/skills/` | **skips symlinks** — copy, or use `npx skills add --copy` |
+| OpenCode | `.opencode/skills/` | `~/.config/opencode/skills/` | also auto-scans `.claude/skills` and `.agents/skills` |
+| Pi | `.pi/skills/` | `~/.pi/agent/skills/` | also `pi --skill <dir>` per-run, `/skill:deslop` to force |
+| Devin | `.devin/skills/` | `~/.config/devin/skills/` | also scans `~/.agents/skills`; `devin skills list` to verify |
+
+**Loading model:** the agent only pays ~100 tokens (frontmatter) until a UI task triggers it; then `SKILL.md` (~14k tokens) loads, and the relevant `references/<domain>.md` loads on demand — never the whole corpus.
+
+`git pull` + copy again to update (symlinked installs update for free). The generated skill carries `sources` provenance on every rule.
 
 ### B) Run the pipeline yourself (self-host)
 
@@ -63,7 +86,7 @@ npm run daemon           # foreground loop: sync→extract→merge→evidence→
 | `GITHUB_BRANCH` | `main` |
 | `DAEMON_INTERVAL_MIN` | Cycle interval, default 30 |
 
-Loop variants: `npm run once` (single cycle) · `npm run once -- --no-llm` (skip model steps; still harvests issue votes and rebuilds). Track different upstreams by editing `config/upstreams.json`.
+Loop variants: `npm run once` (single cycle) · `npm run once -- --no-llm` (skip model steps; still harvests issue votes and rebuilds). Track different upstreams by editing `config/upstreams.json`. Manual stages: `npm run synthesize` (incremental — unchanged domains are skipped via digest; `--domain color` for one) · `node pipeline/arbitrate.js` (auto-resolve pending conflicts) · `SYNTH_POOL=2 npm run synthesize` (lower LLM concurrency).
 
 ## How is this different from installing taste-skill / Impeccable / Hallmark directly?
 
@@ -80,8 +103,9 @@ Loop variants: `npm run once` (single cycle) · `npm run once -- --no-llm` (skip
 ```
 upstream repos ─sync→ work/upstream (pinned SHAs)
                ─extract→ extracted/*.yml     (LLM-normalized rules; committed snapshots)
-               ─merge→   merged/rules.yml    (canonical set)
+               ─synthesize→ merged/rules.yml (canonical set)
                         conflicts/*.yml      (held out while pending)
+                        auto-arbiter         (fresh-context second opinion)
                         evidence/conf-*/     (A/B fixtures + screenshots)
                         GitHub issues        (human arbitration queue)
 humans ─decisions/*.yml→ arbitration records (the durable asset)
