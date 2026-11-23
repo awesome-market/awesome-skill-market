@@ -92,11 +92,11 @@ export async function run(ctx) {
   // 密钥：只在需要时问；粘贴的密钥用本机机器码加密存 config.yml
   let api_key = null, keyPlain = '';
   if (base_url && needKey) {
-    const ks = await choose(L('API key 来源？', 'API key source?'), [
-      { label: L('粘贴密钥（机器码加密后存入 config.yml）', 'Paste a key (encrypted into config.yml with this machine’s ID)'), v: 'paste' },
-      { label: 'SKILLMKT_API_KEY', v: 'env:SKILLMKT_API_KEY' },
-      { label: 'OMLX_API_KEY', v: 'env:OMLX_API_KEY' },
-      { label: L('无需 key', 'No key needed'), v: null },
+    const ks = await choose(L('这个服务需要访问密钥，怎么提供？', 'This service needs an access key — how should it be provided?'), [
+      { label: L('现在粘贴进来（只输一次，自动加密保存）', 'Paste it now (entered once, saved encrypted)'), v: 'paste' },
+      { label: L('从环境变量 SKILLMKT_API_KEY 读（key 已在 shell 里时选）', 'Read env var SKILLMKT_API_KEY (if the key is already in your shell)'), v: 'env:SKILLMKT_API_KEY' },
+      { label: L('从环境变量 OMLX_API_KEY 读', 'Read env var OMLX_API_KEY'), v: 'env:OMLX_API_KEY' },
+      { label: L('不需要密钥', 'No key needed'), v: null },
     ]);
     if (ks.v === 'paste') {
       keyPlain = (await askSecret(L('  密钥 > ', '  Key > '))).trim();
