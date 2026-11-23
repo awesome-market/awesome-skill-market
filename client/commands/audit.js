@@ -2,6 +2,8 @@
 import path from 'node:path';
 import fs from 'node:fs';
 import { auditDir, writeScan } from '../lib/audit.js';
+import { llmAudit } from '../lib/ai.js';
+import { walk } from '../lib/package.js';
 import { ok, warn, fail, info } from '../lib/render.js';
 
 export async function run(ctx) {
@@ -15,6 +17,14 @@ export async function run(ctx) {
     const dir = path.join(ctx.hub, 'skills', name);
     if (!fs.existsSync(dir)) { warn(`未受管: ${name}`); continue; }
     const r = auditDir(dir, { strip: false });
+    // --llm：additive 语义审（静态结论之上，降级安全）
+    if (flags.llm && ctx.llm) {
+      const files = [...walk(dir)].filter((p) => /\.(md|txt|js|sh|py)$/i.test(p))
+        .map((p) => ({ path: path.relative(dir, p), content: fs.readFileSync(p, 'utf8') }));
+      const lr = await llmAudit(ctx.llm, { name, files }).catch(() => null);
+      if (lr) { r.llm = lr; info(`  llm: ${lr.verdict}${lr.reasons?.length ? ` — ${lr.reasons.join('; ')}` : ''}`); }
+      else warn('  llm audit 不可用——保留静态结论');
+    }
     writeScan(ctx.hub, name, r);
     if (order[r.verdict] > order[worst]) worst = r.verdict;
     info(`${name}: ${r.verdict}${r.findings.length ? ` (${r.findings.length} findings)` : ''}`);

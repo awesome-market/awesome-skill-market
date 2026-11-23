@@ -6,6 +6,7 @@ import { fetchMirror } from '../lib/registries/index.js';
 import { walk, treeHash } from '../lib/package.js';
 import { gitTreeHash } from '../lib/githash.js';
 import { info, warn, fail } from '../lib/render.js';
+import { semanticDiff } from '../lib/ai.js';
 
 function sectionsOf(dir) {
   const f = path.join(dir, 'SKILL.md');
@@ -42,6 +43,10 @@ export async function run(ctx) {
   info(`files: +${added.length} -${removed.length} ~${changed.length}`);
   if (secAdded.length) info(`sections +: ${secAdded.join(' | ')}`);
   if (secRemoved.length) info(`sections -: ${secRemoved.join(' | ')}`);
-  if (ctx.flags.raw.semantic) warn('--semantic 需要 LLM（批次6）——当前为结构 diff');
+  if (ctx.flags.raw.semantic) {
+    if (!ctx.llm) { warn('--semantic 需要 LLM（config.llm 或 OMLX_*）——以上为结构 diff'); return 0; }
+    const summary = await semanticDiff(ctx.llm, { name, added, removed, changed, secAdded, secRemoved }).catch(() => null);
+    info(summary ? `semantic: ${summary}` : 'semantic: LLM 不可用——结构 diff 如上');
+  }
   return 0;
 }
