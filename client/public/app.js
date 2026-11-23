@@ -34,17 +34,17 @@ async function render() {
 
   if (tab === 'skills') {
     const skills = Object.entries(S.library.skills || {});
-    app.innerHTML = `<h2>已受管 skills（${skills.length}）</h2>` + (skills.map(([n, s]) => `
+    app.innerHTML = `<h2>已安装 skills（${skills.length}）</h2>` + (skills.map(([n, s]) => `
       <div class="card"><div class="row"><b>${esc(n)}</b><span class="mut">${esc(s.version || '-')}</span><span class="mut">${esc(s.source?.registry || '')}</span>${pill(s.audit || 'clean')}
-      <span class="mut" style="margin-left:auto">${(s.targets || []).join('、') || '无目标'}</span>
-      <button data-tg="${esc(n)}">编辑目标</button></div>
+      <span class="mut" style="margin-left:auto">装在：${(s.targets || []).join('、') || '无'}</span>
+      <button data-tg="${esc(n)}">安装位置</button></div>
       <div class="tgbox" data-box="${esc(n)}" style="display:none;margin-top:8px"></div></div>`).join('') || '<p class="mut">还没有受管 skill——skillmkt install &lt;ref&gt;</p>');
     app.querySelectorAll('[data-tg]').forEach((b) => b.onclick = () => {
       const box = app.querySelector(`[data-box="${b.dataset.tg}"]`);
       if (box.style.display === 'block') { box.style.display = 'none'; return; }
       const s = S.library.skills[b.dataset.tg];
       box.style.display = 'block';
-      box.innerHTML = `<label class="field">投影到（勾选后立即复制过去）</label>` +
+      box.innerHTML = `<label class="field">装到这些 agent（勾选后立即复制生效）</label>` +
         (S.harnesses || []).filter((x) => x.state === 'installed' && !x.detectOnly).map((x) =>
           `<label class="row"><input type="checkbox" data-th="${esc(x.id)}" ${(s.targets || []).includes(x.id) ? 'checked' : ''}> ${esc(x.id)} <span class="mut">${esc(x.primaryDir || '')}</span></label>`).join('')
         + `<div class="row" style="margin-top:8px"><button class="primary tgo">应用目标</button><span class="tout mut"></span></div>`;
@@ -55,9 +55,9 @@ async function render() {
         refresh();
       };
     });
-    app.innerHTML += `<h2>harness 探测</h2>` + (S.harnesses || []).map((h) => `<div class="card row"><b>${esc(h.id)}</b>${pill(h.state)}<span class="mut">${esc(h.primaryDir || h.dirs?.[0] || '')}</span></div>`).join('');
+    app.innerHTML += `<h2>检测到的 agent</h2>` + (S.harnesses || []).map((h) => `<div class="card row"><b>${esc(h.id)}</b>${pill(h.state)}<span class="mut">${esc(h.primaryDir || h.dirs?.[0] || '')}</span></div>`).join('');
     const up = S.upstream.skills || {};
-    if (Object.keys(up).length) app.innerHTML += `<h2>上游状态</h2>` + Object.entries(up).map(([n, u]) => `<div class="card row"><b>${esc(n)}</b>${u.outdated ? pill('outdated') : pill('clean')}<span class="mut">${esc(String(u.ref || '').slice(0, 8))}</span></div>`).join('');
+    if (Object.keys(up).length) app.innerHTML += `<h2>可更新</h2>` + Object.entries(up).map(([n, u]) => `<div class="card row"><b>${esc(n)}</b>${u.outdated ? pill('outdated') : pill('clean')}<span class="mut">${esc(String(u.ref || '').slice(0, 8))}</span></div>`).join('');
   }
 
   if (tab === 'conflicts') {
@@ -117,17 +117,17 @@ async function render() {
     const sel = new Set(cfg.default_targets?.length ? cfg.default_targets : installed);
     app.innerHTML = `<h2>初始化与配置</h2>
       <div class="card"><b>LLM 端点</b><span class="mut" id="cur">${cfg.llm?.model ? `（当前：${esc(cfg.llm.model)} @ ${esc(cfg.llm.base_url)}）` : '（未配置）'}</span>
-        <div class="row" style="margin-top:8px"><button id="probe">探测本地端点</button><span id="probe-out" class="mut"></span></div>
+        <div class="row" style="margin-top:8px"><button id="probe">扫描本地 LLM 服务</button><span id="probe-out" class="mut"></span></div>
         <div id="eps"></div>
         <label class="field">base_url</label><input type="text" id="murl" value="${esc(cfg.llm?.base_url || '')}">
         <label class="field">model</label><input type="text" id="mmodel" value="${esc(cfg.llm?.model || '')}">
         <label class="field">api_key（env:VAR 引用，不存真值；留空=无 key）</label><input type="text" id="mkey" value="${esc(cfg.llm?.api_key || '')}">
-        <div class="row" style="margin-top:8px"><button id="smoke">冒烟测试</button><span id="smoke-out" class="mut"></span></div></div>
-      <div class="card"><b>默认投影目标</b><span class="mut">（新装 skill 默认投到这里）</span>
+        <div class="row" style="margin-top:8px"><button id="smoke">测试连接</button><span id="smoke-out" class="mut"></span></div></div>
+      <div class="card"><b>skill 装到哪些 agent</b><span class="mut">（勾选后，新装的 skill 会复制进这些 agent 的 skills 目录）</span>
         ${h.map((x) => `<label class="row"><input type="checkbox" data-h="${esc(x.id)}" ${sel.has(x.id) ? 'checked' : ''} ${x.state !== 'installed' ? 'disabled' : ''}> ${esc(x.id)} ${pill(x.state)} <span class="mut">${esc(x.primaryDir || '')}</span></label>`).join('')}</div>
       <div class="card"><button class="primary" id="save">保存配置</button><span id="save-out" class="mut"></span></div>`;
     app.querySelector('#probe').onclick = async () => {
-      app.querySelector('#probe-out').textContent = '探测中…';
+      app.querySelector('#probe-out').textContent = '扫描中…';
       const eps = await api('/probe');
       app.querySelector('#eps').innerHTML = eps.flatMap((e) => e.models.slice(0, 6).map((m) => `<div class="ep" data-b="${esc(e.base_url)}" data-m="${esc(m)}">${esc(e.name)}:${e.port} — <code>${esc(m)}</code></div>`)).join('') || '<p class="mut">未发现（8001 / 11434 / 1234 / 8000 / 8080 / 1337 / 5000）</p>';
       app.querySelector('#probe-out').textContent = `${eps.length} 个端点`;
