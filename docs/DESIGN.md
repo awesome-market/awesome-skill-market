@@ -62,7 +62,7 @@
 
 ## 3. 产品形态——已定
 
-**主力：Node 22 ESM CLI + 本地 Web 面板**（`npx asm` → `asm serve` 打开 `http://localhost:PORT`）。
+**主力：Node 22 ESM CLI + 本地 Web 面板**（`npx skillmkt` → `skillmkt serve` 打开 `http://localhost:PORT`）。
 
 | 选项 | 结论 | 理由 |
 |---|---|---|
@@ -102,7 +102,7 @@
             │  adapters    → claude-code、codex、opencode、pi、devin、dsh（=pi）                               │
             └──────────────────────────────────────────────────────────────────────────────────────────────────┘
                                    ↑
-                    本地 Web UI ──┘（asm serve；React SPA + 轻量 node api）
+                    本地 Web UI ──┘（skillmkt serve；React SPA + 轻量 node api）
 ```
 
 所有 LLM 调用都可选且自带端点（`.env`：`OMLX_BASE_URL`/`OMLX_API_KEY`/`OMLX_MODEL`）。没有模型时整个确定性层照常工作——审核降级为纯静态，冲突检测降级为近重复告警，AI diff 降级为行级 diff。
@@ -123,7 +123,7 @@
 └── config.yml                 # 端点、registry 列表、适配器、策略（strict|balanced|permissive）
 ```
 
-原则：hub 是唯一可写副本；harness 目录是投影。`asm sync` 从 hub + lock 重新生成所有目标。
+原则：hub 是唯一可写副本；harness 目录是投影。`skillmkt sync` 从 hub + lock 重新生成所有目标。
 
 ## 7. 安全模型——控制优于检测
 
@@ -174,16 +174,16 @@ interface RegistryAdapter {
 
 所有适配器归一化成同一个 `SkillPackage`，下游 install/lock/audit/merge 完全不感知来源。
 
-**价值**：企业**不需要换基础设施**——已部署 saker（ClawHub 协议）或 netclaw（RFC）的公司，`asm registry add` 一行配置即接入。比"说服企业部署你的服务器"容易一个数量级。
+**价值**：企业**不需要换基础设施**——已部署 saker（ClawHub 协议）或 netclaw（RFC）的公司，`skillmkt registry add` 一行配置即接入。比"说服企业部署你的服务器"容易一个数量级。
 
 **认证**：企业会挂 SSO/代理在前——适配器 auth 做成"注入 header 配置"而非写死 Bearer。
 
 ## 9. 版本管理
 
 - `lock.yml` = `{skill, source, ref, content_hash, installed_at, targets[]}`
-- `asm update --check` → 拉上游 HEAD、对 skill 子目录算 hash、对比 → 可更新 / 本地有改动 / 干净（tree-SHA 粒度而非 repo SHA）
+- `skillmkt update --check` → 拉上游 HEAD、对 skill 子目录算 hash、对比 → 可更新 / 本地有改动 / 干净（tree-SHA 粒度而非 repo SHA）
 - 更新流程：拉取 → **AI diff 摘要**（语义层：意图变化而非行号）→ **重过审**（新内容是新攻击面）→ 重分发
-- `asm rollback <skill>` → 回滚上一份 hub 副本（保留一版深度）
+- `skillmkt rollback <skill>` → 回滚上一份 hub 副本（保留一版深度）
 
 **AI 语义 diff** 是独占点：现有 diff 全是行级/段级（agent-skills-cli、skillhub preview），没人回答"这次更新把哪条规则的意图改了、会不会影响我的裁决"。LLM 缺席时降级为结构 diff（节增删 + 计数）。
 
@@ -197,9 +197,9 @@ interface RegistryAdapter {
 4. **独立仲裁**——fresh-context 第二意见：`dismiss`（误报）、`approve`（含合并文本）、`human`（真价值权衡 → 进 CLI/web 队列）。
 5. **裁决落盘**——`decisions/*.yml`，与融合管线同 schema，可 PR 回上游或进团队共享 decisions 仓。
 
-交互式裁决队列（`asm resolve`）：`[a]选A [b]选B [m]采纳合并文本 [e]自写合并 [d]误报 [s]跳过 [o]打开证据 [q]退出`。证据 `open evidence/conf-XXXX/` 看 A/B 截图，或在 Web 面板看图。
+交互式裁决队列（`skillmkt resolve`）：`[a]选A [b]选B [m]采纳合并文本 [e]自写合并 [d]误报 [s]跳过 [o]打开证据 [q]退出`。证据 `open evidence/conf-XXXX/` 看 A/B 截图，或在 Web 面板看图。
 
-交付结果：**个人版合并 skill**（`asm build` 产出）= 已装 skill 的并集减去冲突；或仅出报告（`--report`）。pending 冲突双方都被挡在产物外。
+交付结果：**个人版合并 skill**（`skillmkt build` 产出）= 已装 skill 的并集减去冲突；或仅出报告（`--report`）。pending 冲突双方都被挡在产物外。
 
 ## 11. 安装与分发矩阵
 
@@ -221,9 +221,9 @@ interface RegistryAdapter {
 | 0（现在） | 仓库 + 本文档；融合管线持续产出 `skill/`（v0.4.44, 884 rules） |
 | 1 — CLI MVP | `scan`（全部 harness 适配器）、`list`/`show`、`audit`（纯静态）、`install`（hub→目标）、`lock`；**registry 适配器：github + rfc-discovery** |
 | 2 — 冲突 | `conflicts --report` + `resolve` 交互队列 + `build` 个人合并 skill；BYO-LLM 审核；**AI 语义 diff** |
-| 3 — 本地 Web | `asm serve`：安装矩阵、冲突队列（含证据图）、审核报告界面——UI 层 AI 生成 |
+| 3 — 本地 Web | `skillmkt serve`：安装矩阵、冲突队列（含证据图）、审核报告界面——UI 层 AI 生成 |
 | 4 — registry 扩展 | **clawhub 适配器**（搜索+发布，对接 saker 自托管）；iflytek 适配器按需 |
-| 5 — 分发面 | MCP server（agent 自助）、Tauri 壳、`asm daemon` 监听 |
+| 5 — 分发面 | MCP server（agent 自助）、Tauri 壳、`skillmkt daemon` 监听 |
 | 6 — 仲裁联邦 | 用户/团队间共享 decisions 记录；curated 索引视下载量再定 |
 
 ## 13. 与融合管线的关系
