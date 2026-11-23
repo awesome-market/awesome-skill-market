@@ -22,6 +22,15 @@ export async function choose(question, options) {
   return options[n - 1] ?? options[0];
 }
 
+// 自由文本输入（非 TTY 返回空串）
+export async function ask(question) {
+  if (!process.stdin.isTTY) return '';
+  const rl = readline.createInterface({ input: process.stdin, output: process.stderr });
+  const ans = await new Promise((res) => rl.question(question, res));
+  rl.close();
+  return ans;
+}
+
 // 多选：序号逗号/空格分隔；回车=保持预勾选；0/none=全不选。返回选中的下标数组
 export async function multiChoose(question, options, { checked = [] } = {}) {
   if (!process.stdin.isTTY) return checked;

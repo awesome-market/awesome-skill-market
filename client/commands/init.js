@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import { ensureHub, writeConfig, readConfig } from '../lib/hub.js';
 import { probeEndpoints, chat } from '../lib/llm.js';
 import { openURL, readDaemon, pidAlive } from '../lib/daemon.js';
-import { choose, confirm } from '../lib/prompt.js';
+import { choose, confirm, ask } from '../lib/prompt.js';
 import { ok, warn, fail, info } from '../lib/render.js';
 import { L } from '../lib/i18n.js';
 
@@ -64,14 +64,15 @@ export async function run(ctx) {
     }
     const sel = await choose(L('选择模型端点：', 'Choose a model endpoint:'), opts);
     if (sel.v === 'manual') {
-      // 手动输入交给 config set 提示
-      info('→ skillmkt config set llm.base_url <url> && skillmkt config set llm.model <id>');
+      base_url = (await ask(L('  服务地址 > ', '  Service URL > '))).trim() || null;
+      if (base_url) model = (await ask(L('  模型名称 > ', '  Model name > '))).trim() || null;
     } else if (sel.v !== 'skip') {
       ({ base_url, model } = sel.v);
     }
   } else {
     info(L('未发现本地 LLM 服务（已扫本机所有监听端口）', 'No local LLM service found (all listening ports probed)'));
-    info('→ skillmkt config set llm.base_url http://host:port/v1');
+    base_url = (await ask(L('  服务地址（留空跳过）> ', '  Service URL (empty to skip) > '))).trim() || null;
+    if (base_url) model = (await ask(L('  模型名称 > ', '  Model name > '))).trim() || null;
   }
 
   // API key 环境变量引用（不存真值）
