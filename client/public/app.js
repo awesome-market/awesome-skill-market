@@ -187,6 +187,16 @@ const I18N = {
   },
 };
 const t = (k, ...a) => { const v = (I18N[S?.lang] || I18N.zh)[k] ?? I18N.zh[k]; return typeof v === 'function' ? v(...a) : (v ?? k); };
+// 已安装名字 → 上游页面：github 用 pin+rpath（命中后的真实目录）锁到具体版本；无 rpath 退 repo@pin 根；wellknown → skills.sh site 页
+const skLink = (n, s) => {
+  const src = s?.source || {}, q = '?src=awesome-skill-market';
+  if (src.registry === 'github' && src.ref) {
+    const u = src.pin ? `https://github.com/${src.ref}/tree/${src.pin}${src.rpath ? `/${src.rpath}` : ''}` : `https://github.com/${src.ref}`;
+    return `<a class="pg" href="${u}${q}" target="_blank" rel="noopener">${esc(n)}</a>`;
+  }
+  if (src.registry === 'wellknown' && src.ref) return `<a class="pg" href="https://www.skills.sh/site/${src.ref}${q}" target="_blank" rel="noopener">${esc(n)}</a>`;
+  return esc(n);
+};
 
 async function refresh() {
   try { S = await api('/state'); }
@@ -265,7 +275,7 @@ async function render() {
     app.innerHTML = `<h2>${t('sk_h', skills.length)}</h2>
       <p class="desc">${t('sk_desc')}</p>`
       + (skills.map(([n, s]) => `
-      <div class="card"><div class="sk-head"><b>${esc(n)}</b><span class="mut">${esc(s.version || '')}</span><span class="mut">${esc(s.source?.registry || '')}</span>${pill(s.audit || 'clean')}
+      <div class="card"><div class="sk-head"><b>${skLink(n, s)}</b><span class="mut">${esc(s.version || '')}</span><span class="mut">${esc(s.source?.registry || '')}</span>${pill(s.audit || 'clean')}
       <span class="acts"><button class="sm" data-open="${esc(`${S.hub}/skills/${n}`)}">${t('open_dir')}</button><button data-dt="${esc(n)}">${t('det_btn')}</button><button data-rm="${esc(n)}">${t('sk_remove')}</button></span></div>
       <div class="trow">${(s.targets || []).map((x) => `<span class="tchip">${esc(x)}</span>`).join('') || `<span class="mut">${t('sk_hub')}</span>`}<button class="sm" data-tg="${esc(n)}">${t('sk_loc')}</button></div>
       <div class="tgbox" data-box="${esc(n)}" style="display:none;margin-top:10px"></div>
