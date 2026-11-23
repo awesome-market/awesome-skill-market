@@ -27,8 +27,10 @@
 | `skillmkt targets <sub>` | `list/add/remove` 管理投影目标（含纳入新 harness） | 否 | 1 |
 | `skillmkt sync` | 从 hub+lock 重建全部投影 | 否 | 1 |
 | `skillmkt audit [name]` | 审核：静态+可选 LLM | 可选 | 1 |
-| `skillmkt outdated` | 只查过期不执行（=npm outdated 语义） | 可选 | 2 |
-| `skillmkt update [name]` | 执行更新：拉新→diff→重审→重投影 | 可选 | 2 |
+| `skillmkt update` | 刷新上游元数据（=apt update）：拉远端 ref+算 tree-hash 入本地 state，不动已装 | 可选 | 2 |
+| `skillmkt outdated` | 拿刷新结果对比 pin 出报告（=npm outdated / apt list --upgradable） | 否 | 2 |
+| `skillmkt upgrade [name]` | **应用升级**（=apt upgrade）：拉新→diff→重审→重投影→改 lock | 可选 | 2 |
+| `skillmkt download <ref>` | 只下载不装（=apt download）：fetch+审核→入缓存 | 可选 | 2 |
 | `skillmkt diff <name>` | 版本 diff：`--semantic` 出意图摘要 | 可选 | 2 |
 | `skillmkt rollback <name>` | 回滚上一版 hub 副本 | 否 | 2 |
 | `skillmkt conflicts` | 冲突队列（对已装集合） | 可选 | 2 |
@@ -66,7 +68,7 @@ skillmkt <cmd> [args] [--json] [--hub <path>] [--verbose] [--no-llm]
 | 1 | 一般错误（参数错、网络失败） |
 | 2 | **审核闸门拒绝**（quarantine/malicious——CI 可据此阻断） |
 | 3 | 存在 pending 冲突（`conflicts`/`build` 用于断言场景） |
-| 4 | **存在可更新项**（`outdated` 专用——npm outdated exit 1 语义的单列版；`sync --check` 投影漂移同用） |
+| 4 | **存在可更新项**（`outdated` 专用——npm outdated exit 1 语义的单列版；`sync --dry-run` 投影漂移同用） |
 
 **hub 目录**（对应 DESIGN.md §6，名字以实际为准）：
 
@@ -79,6 +81,8 @@ skillmkt <cmd> [args] [--json] [--hub <path>] [--verbose] [--no-llm]
 ├── conflicts/<id>.yml       # 冲突记录
 ├── decisions/<id>.yml       # 裁决记录
 ├── merged/                  # 合并产物中间态
+├── state/upstream.yml       # update 刷新的远端元数据（ref+tree-hash+ts）
+├── cache/                   # download 的未装包缓存
 ├── quarantine/              # 隔离区
 ├── daemon.json              # {pid, port, token, started_at}——serve 单例锁
 └── config.yml               # 端点、registries、策略
@@ -119,7 +123,7 @@ project     ~/code/myrepo · 2 project skills (.claude/skills) · deslop stale
 | 裸跑/`list` | 多报 project 块：项目级 skill（受管 `●managed` / 野生 `◌external`——`show` 能读、library 不登记） |
 | `install --scope project` | copy 进 `<repo>/.claude|agents/skills/`——随仓共享，不进 default_targets |
 | `conflicts`/`merge` | 项目级 skill 计入分析集（该项目实际生效的 skill 集） |
-| `sync`/`update` | 项目副本仅在 cwd 位于该仓库或 `--project <path>` 时刷新——不扫盘找仓库 |
+| `sync`/`upgrade` | 项目副本仅在 cwd 位于该仓库或 `--project <path>` 时刷新——不扫盘找仓库 |
 | `remove --scope project` | 仅删项目副本，不动 hub |
 
 原则：**项目级是"给团队的"（copy+commit），全局级是"给自己的"（symlink→hub）**——同一 skill 两边共存互不影响，各自钉版。
@@ -366,7 +370,7 @@ resolve ref → adapter.fetch() → SkillPackage
 | `--scope project` | 项目级安装：copy 进 `<repo>/` 对应目录（不进 default_targets，随仓共享） |
 | `--to <dir>` | 直指路径安装：落成 `<dir>/<name>/`，默认 copy，`--link` 强制 symlink；与 `--target` 互斥；登记为 `custom:<abs>` 目标纳入 sync/update/remove |
 | `--yes` | 非交互；suspicious 时等同拒绝（安全默认） |
-| `--audit-only` | 走完审核就停，不落盘不投影 |
+| `--dry-run` | 只演示计划（fetch+审核+投影计划打印），不落盘——apt -s 语义，`remove`/`sync`/`upgrade` 同认 |
 | `--keep-scripts` | 显式保留 scripts/（写入 scans 标记，strict 策略下无效） |
 
 **无前置要求**：`install` 永远能跑——hub 缺席时静默创建骨架（仅建目录+harness 探测，不触发任何向导）。`init` 只负责 LLM 配置与偏好，**不是装 skill 的前置**。`--to`/`--scope`/`--target` 只是目的地修饰，安装语义不变：fetch → 审核闸门 → hub 登记 → 投影。
@@ -386,28 +390,35 @@ skillmkt list --json | jq -r '.external[].path' | xargs -n1 skillmkt install   #
 
 | 来源恢复 | 结果 |
 |---|---|
-| 成功（git remote/lock 记录/frontmatter） | 完全受管：`update`/`diff`/`rollback` 可用 |
-| 失败 | `source: adopted`——sync/conflicts/audit 参与，`update` 显示 `n/a`，`show` 里标注"来源不明建议重装" |
+| 成功（git remote/lock 记录/frontmatter） | 完全受管：`outdated`/`upgrade`/`diff`/`rollback` 可用 |
+| 失败 | `source: adopted`——sync/conflicts/audit 参与，`outdated` 显示 `n/a`，`show` 里标注"来源不明建议重装" |
 
 本地有改动也收——当前内容就是被管版本；恢复出 upstream 后 `outdated`/`diff` 会显示与上游的差异供取舍。
 
 ### 3.6 `skillmkt remove <name>` / `sync` / `audit`
 
-- `remove`：删各 harness 投影 → 移 hub 副本进 `.trash/`（保留一版供后悔）→ library/lock 除名
-- `sync`：按 library.yml+lock.yml 重放全部投影；`--check` 只报漂移不动手
+- `remove`：删各 harness 投影 → 移 hub 副本进 `.trash/`（保留一版供后悔）→ library/lock 除名；`--purge` 不留 trash 直接删（apt purge 语义）
+- `sync`：按 library.yml+lock.yml 重放全部投影；`--dry-run` 只报漂移不动手（apt -s/simulate 语义）
 - `audit [name|--all]`：重跑审核层刷新 `scans/`；`--llm` 强制含语义审
 
-### 3.7 `skillmkt outdated` / `update` / `diff` / `rollback`
+### 3.7 `skillmkt update` / `outdated` / `upgrade` / `download` / `diff` / `rollback`
+
+apt 两阶段语义——**刷新与变更分离**（检查更新是重活：fetch+算 hash；可缓存可定时，应用升级才是受控时刻）：
 
 ```
-$ skillmkt outdated
+$ skillmkt update            # apt update：拉远端 ref + 算远端 tree-hash → 写 state
+refreshed 4 skills (2.3s)
+$ skillmkt outdated          # apt list --upgradable：离线秒出对比
 deslop       clean
 taste-skill  upstream changed (a3f2 → 9c11) · rules +12/-3 · re-audit required
+$ skillmkt upgrade taste-skill   # apt upgrade：应用（唯一改系统的动词）
 ```
 
-- `outdated [name]`：只查不动（npm outdated 语义）——**发现有更新项时 exit 4**，CI 直接 `skillmkt outdated || notify` 断言；`--json` 输出结构化列表
-- `update [name|--all]`：拉新 → **`--semantic` diff 摘要** → 重过审 → 重投影 → 改 lock
-- `diff <name>`：当前 pin vs 上游 HEAD。默认结构 diff（节增删/计数）；`--semantic` 走 LLM 出"意图变化"摘要（**独占功能**，无模型降级行级）
+- `update [name|--all]`：刷新远端元数据入 `state/upstream.yml`（ref+tree-hash+时间戳），**不碰任何已装文件**——daemon/cron 定时跑这条
+- `outdated [name]`：离线对比出报告——**发现有更新项时 exit 4**，CI `skillmkt outdated || notify` 断言
+- `upgrade [name|--all]`：拉新 → **`--semantic` diff 摘要** → 重过审 → 重投影 → 改 lock；`--dry-run` 只演示计划
+- `download <ref>`：fetch → 审核 → 入 hub 缓存不写 targets——"先审后装"的独立动词（取代 install `--audit-only`）
+- `diff <name>`：当前 pin vs 上游 HEAD。默认结构 diff；`--semantic` 走 LLM 出"意图变化"摘要（**独占功能**，无模型降级行级）
 - `rollback`：hub 里留一版历史副本（`.history/<name>/`），一键换回
 
 ### 3.8 `skillmkt conflicts` / `resolve` / `decide`——主线二人审面
@@ -474,7 +485,7 @@ skillmkt build                                              # 产出
 |---|---|
 | `merge` / `resolve` / `conflicts` | 证据截图并排 + 批量裁决 + 实时进度 |
 | `install --to` / `targets` | 路径 picker + harness 勾选矩阵 |
-| `diff --semantic` / `update` | 语义 diff 双栏 + 审阅→确认→重分发流 |
+| `diff --semantic` / `upgrade` | 语义 diff 双栏 + 审阅→确认→重分发流 |
 | `init --ui` | 端点探测/模型选择做成表单（CLI 向导保留给纯终端） |
 | 长任务（extract/arbitrate） | SSE 实时进度/日志，断线重连不丢 |
 
@@ -566,7 +577,7 @@ client/
 │   ├── init.js    config.js  doctor.js  search.js
 │   ├── list.js    show.js    install.js remove.js
 │   ├── targets.js sync.js    audit.js
-│   ├── outdated.js update.js diff.js    rollback.js
+│   ├── update.js  outdated.js upgrade.js download.js diff.js rollback.js
 │   ├── conflicts.js resolve.js decide.js merge.js build.js
 │   ├── pack.js    publish.js registry.js serve.js
 ├── lib/
@@ -629,11 +640,12 @@ skillmkt list                   → mine 在矩阵里，audit:clean
 ### 流程 C：版本更新（AI diff 路径）
 
 ```
+skillmkt update                 → 刷新元数据（可挂 cron/daemon 定时）
 skillmkt outdated               → taste-skill upstream changed
 skillmkt diff taste-skill --semantic
    → "v9c11: 放宽了 motion floor——'idle 静止'改为'建议静止'；
       你 conf-0007 的裁决(b)不受影响"
-skillmkt update taste-skill     → 重过审 → 重投影 → lock
+skillmkt upgrade taste-skill    → 重过审 → 重投影 → lock
 ```
 
 ### 流程 D：企业 registry（适配器路径）
@@ -650,7 +662,7 @@ skillmkt publish my-design --to clawhub   → 适配器 publish() 发回企业�
 ```bash
 skillmkt install deslop --yes              # suspicious 即失败(exit 2)
 skillmkt conflicts --json | jq '.pending | length'
-skillmkt sync --check                      # 投影漂移 → exit 4
+skillmkt sync --dry-run                    # 投影漂移 → exit 4
 skillmkt outdated                          # 有可更新项 → exit 4
 ```
 
@@ -673,7 +685,7 @@ skillmkt build                    → CLI 纯确定性产出 → 投影+lock
 | 里程碑 | 范围 | 验收 |
 |---|---|---|
 | **M1 骨架** | bin/dispatch、`doctor`、`scanner`、`hub`、github 适配器、`install`（静态闸门+投影）、`list`、`show` | `doctor` 全绿；`install owner/repo` 真装一个 skill 到 claude+codex，`list` 矩阵正确 |
-| **M2 管理面** | `remove`/`sync`/`outdated`/`update`/`rollback`/`diff`（行级）、收编（install 路径语义）、`registry add/list`、rfc 适配器 | drift 检测正确（tree-hash 粒度）；rfc 服务器可列可装 |
+| **M2 管理面** | `remove`/`sync`/`update`(刷新)/`outdated`/`upgrade`/`download`/`rollback`/`diff`（行级）、收编（install 路径语义）、`registry add/list`、rfc 适配器 | drift 检测正确（tree-hash 粒度）；rfc 服务器可列可装 |
 | **M3 冲突** | `extract`/`conflicts`/`decide`/`resolve`/`merge`/`build`——引擎从 pipeline 平移 | 两个真 skill 跑通全链，pending 不泄漏，`build` 产物可装 |
 | **M4 智能** | LLM 审核、semantic diff、arbitrate 平移 | 接 OMLX 端点全链路；断网降级验证 |
 | **M5 面板** | `serve` daemon + 自动接管（§3.11）：矩阵/冲突裁决/审核报告三屏 | 浏览器完成一次完整 resolve 走查；`resolve` 从 CLI 自动开页 |
