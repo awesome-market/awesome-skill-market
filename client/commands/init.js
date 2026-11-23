@@ -164,6 +164,7 @@ export async function run(ctx) {
   // harness 默认目标 = installed 态
   const installed = ctx.harnesses.filter((h) => h.state === 'installed' && !h.detectOnly).map((h) => h.id);
   raw.default_targets = [...new Set([...(raw.default_targets || []), ...installed])];
+  raw.initialized = true;   // 完成标记——裸跑据此判断要不要自动进向导
   writeConfig(ctx.hub, raw);
 
   ok(`init done — default_targets: ${raw.default_targets.join(', ') || L('（无 installed harness，装好后 targets add）', '(no installed agent — use targets add later)')}`);

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // skillmkt — local-first agent skill manager
 import { makeCtx, withState } from '../lib/ctx.js';
-import { hubExists } from '../lib/hub.js';
+import { hubExists, isInitialized } from '../lib/hub.js';
 import { L } from '../lib/i18n.js';
 
 const COMMANDS = {
@@ -42,7 +42,7 @@ const HELP_ZH = `skillmkt — 本地优先的 agent skill 管理器
 裸跑 = 仪表盘。文档: docs/CLI.md`;
 
 async function bareRun(ctx) {
-  if (!hubExists(ctx.hub)) {
+  if (!hubExists(ctx.hub) || !isInitialized(ctx.hub)) {
     if (!ctx.tty) {
       console.error(L("请先运行 'skillmkt init' 完成初始化", "run 'skillmkt init' to get started"));
       process.exit(1);

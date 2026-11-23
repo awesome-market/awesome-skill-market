@@ -1,7 +1,7 @@
 // dashboard.js — 裸跑数据汇聚 + 渲染（尊重 ui.enabled）
 import fs from 'node:fs';
 import path from 'node:path';
-import { readYAMLFile } from './hub.js';
+import { readYAMLFile, isInitialized } from './hub.js';
 import { scanAll } from './scanner.js';
 import { treeHash } from './package.js';
 import { dashboard } from './render.js';
@@ -26,7 +26,7 @@ export async function renderDashboard(ctx) {
   const conflicts = listYAML(path.join(hub, 'conflicts'));
 
   // llm 解析链有 env/.env 兜底——非 config 来源时标注，免得用户困惑
-  const configFile = fs.existsSync(path.join(hub, 'config.yml'));
+  const configFile = isInitialized(ctx.hub);
   dashboard({ hub, library, scan: { rows, harnesses, managedHash }, upstream, conflicts, llm, llmVia: llm?.via, configFile, project });
   return 0;
 }

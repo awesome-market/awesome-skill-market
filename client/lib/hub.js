@@ -21,6 +21,13 @@ export function hubExists(hub) {
   return fs.existsSync(path.join(hub, 'library.yml'));
 }
 
+// "真正初始化过"：config.yml 里有完成标记，或含实质配置（web 保存路径只有后者可判）
+export function isInitialized(hub) {
+  const raw = readConfig(hub)._raw;
+  if (!raw) return false;
+  return !!(raw.initialized || raw.llm?.base_url || raw.default_targets?.length);
+}
+
 export function ensureHub(hub) {
   for (const d of SUBDIRS) fs.mkdirSync(path.join(hub, d), { recursive: true });
   if (!fs.existsSync(F(hub, 'library.yml'))) writeYAMLFile(F(hub, 'library.yml'), { version: 1, skills: {} });   // 让 hubExists 对"只初始化没装过"的 hub 也成立

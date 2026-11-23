@@ -6,7 +6,7 @@ import crypto from 'node:crypto';
 import { daemonFile, readDaemon } from '../lib/daemon.js';
 import { loadConflicts } from '../lib/conflicts.js';
 import { loadDecisions, decide } from '../lib/decide.js';
-import { readLibrary, readLock, readConfig, writeConfig, registerSkill, updateLock, ensureHub } from '../lib/hub.js';
+import { readLibrary, readLock, readConfig, writeConfig, registerSkill, updateLock, ensureHub, isInitialized } from '../lib/hub.js';
 import { readUpstream } from '../lib/state.js';
 import { readYAML } from '../../pipeline/lib/util.js';
 import { detectHarnesses } from '../lib/scanner.js';
@@ -34,7 +34,7 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
   const state = () => ({
     hub: ctx.hub,
     lang: (() => readConfig(ctx.hub)._raw?.ui?.lang ?? detectLang())(),
-    initialized: (() => { const r = readConfig(ctx.hub)._raw; return !!(r.ui || r.llm || r.default_targets); })(),
+    initialized: isInitialized(ctx.hub),
     library: readLibrary(ctx.hub), lock: readLock(ctx.hub),
     upstream: readUpstream(ctx.hub), conflicts: loadConflicts(ctx.hub),
     decisions: loadDecisions(ctx.hub), harnesses,
