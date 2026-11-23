@@ -263,6 +263,11 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
             if (r.code === 0) emit('library', {});
             return res.end(JSON.stringify(r));
           }
+          if (u.pathname === '/api/merge-clear') {
+            const r = await cli(['merge', '--clear']);
+            if (r.code === 0) emit('library', {});
+            return res.end(JSON.stringify(r));
+          }
           if (u.pathname === '/api/merge') {
             const names = (b.names || []).map(String).filter(Boolean);
             const args = ['merge'];

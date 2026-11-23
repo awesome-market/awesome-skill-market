@@ -227,14 +227,15 @@ const H = {
        skillmkt decide c-9b2e --resolution merge --custom "merged rule" --reason "best of both"`,
   },
   merge: {
-    zh: `用法: skillmkt merge <a> <b> [更多…] [--name 名字] [--auto]
+    zh: `用法: skillmkt merge <a> <b> [更多…] [--name 名字] [--auto] [--clear]
   合并 ≥2 个已管理 skill：抽规则 → 去重 → 检冲突 → 写 merged/rules.yml。
   有分歧进冲突队列由人裁决（--auto 用 LLM 自动裁易裁的）；
-  裁决完跑 build 生成 SKILL.md。`,
-    en: `usage: skillmkt merge <a> <b> [more…] [--name name] [--auto]
+  裁决完跑 build 生成 SKILL.md；--clear 丢弃整个合并中间态+产物。`,
+    en: `usage: skillmkt merge <a> <b> [more…] [--name name] [--auto] [--clear]
   Merge ≥2 managed skills: extract rules → dedupe → conflict-check → write
   merged/rules.yml. Disagreements queue for human decision (--auto lets the
-  LLM arbitrate easy ones); run build afterwards for SKILL.md.`,
+  LLM arbitrate easy ones); run build afterwards for SKILL.md; --clear
+  discards the whole merged state + artifact.`,
   },
   build: {
     zh: `用法: skillmkt build

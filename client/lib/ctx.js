@@ -5,7 +5,7 @@ import { resolveLLM } from './llm.js';
 import { setUILang } from './i18n.js';
 
 const VALUE_FLAGS = new Set(['hub', 'base-url', 'model', 'api-key-env', 'from', 'to', 'target', 'scope', 'path', 'registry', 'name', 'resolution', 'reason', 'custom', 'port', 'project', 'type', 'url', 'token', 'out', 'limit', 'policy', 'allow', 'ref']);
-const BOOL_FLAGS = new Set(['json', 'verbose', 'no-llm', 'dry-run', 'ui', 'cli', 'no-ui', 'yes', 'y', 'help', 'h', 'version', 'V', 'force', 'all', 'llm', 'semantic', 'raw', 'files', 'rules', 'audit-only', 'purge', 'link', 'remote', 'local', 'wait', 'stop', 'daemon', 'keep-scripts', 'report', 'check', 'once', 'scan', 'evidence', 'auto']);
+const BOOL_FLAGS = new Set(['json', 'verbose', 'no-llm', 'dry-run', 'ui', 'cli', 'no-ui', 'yes', 'y', 'help', 'h', 'version', 'V', 'force', 'all', 'llm', 'semantic', 'raw', 'files', 'rules', 'audit-only', 'purge', 'link', 'remote', 'local', 'wait', 'stop', 'daemon', 'keep-scripts', 'report', 'check', 'once', 'scan', 'evidence', 'auto', 'clear']);
 
 export function parseArgv(argv) {
   const flags = {};

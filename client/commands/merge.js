@@ -1,4 +1,4 @@
-// merge <a> <b> [more…] [--name n] — 抽规则→去重→检冲突→merged/rules.yml 中间态
+// merge <a> <b> [more…] [--name n] [--clear] — 抽规则→去重→检冲突→merged/rules.yml 中间态；--clear 丢弃合并中间态+产物
 import fs from 'node:fs';
 import path from 'node:path';
 import { extractRules } from '../lib/rules.js';
@@ -12,6 +12,11 @@ import { L } from '../lib/i18n.js';
 export const mergedDir = (hub) => path.join(hub, 'merged');
 
 export async function run(ctx) {
+  if (ctx.flags.raw.clear) {
+    fs.rmSync(mergedDir(ctx.hub), { recursive: true, force: true });
+    ok(L('已丢弃合并中间态与产物（merged/）', 'discarded merged intermediate state and artifact (merged/)'));
+    return 0;
+  }
   const names = ctx.args.filter((a) => !a.startsWith('--'));
   if (names.length < 2) { fail(L('用法: skillmkt merge <a> <b> [更多…] [--name 名字]', 'usage: skillmkt merge <a> <b> [more…] [--name n]')); return 1; }
   const outName = ctx.flags.raw.name || `merged-${names.length}skills`;
