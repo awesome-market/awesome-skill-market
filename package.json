@@ -1,10 +1,19 @@
 {
-  "name": "awesome-skill-market",
+  "name": "skillmkt",
   "version": "0.1.0",
-  "private": true,
   "type": "module",
-  "description": "Deslop AI-generated UI: merge pipeline that distills top agent design skills into one arbitrated skill.",
+  "description": "Local-first agent skill manager: install, audit, merge, distribute.",
+  "keywords": ["agent-skills", "skill-manager", "claude-code", "codex", "opencode", "devin", "skill-audit", "skill-merge", "anti-ai-slop"],
+  "bin": {
+    "skillmkt": "client/bin/skillmkt.js"
+  },
+  "files": [
+    "client/",
+    "pipeline/lib/",
+    "skill/"
+  ],
   "scripts": {
+    "skillmkt": "node client/bin/skillmkt.js",
     "daemon": "node pipeline/daemon.js",
     "once": "node pipeline/daemon.js --once",
     "sync": "node pipeline/sync.js",

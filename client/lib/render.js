@@ -1,0 +1,53 @@
+// render.js — 终端表格/卡片/仪表盘；装饰全走 stderr，--json 时 stdout 纯数据
+const err = (...a) => console.error(...a);
+
+export function table(rows, cols) {
+  const widths = cols.map((c) => Math.max(c.title.length, ...rows.map((r) => String(r[c.key] ?? '').length)));
+  const line = (cells) => '  ' + cells.map((c, i) => String(c ?? '').padEnd(widths[i])).join('  ').trimEnd();
+  err(line(cols.map((c) => c.title)));
+  for (const r of rows) err(line(cols.map((c) => r[c.key])));
+}
+
+export function out(data, { json = false, human = null } = {}) {
+  if (json) {
+    console.log(JSON.stringify(data, null, 2));
+  } else if (human) {
+    human();
+  } else {
+    console.log(typeof data === 'string' ? data : JSON.stringify(data, null, 2));
+  }
+}
+
+export const ok = (s) => err(`✓ ${s}`);
+export const warn = (s) => err(`⚠ ${s}`);
+export const fail = (s) => err(`✗ ${s}`);
+export const info = (s) => err(`  ${s}`);
+
+// 裸跑仪表盘：只摆"需要注意力"的信息
+export function dashboard({ hub, library, scan, upstream, conflicts, llm, project }) {
+  const skills = Object.keys(library.skills || {});
+  const updates = Object.keys(upstream?.skills || {}).filter(
+    (n) => upstream.skills[n]?.tree_hash !== (scan.managedHash?.[n] ?? null) && upstream.skills[n]
+  ).length;
+  const pending = conflicts.filter((c) => c.status === 'pending').length;
+  const externals = scan.rows.filter((r) => r.state === 'external').length;
+  const audits = skills.map((n) => library.skills[n].audit);
+  const bad = audits.filter((a) => a === 'suspicious' || a === 'quarantined').length;
+
+  err(`skillmkt · hub ${hub}${llm ? ` · llm ${llm.model} ✓` : ''}`);
+  err('');
+  err(`skills      ${skills.length} installed${updates ? ` · ${updates} update available` : ''} · audit ${audits.length - bad}✓${bad ? `/${bad}⚠` : ''}`);
+  const hs = scan.harnesses.filter((h) => h.state !== 'absent')
+    .map((h) => `${h.id}${h.state === 'installed' ? '●' : h.state === 'available' ? '○available' : '~likely'}`);
+  if (hs.length) err(`harnesses   ${hs.join('  ')}`);
+  if (project) err(`project     ${project.root}`);
+  if (pending) err(`conflicts   ${pending} pending — 需要裁决`);
+  if (externals) err(`external    ${externals} 未收编 — install <path> 纳入管理`);
+  err('');
+  const hints = [];
+  if (pending) hints.push('skillmkt conflicts --ui    裁决冲突（开面板看图）');
+  if (updates) hints.push('skillmkt outdated          看可更新项');
+  if (externals) hints.push('skillmkt list              查看 ◌external 路径');
+  hints.push('skillmkt list              安装矩阵', 'skillmkt --help            全部命令');
+  hints.slice(0, 4).forEach((h) => err(h));
+}
