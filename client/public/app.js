@@ -148,10 +148,10 @@ async function render() {
         <div class="row"><button id="probe">扫描本机模型服务</button><span id="probe-out" class="mut"></span></div>
         <div id="eps"></div>
         <label class="field">服务地址</label><input type="text" id="murl" placeholder="http://localhost:1234/v1" value="${esc(cfg.llm?.base_url || '')}">
+        <label class="field">访问密钥 <span class="field-hint" id="key-hint"></span></label><input type="text" id="mkey" value="${esc(cfg.llm?.api_key || '')}">
+        <p class="mut">本机服务一般留空。填了密钥会用本机机器码加密后存入 config.yml——文件拷到别的机器解不开，换机需重填。</p>
         <label class="field">模型名称</label><input type="text" id="mmodel" list="model-opts" placeholder="可输入关键字搜索，扫描后自动列出发现的模型" value="${esc(cfg.llm?.model || '')}">
         <datalist id="model-opts"></datalist>
-        <label class="field">访问密钥</label><input type="text" id="mkey" value="${esc(cfg.llm?.api_key || '')}">
-        <p class="mut">本机服务一般留空。填了密钥会用本机机器码加密后存入 config.yml——文件拷到别的机器解不开，换机需重填。</p>
         <div class="row"><button id="smoke">测试连接</button><span id="smoke-out" class="mut"></span></div></div>
       <div class="card"><h3>第 2 步 · skill 默认安装位置</h3>
         <p class="mut">勾选的 AI 工具会在你安装新 skill 时自动收到一份副本。已勾过的话保存即生效。</p>
@@ -187,6 +187,7 @@ async function render() {
         app.querySelectorAll('#eps .ep').forEach((x) => x.classList.remove('sel'));
         d.classList.add('sel');
         app.querySelector('#murl').value = d.dataset.b;
+        markKeyNeed(epsList.find((e) => e.base_url === d.dataset.b)?.needs_key);
         refreshOpts();
       });
     };
@@ -195,19 +196,33 @@ async function render() {
       const b = modelMap.get(e.target.value);
       if (b) { app.querySelector('#murl').value = b; refreshOpts(); }
     });
+    // 填完服务地址自动检测是否需要密钥：已知端点直接看 needs_key，手输地址真发 /models 探
+    const markKeyNeed = (need) => {
+      app.querySelector('#mkey').classList.toggle('req', !!need);
+      app.querySelector('#key-hint').textContent = need ? '← 此服务需要密钥' : '';
+    };
     app.querySelector('#murl').addEventListener('input', () => refreshOpts());
+    app.querySelector('#murl').addEventListener('change', async () => {
+      const cur = app.querySelector('#murl').value.trim().replace(/\/+$/, '');
+      const ep = epsList.find((e) => e.base_url === cur);
+      if (ep) return markKeyNeed(ep.needs_key);
+      if (!/^https?:\/\//.test(cur)) return markKeyNeed(false);
+      const r = await api('/models', { method: 'POST', body: JSON.stringify({ base_url: cur, api_key: '' }) });
+      markKeyNeed(!!r.error && /401|403/.test(r.error));
+    });
     // 需要密钥的端点：密钥填完自动拉它的模型列表
     app.querySelector('#mkey').addEventListener('change', async () => {
       const cur = app.querySelector('#murl').value.trim().replace(/\/+$/, '');
       const ep = epsList.find((e) => e.base_url === cur);
       const key = app.querySelector('#mkey').value.trim();
-      if (!ep?.needs_key || !key) return;
+      if (!key || !(ep?.needs_key || (!ep && /^https?:\/\//.test(cur)))) return;
       const out = app.querySelector('#smoke-out');
       out.textContent = '读取模型列表…';
       const r = await api('/models', { method: 'POST', body: JSON.stringify({ base_url: cur, api_key: key }) });
       if (r.models?.length) {
         for (const m of r.models) { modelMap.set(m, cur); loadedModels.set(m, cur); }
-        ep.needs_key = false; ep.models = r.models;
+        if (ep) { ep.needs_key = false; ep.models = r.models; }
+        markKeyNeed(false);
         refreshOpts();
         out.textContent = `已加载 ${r.models.length} 个模型`;
       } else out.textContent = r.error ? `读取失败：${r.error}` : '密钥通了，但没读到模型';
