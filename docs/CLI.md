@@ -6,7 +6,7 @@
 
 - hub（`~/.skillmkt/`）是唯一可写副本；harness 目录只投影不回写
 - 所有中间态都是 YAML/JSON 文件——中断可恢复，无隐藏进程态
-- 任何来源（search/import/registry）的 skill 都必须过审核闸门才可落盘
+- 任何来源（search/install/registry/adopt）的 skill 都必须过审核闸门才可落盘
 - LLM 永远可选：无 `OMLX_*` 配置时确定性功能全部可用
 - 所有命令支持 `--json`；人读输出走 stderr 装饰、数据走 stdout，可 pipe
 
@@ -20,15 +20,16 @@
 | `skillmkt config <sub>` | `set/get/list` 读写 config.yml（脚本用） | 否 | 1 |
 | `skillmkt doctor` | 环境自检：harness 目录、hub、端点、权限 | 否 | 1 |
 | `skillmkt search <q>` | 本地+远端检索 skill | 否 | 1 |
-| `skillmkt list` | 已装 skill × harness 矩阵 | 否 | 1 |
-| `skillmkt show <name>` | 详情卡 / 原文 / 文件 / 规则 | 否 | 1 |
+| `skillmkt list` | 已装 skill × harness 矩阵（别名 `ls`） | 否 | 1 |
+| `skillmkt show <name>` | 详情卡 / 原文 / 文件 / 规则（别名 `view`/`info`） | 否 | 1 |
 | `skillmkt install <ref>` | 装 skill：拉取→审核→hub→投影（hub 缺席时静默自建） | 可选 | 1 |
 | `skillmkt adopt [name]` | 收编 harness 里已装的外部 skill 进 hub | 否 | 1 |
-| `skillmkt remove <name>` | 卸 skill：删投影+hub 副本 | 否 | 1 |
+| `skillmkt remove <name>` | 卸 skill：删投影+hub 副本（别名 `uninstall`/`un`/`rm`） | 否 | 1 |
 | `skillmkt targets <sub>` | `list/add/remove` 管理投影目标（含 adopt 新 harness） | 否 | 1 |
 | `skillmkt sync` | 从 hub+lock 重建全部投影 | 否 | 1 |
 | `skillmkt audit [name]` | 审核：静态+可选 LLM | 可选 | 1 |
-| `skillmkt update [--check]` | 上游漂移检测+更新 | 可选 | 2 |
+| `skillmkt outdated` | 只查过期不执行（=npm outdated 语义） | 可选 | 2 |
+| `skillmkt update [name]` | 执行更新：拉新→diff→重审→重投影 | 可选 | 2 |
 | `skillmkt diff <name>` | 版本 diff：`--semantic` 出意图摘要 | 可选 | 2 |
 | `skillmkt rollback <name>` | 回滚上一版 hub 副本 | 否 | 2 |
 | `skillmkt conflicts` | 冲突队列（对已装集合） | 可选 | 2 |
@@ -36,8 +37,8 @@
 | `skillmkt decide <id> <v>` | 非交互单条裁决 | 否 | 2 |
 | `skillmkt merge <names…>` | 圈定 skill 跑合并管线 | 是 | 2 |
 | `skillmkt build` | 按 decisions 产出 merged skill | 否 | 2 |
-| `skillmkt import <src>` | 本地目录/git URL 导入 | 否 | 1 |
-| `skillmkt export <name>` | 导出/发布到 registry | 否 | 4 |
+| `skillmkt pack <name>` | 打 tarball 导出（=npm pack） | 否 | 4 |
+| `skillmkt publish <name>` | 发布到 registry（=npm publish） | 否 | 4 |
 | `skillmkt registry <sub>` | registry 适配器管理 | 否 | 1 |
 | `skillmkt serve` | 本地 Web 面板 + daemon（长任务自动拉起，§3.11） | — | 3 |
 
@@ -105,7 +106,7 @@ project     ~/code/myrepo · 2 project skills (.claude/skills) · deslop stale
 
 下一步：
   skillmkt conflicts --ui     裁决 2 条冲突（开面板看图）
-  skillmkt update --check     看 1 个可更新项
+  skillmkt outdated           看 1 个可更新项
   skillmkt list               安装矩阵
 ```
 
@@ -338,7 +339,8 @@ skillmkt install owner/repo                    # github 适配器（默认 regis
 skillmkt install owner/repo --path skills/foo  # monorepo 子目录
 skillmkt install owner/repo@v1.2.0             # ref/tag/sha
 skillmkt install corp:auth-skill               # 命名 registry 前缀
-skillmkt install ./local/dir                   # 本地目录
+skillmkt install ./local/dir                   # 本地目录（npm install ./dir 语义）
+skillmkt install git@github.com:o/r.git        # git URL
 skillmkt install <name> --from skills.sh       # 指定适配器
 ```
 
@@ -385,7 +387,7 @@ skillmkt adopt --all           # 全收编
 | 成功（git remote/lock 记录/frontmatter） | 完全受管：`update`/`diff`/`rollback` 可用 |
 | 失败 | `source: adopted`——sync/conflicts/audit 参与，`update` 显示 `n/a`，`show` 里标注"来源不明建议重装" |
 
-本地有改动也收——当前内容就是被管版本；恢复出 upstream 后 `update --check` 会显示与上游的 diff 供取舍。
+本地有改动也收——当前内容就是被管版本；恢复出 upstream 后 `outdated`/`diff` 会显示与上游的差异供取舍。
 
 ### 3.6 `skillmkt remove <name>` / `sync` / `audit`
 
@@ -393,14 +395,15 @@ skillmkt adopt --all           # 全收编
 - `sync`：按 library.yml+lock.yml 重放全部投影；`--check` 只报漂移不动手
 - `audit [name|--all]`：重跑审核层刷新 `scans/`；`--llm` 强制含语义审
 
-### 3.7 `skillmkt update` / `diff` / `rollback`
+### 3.7 `skillmkt outdated` / `update` / `diff` / `rollback`
 
 ```
-$ skillmkt update --check
+$ skillmkt outdated
 deslop       clean
 taste-skill  upstream changed (a3f2 → 9c11) · rules +12/-3 · re-audit required
 ```
 
+- `outdated [name]`：只查不动（npm outdated 语义）——CI 可用 `--json` + 退出码断言
 - `update [name|--all]`：拉新 → **`--semantic` diff 摘要** → 重过审 → 重投影 → 改 lock
 - `diff <name>`：当前 pin vs 上游 HEAD。默认结构 diff（节增删/计数）；`--semantic` 走 LLM 出"意图变化"摘要（**独占功能**，无模型降级行级）
 - `rollback`：hub 里留一版历史副本（`.history/<name>/`），一键换回
@@ -454,10 +457,10 @@ skillmkt build                                              # 产出
 
 `merge` 顺序执行：extract→canonicalize→dedupe→candidate→judge→arbitrate（自动消化），输出统计后停在人审队列。`build` 是纯确定性重放：读 merged/ + decisions/ → 产出 `skills/<name>/SKILL.md + references/` → 投影+lock。pending 双方不进产物（不变量）。
 
-### 3.10 `skillmkt import` / `export` / `registry`
+### 3.10 `skillmkt pack` / `publish` / `registry`
 
-- `import <dir|git-url>`：包成 SkillPackage 走**同一条审核闸门**入 hub
-- `export <name> [--to <registry>]`：打包 hub 目录；`--to clawhub:xxx` 走适配器 `publish()`（阶段 4）
+- `pack <name> [-o <dir>]`：hub 目录打成 tarball（npm pack 语义）——`./dir` 导入用 `install ./dir`，不单设命令
+- `publish <name> --to <registry>`：走适配器 `publish()` 发到 registry（clawhub 适配器，阶段 4）
 - `registry add <url> --type clawhub` / `list` / `remove <alias>`：管理 config.yml 的 registries
 - `targets list` / `targets add <harness>` / `targets add --path <dir> <alias>` / `targets remove <name>`：自定义路径目标写进 `config.yml` 的 `targets:`（`{path, transport, scope}`），之后当内置 harness 用
 
@@ -558,11 +561,12 @@ action: installed-stripped
 client/
 ├── bin/skillmkt.js          # 入口：argv 解析、全局 flag、dispatch、exit code
 ├── commands/
-│   ├── doctor.js  search.js  list.js  show.js
-│   ├── install.js remove.js  sync.js   audit.js
-│   ├── update.js  diff.js    rollback.js
+│   ├── init.js    config.js  doctor.js  search.js
+│   ├── list.js    show.js    install.js remove.js
+│   ├── adopt.js   targets.js sync.js    audit.js
+│   ├── outdated.js update.js diff.js    rollback.js
 │   ├── conflicts.js resolve.js decide.js merge.js build.js
-│   ├── import.js  export.js  registry.js serve.js
+│   ├── pack.js    publish.js registry.js serve.js
 ├── lib/
 │   ├── hub.js               # 路径、library/lock 读写、history
 │   ├── scanner.js           # harness 探测+遍历（矩阵数据源）
@@ -623,7 +627,7 @@ skillmkt list                   → mine 在矩阵里，audit:clean
 ### 流程 C：版本更新（AI diff 路径）
 
 ```
-skillmkt update --check         → taste-skill upstream changed
+skillmkt outdated               → taste-skill upstream changed
 skillmkt diff taste-skill --semantic
    → "v9c11: 放宽了 motion floor——'idle 静止'改为'建议静止'；
       你 conf-0007 的裁决(b)不受影响"
@@ -636,7 +640,7 @@ skillmkt update taste-skill     → 重过审 → 重投影 → lock
 skillmkt registry add https://hub.corp.io --type clawhub --token env:CORP_TOKEN
 skillmkt search "onboarding" --remote     → 结果含 corp:xxx
 skillmkt install corp:onboarding          → clawhub.fetch → 同一条闸门 → 装
-skillmkt export my-design --to clawhub    → publish() 发回企业市场
+skillmkt publish my-design --to clawhub   → 适配器 publish() 发回企业市场
 ```
 
 ### 流程 E：CI/脚本模式（全确定性）
@@ -666,7 +670,7 @@ skillmkt build                    → CLI 纯确定性产出 → 投影+lock
 | 里程碑 | 范围 | 验收 |
 |---|---|---|
 | **M1 骨架** | bin/dispatch、`doctor`、`scanner`、`hub`、github 适配器、`install`（静态闸门+投影）、`list`、`show` | `doctor` 全绿；`install owner/repo` 真装一个 skill 到 claude+codex，`list` 矩阵正确 |
-| **M2 管理面** | `remove`/`sync`/`update`/`rollback`/`diff`（行级）、`import`、`registry add/list`、rfc 适配器 | drift 检测正确（tree-hash 粒度）；rfc 服务器可列可装 |
+| **M2 管理面** | `remove`/`sync`/`outdated`/`update`/`rollback`/`diff`（行级）、`adopt`、`registry add/list`、rfc 适配器 | drift 检测正确（tree-hash 粒度）；rfc 服务器可列可装 |
 | **M3 冲突** | `extract`/`conflicts`/`decide`/`resolve`/`merge`/`build`——引擎从 pipeline 平移 | 两个真 skill 跑通全链，pending 不泄漏，`build` 产物可装 |
 | **M4 智能** | LLM 审核、semantic diff、arbitrate 平移 | 接 OMLX 端点全链路；断网降级验证 |
 | **M5 面板** | `serve` daemon + 自动接管（§3.11）：矩阵/冲突裁决/审核报告三屏 | 浏览器完成一次完整 resolve 走查；`resolve` 从 CLI 自动开页 |
