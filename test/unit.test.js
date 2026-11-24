@@ -87,3 +87,20 @@ test('safeName allows unicode names, rejects path traversal', async () => {
   for (const n of ['ui-taste', 'merge-test', '测试', 'skill_v2.1']) assert.ok(safeName(n), n);
   for (const n of ['../evil', 'a/b', 'a\\b', '..', '.hidden', '', 'x'.repeat(81), 'a b']) assert.ok(!safeName(n), JSON.stringify(n));
 });
+
+test('assertSafeTar rejects traversal and link members', async () => {
+  const { assertSafeTar } = await import('../client/lib/package.js');
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'skillmkt-tar-'));
+  const good = path.join(tmp, 'good'), gdir = path.join(good, 'pkg');
+  fs.mkdirSync(gdir, { recursive: true });
+  fs.writeFileSync(path.join(gdir, 'SKILL.md'), 'x');
+  const goodTar = path.join(tmp, 'good.tar.gz');
+  execFileSync('tar', ['czf', goodTar, '-C', good, 'pkg']);
+  assertSafeTar(goodTar);
+  const evil = path.join(tmp, 'evil'), edir = path.join(evil, 'pkg');
+  fs.mkdirSync(edir, { recursive: true });
+  fs.symlinkSync('/etc/passwd', path.join(edir, 'leak'));
+  const evilTar = path.join(tmp, 'evil.tar.gz');
+  execFileSync('tar', ['czf', evilTar, '-C', evil, 'pkg']);
+  assert.throws(() => assertSafeTar(evilTar), /unsafe member type/);
+});

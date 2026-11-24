@@ -5,6 +5,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { L } from '../i18n.js';
 import { execFileSync } from 'node:child_process';
+import { assertSafeTar, fetchToFile } from '../package.js';
 
 export async function fetchIndex(reg) {
   const url = `${reg.url.replace(/\/+$/, '')}/.well-known/agent-skills/index.json`;
@@ -25,19 +26,17 @@ export async function fetchSkill(ref, ctx, reg) {
   const entries = await fetchIndex(reg);
   const entry = entries.find((e) => e.name === ref.name);
   if (!entry) throw new Error(L(`rfc index 无此 skill: ${ref.name}`, `skill not in rfc index: ${ref.name}`));
-  const res = await fetch(entry.url, { signal: AbortSignal.timeout(20000) });
-  if (!res.ok) throw new Error(`rfc fetch ${res.status}: ${entry.url}`);
-  const buf = Buffer.from(await res.arrayBuffer());
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'skillmkt-rfc-'));
+  const tar = path.join(tmp, 'pkg');
+  await fetchToFile(entry.url, tar, { timeout: 20e3, maxBytes: 300e6 });
+  const buf = fs.readFileSync(tar);
   if (entry.digest) {
     const want = entry.digest.replace(/^sha256[:=]/, '');
     const got = crypto.createHash('sha256').update(buf).digest('hex');
     if (got !== want) throw new Error(`digest mismatch: ${ref.name}（${want.slice(0, 12)} ≠ ${got.slice(0, 12)}）`);
   }
-  // 落 tmp：tar.gz 解压或当 zip；单文件 SKILL.md 也可
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'skillmkt-rfc-'));
-  const tar = path.join(tmp, 'pkg');
-  fs.writeFileSync(tar, buf);
-  try { execFileSync('tar', ['xzf', tar, '-C', tmp]); } catch { /* 非 tar */ }
+  // tar.gz 解压或当 zip；单文件 SKILL.md 也可（成员预检：只要 文件+目录）
+  try { assertSafeTar(tar); execFileSync('tar', ['xzf', tar, '-C', tmp]); } catch { /* 非 tar 或含不安全成员——不解，按单文件目录处理 */ }
   const dir = fs.readdirSync(tmp).find((d) => fs.statSync(path.join(tmp, d)).isDirectory());
   return { dir: dir ? path.join(tmp, dir) : tmp, tmp, provenance: { registry: 'rfc', ref: reg.url, pin: entry.digest || null } };
 }

@@ -4,7 +4,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { L } from '../i18n.js';
-import { parseFrontmatter } from '../package.js';
+import { parseFrontmatter, assertSafeTar, fetchToFile } from '../package.js';
 
 const sh = (cmd, args) => execFileSync(cmd, args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
 
@@ -37,9 +37,7 @@ async function fetchTarball(owner, repo, ref, { mirror = null } = {}) {
   }
   for (const url of urls) {
     try {
-      const res = await fetch(url, { redirect: 'follow' });
-      if (!res.ok) continue;
-      fs.writeFileSync(tar, Buffer.from(await res.arrayBuffer()));
+      await fetchToFile(url, tar, { timeout: 90e3, maxBytes: 300e6 });   // 带超时+300MB 上限——防慢挂/OOM
       if (fs.statSync(tar).size > 100) return { tmp, tar, via: url.includes('codeload') && !mirror ? 'codeload' : 'mirror' };
     } catch { /* next */ }
   }
@@ -52,6 +50,7 @@ export async function fetchSkill({ owner, repo, ref = null, path: sub = null, mi
   const got = await fetchTarball(owner, repo, sha, { mirror });
   const hint = /\./.test(owner) ? L(`（${owner} 看着是私有源域名，不是 GitHub 组织——skills.sh 私有源 skill 目前装不了）`, ` (${owner} looks like a private registry domain, not a GitHub owner — private-source skills aren't installable yet)`) : '';
   if (!got) throw new Error(`fetch failed: ${owner}/${repo}@${sha}${L('（直连与镜像均不可达）', ' (direct and mirror both unreachable)')}${hint}`);
+  assertSafeTar(got.tar);                                // 远端包成员预检：只要 文件+目录，挡 ../、link、写穿
   execFileSync('tar', ['xzf', got.tar, '-C', got.tmp]);
   const root = fs.readdirSync(got.tmp).find((d) => d.startsWith(`${owner.replace(/\W/g, '')}`) || d.includes('-'))
     ?? fs.readdirSync(got.tmp).find((d) => fs.statSync(path.join(got.tmp, d)).isDirectory());
@@ -125,10 +124,13 @@ export async function fetchViaJsdelivr(owner, repo, ref, sub, destDir) {
   for (const f of files) {
     if (sub && !f.startsWith(`${sub}/`) && f !== sub) continue;
     const rel = sub ? f.slice(sub.length + 1) : f;
-    const res = await fetch(base + f);
+    if (rel.split('/').includes('..') || rel.includes('\\') || rel.startsWith('/')) continue;   // CDN 返回的清单也不盲信
+    const res = await fetch(base + f, { signal: AbortSignal.timeout(30e3) });
     if (!res.ok) continue;
+    const buf = Buffer.from(await res.arrayBuffer());
+    if (buf.length > 50e6) continue;                                   // 单文件 50MB 上限
     const dest = path.join(destDir, rel);
     fs.mkdirSync(path.dirname(dest), { recursive: true });
-    fs.writeFileSync(dest, Buffer.from(await res.arrayBuffer()));
+    fs.writeFileSync(dest, buf);
   }
 }

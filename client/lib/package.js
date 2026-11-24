@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { execFileSync } from 'node:child_process';
 import YAML from 'yaml';
 
 const FRONT_RE = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/;
@@ -27,7 +28,7 @@ export function* walk(dir) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
     const p = path.join(dir, e.name);
     if (e.isDirectory()) yield* walk(p);
-    else if (e.isFile() || e.isSymbolicLink()) yield p;
+    else if (e.isFile()) yield p;   // symlink 不当文件——防 link→~/.ssh/id_rsa 内容被当 skill 文件拷走（copyDir/hash 同理不跟随）
   }
 }
 
@@ -67,10 +68,42 @@ export function copyDir(src, dst) {
     const s = path.join(src, e.name);
     const d = path.join(dst, e.name);
     if (e.isDirectory()) copyDir(s, d);
-    else fs.copyFileSync(s, d);
+    else if (e.isFile()) fs.copyFileSync(s, d);   // 只拷普通文件——symlink/fifo 一律跳过
   }
 }
 
 export function rmDir(dir) {
   fs.rmSync(dir, { recursive: true, force: true });
+}
+
+// 远端 tar 预检：只允许普通文件(-)+目录(d)——挡 ../、绝对路径、symlink/hardlink/pax header 写穿逃逸
+export function assertSafeTar(tarPath) {
+  const names = execFileSync('tar', ['tzf', tarPath], { encoding: 'utf8' }).split('\n').filter(Boolean);
+  const types = execFileSync('tar', ['tvzf', tarPath], { encoding: 'utf8' }).split('\n').filter((l) => l.trim()).map((l) => l[0]);
+  if (names.length !== types.length) throw new Error('archive member listing mismatch');   // 对齐不了宁可拒包
+  for (let i = 0; i < names.length; i++) {
+    const n = names[i];
+    if (n.startsWith('/') || /^[A-Za-z]:/.test(n) || n.split('/').includes('..') || n.includes('\\'))
+      throw new Error(`unsafe member in archive: ${n}`);
+    if (types[i] && types[i] !== '-' && types[i] !== 'd')
+      throw new Error(`unsafe member type '${types[i]}' in archive: ${n}（skill 包不需要链接/设备文件）`);
+  }
+}
+
+// fetch → 落盘（带超时+体积上限）——远端包防 OOM/挂死
+export async function fetchToFile(url, dest, { timeout = 90e3, maxBytes = 200e6, headers = {} } = {}) {
+  const res = await fetch(url, { headers, signal: AbortSignal.timeout(timeout), redirect: 'follow' });
+  if (!res.ok) throw new Error(`fetch ${res.status}: ${url}`);
+  const len = +(res.headers.get('content-length') || 0);
+  if (len > maxBytes) throw new Error(`response too large: ${len} bytes`);
+  let n = 0;
+  const fd = fs.openSync(dest, 'w');
+  try {
+    for await (const chunk of res.body) {
+      n += chunk.length;
+      if (n > maxBytes) throw new Error(`response exceeds ${maxBytes} bytes`);
+      fs.writeSync(fd, chunk);
+    }
+  } finally { fs.closeSync(fd); }
+  return n;
 }

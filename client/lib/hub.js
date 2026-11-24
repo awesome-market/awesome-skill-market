@@ -43,7 +43,7 @@ export function readYAMLFile(file, fallback = null) {
 export function writeYAMLFile(file, data) {
   fs.mkdirSync(path.dirname(file), { recursive: true });
   const tmp = `${file}.tmp.${process.pid}`;
-  fs.writeFileSync(tmp, YAML.stringify(data));
+  fs.writeFileSync(tmp, YAML.stringify(data), { mode: 0o600 });   // hub 状态（config 含 enc:v1 密文）——只本用户可读
   fs.renameSync(tmp, file);           // 同目录原子替换
 }
 
@@ -55,7 +55,7 @@ export function readJSONFile(file, fallback = null) {
 export function writeJSONFile(file, data) {
   fs.mkdirSync(path.dirname(file), { recursive: true });
   const tmp = `${file}.tmp.${process.pid}`;
-  fs.writeFileSync(tmp, JSON.stringify(data, null, 2));
+  fs.writeFileSync(tmp, JSON.stringify(data, null, 2), { mode: 0o600 });
   fs.renameSync(tmp, file);
 }
 

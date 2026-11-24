@@ -5,10 +5,12 @@ import os from 'node:os';
 import { execFileSync } from 'node:child_process';
 import { ok, fail, info } from '../lib/render.js';
 import { L } from '../lib/i18n.js';
+import { safeName } from '../lib/package.js';
 
 export async function run(ctx) {
   const name = ctx.args[0];
   if (!name || ctx.args.length > 1) { fail(L('用法: skillmkt pack <名字>', 'usage: skillmkt pack <name>')); return 1; }
+  if (!safeName(name)) { fail(L(`非法 skill 名（含路径字符）: ${name}`, `invalid skill name (path chars): ${name}`)); return 1; }
   const src = path.join(ctx.hub, 'skills', name);
   if (!fs.existsSync(path.join(src, 'SKILL.md'))) { fail(L(`没纳入管理: ${name}`, `not managed: ${name}`)); return 1; }
   const ver = ctx.library.skills?.[name]?.version || '0.0.0';

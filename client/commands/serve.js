@@ -108,7 +108,8 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
     if (descCache.has(slug)) return descCache.get(slug);
     const parts = slug.split('/');
     let out = { desc: '', rel: null };
-    if (parts[0].includes('.')) {   // 私有源：host/.well-known/agent-skills/id/SKILL.md
+    if (parts[0].includes('.')) {   // 私有源：host/.well-known/agent-skills/id/SKILL.md——host 只认正常域名（挡 IP/端口/user@host 注入）
+      if (!/^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$/i.test(parts[0]) || /^\d+\.\d+\.\d+\.\d+$/.test(parts[0])) return out;
       out.desc = await fetch(`https://${parts[0]}/.well-known/agent-skills/${parts.slice(1).join('/')}/SKILL.md`,
         { headers: { 'user-agent': 'skillmkt' }, signal: AbortSignal.timeout(8e3) })
         .then((r) => (r.ok ? r.text() : '')).then(parseDesc).catch(() => '');
@@ -265,8 +266,10 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
               return res.end(JSON.stringify({ models: await listModels(b.base_url, key) }));
             } catch (e) { return res.end(JSON.stringify({ models: [], error: e.message.slice(0, 80) })); }
           }
-          if (u.pathname === '/api/targets') {                        // web 改投影目标
+          if (u.pathname === '/api/targets') {                        // web 改投影目标——只认已检测 harness id（custom:/project: 是 CLI 语义，web 不放行任意目录写）
             const name = b.name, targets = b.targets || [];
+            const known = new Set(ctx.harnesses.map((h) => h.id));
+            if (targets.some((t) => !known.has(String(t)))) { res.writeHead(400); return res.end('{"error":"unknown target id"}'); }
             req.logNote = L(`修改了「${name}」的安装位置`, `changed install locations for "${name}"`);
             setSkillTargets(ctx, name, targets.map(String));
             emit('targets', { name });
@@ -381,7 +384,7 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
 
   await new Promise((r) => server.listen(port, '127.0.0.1', r));
   const realPort = server.address().port;
-  fs.writeFileSync(daemonFile(ctx.hub), JSON.stringify({ pid: process.pid, port: realPort, token, started: new Date().toISOString() }));
+  fs.writeFileSync(daemonFile(ctx.hub), JSON.stringify({ pid: process.pid, port: realPort, token, started: new Date().toISOString() }), { mode: 0o600 });   // 含 token——只本用户可读
   const idle = setInterval(() => { if (Date.now() - lastActive > idleMs) { server.close(); process.exit(0); } }, 60e3);
   idle.unref();
 

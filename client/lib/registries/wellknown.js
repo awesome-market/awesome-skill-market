@@ -4,6 +4,22 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { L } from '../i18n.js';
+import { safeName } from '../package.js';
+
+// 页面抓来的 host：只认 https + 正常域名（挡 IP literal/user:pass@ 注入）
+const safeHost = (origin) => {
+  try {
+    const u = new URL(origin);
+    if (u.protocol !== 'https:' || u.username || u.password) return null;
+    if (!/^[a-z0-9]([a-z0-9.-]*[a-z0-9])?\.[a-z0-9-]+$/i.test(u.hostname) || /^\d+\.\d+\.\d+\.\d+$/.test(u.hostname)) return null;
+    return u.origin;
+  } catch { return null; }
+};
+// rel 是落盘路径——只允许正常相对段，挡 ../、\、绝对路径
+const safeRel = (r) => {
+  try { r = decodeURIComponent(r); } catch { return false; }
+  return /^[A-Za-z0-9._\-/]+$/.test(r) && !r.split('/').some((s) => s === '..' || s === '' || s === '.');
+};
 
 const UA = { 'user-agent': 'skillmkt' };
 const SITE = (slug) => `https://www.skills.sh/site/${slug}`;
@@ -19,13 +35,15 @@ export async function fetchSkill({ slug, ctx = null }) {
     (page.match(/https?:\\?\/\\?\/[^"'<>\\\s]+\.well-known\/agent-skills\/[^"'<>\\\s]+/g) || [])
       .map((u) => u.replace(/\\/g, '').replace(/[.,;)}\]]+$/, ''))
   )];
-  // ② 推导 skillId 与文件相对路径；SKILL.md 兜底必拉
+  // ② 推导 skillId 与文件相对路径；SKILL.md 兜底必拉（全部来自页面——先过安全校验再拼路径）
   const idM = urls.map((u) => u.match(/\.well-known\/agent-skills\/([^/]+)\//)?.[1]).find(Boolean);
   const skillId = idM || slug.split('/').pop();
-  const host = urls[0] ? new URL(urls[0]).origin : `https://${slug.split('/')[0]}`;
+  if (!safeName(skillId)) throw new Error(L(`${slug}: 页面给的 skillId 非法: ${skillId}`, `${slug}: page-supplied skillId unsafe: ${skillId}`));
+  const host = (urls[0] && safeHost(new URL(urls[0]).origin)) || `https://${slug.split('/')[0]}`;
   const rels = new Set(urls
     .map((u) => u.split(`.well-known/agent-skills/${skillId}/`)[1])
-    .filter(Boolean));
+    .filter(Boolean)
+    .filter(safeRel));
   rels.add('SKILL.md');
 
   // ③ 逐文件拉取（无 manifest 可列——页面给的即全量）
@@ -34,12 +52,15 @@ export async function fetchSkill({ slug, ctx = null }) {
   fs.mkdirSync(dir, { recursive: true });
   const got = [];
   for (const rel of rels) {
+    const relDec = decodeURIComponent(rel);
     const url = `${host}/.well-known/agent-skills/${skillId}/${rel}`;
     try {
       const res = await fetch(url, { headers: UA, signal: AbortSignal.timeout(15e3), redirect: 'follow' });
       if (!res.ok) continue;
       const buf = Buffer.from(await res.arrayBuffer());
-      const dest = path.join(dir, rel);
+      if (buf.length > 50e6) continue;                     // 单文件 50MB 上限
+      const dest = path.join(dir, relDec);
+      if (!(path.resolve(dest) + path.sep).startsWith(path.resolve(dir) + path.sep) && path.resolve(dest) !== path.resolve(dir)) continue;   // 双保险：拼完必须还在 dir 内
       fs.mkdirSync(path.dirname(dest), { recursive: true });
       fs.writeFileSync(dest, buf);
       got.push(rel);

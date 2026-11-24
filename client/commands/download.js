@@ -3,7 +3,7 @@ import path from 'node:path';
 import { parseRef } from '../lib/ref.js';
 import { fetchRef } from '../lib/registries/index.js';
 import { auditDir, writeScan } from '../lib/audit.js';
-import { readSkillDir, copyDir, rmDir } from '../lib/package.js';
+import { readSkillDir, copyDir, rmDir, safeName } from '../lib/package.js';
 import { ensureHub, cacheDir, quarantinePath } from '../lib/hub.js';
 import { ok, warn, fail, auditTag } from '../lib/render.js';
 import { L } from '../lib/i18n.js';
@@ -19,6 +19,7 @@ export async function run(ctx) {
     : await fetchRef(ref, ctx);
   const pkg = readSkillDir(got.dir);
   if (!pkg) { fail(L(`不是合法 skill: ${input}`, `not a valid skill: ${input}`)); return 1; }
+  if (!safeName(pkg.name)) { fail(L(`非法 skill 名（含路径字符）: ${pkg.name}`, `invalid skill name (path chars): ${pkg.name}`)); return 1; }
   const audit = auditDir(got.dir, { strip: !ctx.flags.raw.keepScripts });
   if (audit.verdict === 'malicious') {
     if (!ctx.flags.dryRun) { rmDir(quarantinePath(ctx.hub, pkg.name)); copyDir(got.dir, quarantinePath(ctx.hub, pkg.name)); writeScan(ctx.hub, pkg.name, audit); }
