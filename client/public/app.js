@@ -3,6 +3,7 @@ const T = new URLSearchParams(location.search).get('token') || '';
 const api = async (p, opt) => (await fetch(`/api${p}${p.includes('?') ? '&' : '?'}token=${T}`, { headers: { authorization: `Bearer ${T}` }, ...opt })).json();
 const el = (h) => { const d = document.createElement('div'); d.innerHTML = h; return d.firstElementChild; };
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const insideRel = (f) => /^[A-Za-z0-9._-]+$/.test(f);   // evidence 文件名白名单——不进 URL 的不该有 / \ ..
 let S = null, tab = location.hash.slice(1).split('?')[0] || 'skills';
 let saveMsg = '', saveMsgAt = 0;   // 保存结果提示——要挺过保存后的连续重渲染（自己 refresh + SSE config 事件）
 const mkState = { q: '', results: null, installed: new Set(), perm: new Set(), force: new Set(), keep: new Set(), status: {}, directOut: '', directPerm: false, directForce: false, directStrip: false };   // 市场页状态——SSE refresh 重渲染不丢
@@ -226,7 +227,7 @@ const skLink = (n, s) => {
   const src = s?.source || {}, q = '?src=awesome-skill-market';
   if (src.registry === 'github' && src.ref) {
     const u = src.pin ? `https://github.com/${src.ref}/tree/${src.pin}${src.rpath ? `/${src.rpath}` : ''}` : `https://github.com/${src.ref}`;
-    return `<a class="pg" href="${u}${q}" target="_blank" rel="noopener">${esc(n)}</a>`;
+    return `<a class="pg" href="${esc(u)}${q}" target="_blank" rel="noopener">${esc(n)}</a>`;
   }
   if (src.registry === 'wellknown' && src.ref) return `<a class="pg" href="https://www.skills.sh/site/${src.ref}${q}" target="_blank" rel="noopener">${esc(n)}</a>`;
   return esc(n);
@@ -234,8 +235,8 @@ const skLink = (n, s) => {
 
 async function refresh() {
   try { S = await api('/state'); }
-  catch (e) { document.getElementById('app').innerHTML = `<p class="pill bad">${t('err_conn', e.message)}</p>`; return; }
-  if (S?.error) { document.getElementById('app').innerHTML = `<p class="pill bad">${t('err_token', S.error)}</p>`; return; }
+  catch (e) { document.getElementById('app').innerHTML = `<p class="pill bad">${esc(t('err_conn', e.message))}</p>`; return; }
+  if (S?.error) { document.getElementById('app').innerHTML = `<p class="pill bad">${esc(t('err_token', S.error))}</p>`; return; }
   if (!location.hash && !S.initialized) { tab = 'setup'; location.hash = 'setup'; }   // 未初始化→设置页
   render();
 }
@@ -368,7 +369,7 @@ async function render() {
       const src = s?.source || {};
       const gh = src.registry === 'github' && src.ref;
       const page = gh ? `https://github.com/${src.ref}` : src.ref ? `https://www.skills.sh/site/${src.ref}` : '';
-      const srcHtml = page ? `<a href="${page}?src=awesome-skill-market" target="_blank" rel="noopener">${esc(src.registry)} ${esc(src.ref)}</a>` : `${esc(src.registry || '')} ${esc(src.ref || '')}`;
+      const srcHtml = page ? `<a href="${esc(page)}?src=awesome-skill-market" target="_blank" rel="noopener">${esc(src.registry)} ${esc(src.ref)}</a>` : `${esc(src.registry || '')} ${esc(src.ref || '')}`;
       const tagsHtml = gh ? ` · <a href="https://github.com/${src.ref}/tags?src=awesome-skill-market" target="_blank" rel="noopener">${t('det_tags')}</a>` : '';
       box.style.display = 'block';
       box.innerHTML = `<p class="mut" style="margin:4px 0">${esc(d.description || '')} · ${t('det_files', d.fileCount ?? d.files?.length ?? 0)} · ${srcHtml}${src.pin ? ` · pin <code>${esc(String(src.pin).slice(0, 7))}</code>` : ''}${tagsHtml}</p>
@@ -560,7 +561,7 @@ async function render() {
         const label = done ? t('ins_done') : frc ? t('mk_ow') : perm ? t('mk_force') : t('mk_install');
         // GitHub 源先链 repo 根（保底可开）；desc 接口返回命中路径后再升级成精确子目录链接
         const page = `${repo ? `https://github.com/${src}` : `https://www.skills.sh/site/${s.slug}`}?src=awesome-skill-market`;
-        return `<div class="card"><div class="row"><b><a class="pg" href="${page}" target="_blank" rel="noopener">${esc(s.name)}</a></b><span class="mut">${esc(s.slug)} · ${s.installs} installs${repo ? '' : ` · ${t('mk_privsrc')}`}</span>
+        return `<div class="card"><div class="row"><b><a class="pg" href="${esc(page)}" target="_blank" rel="noopener">${esc(s.name)}</a></b><span class="mut">${esc(s.slug)} · ${esc(String(s.installs))} installs${repo ? '' : ` · ${t('mk_privsrc')}`}</span>
           <button class="mk-i" style="margin-left:auto" data-s="${esc(s.slug)}" data-r="${esc(ref)}" data-p="${esc(sub)}" ${done ? 'disabled' : ''}>${label}</button>
           <span class="iout mut" style="white-space:pre-wrap">${esc(mkState.status[s.slug] || '')}</span></div>
           <div class="dsc mut" data-slug="${esc(s.slug)}"></div></div>`;
@@ -710,7 +711,7 @@ async function render() {
           <div class="editbox" style="display:none;margin-top:12px">
             <label class="field">${t('mtext_l')}</label><textarea class="mtext"></textarea>
             <div class="row" style="margin-top:10px"><button class="primary go">${t('submit_merge')}</button><button class="cancel">${t('cancel')}</button></div></div>` : ''}</div>`);
-      if (c.evidence_files) card.querySelector('.ev-imgs').innerHTML = c.evidence_files.filter((f) => f.endsWith('.png')).map((f) => `<img class="ev" src="/evidence/${c.id}/${f}?token=${T}" alt="evidence ${esc(f)}">`).join('');
+      if (c.evidence_files) card.querySelector('.ev-imgs').innerHTML = c.evidence_files.filter((f) => f.endsWith('.png') && insideRel(f)).map((f) => `<img class="ev" src="/evidence/${esc(c.id)}/${esc(f)}?token=${T}" alt="evidence ${esc(f)}">`).join('');
       const post = async (resolution, custom) => {
         const reason = card.querySelector('.reason')?.value || '';
         if (!reason.trim()) { card.querySelector('.err').textContent = t('need_reason'); card.querySelector('.reason')?.focus(); return; }

@@ -30,7 +30,7 @@ export function isInitialized(hub) {
 }
 
 export function ensureHub(hub) {
-  for (const d of SUBDIRS) fs.mkdirSync(path.join(hub, d), { recursive: true });
+  for (const d of SUBDIRS) fs.mkdirSync(path.join(hub, d), { recursive: true, mode: 0o700 });   // hub 整树只本用户——skill 内容+状态都不该跨用户可见
   if (!fs.existsSync(F(hub, 'library.yml'))) writeYAMLFile(F(hub, 'library.yml'), { version: 1, skills: {} });   // 让 hubExists 对"只初始化没装过"的 hub 也成立
   return hub;
 }
@@ -108,6 +108,7 @@ export function writeConfig(hub, raw) {
 
 export function setConfigKey(raw, dotted, value) {
   const keys = dotted.split('.');
+  if (keys.some((k) => k === '__proto__' || k === 'constructor' || k === 'prototype')) return raw;   // 原型链段拒绝——防 Object.prototype 污染
   let cur = raw;
   for (const k of keys.slice(0, -1)) cur = cur[k] ??= {};
   cur[keys.at(-1)] = value;

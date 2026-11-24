@@ -86,6 +86,6 @@ function copyDirFs(src, dst) {
   fs.mkdirSync(dst, { recursive: true });
   for (const e of fs.readdirSync(src, { withFileTypes: true })) {
     const s = path.join(src, e.name), d = path.join(dst, e.name);
-    if (e.isDirectory()) copyDirFs(s, d); else fs.copyFileSync(s, d);
+    if (e.isDirectory()) copyDirFs(s, d); else if (e.isFile()) fs.copyFileSync(s, d);   // 与 copyDir 一致：symlink/fifo 不跟随
   }
 }

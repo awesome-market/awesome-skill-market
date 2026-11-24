@@ -16,6 +16,7 @@ export async function autoArbitrate(hub, llm, conflicts, { minConfidence = 0.85,
       return;
     }
     if (r.verdict === 'human' || (Number(r.confidence) || 0) < minConfidence) { out.human++; return; }
+    if (!['keep-a', 'keep-b', 'merge', 'dismissed'].includes(r.verdict)) { out.human++; return; }   // 模型吐了垃圾 verdict → 不落库，留给人
     decide(hub, c, { resolution: r.verdict, custom: r.merged || null, reason: `auto-arbiter: ${r.explanation || r.verdict}`, by: 'auto-arbiter' });
     c.status = 'resolved';
     if (r.explanation) c.ai_explanation = r.explanation;

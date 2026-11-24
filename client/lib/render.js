@@ -1,6 +1,7 @@
 // render.js — 终端表格/卡片/仪表盘；装饰全走 stderr，--json 时 stdout 纯数据
 import { L } from './i18n.js';
-const err = (...a) => console.error(...a);
+const clean = (s) => typeof s === 'string' ? s.replace(/[\x00-\x08\x0b-\x1f\x7f\x9b]/g, '') : s;   // 终端汇点剥控制字符（只动 string）——远端 skill 内容里塞 ANSI 也伪造不了输出
+const err = (...a) => console.error(...a.map(clean));
 
 export function table(rows, cols) {
   const widths = cols.map((c) => Math.max(c.title.length, ...rows.map((r) => String(r[c.key] ?? '').length)));
