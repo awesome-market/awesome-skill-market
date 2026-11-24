@@ -1,0 +1,69 @@
+name: release
+
+# 手工触发的正式发版：bump → 全量验证 → tag → npm publish --provenance → 回装验证
+# npm 侧需配 trusted publishing（repo owner/name + 本文件名 + environment=production）——零 token
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 'version bump'
+        required: true
+        default: patch
+        type: choice
+        options: [patch, minor, major]
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: write    # 回推 version commit + tag
+  id-token: write    # npm provenance / OIDC trusted publishing
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: production      # npm trusted publishing 的 environment 字段须与此一致；GitHub 侧可后续加 required reviewers 当审批闸
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          registry-url: https://registry.npmjs.org/
+
+      - name: npm >= 11.5.1（trusted publishing 要求；Node 22 自带 npm 10）
+        run: npm install -g npm@11
+
+      - run: npm ci
+      - run: npm test
+      - run: node pipeline/validate.js
+      - run: node pipeline/build.js --check
+
+      - name: bump version + tag + push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          npm version "${{ inputs.bump }}"
+          git push origin main --follow-tags
+
+      - name: publish（版本已在 npm 则跳过——可安全重跑）
+        run: |
+          v="$(node -p "require('./package.json').version")"
+          if npm view "awesome-skill-market@$v" version >/dev/null 2>&1; then
+            echo "skip: awesome-skill-market@$v already on npm"
+          else
+            npm publish --provenance --access public
+          fi
+
+      - name: 回装验证（等 npm 索引，最多 ~60s）
+        run: |
+          v="$(node -p "require('./package.json').version")"
+          ok=0
+          for i in 1 2 3 4 5 6; do
+            npm i -g "awesome-skill-market@$v" && ok=1 && break
+            sleep 10
+          done
+          [ "$ok" = 1 ] || { echo "install verification failed for $v"; exit 1; }
+          skillmkt --help >/dev/null
+          echo "verified awesome-skill-market@$v (skillmkt CLI works)"
