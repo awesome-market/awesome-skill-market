@@ -10,6 +10,24 @@ const FRONT_RE = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/;
 // skill 名安全字集：Unicode 字母/数字 + . _ -，首字符须字母数字——挡 / \ .. 路径逃逸（name 来自不可信 SKILL.md frontmatter）
 export const safeName = (n) => typeof n === 'string' && /^[\p{L}\p{N}][\p{L}\p{N}._-]{0,79}$/u.test(n);
 
+// 目录内含判定：startsWith 必须带分隔符——挡 /hub/evidence-evil 同前缀兄弟目录逃逸
+export const insideDir = (base, f) => { const r = path.resolve(f), b = path.resolve(base); return r === b || r.startsWith(b + path.sep); };
+
+// 外部数据源给的 URL host：只认 https + 正常域名（挡 IP literal / user:pass@ / http 注入）
+export const isSafeHost = (origin) => {
+  try {
+    const u = new URL(origin);
+    if (u.protocol !== 'https:' || u.username || u.password) return false;
+    return /^[a-z0-9]([a-z0-9.-]*[a-z0-9])?\.[a-z0-9-]+$/i.test(u.hostname) && !/^\d+\.\d+\.\d+\.\d+$/.test(u.hostname);
+  } catch { return false; }
+};
+
+// 外部数据源给的落盘相对路径：只允许正常段——挡 ../、\、绝对路径、空段（输入可含 % 编码）
+export const isSafeRel = (r) => {
+  try { r = decodeURIComponent(r); } catch { return false; }
+  return /^[A-Za-z0-9._\-/]+$/.test(r) && !r.split('/').some((s) => s === '..' || s === '' || s === '.');
+};
+
 export function parseFrontmatter(file) {
   try {
     const src = fs.readFileSync(file, 'utf8');

@@ -13,7 +13,7 @@ import { readYAML } from '../../pipeline/lib/util.js';
 import { detectHarnesses, scanAll } from '../lib/scanner.js';
 import { probeEndpoints, chat, encryptSecret, resolveKeyRef, listModels } from '../lib/llm.js';
 import { setSkillTargets } from '../lib/project.js';
-import { readSkillDir, treeHash } from '../lib/package.js';
+import { readSkillDir, treeHash, insideDir } from '../lib/package.js';
 import { searchRemote } from '../lib/registries/skillssh.js';
 import { execFile, spawn } from 'node:child_process';
 import { ok, info } from '../lib/render.js';
@@ -366,15 +366,14 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
     // 静态：public/ 公开；/evidence/ 需鉴权且锁死在 hub/evidence 内（防 ../ 穿越读 config.yml 等）
     const p = u.pathname === '/' ? '/index.html' : u.pathname;
     let file;
-    const inside = (base, f) => { const r = path.resolve(f), b = path.resolve(base); return r === b || r.startsWith(b + path.sep); };   // 带分隔符——挡 /hub/evidence-evil 同前缀兄弟目录
     if (p.startsWith('/evidence/')) {
       if (!authed) { res.writeHead(401); return res.end(); }
       const evDir = path.join(ctx.hub, 'evidence');
       file = path.join(evDir, p.slice('/evidence/'.length));
-      if (!inside(evDir, file)) { res.writeHead(403); return res.end(); }
+      if (!insideDir(evDir, file)) { res.writeHead(403); return res.end(); }
     } else {
       file = path.join(PUB, p);
-      if (!inside(PUB, file)) { res.writeHead(403); return res.end(); }
+      if (!insideDir(PUB, file)) { res.writeHead(403); return res.end(); }
     }
     if (!fs.existsSync(file) || fs.statSync(file).isDirectory()) { res.writeHead(404); return res.end('nf'); }
     res.setHeader('content-type', MIME[path.extname(file)] || 'application/octet-stream');
