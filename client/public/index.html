@@ -79,7 +79,7 @@ button:disabled { opacity: 0.45; cursor: default; }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 
 label.field { display: block; margin: 14px 0 4px; font-size: 14.5px; color: var(--color-ink-mut); }
-input[type=text], input:not([type]), textarea, select {
+input[type=text], input[type=password], input:not([type]), textarea, select {
   width: 100%; font: inherit; font-size: 16px; padding: 9px 13px; border: 1px solid var(--color-line);
   border-radius: 8px; background: var(--color-paper); color: var(--color-ink); }
 textarea { min-height: 7rem; resize: vertical; font-family: var(--font-mono); font-size: 14.5px; }
@@ -97,7 +97,7 @@ datalist { display: none; }
 /* 横向表单行：label 定宽右对齐，input 自适应 */
 .frow { display: flex; align-items: center; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
 .frow .lab { flex: none; width: 76px; text-align: right; font-size: 15px; color: var(--color-ink-mut); }
-.frow input[type=text], .frow input:not([type]), .frow .combo { flex: 1; min-width: 0; }
+.frow input[type=text], .frow input[type=password], .frow input:not([type]), .frow .combo { flex: 1; min-width: 0; }
 .frow button { flex: none; }
 .fhint { flex: none; font-size: 14px; color: var(--color-accent); font-weight: 600; }
 .fsub { flex-basis: 100%; margin: 2px 0 0 88px; font-size: 13.5px; color: var(--color-ink-mut); line-height: 1.55; }
