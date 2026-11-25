@@ -2,7 +2,7 @@
 
 ## What this repo is
 
-A pipeline that merges several agent design skills into one arbitrated anti-AI-slop skill (`skill/`). LLM work happens ONLY in the local daemon against an OpenAI-compatible endpoint (`OMLX_BASE_URL`); CI must stay deterministic — never call the model from `.github/workflows`.
+A pipeline that merges several agent design skills into one arbitrated anti-AI-slop skill (`skill/`). LLM work happens ONLY in the local daemon against a user-configured OpenAI-compatible endpoint (`OMLX_BASE_URL` — local or hosted remote; skillmkt users pick in init/settings). CI must stay deterministic — never call the model from `.github/workflows`.
 
 ## Invariants
 

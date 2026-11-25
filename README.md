@@ -163,7 +163,7 @@ The npm CLI shipped by this repo (`npm i -g awesome-skill-market`, Node ≥ 22).
 `skillmkt merge skill-a skill-b --name merged` extracts rules, deduplicates them, and queues genuinely contradictory pairs in `conflicts/`. You arbitrate each pending conflict in the web UI or with `skillmkt resolve` (optionally `--auto` for LLM-assisted verdicts), then `skillmkt build` writes the merged `SKILL.md`. Pending conflicts keep both sides out of the output — contradictions never silently ship.
 
 **Is it safe to install skills from the internet?**
-skillmkt runs a deterministic static audit before install: it strips script-like directories (`scripts/`, `bin/`, `hooks/`, executable extensions) by default and flags secrets, outbound-network instructions, permission escalation and PII harvesting. "Clean" means no known indicators were found — not a safety guarantee. Suspicious findings require explicit confirmation; an optional `--llm` audit adds semantic review on your own local model endpoint.
+skillmkt runs a deterministic static audit before install: it strips script-like directories (`scripts/`, `bin/`, `hooks/`, executable extensions) by default and flags secrets, outbound-network instructions, permission escalation and PII harvesting. "Clean" means no known indicators were found — not a safety guarantee. Suspicious findings require explicit confirmation; an optional `--llm` audit adds semantic review against any OpenAI-compatible endpoint you configure — a local model (omlx/Ollama/LM Studio, auto-probed) or a hosted remote API (OpenAI, DeepSeek, OpenRouter, …) with your own key, set in `skillmkt init` or the settings page.
 
 ## Links
 

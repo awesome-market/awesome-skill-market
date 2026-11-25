@@ -138,6 +138,20 @@ export async function listModels(baseUrl, apiKey = '') {
 
 export const LLM_PROBES = [8001, 11434, 1234, 8000, 8080, 1337, 5000];
 
+// 远程 API 预设（OpenAI 兼容协议）——web 设置页与 init 向导共用；key=true 的预设必引导密钥
+export const LLM_PRESETS = [
+  { id: 'openai',      name: 'OpenAI',      base_url: 'https://api.openai.com/v1',       key: true },
+  { id: 'deepseek',    name: 'DeepSeek',    base_url: 'https://api.deepseek.com/v1',     key: true },
+  { id: 'openrouter',  name: 'OpenRouter',  base_url: 'https://openrouter.ai/api/v1',    key: true },
+  { id: 'siliconflow', name: 'SiliconFlow', base_url: 'https://api.siliconflow.cn/v1',   key: true },
+  { id: 'moonshot',    name: 'Moonshot',    base_url: 'https://api.moonshot.cn/v1',      key: true },
+  { id: 'custom',      name: null,          base_url: null,                              key: true },   // 自定义——手输 URL
+];
+
+// base_url 安全性分级：https 远端 → 加密通道；http+非 loopback → 密钥会明文传输（告警用）
+export const isLoopbackUrl = (u) => { try { const h = new URL(u).hostname; return ['localhost', '127.0.0.1', '::1', '[::1]'].includes(h); } catch { return false; } };
+export const isPlaintextRemote = (u) => { try { return new URL(u).protocol === 'http:' && !isLoopbackUrl(u); } catch { return false; } };
+
 // 本机所有 LISTEN 端口（lsof）——模型服务换任意端口都能被扫到；拿不到就只用固定列表
 function listeningPorts() {
   try {

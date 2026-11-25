@@ -1,7 +1,7 @@
 // init — 交互式初始化：形态选择（Web/终端）→ LLM 探测→选模型→冒烟→写配置→harness 默认目标
 import fs from 'node:fs';
 import { ensureHub, writeConfig, readConfig } from '../lib/hub.js';
-import { probeEndpoints, chat, encryptSecret, listModels } from '../lib/llm.js';
+import { probeEndpoints, chat, encryptSecret, listModels, LLM_PRESETS, isPlaintextRemote } from '../lib/llm.js';
 import { openURL, readDaemon, pidAlive } from '../lib/daemon.js';
 import { choose, confirm, ask, askSecret } from '../lib/prompt.js';
 import { ok, warn, fail, info } from '../lib/render.js';
@@ -63,6 +63,15 @@ export async function run(ctx) {
   const found = await probeEndpoints(400, { extraBases: [ctx.config.llm?.base_url] });
   let base_url = null, model = null, ep = null;
 
+  const remotePick = async () => {   // 远程 API：先选预设/自定义 → 拿到 base_url；预设即知需要密钥
+    const psel = await choose(L('选择远程服务：', 'Choose a remote provider:'),
+      [...LLM_PRESETS.filter((p) => p.base_url).map((p) => ({ label: `${p.name} — ${p.base_url}`, v: p })),
+       { label: L('自定义端点', 'Custom endpoint'), v: { id: 'custom' } }]);
+    if (psel.v.base_url) { needKey = true; return psel.v.base_url; }
+    return (await ask(L('  服务地址 > ', '  Service URL > '))).trim() || null;
+  };
+
+  let needKey = false;
   if (found.length) {
     // 与 web 同构：先选服务（每端点一行）→ 需要密钥才问密钥 → 再选模型
     const epOpts = [
@@ -70,20 +79,29 @@ export async function run(ctx) {
         label: `${f.name}:${f.port} — ${f.needs_key ? L('需要密钥', 'key required') : L(`${f.models.length} 个模型`, `${f.models.length} models`)}`,
         v: f,
       })),
+      { label: L('远程 API（OpenAI / DeepSeek / OpenRouter…）', 'Remote API (OpenAI / DeepSeek / OpenRouter…)'), v: 'remote' },
       { label: L('手动输入端点', 'Enter endpoint manually'), v: 'manual' },
       { label: L('跳过（确定性功能照常用）', 'Skip (deterministic features still work)'), v: 'skip' },
     ];
     const sel = await choose(L('选择服务：', 'Choose a service:'), epOpts);
     if (sel.v === 'manual') base_url = (await ask(L('  服务地址 > ', '  Service URL > '))).trim() || null;
+    else if (sel.v === 'remote') base_url = await remotePick();
     else if (sel.v !== 'skip') { ep = sel.v; base_url = ep.base_url; }
   } else {
     info(L('未发现本地 LLM 服务（已扫本机所有监听端口）', 'No local LLM service found (all listening ports probed)'));
-    base_url = (await ask(L('  服务地址（留空跳过）> ', '  Service URL (empty to skip) > '))).trim() || null;
+    const sel = await choose(L('接入方式：', 'How to connect:'), [
+      { label: L('远程 API（OpenAI / DeepSeek / OpenRouter…）', 'Remote API (OpenAI / DeepSeek / OpenRouter…)'), v: 'remote' },
+      { label: L('手动输入端点', 'Enter endpoint manually'), v: 'manual' },
+      { label: L('跳过（确定性功能照常用）', 'Skip (deterministic features still work)'), v: 'skip' },
+    ]);
+    if (sel.v === 'remote') base_url = await remotePick();
+    else if (sel.v === 'manual') base_url = (await ask(L('  服务地址（留空跳过）> ', '  Service URL (empty to skip) > '))).trim() || null;
   }
+  if (base_url && isPlaintextRemote(base_url)) warn(L('http 明文端点——密钥会不经加密发送，公网地址务必用 https', 'plaintext http endpoint — the key travels unencrypted; use https for remote'));
 
   // 模型探测：已知端点给列表；手输地址先裸探——401/403 → 需要密钥（和 web 的自动检测一致）
   let models = ep?.models || [];
-  let needKey = !!ep?.needs_key;
+  needKey = needKey || !!ep?.needs_key;   // remotePick 可能已置 true——别覆盖掉
   if (base_url && !models.length && !ep?.needs_key) {
     try { models = await listModels(base_url, ''); }
     catch (e) { if (/401|403/.test(e.message)) needKey = true; }

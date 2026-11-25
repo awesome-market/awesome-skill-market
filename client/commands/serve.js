@@ -11,7 +11,7 @@ import { readLibrary, readLock, readConfig, writeConfig, registerSkill, updateLo
 import { readUpstream, historyList } from '../lib/state.js';
 import { readYAML } from '../../pipeline/lib/util.js';
 import { detectHarnesses, scanAll } from '../lib/scanner.js';
-import { probeEndpoints, chat, encryptSecret, resolveKeyRef, listModels } from '../lib/llm.js';
+import { probeEndpoints, chat, encryptSecret, resolveKeyRef, listModels, LLM_PRESETS } from '../lib/llm.js';
 import { setSkillTargets } from '../lib/project.js';
 import { readSkillDir, treeHash, insideDir } from '../lib/package.js';
 import { searchRemote } from '../lib/registries/skillssh.js';
@@ -65,6 +65,7 @@ export async function startServer(ctx, { quiet = false, port = 0 } = {}) {
     lang: (() => readConfig(ctx.hub)._raw?.ui?.lang ?? detectLang())(),
     initialized: isInitialized(ctx.hub),
     llm: !!ctx.llm,                                             // 本地模型端点可用——决定 merge/audit 等 AI 选项是否展示
+    providers: LLM_PRESETS,                                     // 远程 API 预设——设置页接入方式下拉
     library: readLibrary(ctx.hub), lock: readLock(ctx.hub),
     hist: (() => {                                              // .history/<name> 存在才可回滚
       const d = path.join(ctx.hub, '.history');

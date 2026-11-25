@@ -163,7 +163,7 @@ npm run decide -- conf-0001 --resolution A --reason "渐变毁我们的打印样
 `skillmkt merge skill-a skill-b --name merged` 抽规则、去重，把真矛盾对排进 `conflicts/`。pending 冲突在网页面板或 `skillmkt resolve` 里裁决（`--auto` 可用 LLM 辅助判定），然后 `skillmkt build` 写出合并的 `SKILL.md`。待裁决的冲突两边都不进产物——矛盾永远不会悄悄发货。
 
 **装网上的 skill 安全吗？**
-skillmkt 装前跑确定性静态审核：默认剥离脚本类目录（`scripts/`、`bin/`、`hooks/`、可执行扩展名），并标记密钥模式、外联指令、提权、PII 收割。「干净」意思是没检出已知指标——不是安全保证。可疑结果需显式确认；可选 `--llm` 用本地模型端点追加语义审查。
+skillmkt 装前跑确定性静态审核：默认剥离脚本类目录（`scripts/`、`bin/`、`hooks/`、可执行扩展名），并标记密钥模式、外联指令、提权、PII 收割。「干净」意思是没检出已知指标——不是安全保证。可疑结果需显式确认；可选 `--llm` 用你配置的 OpenAI 兼容端点追加语义审查——本地模型（omlx/Ollama/LM Studio，自动探测）或远程 API（OpenAI、DeepSeek、OpenRouter 等自带密钥），在 `skillmkt init` 或设置页配置。
 
 ## 链接
 

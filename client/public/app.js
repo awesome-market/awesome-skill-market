@@ -74,7 +74,9 @@ const I18N = {
     step_lang: '第 1 步 · 界面语言',
     lang_desc: '默认跟随终端的语言环境（LANG / LC_ALL）。切换后立即生效并保存到 config.yml。',
     step_llm: '第 2 步 · AI 模型（可选）',
-    probe_hint: (m) => `点「扫描」自动发现本机正在运行的模型服务（LM Studio、Ollama、oMLX 等）。${m ? `当前使用：<code>${esc(m)}</code>` : ''}`,
+    prov_l: '接入方式', prov_local: '本地服务（自动探测）', prov_remote: '远程 API', prov_custom: '自定义端点',
+    warn_http: '⚠ http 明文——密钥会不经加密发送，公网地址务必用 https',
+    probe_hint: (m) => `本地：点「扫描」自动发现本机模型服务（LM Studio、Ollama、oMLX 等）。远程：选预设填密钥，或自定义 OpenAI 兼容端点。${m ? `当前使用：<code>${esc(m)}</code>` : ''}`,
     probe_btn: '扫描本机模型服务',
     l_url: '服务地址', l_key: '访问密钥', l_model: '模型名称',
     key_sub: '填了密钥会用本机机器码加密后存入 config.yml——文件拷到别的机器解不开，换机需重填。',
@@ -167,7 +169,9 @@ const I18N = {
     step_lang: 'Step 1 · Interface language',
     lang_desc: 'Defaults to your terminal locale (LANG / LC_ALL). Applies immediately and is saved to config.yml.',
     step_llm: 'Step 2 · AI model (optional)',
-    probe_hint: (m) => `Click "Scan" to discover model services running on this machine (LM Studio, Ollama, oMLX, etc.).${m ? ` Current: <code>${esc(m)}</code>` : ''}`,
+    prov_l: 'Provider', prov_local: 'Local service (auto-probe)', prov_remote: 'Remote API', prov_custom: 'Custom endpoint',
+    warn_http: '⚠ Plaintext http — the key travels unencrypted; use https for any remote endpoint',
+    probe_hint: (m) => `Local: "Scan" discovers model services on this machine (LM Studio, Ollama, oMLX…). Remote: pick a preset and paste a key, or use any OpenAI-compatible endpoint.${m ? ` Current: <code>${esc(m)}</code>` : ''}`,
     probe_btn: 'Scan local model services',
     l_url: 'Service URL', l_key: 'Access key', l_model: 'Model name',
     key_sub: 'A key you enter is encrypted with this machine’s ID into config.yml — copying the file elsewhere cannot decrypt it; re-enter after switching machines.',
@@ -777,7 +781,9 @@ async function render() {
         <p class="mut">${t('probe_hint', cfg.llm?.model)}</p>
         <div class="row"><button id="probe">${t('probe_btn')}</button><span id="probe-out" class="mut"></span></div>
         <div id="eps"></div>
+        <div class="frow"><span class="lab" style="width:96px">${t('prov_l')}</span><select id="prov" style="flex:1;max-width:340px"></select></div>
         <div class="frow"><span class="lab" style="width:96px">${t('l_url')}</span><input type="text" id="murl" autocomplete="off" placeholder="http://localhost:1234/v1" value="${esc(cfg.llm?.base_url || '')}"></div>
+        <div class="fsub" id="url-warn" style="display:none;color:var(--color-bad,#b3261e)">${t('warn_http')}</div>
         <div class="frow" id="key-row" style="display:none"><span class="lab" style="width:96px">${t('l_key')}</span><input type="password" id="mkey" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true" data-form-type="other" value="${esc(cfg.llm?.api_key?.startsWith('enc:') ? t('enc_disp') : (cfg.llm?.api_key || ''))}"><span class="fhint" id="key-hint"></span>
           <div class="fsub">${t('key_sub')}</div></div>
         <div class="frow" id="model-box"><span class="lab" style="width:96px">${t('l_model')}</span>
@@ -942,8 +948,35 @@ async function render() {
       const ep = epsList.find((e) => sameBase(e.base_url, cur));
       const key = realKey();
       if (!key || !(ep?.needs_key || (!ep && /^https?:\/\//.test(cur)))) return;
-      await verifyKey();
+      verifyKey();
     });
+    // 接入方式：local=本地探测 / 预设远程 API / custom=自定义端点——选中远程预设直接亮密钥行
+    const provSel = app.querySelector('#prov'), PRESETS = S.providers || [];
+    provSel.innerHTML = `<option value="local">${t('prov_local')}</option>`
+      + PRESETS.filter((p) => p.base_url).map((p) => `<option value="${esc(p.id)}">${esc(p.name)}</option>`).join('')
+      + `<option value="custom">${t('prov_custom')}</option>`;
+    const urlWarn = () => {
+      let w = false;
+      try { const x = new URL(app.querySelector('#murl').value.trim()); w = x.protocol === 'http:' && !LOOP.has(x.hostname); } catch { /* 未输完不告警 */ }
+      app.querySelector('#url-warn').style.display = w ? '' : 'none';
+    };
+    const curBase = (cfg.llm?.base_url || '').replace(/\/+$/, '');
+    let curHost = '';
+    try { curHost = new URL(curBase).hostname; } catch { /* 非法 base_url 也当 custom */ }
+    provSel.value = PRESETS.find((p) => p.base_url?.replace(/\/+$/, '') === curBase)?.id
+      || (curBase ? (LOOP.has(curHost) ? 'local' : 'custom') : 'local');
+    provSel.onchange = () => {
+      const p = PRESETS.find((x) => x.id === provSel.value);
+      if (provSel.value === 'local') { doScan(); markKeyNeed(false); }
+      else if (provSel.value === 'custom') { app.querySelector('#murl').focus(); markKeyNeed(false); }
+      else if (p) {
+        app.querySelector('#murl').value = p.base_url;
+        markKeyNeed(true);                                   // 远程预设必用密钥——key-row 直接亮出
+        app.querySelector('#murl').dispatchEvent(new Event('change'));   // 复用通用验证流（有密钥直接拉模型）
+      }
+      urlWarn(); refreshOpts();
+    };
+    urlWarn();
     // 点进模型框静默刷新模型池（不显示服务列表）；点「扫描」按钮才展示
     app.querySelector('#mmodel').addEventListener('focus', () => {
       if (Date.now() - lastScan > 10e3) fetchEps();
