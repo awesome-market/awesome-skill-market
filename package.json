@@ -1,6 +1,6 @@
 {
   "name": "awesome-skill-market",
-  "version": "0.5.7",
+  "version": "0.6.0",
   "type": "module",
   "description": "Local-first agent skill manager CLI (skillmkt): search, install, audit and merge SKILL.md agent skills for Claude Code, Codex, Cursor, OpenCode, Pi, Devin — skills.sh / GitHub / well-known sources, supply-chain audit, conflict arbitration, version pinning, local web UI.",
   "author": "terry2010",
